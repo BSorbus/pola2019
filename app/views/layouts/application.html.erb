@@ -1,15 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
   <head>
-    <title>Pola2019</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "UKE Pola" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "UKE Pola" %>">
 
-    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
+    <%= favicon_link_tag asset_path('favicon.ico'), :rel => 'shortcut icon', :type => "image/x-icon" %>
+
+    <%= yield(:javascript) %> 
+
   </head>
 
   <body>
-    <%= yield %>
+    <div class="content">
+      <%= render 'layouts/header', cached: true %>
+      <main>
+        <%= render 'layouts/messages' %>
+        <%= yield(:form_errors) %>       
+        <%= yield %>
+      </main>
+    </div>
+    <%= render 'layouts/footer', cached: true %>
   </body>
 </html>

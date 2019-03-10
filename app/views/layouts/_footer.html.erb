@@ -1,0 +1,137 @@
+<footer class="footer">
+  <div class="row">
+    <div class='col-sm-6'>
+      <h4><%= t('.brand') %></h4>
+      <h4><%= t('.brand_address_1') %></h4>
+      <h4><%= t('.brand_address_2') %></h4>
+      <br>
+      <h5><%= t('.brand_note') %></h5>
+      <hr class="visible-xs">
+    </div>
+
+    <div class='col-sm-3'>
+      <h5><%= t('.contact') %></h5>
+        <ul><h5><span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;<%= mail_to t('.contact_mail') %></h5></ul>
+        <ul><h5><span class="fa fa-phone"></span>&nbsp;&nbsp;<%= link_to t('.contact_phone'), "tel:#{t('.contact_phone')}" %></h5></ul>
+        <ul><h5><span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;<%= mail_to t('.contact_mail2') %></h5></ul>
+        <ul><h5><span class="fa fa-phone"></span>&nbsp;&nbsp;<%= link_to t('.contact_phone2'), "tel:#{t('.contact_phone2')}" %></h5></ul>
+      <hr class="visible-xs">
+    </div>
+
+    <div class="col-sm-3">
+      <h5><%= t('.links') %></h5>
+        <ul><h5><span class="fa fa-globe"></span>&nbsp;&nbsp;<%= link_to('UKE', 'http://uke.gov.pl', target: "_blank") %></h5></ul>
+        <ul><h5><span class="fa fa-globe"></span>&nbsp;&nbsp;<%= link_to('Facebook', 'https://web.facebook.com/UrzadKomunikacjiElektronicznej', target: "_blank") %></h5></ul>
+        <ul><h5><span class="fa fa-globe"></span>&nbsp;&nbsp;<%= link_to('Twitter', 'https://twitter.com/uke2uke', target: "_blank") %></h5></ul>
+        <ul><h5><span class="fa fa-globe"></span>&nbsp;&nbsp;<%= link_to('Polska Cyfrowa POPC', 'https://mc.gov.pl/polska-cyfrowa-po-pc', target: "_blank") %></h5></ul>
+      <hr class="visible-xs">
+
+      <h6 class="pull-right"><a href="#authors" data-toggle="collapse">&copy; 2019 UKE-BI-WUR</a></h6>
+
+    </div>
+  </div>  <!-- /row -->
+
+  <div id="authors" class="collapse">
+    <hr>
+    <div class="row display-flex">
+      <div class="col-xs-6 col-sm-4 col-md-2">
+        <div class="thumbnail">
+          <%= image_tag("radoslaw_michalek_512x768.jpg", :class => "img img-responsive" ) %>
+          <div class="caption">
+            <h4>Radosław <br>Michałek</h4>
+            <h5>
+              Dyrektor Biura Informatyki, kierownik projektu.
+            </h5>
+            <div>
+              <h6> +48 22 534 9199 <br>
+                   +48 668 470 917</h6>
+              <h6><%= mail_to "radoslaw.michalek@uke.gov.pl" %></h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-2">
+        <div class="thumbnail">
+          <%= image_tag("aneta_marchewka_kulis_512x768.jpg", :class => "img img-responsive" ) %>
+          <div class="caption">
+            <h4>Aneta <br>Marchewka-Kuliś</h4>
+            <h5>
+              Zastępca dyrektora Departamentu Kontroli odpowiedzialna za realizację zadań Programu Operacyjnego Polska Cyfrowa.
+            </h5>
+            <div>
+              <h6> +48 22 534 9369 </h6>
+              <h6><%= mail_to "aneta.marchewka-kulis@uke.gov.pl" %></h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-2">
+        <div class="thumbnail">
+          <%= image_tag("pawel_dabrowski_512x768.jpg", :class => "img img-responsive" ) %>
+          <div class="caption">
+            <h4>Paweł <br>Dąbrowski</h4>
+            <h5>
+              Lider zespołu "Południe". Wsparcie merytoryczne, analiza funkcjonalności systemu.
+            </h5>
+            <div>
+              <h6> +48 17 871 8674 </h6>
+              <h6><%= mail_to "pawel.dabrowski@uke.gov.pl" %></h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-2">
+        <div class="thumbnail">
+          <%= image_tag("piotr_jankowski_512x768.jpg", :class => "img img-responsive" ) %>
+          <div class="caption">
+            <h4>Piotr <br>Jankowski</h4>
+            <h5>
+              Lider zespołu "Północ". Wsparcie merytoryczne, analiza funkcjonalności systemu.
+            </h5>
+            <div>
+              <h6> +48 85 657 8319 </h6>
+              <h6><%= mail_to "piotr.jankowski@uke.gov.pl" %></h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-2">
+        <div class="thumbnail">
+          <%= image_tag("julita_sobczak_512x768.jpg", :class => "img img-responsive" ) %>
+          <div class="caption">
+            <h4>Julita <br>Sobczak</h4>
+            <h5>
+              Nadzór organizacyjny.
+            </h5>
+            <div>
+              <h6> +48 22 534 9102 </h6>
+              <h6><%= mail_to "julita.sobczak@uke.gov.pl" %></h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-2">
+        <div class="thumbnail">
+          <%= image_tag("bogdan_jarzab_512x768.jpg", :class => "img img-responsive" ) %>
+          <div class="caption">
+            <h4>Bogdan <br>Jarząb</h4>
+            <h5>
+              Główny programista, architekt i autor systemu.
+            </h5>
+            <div>
+              <h6>+48 52 370 7274 </h6>
+              <h6><%= mail_to "bogdan.jarzab@uke.gov.pl" %></h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- /row display-flex -->
+  </div>
+
+  <script>
+    $('#authors').on('shown.bs.collapse', function () {
+      $('html, body').animate({ scrollTop: $('#authors').offset().top - 20 }, 'slow');
+    });
+  </script>
+
+</footer>

@@ -1,0 +1,669 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+pl:
+  logo_file: "logo_uke_pl_do_lewej.png"
+  logo_link: "http://www.uke.gov.pl"
+  layouts:
+    footer:
+      brand: 'Urząd Komunikacji Elektronicznej'
+      brand_address_1: 'ul. Giełdowa 7/9'
+      brand_address_2: '01-211 Warszawa'
+      brand_note: 'Regulator rynku telekomunikacyjnego i pocztowego'
+      contact: 'Kontakt'
+      contact_mail: 'pawel.dabrowski@uke.gov.pl'
+      contact_phone: '+48 17 871 8674 '
+      contact_mail2: 'piotr.jankowski@uke.gov.pl'
+      contact_phone2: '+48 85 657 8319'
+      contact_fax: '+48 22 53 49 175'
+      links: 'Zobacz też'
+  static_pages:
+    home:
+      title: 'POLA'
+  restricted_area: "Adres IP - Wywołanie z obszaru ograniczonego!"
+  file_upload:
+    in_progress: 'Pobrano:'
+    wait_to_save: 'Trwa zapisywanie danych...'
+  activerecord:
+    models:
+      work: 'Dziennik operacji'
+      user: 'Użytkownik'
+      role: 'Rola'
+      accessorization: 'Uprawnienia'
+      enrollment: 'Nabór'
+      project: 'Projekt'
+      project_status: 'Status Projektu'
+      customer: 'Wnioskodawca'
+      attachment: 'Załącznik'
+      point_file: 'Plik Punktów Adresowych'
+      ww_point: 'Punkt Adresowy'
+      zs_point: 'Węzeł'
+      event_status: 'Status Zadania'
+      event_type: 'Typ Zadania'
+      event_effect: 'Wynik Zadania'
+      event: 'Zadanie'
+      errand_status: 'Status Zlecenia'
+      errand_type: 'Typ Zlecenia'
+      errand: 'Zlecenie'
+      comment: 'Komentarz'
+      proposal_file: 'Plik Projektu (XML)'
+      xml_partner_table: 'Partner'
+      xml_miejsce_realizacji_table: 'Miejsce Realizacji'
+      xml_wskaznik_table: 'Miejsce Realizacji'
+      xml_wybrana_technologia_table: 'Wybrana Technologia'
+      xml_zadanie_table: 'Zadanie'
+      transport: 'Środki Lokomocji'
+      business_trip_status: 'Status Polecenia Wyjazdu'
+      business_trip: 'Polecenie Wyjazdu'
+    attributes:
+      work:
+        created_at: 'Data'
+        created_by: 'Autor'
+        action: 'Operacja'
+        trackable_type: 'Obiekt'
+        trackable_id: 'Identyfikator'
+        parameters: 'Dane'
+      user:
+        name: 'Imię i Nazwisko'
+        email: 'Email'
+        password: 'Hasło'
+        password_confirmation: 'Potwórz hasło'
+        current_password: 'Aktualne hasło'
+        last_sign_in_ip: 'Ostatnie IP'
+        last_sign_in_at: 'Ostatnio zalogowany'
+        current_sign_in_ip: 'Aktualne IP'
+        current_sign_in_at: 'Aktualnie zalogowany'
+        deleted_at: 'Wyłączenie konta'
+        last_activity_at: 'Ostatnia aktywność'
+        password_changed_at: 'Ostatnia zmiana hasła'
+        note: 'Uwagi'
+        legitimation: 'Legitymacja'
+        position: 'Stanowisko'
+        notification_by_email: 'Powiadamianie e-mail'
+        flat_assigned_events: 'Powiązane zadania'
+      role:
+        name: 'Nazwa'
+        activities: 'Uprawnienia'
+        special: 'Systemowa?'
+        note: 'Uwagi'
+      accessorization:
+        event_id: 'Zadanie'
+        user_id: 'Użytkownik'
+        role_id: 'Rola'
+      enrollment:
+        name: 'Nazwa'
+        note: 'Uwagi'
+        user_id: 'Użytkownik'
+        user: 'Użytkownik'
+      project:
+        number: 'Numer'
+        registration: 'Rejestracja'
+        note: 'Uwagi'
+        project_status_id: 'Status'
+        customer_id: 'Wnioskodawca'
+        customer: 'Wnioskodawca'
+        enrollment_id: 'Nabór'
+        enrollment: 'Nabór'
+        area_id: 'ID obszaru'
+        area_name: 'Nazwa obszaru'
+        flat_assigned_events: 'Zadania'
+      project_status:
+        name: 'Nazwa'
+      customer:
+        name: 'Nazwa'
+        note: 'Uwagi'
+        nip: 'NIP'
+        regon: 'REGON'
+        address_city: 'Miejscowość'
+        address_street: 'Ulica'
+        address_house: 'Dom'
+        address_number: 'Lokal'
+        address_postal_code: 'Kod'
+        address_post_office: 'Poczta'
+        address_pobox: 'Skrytka'
+        phone: 'Telefon'
+        fax: 'Fax'
+        email: 'Email'
+        epuap: 'ePuap'
+        rpt: 'RPT'
+        flat_assigned_projects: 'Powiązane projekty'
+      attachment:
+        attached_file: 'Plik'
+        attached_file_identifier: 'Plik'
+        file_content_type: 'Typ'
+        file_size: 'Rozmiar'
+        created_at: 'Utworzony'
+        updated_at: 'Aktualizacja'
+        user_id: 'Autor'
+        note: 'Uwagi'
+      point_file:
+        load_date: 'Data pobrania'
+        load_file: 'Plik'
+        status: 'Status'
+        statuses:
+          inactive: 'Archiwalny'
+          active: 'Aktualny'
+        project_id: 'Projekt'
+        project: 'Projekt'
+        oi_2: 'Numer Obszaru'
+        oi_3: 'Nazwa Obszaru'
+        oi_4: 'Województwo'
+        oi_5: 'Całkowita liczba gosp. dom. możliwych do objęcia zasięgiem na obszarze inw.'
+        oi_6: 'Liczba gospodarstw domowych w punktach adresowych podstawowych'
+        oi_7: 'Minimalna liczba gospodarstw domowych do objęcia zasięgiem'
+        oi_8: 'Liczba adresów jednostek oświatowych'
+        oi_9: 'w tym liczba adresów jednostek oświatowych „A”'
+        oi_10: 'Maksymalna kwota dofinansowania dla obszaru interwencji'
+        dp_2: 'Nazwa'
+        dp_3: 'NIP'
+        dp_4: 'RPT'
+        dp_5: 'Miejscowość'
+        dp_6: 'Ulica'
+        dp_7: 'Nr porządkowy'
+        dp_8: 'Kod pocztowy'
+        note: 'Uwagi'
+      errand:
+        number: 'Numer'
+        principal: 'Zleceniodawca'
+        errand_status_id: 'Status zlecenia'
+        errand_status: 'Status zlecenia'
+        errand_type_id: 'Typ zlecenia'
+        errand_type: 'Typ zlecenia'
+        order_date: 'Data zlecenia'
+        adoption_date: 'Data przyjęcia zlecenia'
+        start_date: 'Data rozpoczęcia'
+        end_date: 'Data zakończenia'
+        note: 'Uwagi'
+        attachments_count: 'Załączniki'
+      event:
+        title: 'Tytuł'
+        all_day: 'Wydarzenie całodniowe'
+        start_date: 'Początek'
+        end_date: 'Koniec'
+        project_id: 'Projekt'
+        project: 'Projekt'
+        event_status_id: 'Status zadania'
+        event_status: 'Status zadania'
+        event_type_id: 'Typ zadania'
+        event_type: 'Typ zadania'
+        event_effect_id: 'Wynik zadania'
+        event_effect: 'Wynik zadania'
+        note: 'Uwagi'
+        errand_id: 'Zlecenie'
+        errand: 'Zlecenie'
+        attachments_count: 'Załączniki'
+        flat_assigned_users: 'Użytkownicy realizujący'
+        updated_at: 'Aktualizacja'
+      event/accessorizations:
+        event_id: 'Zadanie'
+        role_id: 'Rola'
+        user_id: 'Użytkownik'
+        event: 'Zadanie'
+        role: 'Rola'
+        user: 'Użytkownik'
+      comment:
+        project_id: 'Projekt'
+        user_id: 'Autor'
+        body: 'Treść'
+      proposal_file:
+        load_date: 'Data pobrania'
+        load_file: 'Plik'
+        status: 'Status'
+        statuses:
+          inactive: 'Archiwalny'
+          active: 'Aktualny'
+        note: 'Uwagi'
+      xml_partner_table:
+        dp_nazwa: 'Nazwa'
+        dp_nip: 'NIP'
+        dp_regon: 'REGON'
+        dp_as_miejscowosc_id: 'Miejscowość id'
+        dp_as_miejscowosc_opis: 'Miejscowość'
+        dp_as_kod_pocztowy: 'Kod pocztowy'
+        dp_as_ulica_id: 'Ulica id'
+        dp_as_ulica_opis: 'Ulica'
+        dp_as_nr: 'Nr'
+        dp_as_lokal: 'Lokal'
+        dp_as_telefon: 'Telefon'
+        dp_as_faks: 'Faks'
+        dp_as_email: 'Email'
+        dp_as_epuap: 'ePuap'
+        numer_wpisu_uke: 'Nr wpisu UKE (RPT)'
+        mrp_obszar_realizacji_id: 'Obszar realizacji id'
+        mrp_obszar_realizacji_opis: 'Obszar realizacji'
+        mrp_maksymalna_kwota_dofinansowania: 'Max kwota dofinansowania'
+        mrp_maksymalna_intensywnosc_wsparcia: 'Max. intensywność wsparcia'
+      xml_projekt_table:
+        do_tytul: 'Tytuł'
+        do_okres_realizacji_data_od: 'Okres realizacja data od'
+        do_okres_realizacji_data_do: 'Okres realizacja data do'
+        do_okres_kwalifikowalnosci_wydatkow_data_od: 'Okres kwalifikowalności wydatków data od'
+        do_okres_kwalifikowalnosci_wydatkow_data_do: 'Okres kwalifikowalności wydatków data do'
+        mfp_mfo_mf_wydatki_ogolem: 'Wydatki ogółem'
+        mfp_mfo_mf_wydatki_kwalifikowane: 'Wydatki kwalifikowane'
+        mfp_mfo_mf_dofinansowanie: 'Dofinansowanie'
+        mfp_mfo_mf_procent_dofinansowania: 'Procent dofinansowania'
+        mfp_mfo_mf_wklad_ue: 'Wkład UE'
+        mfp_mfo_mf_procent_dofinansowanie_ue: 'Procent dofinansowania UE'
+        mfp_mfo_mf_wklad_wlasny: 'Wkład własny'
+      xml_miejsce_realizacji_table:
+        wojewodztwo_opis: 'Województwo'
+        powiat_opis: 'Powiat'
+        gmina_opis: 'Gmina'
+      xml_wskaznik_table:
+        numer: 'Numer'
+        nazwa_id: 'Id'
+        nazwa_kod: 'Kod'
+        nazwa_opis: 'Opis'
+        typ: 'Typ'
+        jednostka_miary_opis: 'Jedn.miary'
+        wartosc_bazowa: 'Wart.bazowa'
+        wartosc_docelowa: 'Wart.docelowa'
+      xml_wybrana_technologia_table:
+        element_id: 'Id'
+        element_opis: 'Opis'
+      xml_zadanie_table:
+        zadanie: 'Zadanie'
+        numer_zadania: 'Nr'
+        nazwa: 'Nazwa'
+        idkm_data_rozpoczecia: 'Plan. data rozpoczęcia'
+        idkm_planowana_data_zakonczenia: 'Plan. data zakończenia'
+      xml_kamien_milowy_table:
+        nazwa: 'Nazwa'
+        czy_oznacza_zakonczenie: 'Zakończenie?'
+        planowana_data_zakonczenia: 'Plan. data zakończenia'
+        data_punktu_krytycznego: 'Data punktu krytycznego'
+        data_punktu_ostatecznego: 'Data punktu ostatecznego'
+      business_trip_status:
+        name: 'Nazwa'
+      business_trip:
+        number: 'Numer'
+        employee: 'Pracownik'
+        employee_id: 'Pracownik'
+        start_date: 'Na czas od'
+        end_date: '...Do'
+        destination: 'Dokąd'
+        purpose: "Cel"
+        trip_confirmation: 'Potwierdzenie'
+        payment_on_account: 'Zaliczka'
+        approved: 'Akceptacja'
+        approved_id: 'Akceptacja'
+        approved_date_time: 'Data akceptacji'
+        payment_on_account_approved: 'Akceptacja zaliczki'
+        payment_on_account_approved_id: 'Akceptacja zaliczki'
+        payment_on_account_approved_date_time: 'Data akceptacji zaliczki'
+        note: 'Uwagi'
+        business_trip_status: 'Status'
+        business_trip_status_id: 'Status'
+        transports: 'Środki Lokomocji'
+      transport_type:
+        name: 'Nazwa'
+      transports:
+        business_trip: 'Polecenie Wyjazdu'
+        business_trip_id: 'Polecenie Wyjazdu'
+        business_trip_status: 'Status'
+        business_trip_status_id: 'Status'
+  pages:
+    home: 'Główna'
+    help: 'Pomoc'
+    management: 'Zarządzanie'
+    works: 'Dziennik operacji'
+    charts: 'Statystyki'
+    footer:
+      contact: 'kontakt:'
+      links: 'zobacz też:'
+      links_www1_title: 'UKE'
+      links_www1: 'https://uke.gov.pl'
+      links_www2_title: 'Facebook'
+      links_www2: 'https://web.facebook.com/UrzadKomunikacjiElektronicznej'
+      links_www3_title: 'Twitter'
+      links_www3: 'https://twitter.com/uke2uke'
+      links_www4_title: 'Polska Cyfrowa - PO PC'
+      links_www4: 'https://mc.gov.pl/polska-cyfrowa-po-pc'
+    work:
+      index:
+        title: 'Dziennik operacji'
+    accessorization:
+      user_show: 'Zadania'
+      event_show: 'Użytkownicy realizujący zadanie'
+      customer_show: 'Projekty'
+      role_show: 'Zadania'
+    role:
+      index:
+        title: 'Role'
+        title_special: 'Role systemowe'
+        title_not_special: 'Role projektowe'
+      show:
+        title: 'Rola'
+        table_caption: 'Użytkownicy występujący w tej roli w poszczególnych projektach'
+      new:
+        title: 'Nowa Rola'
+      edit:
+        title: 'Edycja -> Rola'
+    enrollment:
+      index:
+        title: 'Nabory'
+      show:
+        title: 'Nabór'
+      new:
+        title: 'Nowy Nabór'
+      edit:
+        title: 'Edycja -> Nabór'
+    project:
+      index:
+        title: 'Projekty'
+      show:
+        title: 'Projekt'
+        table_caption: 'Użytkownicy i ich role w tym projekcie'
+      new:
+        title: 'Nowy Projekt'
+      edit:
+        title: 'Edycja -> Projekt'
+    user:
+      index:
+        title: 'Użytkownicy'
+      show:
+        title: 'Użytkownik'
+      edit:
+        title: 'Edycja -> Użytkownik'
+    customer:
+      index:
+        title: 'Wnioskodawcy'
+      show:
+        title: 'Wnioskodawca'
+        table_caption: 'Lista projektów tego wnioskodawcy'
+      new:
+        title: 'Nowy Wnioskodawca'
+      edit:
+        title: 'Edycja -> Wnioskodawca'
+    attachment:
+      index:
+        title: 'Załączniki'
+      edit:
+        title: 'Edycja -> Załącznik'
+    point_file:
+      index:
+        title: 'Pliki Punktów Adresowych'
+      show:
+        title: 'Plik Punktów Adresowych'
+      new:
+        title: 'Nowy Plik Punktów Adresowych'
+      edit:
+        title: 'Edycja -> Plik Punktów Adresowych'
+    oi_data:
+      index:
+        title: 'Obszary Inwestycyjne'
+      show:
+        title: 'Obszar Inwestycyjny'
+      new:
+        title: 'Nowy Obszar Inwestycyjny'
+      edit:
+        title: 'Edycja -> Obszar Inwestycyjny'
+    zs_point:
+      index:
+        title: 'Punkty ZS - Budynki w Zasięgu Sieci'
+      show:
+        title: 'Punkt ZS - Budynek w Zasięgu Sieci'
+      new:
+        title: 'Nowy Punkt ZS - Budynek w Zasięgu Sieci'
+      edit:
+        title: 'Edycja -> Punktu ZS - Budynek w Zasięgu Sieci'
+    map:
+      index:
+        title: 'Mapa'
+    ww_point:
+      index:
+        title: 'Punkty WW - Własne i Współdzielone węzły telekomunikacyjne'
+      show:
+        title: 'Punkt WW - Własny/Współdzielony węzeł telekomunikacyjny'
+      new:
+        title: 'Nowy Punkt WW - Własny/Współdzielony węzeł telekomunikacyjny'
+      edit:
+        title: 'Edycja -> Punktu WW - Własny/Współdzielony węzeł telekomunikacyjny'
+    errand:
+      index:
+        title: 'Zlecenia'
+      show:
+        title: 'Zlecenie'
+      new:
+        title: 'Nowe Zlecenie'
+      edit:
+        title: 'Edycja -> Zlecenie'
+    event:
+      index:
+        title: 'Zadania'
+      show:
+        title: 'Zadanie'
+      new:
+        title: 'Nowe Zadanie'
+      edit:
+        title: 'Edycja -> Zadanie'
+    comment:
+      index:
+        title: 'Komentarze'
+      show:
+        title: 'Komentarz'
+      new:
+        title: 'Nowy Komentarz'
+    proposal_file:
+      index:
+        title: 'Pliki Projektu (XML)'
+      show:
+        title: 'Plik Projektu (XML)'
+      new:
+        title: 'Nowy Plik Projektu (XML)'
+      edit:
+        title: 'Edycja -> Plik Pliku Projektu (XML)'
+    xml_data:
+      show:
+        title: 'Dane Ogólne'
+    xml_miejsce_realizacji_table:
+      index:
+        title: 'Miejsca Realizacji'
+    xml_wskaznik_table:
+      index:
+        title: 'Wskaźniki mierzalne'
+    xml_wybrana_technologia_table:
+      index:
+        title: 'Wybrane technologie'
+    xml_zadanie_table:
+      index:
+        title: 'Zadania - kamienie milowe'
+    business_trip:
+      index:
+        title: 'Polecenie Wyjazdu'
+      show:
+        title: 'Polecenie Wyjazdu'
+      new:
+        title: 'Nowe Polecenie Wyjazdu'
+      edit:
+        title: 'Edycja -> Polecenie Wyjazdu'
+      fieldset:
+        payment_title: 'Zaliczka'
+        transports_title: 'Środki Lokomocji'
+        roads_title: 'Rachunek Kosztów Podróży'
+  pundit:
+    default: ' BRAK UPRAWNIEŃ: Nie można wykonać tej czynności!'
+    work_policy:
+      index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy działań!'
+    role_policy:
+      index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy ról!'
+      show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów roli!'
+      update?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych ról!'
+      create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć ról!'
+      destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać ról!'
+      add_remove_role_user?: ' BRAK UPRAWNIEŃ: Nie możesz do ról dowawać ani usuwać użytkowników!'
+    user_policy:
+      index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy użytkowników!'
+      show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów użytkownika!'
+      update?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych użytkownika!'
+      create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć użytkowników!'
+      destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać użytkowników!'
+      add_remove_role_user?: ' BRAK UPRAWNIEŃ: Nie możesz użytkownikom dodawać ani usuwać ról!'
+    project_policy:
+      index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy projektów!'
+      show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów tego projektu!'
+      update?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych tego projektu!'
+      create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć projektów!'
+      destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać tego projektu!'
+    customer_policy:
+      index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy wnioskodawców!'
+      show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów wnioskodawcy!'
+      update?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych wnioskodawcy!'
+      create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć wnioskodawców!'
+      destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać wnioskodawców!'
+    attachment_policy:
+      project_index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy załączników do projektu!'
+      project_show?: ' BRAK UPRAWNIEŃ: Nie możesz pobierać załączników do projektu!'
+      project_create?: ' BRAK UPRAWNIEŃ: Nie możesz zapisywać załączników do projektu!'
+      project_destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać załączników do projektu!'
+      user_index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy załączników do użytkownika!'
+      user_show?: ' BRAK UPRAWNIEŃ: Nie możesz pobierać załączników do użytkownika!'
+      user_create?: ' BRAK UPRAWNIEŃ: Nie możesz zapisywać załączników do użytkownika!'
+      user_destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać załączników do użytkownika!'
+      errand_index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy załączników do zlecenia!'
+      errand_show?: ' BRAK UPRAWNIEŃ: Nie możesz pobierać załączników do zlecenia!'
+      errand_create?: ' BRAK UPRAWNIEŃ: Nie możesz zapisywać załączników do zlecenia!'
+      errand_destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać załączników do zlecenia!'
+      event_index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy załączników do zadania!'
+      event_show?: ' BRAK UPRAWNIEŃ: Nie możesz pobierać załączników do zadania!'
+      event_create?: ' BRAK UPRAWNIEŃ: Nie możesz zapisywać załączników do zadania!'
+      event_destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać załączników do zadania!'
+      enrollment_index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy załączników do naboru!'
+      enrollment_show?: ' BRAK UPRAWNIEŃ: Nie możesz pobierać załączników do naboru!'
+      enrollment_create?: ' BRAK UPRAWNIEŃ: Nie możesz zapisywać załączników do naboru!'
+      enrollment_destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać załączników do naboru!'
+    errand_policy:
+      index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy zleceń!'
+      show?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać zlecenia!'
+      update?: ' BRAK UPRAWNIEŃ: Nie możesz edytować zlecenia!'
+      create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć zleceń!'
+      destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać zadań!'
+    event_policy:
+      index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy zadań!'
+      show?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać zadania!'
+      update?: ' BRAK UPRAWNIEŃ: Nie możesz edytować zadania!'
+      create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć zadań!'
+      destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać zadań!'
+    comment_policy:
+      index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy komentarzy!'
+      show?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać komentarza!'
+      update?: ' BRAK UPRAWNIEŃ: Nie możesz edytować komentarza!'
+      create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć komentarzy!'
+      destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać komentarzy!'
+  helpers:
+    actions: "Akcje"
+    links:
+      index: ' Lista'
+      show: ' Podgląd'
+      new:  ' Dodaj'
+      edit: ' Edycja'
+      back: ' Powrót'
+      cancel: 'Wróć'
+      confirm: "Czy na pewno?"
+      confirm_destroy: 'Na pewno chcesz usunąć wpis: "%{data}"?'
+      confirm_account_off: 'Na pewno chcesz wyłączyć konto: "%{data}"?'
+      confirm_account_on: 'Na pewno chcesz włączyć konto: "%{data}"?'
+      confirm_send_email: 'Na pewno chcesz wysłać email do: "%{data}"?'
+      destroy: " Usuń"
+      destroy_account: "Usuń moje konto"
+      send_email: " Wyślij email"
+      download: " Pobierz"
+      download_xls: " Pobierz XLS"
+      print: " Wydruk"
+      filter: " Filtruj dane"
+      account_off: " Wyłącz konto"
+      account_on: " Włącz konto"
+      link_to_add_fields_accessorization: '[ + Dodaj Uprawnienie ]'
+      link_to_remove_fields_accessorization: '[ - Usuń Uprawnienie ]'
+      link_to_add_fields_nested: '[ + Dodaj ]'
+      link_to_remove_fields_nested: '[ - Usuń ]'
+      new_point_file: ' Ładuj Plik Punktów Adresowych'
+  tooltip:
+    show: 'Pokaż'
+    edit: 'Edycja'
+    destroy: 'Usuń'
+    download: 'Pobierz'
+    send_email: 'Wyślij email'
+  help_block_text:
+    select2project: 'Szukanie po: Numer, Uwagi. Warunki oddzielaj spacją'
+    select2user: 'Szukanie po: Nazwa, Email. Warunki oddzielaj spacją'
+    select2customer: 'Szukanie po: Nazwa, Adres-Miejscowość, Nip, Regon, Rpt. Warunki oddzielaj spacją'
+    select2errand: 'Szukanie po: Numer, Data zlecenia, Data przyjęcia. Warunki oddzielaj spacją'
+    fileuploaddragdrop: 'Wybierz plik(-i) lub przeciągnij i upuść'
+  placeholder:
+    select2project: 'Wybierz Projekt'
+    select2user: 'Wybierz Użytkownika'
+    select2customer: 'Wybierz Wnioskodawcę'
+    select2errand: 'Wybierz Zlecenie'
+  charts:
+    errands_by_status:
+      title: 'Aktualna liczba zleceń'
+      subtitle: 'podział wg statusu'
+    errands_by_month:
+      title: 'Zlecenia według daty przyjęcia, rozpoczęcia, zakończenia'
+      subtitle: 'podział miesięczny'
+    events_by_status:
+      title: 'Aktualna liczba zadań'
+      subtitle: 'podział wg statusu'
+    events_by_type:
+      title: 'Aktualna liczba zadań'
+      subtitle: 'podział wg typu'
+    events_by_type_for_status_1:
+      title: 'Aktualna liczba zadań - Otwarte'
+      subtitle: 'podział wg typu'
+    events_by_type_for_status_2:
+      title: 'Aktualna liczba zadań - Weryfikacja UKE'
+      subtitle: 'podział wg typu'
+    events_by_type_for_status_3:
+      title: 'Aktualna liczba zadań - Zamknięte'
+      subtitle: 'podział wg typu'
+    events_by_type_for_status_4:
+      title: 'Aktualna liczba zadań - Weryfikacja CPPC'
+      subtitle: 'podział wg typu'
+    events_by_type_for_status_5:
+      title: 'Aktualna liczba zadań - Anulowane'
+      subtitle: 'podział wg typu'
+    events_by_status_for_xxx:
+      title: 'Aktualny status zadań'
+      subtitle: 'dla "%{data}"'
+    events_by_month:
+      title: 'Zadania'
+      subtitle: 'wg daty zlecenia, podział miesięczny'
+    events_by_month_type:
+      title: 'Zadania'
+      subtitle: 'wg daty zlecenia i typu, podział miesięczny'
+    events_by_status_type:
+      title: 'Zadania'
+      subtitle: 'wg statusu i typu'
+    events_by_type_status:
+      title: 'Zadania'
+      subtitle: 'wg typu i statusu'

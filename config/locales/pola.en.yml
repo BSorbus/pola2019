@@ -1,0 +1,337 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  hello: "Hello world"
+  restricted_area: "IP address - Request from restricted area!"
+  activerecord:
+    models:
+      user: 'User'
+      role: 'Role'
+      accessorization: 'Accessorization'
+      project: 'Project'
+      project_status: 'Project Status'
+      customer: 'Customer'
+      attachment: 'Attachment'
+      point_file: 'Address Point File'
+      point: 'Point'
+      ww_point: 'Address point'
+      zs_point: 'Telecom node'
+      event: 'Event'
+      comment: 'Comment'
+    attributes:
+      user:
+        name: 'Name'
+        email: 'Email'
+        password: 'Password'
+        password_confirmation: 'Password confirmation'
+        current_password: 'Current password'
+        last_sign_in_ip: 'Last sign in IP'
+        last_sign_in_at: 'Last sign in at'
+        current_sign_in_ip: 'Current sign in IP'
+        current_sign_in_at: 'Current sign in at'
+        deleted_at: 'Deleted at'
+        last_activity_at: 'Last activity at'
+        password_changed_at: 'Password changed at'
+        note: 'Note'
+        legitimation: 'Legitimation'
+        position: 'Position'
+        notification_by_email: 'Notification by e-mail'
+        flat_assigned_events: 'Related events'
+      role:
+        name: 'Name'
+        activities: 'Activities'
+        special: 'System?'
+        note: 'Note'
+      accessorization:
+        event_id: 'Project'
+        user_id: 'User'
+        role_id: 'Role'
+      project:
+        number: 'Number'
+        registration: 'Registration'
+        note: 'Note'
+        project_status_id: 'Status'
+        customer_id: 'Customer'
+        flat_assigned_events: 'Events'
+      project_status:
+        name: 'Name'
+      customer:
+        name: 'Name'
+        note: 'Note'
+        flat_assigned_projects: 'Related projects'
+      attachment:
+        attached_file: 'File'
+        attached_file_identifier: 'File'
+        file_content_type: 'Type'
+        file_size: 'Size'
+      point_file:
+        load_date: 'Load date'
+        load_file: 'File'
+        status: 'Status'
+        statuses:
+          inactive: 'Inactive'
+          active: 'Active'
+        project_id: 'Project'
+        oi_2: 'Numer Obszaru'
+        oi_3: 'Nazwa Obszaru'
+        oi_4: 'Województwo'
+        oi_5: 'Całkowita liczba gosp. dom. możliwych do objęcia zasięgiem na obszarze inw.'
+        oi_6: 'Liczba gospodarstw domowych w punktach adresowych podstawowych'
+        oi_7: 'Minimalna liczba gospodarstw domowych do objęcia zasięgiem'
+        oi_8: 'Liczba adresów jednostek oświatowych'
+        oi_9: 'w tym liczba adresów jednostek oświatowych „A”'
+        oi_10: 'Maksymalna kwota dofinansowania dla obszaru interwencji'
+        dp_2: 'Nazwa'
+        dp_3: 'NIP'
+        dp_4: 'RPT'
+        dp_5: 'Miejscowość'
+        dp_6: 'Ulica'
+        dp_7: 'Nr porządkowy'
+        dp_8: 'Kod pocztowy'
+      event:
+        title: 'Title'
+        all_day: 'All day'
+        start_date: 'Start'
+        end_date: 'End'
+        project_id: 'Project'
+        event_status_id: 'Event status'
+        event_type_id: 'Event type'
+        note: 'Note'
+        attachments_count: 'Załączniki'
+        flat_assigned_users: 'Assigned users'
+      comment:
+        project_id: 'Project'
+        user_id: 'Author'
+        body: 'Body'
+  pages:
+    home: 'Home'
+    help: 'Help'
+    footer:
+      contact: 'Contact:'
+      links: 'Links:'
+      links_www1_title: 'UKE'
+      links_www1: 'https://uke.gov.pl'
+      links_www2_title: 'Facebook'
+      links_www2: 'https://web.facebook.com/UrzadKomunikacjiElektronicznej'
+      links_www3_title: 'Twitter'
+      links_www3: 'https://twitter.com/uke2uke'
+      links_www4_title: 'Polska Cyfrowa - PO PC'
+      links_www4: 'https://mc.gov.pl/polska-cyfrowa-po-pc'
+    accessorization:
+      user_show: 'Participates in projects'
+      project_show: 'Users'
+      customer_show: 'Projects'
+      role_show: 'Projects'
+    role:
+      index:
+        title: 'Roles'
+        title_special: 'System roles'
+        title_not_special: 'Project roles'
+      show:
+        title: 'Role'
+        table_caption: 'Users using this role in individual projects'
+      new:
+        title: 'New Role'
+      edit:
+        title: 'Edit -> Role'
+    project:
+      index:
+        title: 'Projects'
+      show:
+        title: 'Project'
+        table_caption: 'Users and roles in this project'
+      new:
+        title: 'New Project'
+      edit:
+        title: 'Edit -> Project'
+    user:
+      index:
+        title: 'Users'
+      show:
+        title: 'User'
+      edit:
+        title: 'Edit -> User'
+    customer:
+      index:
+        title: 'Customers'
+      show:
+        title: 'Customer'
+        table_caption: 'List of customer projects'
+      new:
+        title: 'New Customer'
+      edit:
+        title: 'Edit -> Customer'
+    attachment:
+      index:
+        title: 'Attachments'
+      edit:
+        title: 'Edit -> Attachment'
+    point_file:
+      index:
+        title: 'Point Files'
+      show:
+        title: 'Point File'
+      new:
+        title: 'New Point File'
+      edit:
+        title: 'Edit -> Point File'
+    oi_data:
+      index:
+        title: 'Obszary Inwestycyjne'
+      show:
+        title: 'Obszar Inwestycyjny'
+      new:
+        title: 'Nowy Obszar Inwestycyjny'
+      edit:
+        title: 'Edycja -> Obszar Inwestycyjny'
+    zs_point:
+      index:
+        title: 'Punkty ZS - Budynki w Zasięgu Sieci'
+      show:
+        title: 'Punkt ZS - Budynek w Zasięgu Sieci'
+      new:
+        title: 'Nowy Punkt ZS - Budynek w Zasięgu Sieci'
+      edit:
+        title: 'Edycja -> Punktu ZS - Budynek w Zasięgu Sieci'
+    map:
+      index:
+        title: 'Map'
+    ww_point:
+      index:
+        title: 'Punkty WW - Własne i Współdzielone węzły telekomunikacyjne'
+      show:
+        title: 'Punkt WW - Własny/Współdzielony węzeł telekomunikacyjny'
+      new:
+        title: 'Nowy Punkt WW - Własny/Współdzielony węzeł telekomunikacyjny'
+      edit:
+        title: 'Edycja -> Punktu WW - Własny/Współdzielony węzeł telekomunikacyjny'
+    event:
+      index:
+        title: 'Events'
+      show:
+        title: 'Event'
+      new:
+        title: 'New Event'
+      edit:
+        title: 'Edit -> Event'
+    comment:
+      index:
+        title: 'Comments'
+      show:
+        title: 'Comment'
+      new:
+        title: 'New Comment'
+  pundit:
+    default: ' SECURITY: Access denied!'
+    work_policy:
+      index?: ' SECURITY: You cannot watch list of works!'
+    role_policy:
+      index?: ' SECURITY: You cannot watch list of roles!'
+      show?: ' SECURITY: You cannot watch this role!'
+      update?: ' SECURITY: You cannot edit this role!'
+      create?: ' SECURITY: You cannot create roles!'
+      destroy?: ' SECURITY: You cannot destroy roles!'
+      add_remove_role_user?: ' SECURITY: You cannot add/remove roles for users!'
+    user_policy:
+      index?: ' SECURITY: You cannot watch list of users!'
+      show?: ' SECURITY: You cannot watch this user!'
+      update?: ' SECURITY: You cannot edit this user!'
+      create?: ' SECURITY: You cannot create users!'
+      destroy?: ' SECURITY: You cannot destroy users!'
+      add_remove_role_user?: ' SECURITY: You cannot add/remove roles for users!'
+    project_policy:
+      index?: ' SECURITY: You cannot watch list of projects!'
+      show?: ' SECURITY: You cannot watch this project!'
+      update?: ' SECURITY: You cannot edit this project!'
+      create?: ' SECURITY: You cannot create projects!'
+      destroy?: ' SECURITY: You cannot destroy this project!'
+    customer_policy:
+      index?: ' SECURITY: You cannot watch list of customers!'
+      show?: ' SECURITY: You cannot watch this customer!'
+      update?: ' SECURITY: You cannot edit this customer!'
+      create?: ' SECURITY: You cannot create customers!'
+      destroy?: ' SECURITY: You cannot destroy customers!'
+    attachment_policy:
+      project_index?: ' SECURITY: You cannot watch list of attachments for project!'
+      project_show?: ' SECURITY: You cannot watch this attachments for project!'
+      project_create?: ' SECURITY: You cannot create attachments for project!'
+      project_destroy?: ' SECURITY: You cannot destroy attachments for project!'
+      user_index?: ' SECURITY: You cannot watch list of attachments for user!'
+      user_show?: ' SECURITY: You cannot watch this attachments for user!'
+      user_create?: ' SECURITY: You cannot create attachments for user!'
+      user_destroy?: ' SECURITY: You cannot destroy attachments for user!'
+    event_policy:
+      index?: ' SECURITY: You cannot watch list of events!'
+      show?: ' SECURITY: You cannot watch this event!'
+      update?: ' SECURITY: You cannot edit this event!'
+      create?: ' SECURITY: You cannot create events!'
+      destroy?: ' SECURITY: You cannot destroy events!'
+  helpers:
+    actions: "Action"
+    links:
+      index: ' Index'
+      show: ' Show'
+      new:  ' New'
+      edit: ' Edit'
+      back: ' Back'
+      cancel: 'Cancel'
+      confirm: "Czy na pewno?"
+      confirm_destroy: 'Na pewno chcesz usunąć wpis: "%{data}"?'
+      confirm_account_off: 'Na pewno chcesz wyłączyć konto: "%{data}"?'
+      confirm_account_on: 'Na pewno chcesz włączyć konto: "%{data}"?'
+      confirm_send_email: 'Na pewno chcesz wysłać email do: "%{data}"?'
+      destroy: " Usuń"
+      destroy_account: "Usuń moje konto"
+      send_email: " Send email"
+      download: " Download"
+      download_xls: " Download XLS"
+      print: " Print"
+      filter: " Filter"
+      account_off: " Account Off"
+      account_on: " Account On"
+      link_to_add_fields_accessorization: '[ + Add Accessorization]'
+      link_to_remove_fields_accessorization: '[ - Remove Accessorization]'
+      new_point_file:  ' Load new Points file'
+  tooltip:
+    show: 'Show'
+    edit: 'Edit'
+    destroy: 'Destroy'
+    download: 'Download'
+    send_email: 'Send email'
+  help_block_text:
+    select2project: 'Search by: Number, Note. Terms are separated by a space'
+    select2user: 'Search by: Name, Email. Terms are separated by a space'
+    select2customer: 'Search by: Name. Terms are separated by a space'
+  placeholder:
+    select2project: 'Choose your Project'
+    select2user: 'Choose your User'
+    select2customer: 'Choose your Customer'
