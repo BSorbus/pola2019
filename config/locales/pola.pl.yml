@@ -334,6 +334,7 @@ pl:
   pages:
     home: 'Główna'
     help: 'Pomoc'
+    data: 'Dane'
     management: 'Zarządzanie'
     works: 'Dziennik operacji'
     charts: 'Statystyki'

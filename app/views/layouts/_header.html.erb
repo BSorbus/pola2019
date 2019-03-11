@@ -22,17 +22,11 @@
       <nav>
 
         <ul class="nav navbar-nav navbar-left">
-          <li><%= link_to root_path do %>
-            <span class="fa fa-user"></span>&nbsp;AAA
-            <% end %>
-          </li>
+          <%= render 'layouts/navigation_left_links' %>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-          <li><%= link_to root_path do %>
-            <span class="fa fa-user"></span>&nbsp;AAA
-            <% end %>
-          </li>
+          <%= render 'layouts/navigation_right_links' %>
         </ul>
 
       </nav>

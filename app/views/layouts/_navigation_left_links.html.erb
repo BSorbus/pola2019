@@ -1,0 +1,76 @@
+<% if user_signed_in? %>
+  <%# if policy(:errand).index? || policy(:event).index? || policy(:project).index? %>
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-signal"></span>&nbsp;<%=t "pages.charts" %> <span class="caret"></span></a>
+
+      <ul class="dropdown-menu">
+        <%# if policy(:errand).index? %>
+          <li><%= link_to root_path do %>
+            <span class="glyphicon glyphicon-tasks"></span>&nbsp;<%=t "pages.errand.index.title" %>
+            <% end %>
+          </li>
+        <%# end %>
+
+        <%# if policy(:event).index? %>
+          <li><%= link_to root_path do %>
+            <span class="glyphicon glyphicon-calendar"></span>&nbsp;<%=t "pages.event.index.title" %>
+            <% end %>
+          </li>
+        <%# end %>
+
+        <%# if policy(:project).index? %>
+          <li><%= link_to root_path do %>
+            <span class="glyphicon glyphicon-book"></span>&nbsp;<%=t "pages.project.index.title" %>
+            <% end %>
+          </li>
+        <%# end %>
+
+      </ul>
+    </li>
+  <%# end %>
+
+  <%# if policy(:errand).index? || policy(:event).index? || policy(:project).index? %>
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-database"></span>&nbsp;<%=t "pages.data" %> <span class="caret"></span></a>
+
+      <ul class="dropdown-menu">
+        <%# if policy(:enrollment).index? %>
+          <li><%= link_to root_path do %>
+            <span class="glyphicon glyphicon-briefcase"></span>&nbsp;<%=t "pages.enrollment.index.title" %>
+            <% end %>
+          </li>
+        <%# end %>
+
+        <%# if policy(:errand).index? %>
+          <li><%= link_to root_path do %>
+            <span class="glyphicon glyphicon-tasks"></span>&nbsp;<%=t "pages.errand.index.title" %>
+            <% end %>
+          </li>
+        <%# end %>
+
+        <%# if policy(:event).index? %>
+          <li><%= link_to root_path do %>
+            <span class="glyphicon glyphicon-calendar"></span>&nbsp;<%=t "pages.event.index.title" %>
+            <% end %>
+          </li>
+        <%# end %>
+
+        <%# if policy(:project).index? %>
+          <li><%= link_to root_path do %>
+            <span class="glyphicon glyphicon-book"></span>&nbsp;<%=t "pages.project.index.title" %>
+            <% end %>
+          </li>
+        <%# end %>
+
+        <%# if policy(:customer).index? %>
+          <li><%= link_to root_path do %>
+            <span class="glyphicon glyphicon-flag"></span>&nbsp;<%=t "pages.customer.index.title" %>
+            <% end %>
+          </li>
+        <%# end %>
+
+      </ul>
+    </li>
+  <%# end %>
+
+<% end %>

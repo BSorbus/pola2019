@@ -1,0 +1,55 @@
+<spacer size="16"></spacer>
+<container>
+  <row>
+    <columns large="4">
+      <spacer size="16"></spacer>
+      <center>
+        <%=link_to( image_tag( attachments['logo.jpg'].url, alt: "POLA" ), root_url, target: "_blank" ) %>
+      </center>
+    </columns>
+    <columns large="8">
+      <spacer size="16"></spacer>
+
+    </columns>
+  </row>
+
+  <spacer size="16"></spacer>
+
+  <row>
+    <columns>
+      <h4>Witaj!</h4>
+      <p>Na Twoim koncie <%= @user.name %> w programie <strong>POLA</strong> zostały dokonane zmiany. Twój dotychczasowy login <%= @user.email %> został zmieniony na <%= @user.unconfirmed_email %>. Aby zakończyć proces musisz ponownie aktywować swoje konto. Możesz to zrobić wybierając przycisk:</p>
+      <button href=<%= confirmation_url(@resource, confirmation_token: @token) %> class="large expanded success">Potwierdzam, aktywuj moje konto</button>
+    </columns>
+  </row>
+
+
+
+
+
+  <spacer size="16"></spacer>
+
+  <row class="collapsed footer">
+    <columns>
+      <hr class="hr-brand">
+      <row>
+        <columns large="4">
+          <spacer size="8"></spacer>
+          <center>
+              <%= image_tag( attachments['logo_uke.jpg'].url, alt: "UKE" ) %>
+          </center>
+          <spacer size="16"></spacer>
+          <p class="text-left"><small>&copy; 2018 UKE-BI-WUR<small></small></p>
+        </columns>
+        <columns large="8">
+          <spacer size="8"></spacer>
+          <h6 class="text-right h6-small"><%= mail_to "pawel.dabrowski@uke.gov.pl" %></h6>
+          <h6 class="text-right h6-small"><%= mail_to "piotr.jankowski@uke.gov.pl" %></h6>
+          <h6 class="text-right h6-small"><%= mail_to "serwis.pola@uke.gov.pl" %></h6>
+        </columns>
+
+      </row>
+    </columns>
+  </row>
+
+</container>

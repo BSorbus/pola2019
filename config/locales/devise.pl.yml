@@ -9,6 +9,7 @@ pl:
       sign_out: 'Wyloguj się'
       new_password: 'Zapomniałeś hasła?'
       new_confirmation: 'Nie otrzymałeś instrukcji aktywacji konta?'
+      edit_registration: 'Konto'
       new_unlock: 'Nie otrzymałeś instrukcji odblokowania konta?'
     confirmations:
       confirmed: "Twoje konto zostało aktywowane. Zaloguj się."
