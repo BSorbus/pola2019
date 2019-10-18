@@ -1,0 +1,167 @@
+//document.addEventListener('turbolinks:load', function() {
+
+//function filterGlobalParams () {
+//    $('#events-table').DataTable().search(
+//        $('#global_filter').val(),
+//        false,
+//        $('#global_smart').prop('checked')
+//    ).draw();
+//}
+
+
+$(document).ready(function() {
+  function filterEventColumnParams ( i ) {
+    $('#events-table').DataTable().column( i ).search(
+      $('#col'+i+'filter').val(), false, true, true
+    );
+    $('#events-table').DataTable().draw();
+  };
+
+
+  $.fn.dataTable.ext.buttons.event_button_only_my_data = {
+    //text: 'Wszystko',
+    text: '<span class="fa fa-user-friends"></span>',
+    titleAttr: 'Wszystkie/tylko moje',
+    action: function ( e, dt, node, config ) {
+      if (dt.button( 3 ).active() == false) {
+        //dt.button( 3 ).text('Tylko moje');
+        dt.button( 3 ).text('<span class="fa fa-user"></span> Tylko moje');
+        dt.button( 3 ).active( true );
+      } else {
+        //dt.button( 3 ).text('Wszystko');
+        dt.button( 3 ).text('<span class="fa fa-user-friends"></span>');
+        dt.button( 3 ).active( false );
+      };
+      //oEventtable.ajax.reload();
+      $('#events-table').DataTable().draw();
+    }
+  };
+
+
+  $.fn.dataTable.ext.buttons.event_button_filter_show_hide = {
+    //text: 'Filtr',
+    text: '<span class="fa fa-filter"></span>',
+    titleAttr: 'Filtrowanie po kolumnach',
+    //className: 'btn btn-info',
+    action: function ( e, dt, node, config ) {
+    //var list = document.getElementsByClassName("column_filter");
+      // for (var i = 0; i < list.length; i++) {
+      //   if (list[i].style.display === "none") {
+      //     list[i].style.display = "block";
+      //     filterEventColumnParams( $(list[i]).attr('data-column') );
+      //   } else {
+      //     $(list[i]).val('');
+      //     list[i].style.display = "none";
+      //     filterEventColumnParams( $(list[i]).attr('data-column') );
+      //   };
+      // };
+      if ($('#events-table').DataTable().tables().footer().to$().css('display') === 'none') {
+        $('#events-table').DataTable().tables().footer().to$().css('display', 'table-row-group');
+        //dt.button( 4 ).text('Filtrowanie...');
+        dt.button( 4 ).text('<span class="fa fa-filter"></span> Filtrowanie...');
+        dt.button( 4 ).active( true );
+        // Redraw table (and reset main search filter)
+        // OK - działa też $('##events-table').DataTable().search("").draw();
+        $($.fn.dataTable.tables(true)).DataTable().search("").draw();
+        $(".dataTables_filter").hide();
+      } else {
+        $('#events-table').DataTable().tables().footer().to$().css('display', 'none');
+        //dt.button( 4 ).text('Filtr');
+        dt.button( 4 ).text('<span class="fa fa-filter"></span>');
+        dt.button( 4 ).active( false );
+        $('#events-table tfoot input').val('').keyup();
+
+        $(".dataTables_filter").show();
+      }
+
+      $($.fn.dataTable.tables(true)).DataTable()
+        .columns.adjust()
+        .responsive.recalc();
+    }
+  };
+
+
+  var oEventtable = $('#events-table').DataTable({
+    dom: 'lBfrtip',
+    buttons: [
+      {
+        extend:    'copy',
+        text:      '<span class="fa fa-clipboard"></span>',
+        titleAttr: 'Kopiuj do schowka'
+      },
+      {
+        extend:    'csv',
+        text:      '<span class="fa fa-file-csv"></span>',
+        titleAttr: 'Kopiuj do CSV'
+      },
+      {
+        extend:    'colvis',
+        text:      '<span class="fa fa-columns"></span>',
+        titleAttr: 'Pokaż/ukryj kolumny',
+        columns:   ':gt(0)' //exclude first col from list
+      },
+      'event_button_only_my_data', 'event_button_filter_show_hide'
+    ],
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    searchDelay: 500,
+    ajax: { 
+      url: $('#events-table').data('source'),
+      type: "POST",
+      data: function(d){
+        d.eager_filter_for_current_user = $('#events-table').DataTable().button(3).active();
+      },
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
+    columns: [
+      { "data": "id", "visible": false },
+      { "data": "title" }, 
+      { "data": "type" },
+      { "data": "errand" },
+      { "data": "project" },
+      { "data": "customer" },
+      { "data": "end_date" },
+      { "data": "status" },
+      { "data": "effect" },
+      { "data": "updated_at" },
+      { "data": "attachments_count" },
+      { "data": "flat", 
+        "sortable": false }
+    ],
+    order: [[ 6, "desc" ]],
+    language: {
+      // buttons: {
+      //   copy: 'Kopiuj',
+      //   colvis: 'Kolumny'
+      // },
+      url: '<%= asset_path("pl.json.erb") %>'
+    },
+
+
+  });
+
+
+  //$('input.global_filter').on( 'keyup click', function () {
+  //  filterGlobalParams();
+  //});
+
+  $('input.column_filter').on( 'keyup click', function () {
+    filterEventColumnParams( $(this).attr('data-column') );
+  });
+
+  $('select.column_filter').on( 'keyup click', function () {
+    filterEventColumnParams( $(this).attr('data-column') );
+  });
+
+});

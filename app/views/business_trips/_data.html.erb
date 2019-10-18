@@ -1,0 +1,76 @@
+<div class="col-sm-11 col-sm-offset-1">
+  <% input_disabled ||= false  
+     #if input_disabled is not passed to the partial it doesn't crash. 
+     # We default it to false 
+  %>
+
+  <%= form_errors_for @business_trip %>
+
+
+  <%= render 'data_basic', input_disabled: true %>
+  <%= render 'data_payment', input_disabled: true %>
+  <%= render 'data_costs', input_disabled: true %>
+
+  <hr class="hr-without-top-margin">
+
+
+  <% if input_disabled %>
+    <!-- for "Show" -->
+    <div class="row">
+
+      <div class="col-sm-6">
+
+        <%= link_to business_trips_path, class: "btn btn-default" do %>
+          <span class="glyphicon glyphicon-th-list"></span>
+          <%= t("helpers.links.index") %>
+        <% end %>
+
+        <% if policy(@business_trip).destroy? %>
+          <%= link_to business_trip_path(@business_trip),
+                              method: :delete,
+                              data: { confirm: t('helpers.links.confirm_destroy', data: @business_trip.number) }, 
+                              class: "btn btn-danger" do %>
+            <span class="glyphicon glyphicon-trash"></span>
+            <%= t("helpers.links.destroy") %>
+          <% end %>
+        <% end %>
+
+        <% if policy(@business_trip).edit? %>
+          <%= link_to edit_business_trip_path(@business_trip), class: "btn btn-primary" do %>
+            <span class="glyphicon glyphicon-edit"></span>
+            <%= t("helpers.links.edit") %>
+          <% end %>
+        <% end %>
+
+
+
+
+        <% if policy(@business_trip).edit? %>
+          <%= link_to edit_costs_business_trip_path(@business_trip), class: "btn btn-primary" do %>
+            <span class="glyphicon glyphicon-edit"></span>
+            <%= t("helpers.links.edit_cost") %>
+          <% end %>
+        <% end %>
+
+
+        <% if policy(@business_trip).edit? %>
+          <%= link_to approved_business_trip_path(@business_trip), method: :patch, class: "btn btn-success" do %>
+            <span class="glyphicon glyphicon-check"></span>
+            <%= t("helpers.links.approved") %>
+          <% end %>
+        <% end %>
+
+
+      </div> <!--/col-sm-6-->    
+
+      <div class="col-sm-6">
+        <p class="text-right"><%= business_trip_info(@business_trip) %></p>
+      </div> <!--/col-sm-6-->    
+
+
+    </div> <!-- /row -->
+  <% else %>
+    <!-- form "New"/"Edit" -->
+  <% end %>
+
+</div> <!--/col-sm-11 col-sm-offset-1-->    

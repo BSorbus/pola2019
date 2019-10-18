@@ -14,4 +14,12 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require bootstrap
+//= require select2
+//= require select2_locale_pl
+//= require moment
+//= require moment/pl
+//= require fullcalendar
+//= require bootstrap-datetimepicker
+//= require trix
+//= require toastr
 //= require_tree .

@@ -29,15 +29,29 @@ div.dt-buttons {
 }
 
 tfoot {
-  display: table-row-group;
+    display: table-header-group;
 }
 
+//tfoot {
+//  display: table-row-group;
+//}
+
+table.dataTable {
+    border-bottom: 1px solid black !important;
+}
+
+table.dataTable tfoot th {
+  border-top: 0;
+  border-bottom: 1px solid black;
+}
+
+
   input.column_filter {
-    margin-top: -7px;
+    margin-top: -5px;
     margin-left: -5px;
   };
   select.column_filter {
-    margin-top: -7px;
+    margin-top: -5px;
     margin-left: -5px;
   }
 
@@ -110,4 +124,15 @@ tfoot {
     color: #999;
     font-size: 11px;
     padding: 2px 0;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding : 0px;
+    margin-left: 0px;
+    display: inline;
+    border: 0px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    border: 0px;
 }

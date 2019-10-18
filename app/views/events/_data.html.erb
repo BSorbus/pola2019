@@ -1,0 +1,129 @@
+<div id="tab_data">
+  <fieldset class="my-fieldset">
+    <legend class="my-fieldset colored-title"><%= subtitle %></legend>
+    <div class="row">
+
+      <div class="col-sm-12">
+        <% input_disabled ||= false  
+           #if input_disabled is not passed to the partial it doesn't crash. 
+           # We default it to false 
+        %>
+
+        <%= form_errors_for @event %>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="row">
+
+              <div class="form-group col-sm-12">
+                <p><strong><%= Event.human_attribute_name(:title) %></strong></p>
+                <%= @event.title %>
+              </div>
+              <div class="form-group col-sm-12">
+                <p><strong><%= Event.human_attribute_name(:event_status_id) %></strong></p>
+                <%= @event.event_status.try(:name) %>
+              </div>
+
+              <div class="form-group col-sm-3">
+                <p><strong><%= Event.human_attribute_name(:start_date) %></strong></p>
+                <%= @event.start_date.present? ? @event.start_date.strftime("%Y-%m-%d %H:%M") : '' %>
+              </div>
+              <div class="form-group col-sm-3">
+                <p><strong><%= Event.human_attribute_name(:end_date) %></strong></p>
+                <%= @event.end_date.present? ? @event.end_date.strftime("%Y-%m-%d %H:%M") : '' %>
+              </div>
+              <div class="form-group col-sm-6">
+                <p><strong><%= Event.human_attribute_name(:all_day) %></strong></p>
+                <%= t @event.all_day %>
+              </div>
+
+              <div class="form-group col-sm-12">
+                <p><strong><%= Event.human_attribute_name(:event_type_id) %></strong></p>
+                <%= @event.event_type.try(:name) %>
+              </div>
+              <div class="form-group col-sm-12">
+                <p><strong><%= Event.human_attribute_name(:project_id) %></strong></p>
+                <%= @event.project.try(:number_as_link) %>
+              </div>
+              <div class="form-group col-sm-12">
+                <p><strong><%= Event.human_attribute_name(:errand_id) %></strong></p>
+                <%= @event.errand.try(:number_as_link) %>
+              </div>
+
+
+            </div>  <!-- /row -->
+          </div>  <!-- /col-sm-6 -->
+
+          <div class="col-sm-6">
+            <div class="row">
+              <div class="form-group col-sm-12">
+                <p><strong><%= Event.human_attribute_name(:note) %></strong></p>
+                <%= @event.note.html_safe %> 
+              </div>
+
+              <div class="form-group col-sm-12">
+                <fieldset class="my-fieldset">
+                  <legend class="my-fieldset"><%= t('pages.event.fieldset.accessorizations_title') %></legend>
+
+                  <div class="row">
+                    <div class="form-group col-sm-12">
+
+                      <% Accessorization.includes(:user, :event).where(event: @event).order('users.name').each do |accessorization| %>
+                        <p><%= accessorization.user.try(:name_as_link) %><span class="pull-right">[<%= accessorization.role.try(:name_as_link) %>]</span></p>
+                      <% end %>
+
+                    </div>
+                  </div> <!--/row -->
+                </fieldset>
+              </div>
+
+              <div class="form-group col-sm-12">
+                <p><strong><%= Event.human_attribute_name(:event_effect_id) %></strong></p>
+                <%= @event.event_effect.try(:name) %>
+              </div>
+
+            </div>  <!-- /row -->
+          </div> <!--/col-sm-6 -->
+
+        </div>  <!-- /row -->
+
+        <hr class="hr-without-top-margin">
+
+        <% if input_disabled %>
+          <!-- for "Show" -->
+          <div class="row">
+            <div class="col-sm-12">
+
+              <%= link_to events_path, class: "btn btn-default" do %>
+                <span class="glyphicon glyphicon-th-list"></span>
+                <%= t("helpers.links.index") %>
+              <% end %>
+
+              <% if policy(@event).destroy? %>
+                <%= link_to event_path(@event),
+                                    method: :delete,
+                                    data: { confirm: t('helpers.links.confirm_destroy', data: @event.title) }, 
+                                    class: "btn btn-danger" do %>
+                  <span class="glyphicon glyphicon-trash"></span>
+                  <%= t("helpers.links.destroy") %>
+                <% end %>
+              <% end %>
+
+              <% if policy(@event).edit? %>
+                <%= link_to edit_event_path(@event), class: "btn btn-primary" do %>
+                  <span class="glyphicon glyphicon-edit"></span>
+                  <%= t("helpers.links.edit") %>
+                <% end %>
+              <% end %>
+
+            </div>  <!-- /col-sm-12 -->
+          </div> <!-- /row -->
+        <% else %>
+          <!-- form "New"/"Edit" -->
+        <% end %>
+
+      </div> <!--/col-sm-12-->  
+
+    </div>
+  </fieldset>
+</div>

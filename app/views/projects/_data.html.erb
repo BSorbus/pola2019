@@ -1,0 +1,107 @@
+<div id="tab_data">
+  <fieldset class="my-fieldset">
+    <legend class="my-fieldset colored-title"><%= subtitle %></legend>
+    <div class="row">
+
+      <div class="col-sm-12">
+        <% input_disabled ||= false  
+           #if input_disabled is not passed to the partial it doesn't crash. 
+           # We default it to false 
+        %>
+
+        <%= form_errors_for @project %>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="row">
+
+              <div class="form-group col-sm-6">
+                <p><strong><%= Project.human_attribute_name(:number) %></strong></p>
+                <%= @project.number %>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <p><strong><%= Project.human_attribute_name(:enrollment_id) %></strong></p>
+                <%= @project.enrollment.try(:name) %>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <p><strong><%= Project.human_attribute_name(:area_id) %></strong></p>
+                <%= @project.try(:area_id) %>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <p><strong><%= Project.human_attribute_name(:area_name) %></strong></p>
+                <%= @project.try(:area_name) %>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <p><strong><%= Project.human_attribute_name(:registration) %></strong></p>
+                <%= @project.try(:registration) %>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <p><strong><%= Project.human_attribute_name(:project_status_id) %></strong></p>
+                <%= @project.project_status.try(:name) %>
+              </div>
+
+              <div class="form-group col-sm-12">
+                <p><strong><%= Project.human_attribute_name(:customer_id) %></strong></p>
+                <%= @project.customer.try(:name_as_link) %>
+              </div>
+
+            </div>  <!-- /row -->
+          </div>  <!-- /col-sm-6 -->
+
+          <div class="col-sm-6">
+            <div class="row">
+              <div class="form-group col-sm-12">
+                <p><strong><%= Project.human_attribute_name(:note) %></strong></p>
+                <%= @project.note.html_safe %>
+              </div>
+            </div>
+          </div> <!--/col-sm-6 -->
+        </div>  <!-- /row -->
+
+
+        <hr class="hr-without-top-margin">
+
+
+        <% if input_disabled %>
+          <!-- for "Show" -->
+          <div class="row">
+            <div class="col-sm-12">
+
+              <%= link_to projects_path, class: "btn btn-default" do %>
+                <span class="glyphicon glyphicon-th-list"></span>
+                <%= t("helpers.links.index") %>
+              <% end %>
+
+              <% if policy(@project).destroy? %>
+                <%= link_to project_path(@project),
+                                    method: :delete,
+                                    data: { confirm: t('helpers.links.confirm_destroy', data: @project.number) }, 
+                                    class: "btn btn-danger" do %>
+                  <span class="glyphicon glyphicon-trash"></span>
+                  <%= t("helpers.links.destroy") %>
+                <% end %>
+              <% end %>
+
+              <% if policy(@project).edit? %>
+                <%= link_to edit_project_path(@project), class: "btn btn-primary" do %>
+                  <span class="glyphicon glyphicon-edit"></span>
+                  <%= t("helpers.links.edit") %>
+                <% end %>
+              <% end %>
+
+            </div> <!--/col-sm-12 -->
+          </div> <!-- /row -->
+        <% else %>
+          <!-- form "New"/"Edit" -->
+        <% end %>
+
+      </div> <!--/col-sm-12-->  
+
+    </div>
+  </fieldset>
+</div>

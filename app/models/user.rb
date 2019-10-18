@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include ActionView::Helpers::TextHelper
+
   delegate :url_helpers, to: 'Rails.application.routes'
 
   # Include default devise modules. Others available are:
@@ -30,25 +32,24 @@ class User < ApplicationRecord
   #         :authentication_keys => [:email]
 
   # relations
-  # has_and_belongs_to_many :roles
+  has_and_belongs_to_many :roles
 
-  # has_many :accessorizations, dependent: :nullify, index_errors: true
+  has_many :accessorizations, dependent: :nullify, index_errors: true
 
-  # has_many :attachments, as: :attachmenable, dependent: :destroy
-  # has_many :comments, dependent: :nullify
+  has_many :attachments, as: :attachmenable, dependent: :destroy
 
-  # has_many :customers, dependent: :nullify
-  # has_many :projects, dependent: :nullify
-  # has_many :errands, dependent: :nullify
-  # has_many :events, dependent: :nullify
+  has_many :customers, dependent: :nullify
+  has_many :projects, dependent: :nullify
+  has_many :errands, dependent: :nullify
+  has_many :events, dependent: :nullify
 
-  # has_many :business_trips, dependent: :nullify
+  has_many :business_trips, dependent: :nullify
 
-  # has_many :employee_business_trips, class_name: 'BusinessTrip', :foreign_key => 'employee_id'
-  # has_many :approved_business_trips, class_name: 'BusinessTrip', :foreign_key => 'approved_id'
-  # has_many :payment_approved_business_trips, class_name: 'BusinessTrip', :foreign_key => 'payment_on_account_approved_id'
+  has_many :employee_business_trips, class_name: 'BusinessTrip', :foreign_key => 'employee_id'
+  has_many :approved_business_trips, class_name: 'BusinessTrip', :foreign_key => 'approved_id'
+  has_many :payment_approved_business_trips, class_name: 'BusinessTrip', :foreign_key => 'payment_on_account_approved_id'
 
-  # validate :password_complexity
+  validate :password_complexity
 
   def password_complexity
     #if password.present? and not password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\W])/)
@@ -86,6 +87,14 @@ class User < ApplicationRecord
 
   def name_as_link
     "<a href=#{url_helpers.user_path(self)}>#{self.name}</a>".html_safe
+  end
+
+  def note_truncate
+    truncate(Loofah.fragment(self.note).text, length: 100)
+  end
+
+  def last_activity_at_expired?
+    self.last_activity_at < Time.zone.now - 90.days
   end
 
   # Scope for select2: "user_select"

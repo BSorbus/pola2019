@@ -1,0 +1,112 @@
+<div class="col-sm-12">
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="row">
+
+        <div class="form-group col-sm-6">
+          <strong><%= PointFile.human_attribute_name(:oi_2) %></strong><br>
+          <%= @point_file.oi_2 %>
+        </div>
+
+        <div class="form-group col-sm-6">
+          <strong><%= PointFile.human_attribute_name(:oi_4) %></strong><br>
+          <%= @point_file.oi_4 %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= PointFile.human_attribute_name(:oi_5) %></strong><br>
+          <%= number_with_precision(@point_file.oi_5, precision: 0, separator: ',', delimiter: ' ') %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= PointFile.human_attribute_name(:oi_6) %></strong><br>
+          <%= number_with_precision(@point_file.oi_6, precision: 0, separator: ',', delimiter: ' ') %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= PointFile.human_attribute_name(:oi_7) %></strong><br>
+          <%= number_with_precision(@point_file.oi_7, precision: 0, separator: ',', delimiter: ' ') %>
+        </div>
+
+
+      </div>  <!-- /row -->
+    </div>  <!-- /col-sm-6 -->
+
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="form-group col-sm-12">
+          <strong><%= PointFile.human_attribute_name(:oi_3) %></strong><br>
+          <%= @point_file.oi_3.html_safe %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= PointFile.human_attribute_name(:oi_8) %></strong><br>
+          <%= number_with_precision(@point_file.oi_8, precision: 0, separator: ',', delimiter: ' ') %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= PointFile.human_attribute_name(:oi_9) %></strong><br>
+          <%= number_with_precision(@point_file.oi_9, precision: 0, separator: ',', delimiter: ' ') %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= PointFile.human_attribute_name(:oi_10) %></strong><br>
+          <%= number_with_precision(@point_file.oi_10, precision: 0, separator: ',', delimiter: ' ') %>
+        </div>
+
+
+      </div>
+
+    </div> <!--/col-sm-6 -->
+  </div>  <!-- /row -->
+
+  <hr>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row">
+
+        <div class="form-group col-sm-12">
+          <strong><%= PointFile.human_attribute_name(:dp_2) %></strong><br>
+          <%= @point_file.dp_2 %>
+        </div>
+
+        <div class="form-group col-sm-6">
+          <strong><%= PointFile.human_attribute_name(:dp_3) %></strong><br>
+          <%= @point_file.dp_3 %>
+        </div>
+
+        <div class="form-group col-sm-6">
+          <strong><%= PointFile.human_attribute_name(:dp_4) %></strong><br>
+          <%= @point_file.dp_4 %>
+        </div>
+
+        <div class="form-group col-sm-6">
+          <strong><%= PointFile.human_attribute_name(:dp_5) %></strong><br>
+          <%= @point_file.dp_5 %>
+        </div>
+
+        <div class="form-group col-sm-6">
+          <strong><%= PointFile.human_attribute_name(:dp_6) %></strong><br>
+          <%= @point_file.dp_6 %>
+        </div>
+
+        <div class="form-group col-sm-6">
+          <strong><%= PointFile.human_attribute_name(:dp_7) %></strong><br>
+          <%= @point_file.dp_7 %>
+        </div>
+
+        <div class="form-group col-sm-6">
+          <strong><%= PointFile.human_attribute_name(:dp_8) %></strong><br>
+          <%= @point_file.dp_8 %>
+        </div>
+
+      </div>  <!-- /row -->
+    </div>  <!-- /col-sm-6 -->
+  </div>  <!-- /row -->
+
+
+</div> <!--/col-sm-12-->    
+
+

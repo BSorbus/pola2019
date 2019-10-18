@@ -1,0 +1,172 @@
+<br>
+<div class="container-fluid"> 
+  <div class="row">
+    <div class="col-sm-2">
+      <ul  class="nav nav-pills brand-pills nav-stacked">
+        <li class="brand-nav active">
+          <a href="#project_show" data-toggle="tab"><%= project_show_legend %></a>
+        </li>
+        <% if policy(:attachment).project_index? %>
+          <li class="brand-nav brand-nav-level-1">
+          <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
+        </li>
+        <% end %>
+        <% if policy(:project).work? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#works" data-toggle="tab"><%= work_index_legend %></a>
+          </li>
+        <% end %>
+        <% if policy(:event).index? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#events" data-toggle="tab"><%= event_index_legend %></a>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="col-sm-10">
+      <div class="tab-content clearfix">
+
+        <div class="tab-pane active" id="project_show">
+          <%= render 'data', input_disabled: true, subtitle: project_info_legend(@project) %>
+        </div>
+
+        <div class="tab-pane" id="attachments">
+          <%= render 'attachments/attachments_tab', attachmenable: @project, subtitle: project_info_legend(@project) %>
+        </div>
+
+        <div class="tab-pane" id="works">
+          <%= render 'works/works_tab', trackable_type: "Project", trackable_id: @project.id, subtitle: project_info_legend(@project) %>
+        </div>
+
+        <div class="tab-pane" id="events">
+          <%= render 'events', subtitle: project_info_legend(@project) %>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="panel-group" id="myaccordion">
+
+  <!-- Dane -->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-project">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_data" >
+          <div class="panel-heading">
+            <div class="panel-title">
+              <span class="fa fa-project-diagram">&nbsp;</span>
+              <span><%=t "pages.project.show.title" %>:&nbsp;<%= @project.fullname %></span>
+              <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i>
+            </div> 
+          </div>
+        </a>
+        <div id="collapse_data" class="panel-collapse collapse in">
+          <div class="panel-body">         
+
+            <%= render 'data', input_disabled: true, subtitle: project_info_legend(@project) %>
+
+          </div> <!-- /panel-body -->
+        </div> <!-- /id="collapse_data" -->
+      </div> <!-- /panel -->
+    </div> <!-- /col-sm-12-->
+  </div> <!-- /row -->
+
+
+  <% if policy(:project).work? %>
+    <%= render partial: "works/works_in_panel", locals: {trackable_type: 'Project', trackable_id: @project.id} %>
+  <% end %>
+
+
+  <!-- Attachments for this project-->
+  <% if policy(:attachment).project_index? %>
+    <%#= render 'attachments/attachments_in_panel', attachmenable: @project %>
+  <% end %>
+
+
+  <!-- ProposalFiles-->
+  <% if policy(:proposal_file).index? %>
+    <div class="row">
+      <div class="col-sm-11 col-sm-offset-1">
+        <div class="panel panel-proposal-file">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_proposal_files" >
+            <div class="panel-heading">
+              <div class="panel-title">
+                <span class="glyphicon glyphicon-file">&nbsp;</span>
+                <span><%= t "pages.proposal_file.index.title" %></span>
+                <i class="indicator glyphicon glyphicon-chevron-right pull-right"></i>
+              </div>
+            </div>
+          </a>
+          <div id="collapse_proposal_files" class="panel-collapse collapse">
+            <div class="panel-body">
+
+              <%#= render 'proposal_files' %>
+
+            </div> <!-- /panel-body -->
+          </div> <!-- /id="collapse_proposal_files" -->
+        </div> <!-- /panel -->
+      </div> <!-- /col-sm-11 col-sm-offset-1 -->
+    </div> <!-- /row -->
+  <% end %>
+
+
+  <!-- PointFiles-->
+  <% if policy(:point_file).index? %>
+    <div class="row">
+      <div class="col-sm-11 col-sm-offset-1">
+        <div class="panel panel-point-file">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_point_files" >
+            <div class="panel-heading">
+              <div class="panel-title">
+                <span class="glyphicon glyphicon-file">&nbsp;</span>
+                <span><%= t "pages.point_file.index.title" %></span>
+                <i class="indicator glyphicon glyphicon-chevron-right pull-right"></i>
+              </div>
+            </div>
+          </a>
+          <div id="collapse_point_files" class="panel-collapse collapse">
+            <div class="panel-body">
+
+              <%#= render 'point_files' %>
+
+            </div> <!-- /panel-body -->
+          </div> <!-- /id="collapse_point_files" -->
+        </div> <!-- /panel -->
+      </div> <!-- /col-sm-11 col-sm-offset-1 -->
+    </div> <!-- /row -->
+  <% end %>
+
+
+  <!-- Events-->
+  <% if policy(:event).index? %>
+    <!-- Roles.whers(special: false)-->
+    <div class="row">
+      <div class="col-sm-11 col-sm-offset-1">
+        <div class="panel panel-event">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_events" >
+            <div class="panel-heading">
+              <div class="panel-title">
+                <span class="fa fa-calendar">&nbsp;</span>
+                <span><%= t "pages.event.index.title" %></span>
+                <i class="indicator glyphicon glyphicon-chevron-right pull-right"></i>
+              </div>
+            </div>
+          </a>
+          <div id="collapse_events" class="panel-collapse collapse">
+            <div class="panel-body">
+
+              <%= render 'events', subtitle: project_info_legend(@project) %>
+
+            </div> <!-- /panel-body -->
+          </div> <!-- /id="collapse_events" -->
+        </div> <!-- /panel -->
+      </div> <!-- /col-sm-11 col-sm-offset-1 -->
+    </div> <!-- /row -->
+  <% end %>
+
+</div> <!-- /class="panel-group" id="myaccordion" -->

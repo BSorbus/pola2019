@@ -3,10 +3,14 @@ module ApplicationHelper
   # for layouts/messages
   def flash_class_name(name)
     case name
-    when 'notice' then 'success'
-    when 'alert'  then 'danger'
-    when 'error'  then 'danger'
-    else name
+    when 'notice'
+      'success'
+    when 'alert'
+      'error'
+    when 'danger'
+      'error'
+    else 
+      name
     end
   end
 
@@ -39,9 +43,9 @@ module ApplicationHelper
     # call link_to_function to transform to a HTML link
     # clicking this link will then trigger add_fields javascript function
     link_to_function(name,
-      h("add_fields(this,
+      h("addNestedFields(this,
         \"#{association}\", \"#{escape_javascript(fields)}\");return false;"),
-      class: 'btn btn-success pull-right')
+      class: 'btn btn-sm btn-info pull-right')
   end
 
   def link_to_function(name, js, opts={})

@@ -1,0 +1,123 @@
+<div class="col-sm-12">
+  <div class="row">
+
+    <div id="regions_div" style="height: 500px;"></div>
+
+  </div> <!--/row-->    
+</div> <!--/col-sm-12-->    
+
+<div class="col-sm-12">
+  <div class="row">
+    <hr>
+  </div> <!--/row-->    
+</div> <!--/col-sm-12-->    
+
+
+<script>
+
+  google.charts.load('current', {
+    'packages':['geochart'],
+    // Note: you will need to get a mapsApiKey for your project.
+    // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+    'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY' //'<%= Rails.application.secrets.google_api_key %>'
+  });
+  google.charts.setOnLoadCallback(drawProvincesMap);
+
+  function drawProvincesMap() {
+    var data = google.visualization.arrayToDataTable([
+      ['woj', 'ilość', {role: 'tooltip', p:{html:true}}],
+      ['PL-DS', 101, 'dolnośląskie: <b>101</b>'],
+      ['PL-KP', 102, 'kujawsko-pomorskie: <b>102</b>'],
+      ['PL-LB', 103, 'lubuskie: <b>103</b>'],
+      ['PL-LD', 104, 'łódzkie: <b>104</b>'],
+      ['PL-LU', 105, 'lubelskie: <b>105</b>'],
+      ['PL-MA', 106, 'małopolskie: <b>106</b>'],
+      ['PL-MZ', 107, 'mazowieckie: <b>107</b>'],
+      ['PL-OP', 108, 'opolskie: <b>108</b>'],
+      ['PL-PD', 109, 'podlaskie: <b>109</b>'],
+      ['PL-PK', 110, 'podkarpackie: <b>110</b>'],
+      ['PL-PM', 111, 'pomorskie: <b>111</b>'],
+      ['PL-SK', 112, 'świętokrzyskie: <b>112</b>'],
+      ['PL-SL', 113, 'śląskie: <b>113</b>'],
+      ['PL-WN', 114, 'warmińsko-mazurskie: <b>114</b>'],
+      ['PL-WP', 115, 'wielkopolskie: <b>115</b>'],
+      ['PL-ZP', 116, 'zachodniopomorskie: <b>116</b>']
+    ]);
+
+    var options = {
+      region: 'PL',
+      resolution: 'provinces',
+      displayMode: 'regions',
+      datalessRegionColor: 'transparent',
+      colorAxis: { colors: ['#FFF','#1B3C8F']},
+      tooltip: { textStyle: { color: '#000' }, 
+                 showColorCode: true,
+                 trigger: 'focus',
+                 isHtml: true },
+    }
+
+    var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+    function myClickHandler(){
+      var selectedItem = chart.getSelection()[0];
+      if (selectedItem) {
+        var province = data.getValue(selectedItem.row, 0);
+
+        //alert ('{province:"' + province + '"}');
+        //var newurl = window.location.protocol + '//' + window.location.host + '/projects/show_charts?providence=' + province;
+        //alert (newurl);
+
+        chart.clearChart();
+        google.charts.setOnLoadCallback(drawPowiatyMap);
+
+      }
+    }
+    google.visualization.events.addListener(chart, 'select', myClickHandler);
+
+
+    chart.draw(data, options);
+
+  };
+
+
+
+  function drawPowiatyMap() {
+    var data = google.visualization.arrayToDataTable([
+      ['woj', 'ilość', {role: 'tooltip', p:{html:true}}],
+      ['PL-KP', 102, 'kujawsko-pomorskie: <b>102</b>']
+    ]);
+
+    var options = {
+      region: 'PL',
+      resolution: 'provinces',
+      displayMode: 'regions',
+      datalessRegionColor: 'transparent',
+      colorAxis: { colors: ['#FFF','#1B3C8F']},
+      tooltip: { textStyle: { color: '#000' }, 
+                 showColorCode: true,
+                 trigger: 'focus',
+                 isHtml: true },
+    }
+
+    var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+    function myClickHandler(){
+      var selectedItem = chart.getSelection()[0];
+      if (selectedItem) {
+        var province = data.getValue(selectedItem.row, 0);
+        //alert ('{powiat:"' + province + '"}');
+        chart.clearChart();
+        google.charts.setOnLoadCallback(drawProvincesMap);
+      }
+    }
+    google.visualization.events.addListener(chart, 'select', myClickHandler);
+    chart.draw(data, options);
+  };
+
+
+
+
+
+</script>
+
+

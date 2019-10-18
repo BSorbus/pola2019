@@ -1,0 +1,200 @@
+$(document).ready(function() {
+  $('.select2customer').select2({
+    minimumInputLength: 1,
+    allowClear: false,
+    ajax: {
+      url: "/customers/select2_index.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
+        var customers = $.map(data.customers, function(customer, i) {
+          return { id: customer.id, text: customer.fullname };
+        });
+        return { results: customers, more: more };
+      }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/customers/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ id: data_from_json.id, text: data_from_json.fullname });
+        });
+      }
+    },
+    dropdownCssClass: "bigdrop"
+  });
+
+
+
+  function filterCustomerColumnParams ( i ) {
+    $('#customers-table').DataTable().column( i ).search(
+      $('#col'+i+'filter').val(), false, true, true
+    );
+    $('#customers-table').DataTable().draw();
+  };
+
+
+  $.fn.dataTable.ext.buttons.customer_button_only_my_data = {
+    //text: 'Wszystko',
+    text: '<span class="fa fa-user-friends"></span>',
+    titleAttr: 'Wszystkie/tylko moje',
+    action: function ( e, dt, node, config ) {
+      if (dt.button( 3 ).active() == false) {
+        //dt.button( 3 ).text('Tylko moje');
+        dt.button( 3 ).text('<span class="fa fa-user"></span> Tylko moje');
+        dt.button( 3 ).active( true );
+      } else {
+        //dt.button( 3 ).text('Wszystko');
+        dt.button( 3 ).text('<span class="fa fa-user-friends"></span>');
+        dt.button( 3 ).active( false );
+      };
+      //oEventtable.ajax.reload();
+      $('#customers-table').DataTable().draw();
+    }
+  };
+
+
+  $.fn.dataTable.ext.buttons.customer_button_filter_show_hide = {
+    //text: 'Filtr',
+    text: '<span class="fa fa-filter"></span>',
+    titleAttr: 'Filtrowanie po kolumnach',
+    //className: 'btn btn-info',
+    action: function ( e, dt, node, config ) {
+    //var list = document.getElementsByClassName("column_filter");
+      // for (var i = 0; i < list.length; i++) {
+      //   if (list[i].style.display === "none") {
+      //     list[i].style.display = "block";
+      //     filterEventColumnParams( $(list[i]).attr('data-column') );
+      //   } else {
+      //     $(list[i]).val('');
+      //     list[i].style.display = "none";
+      //     filterEventColumnParams( $(list[i]).attr('data-column') );
+      //   };
+      // };
+      if ($('#customers-table').DataTable().tables().footer().to$().css('display') === 'none') {
+        $('#customers-table').DataTable().tables().footer().to$().css('display', 'table-row-group');
+        //dt.button( 4 ).text('Filtrowanie...');
+        dt.button( 4 ).text('<span class="fa fa-filter"></span> Filtrowanie...');
+        dt.button( 4 ).active( true );
+          // Redraw table (and reset main search filter)
+          // OK - działa też $('#aus_tables-datatable').DataTable().search("").draw();
+          $($.fn.dataTable.tables(true)).DataTable().search("").draw();
+          $(".dataTables_filter").hide();
+      } else {
+        $('#customers-table').DataTable().tables().footer().to$().css('display', 'none');
+        //dt.button( 4 ).text('Filtr');
+        dt.button( 4 ).text('<span class="fa fa-filter"></span>');
+        dt.button( 4 ).active( false );
+          // Reset Column filtering
+          $('#customers-table tfoot input').val('').keyup();
+          $('#customers-table tfoot select').val('').keyup();
+
+          $(".dataTables_filter").show();
+      }
+
+      $($.fn.dataTable.tables(true)).DataTable()
+        .columns.adjust()
+        .responsive.recalc();
+    }
+  };
+
+
+  var oCustomertable = $('#customers-table').DataTable({
+    dom: 'lBfrtip',
+    buttons: [
+      {
+        extend:    'copy',
+        text:      '<span class="fa fa-clipboard"></span>',
+        titleAttr: 'Kopiuj do schowka'
+      },
+      {
+        extend:    'csv',
+        text:      '<span class="fa fa-file-csv"></span>',
+        titleAttr: 'Kopiuj do CSV'
+      },
+      {
+        extend:    'colvis',
+        text:      '<span class="fa fa-columns"></span>',
+        titleAttr: 'Pokaż/ukryj kolumny',
+        columns:   ':gt(0)' //exclude first col from list or list col ':eq(3),:eq(5)''
+      },
+      'customer_button_only_my_data', 'customer_button_filter_show_hide'
+    ],
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    searchDelay: 500,
+    ajax: { 
+      url: $('#customers-table').data('source'),
+      type: "GET",
+      data: function(d){
+        d.eager_filter_for_current_user = $('#customers-table').DataTable().button(3).active();
+      },
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
+    columns: [
+      { "data": "id",
+        "visible": false }, 
+      { "data": "name" }, 
+      { "data": "nip" },
+      { "data": "regon" },
+      { "data": "rpt" },
+      { "data": "address_city" },
+      { "data": "address_street" },
+      { "data": "address_house" },
+      { "data": "address_number" },
+      { "data": "flat", 
+        "sortable": false,
+        "visible": false }, 
+    ],
+    order: [[ 1, "asc" ]],
+    language: {
+      // buttons: {
+      //   copy: 'Kopiuj',
+      //   colvis: 'Kolumny'
+      // },
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+ 
+
+  $('input.column_filter').on( 'keyup click', function () {
+    filterCustomerColumnParams( $(this).attr('data-column') );
+  });
+
+  $('select.column_filter').on( 'keyup click', function () {
+    filterCustomerColumnParams( $(this).attr('data-column') );
+  });
+
+
+});

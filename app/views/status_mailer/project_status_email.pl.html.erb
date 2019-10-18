@@ -1,0 +1,47 @@
+<%= image_tag attachments['logo_pola.jpg'].url, size: "256x145" %>
+<br>
+<h3>Witaj!</h3>
+<p>
+  W programie <strong>POLA</strong> dokonano aktualizacji danych projeku <strong><%= link_to @project.try(:number), project_url(@project), target: "_blank" %></strong>.<br>
+  Aktualny stan projektu przedstawia się następująco:
+</p>
+<p>
+  Numer: <strong><%= @project.try(:number) %></strong><br>
+  Status: <strong><%= @project.project_status.try(:name) %></strong><br>
+  Wnioskodawca: <strong><%= @project.customer.try(:name) %></strong>
+</p>
+
+
+<p>Załączniki:</p>
+<table width="100%" cellspacing="0" cellpadding="0" border="1" style="font-family:Arial,Calibri,Tahoma,Helvetica,sans-serif; width:100%;
+           border: solid 1px #c5c5c5; margin: 1em 0;">
+  <thead style="min-height: 1em; background-color: #F0F2F2; border-bottom: solid 1px #c5c5c5;">
+    <tr>
+      <th class='col-md-11'>Nazwa</th>
+      <th class='col-md-1' >Wielkość</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @project.attachments.each do |attachment| %>
+      <tr>
+        <td><%= attachment.try(:attached_file_identifier) %></td>
+        <td><%= attachment.try(:file_size) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<div align="center"><div style="border-top: 1px solid #C7D540; width:100%; line-height:1px; height:1px; font-size:1px;">&#160;</div></div>
+</div>
+
+<p><small>
+  Ta wiadomość została wysłana automatycznie. Proszę nie odpisywać.
+</small></p>
+
+<div align="center"><div style="border-top: 2px solid #C7D540; width:100%; line-height:2px; height:2px; font-size:2px;">&#160;</div></div>
+</div>
+
+<p>
+  POLA
+</p>

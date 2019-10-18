@@ -1,0 +1,22 @@
+<div class="col-sm-12">
+  <table class="table table-hover table-condensed">
+    <thead>
+      <tr>
+        <th class="col-sm-4"><%= XmlMiejsceRealizacjiTable.human_attribute_name(:wojewodztwo_opis) %></th>
+        <th class="col-sm-4"><%= XmlMiejsceRealizacjiTable.human_attribute_name(:powiat_opis) %></th>
+        <th class="col-sm-4"><%= XmlMiejsceRealizacjiTable.human_attribute_name(:gmina_opis) %></th>
+      </tr>
+    <thead>
+    <tbody>
+      <% @proposal_file.xml_miejsce_realizacji_tables.order(:wojewodztwo_opis, :powiat_opis, :gmina_opis).each do |x| %>
+        <tr>
+          <td><%= x.wojewodztwo_opis %></td>
+          <td><%= x.powiat_opis %></td>
+          <td><%= x.gmina_opis %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>
+

@@ -1,0 +1,50 @@
+<br>
+<div class="container-fluid"> 
+  <div class="row">
+    <div class="col-sm-2">
+      <ul  class="nav nav-pills brand-pills nav-stacked">
+        <li class="brand-nav active">
+          <a href="#customer_show" data-toggle="tab"><%= customer_show_legend %></a>
+        </li>
+        <% if policy(:attachment).customer_index? %>
+          <li class="brand-nav brand-nav-level-1">
+          <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
+        </li>
+        <% end %>
+        <% if policy(:customer).work? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#works" data-toggle="tab"><%= work_index_legend %></a>
+          </li>
+        <% end %>
+        <% if policy(:project).index? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#projects" data-toggle="tab"><%= project_index_legend %></a>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="col-sm-10">
+      <div class="tab-content clearfix">
+
+        <div class="tab-pane active" id="customer_show">
+          <%= render 'data', input_disabled: true, subtitle: customer_info_legend(@customer) %>
+        </div>
+
+        <div class="tab-pane" id="attachments">
+          <%= render 'attachments/attachments_tab', attachmenable: @customer, subtitle: customer_info_legend(@customer) %> 
+        </div>
+
+        <div class="tab-pane" id="works">
+          <%= render 'works/works_tab', trackable_type: "Customer", trackable_id: @customer.id, subtitle: customer_info_legend(@customer) %>
+        </div>
+
+        <div class="tab-pane" id="projects">
+          <%= render 'projects', subtitle: customer_info_legend(@customer) %>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

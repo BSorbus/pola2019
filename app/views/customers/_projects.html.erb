@@ -1,0 +1,28 @@
+<div id="tab_projects">
+  <fieldset class="my-fieldset">
+    <legend class="my-fieldset colored-title"><%= subtitle %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= fa_icon("project-diagram", text: t("pages.accessorization.customer_show")) %></legend>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <table id="customer-projects-table" class="hover cell-border compact" width="100%" 
+          data-source="<%= datatables_index_customer_projects_path(customer_id: @customer.id, format: :json) %>">
+          <thead>
+            <tr>
+              <th>id</th>
+              <th class='col-sm-2'><%= Project.human_attribute_name(:number) %></th>
+              <th class='col-sm-1'><%= Project.human_attribute_name(:enrollment_id) %></th>
+              <th class='col-sm-1'><%= Project.human_attribute_name(:area_id) %></th>
+              <th class='col-sm-1'><%= Project.human_attribute_name(:area_name) %></th>
+              <th class='col-sm-2'><%= Project.human_attribute_name(:project_status_id) %></th>
+              <th><%= Project.human_attribute_name(:flat_assigned_events) %></th>
+            </tr>
+          </thead>
+          <tbody>
+             <!--data from JSON -->
+          </tbody>
+        </table>
+      </div> <!--/col-sm-12 -->
+    </div> <!--/row -->
+
+  </fieldset>
+</div>

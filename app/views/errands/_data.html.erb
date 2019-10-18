@@ -1,0 +1,114 @@
+<div id="tab_data">
+  <fieldset class="my-fieldset">
+    <legend class="my-fieldset colored-title"><%= subtitle %></legend>
+    <div class="row">
+
+      <div class="col-sm-12">
+        <% input_disabled ||= false  
+           #if input_disabled is not passed to the partial it doesn't crash. 
+           # We default it to false 
+        %>
+
+        <%= form_errors_for @errand %>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="row">
+
+              <div class="form-group col-sm-12">
+                <p><strong><%= Errand.human_attribute_name(:number) %></strong></p>
+                <%= @errand.number %>
+              </div>
+
+              <div class="form-group col-sm-12">
+                <p><strong><%= Errand.human_attribute_name(:principal) %></strong></p>
+                <%= @errand.principal %>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <p><strong><%= Errand.human_attribute_name(:order_date) %></strong></p>
+                <%= @errand.order_date.present? ? @errand.order_date.strftime("%Y-%m-%d") : '' %>
+              </div>
+
+            </div>  <!-- /row -->
+          </div>  <!-- /col-sm-6 -->
+
+          <div class="col-sm-6">
+            <div class="row">
+
+              <div class="form-group col-sm-6">
+                <p><strong><%= Errand.human_attribute_name(:adoption_date) %></strong></p>
+                <%= @errand.adoption_date.present? ? @errand.adoption_date.strftime("%Y-%m-%d") : '' %>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <p><strong><%= Errand.human_attribute_name(:errand_status_id) %></strong></p>
+                <%= @errand.errand_status.try(:name) %>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <p><strong><%= Errand.human_attribute_name(:start_date) %></strong></p>
+                <%= @errand.start_date.present? ? @errand.start_date.strftime("%Y-%m-%d") : '' %>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <p><strong><%= Errand.human_attribute_name(:end_date) %></strong></p>
+                <%= @errand.end_date.present? ? @errand.end_date.strftime("%Y-%m-%d") : '' %>
+              </div>
+
+            </div>
+          </div> <!--/col-sm-6 -->
+
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="form-group col-sm-12">
+                <p><strong><%= Errand.human_attribute_name(:note) %></strong></p>
+                <%= @errand.note.html_safe %> 
+              </div>
+            </div>  <!-- /row -->
+          </div> <!--/col-sm-12 -->
+
+        </div>  <!-- /row -->
+
+
+        <hr class="hr-without-top-margin">
+
+
+        <% if input_disabled %>
+          <!-- for "Show" -->
+          <div class="row">
+            <div class="col-sm-12">
+
+              <%= link_to errands_path, class: "btn btn-default" do %>
+                <span class="glyphicon glyphicon-th-list"></span>
+                <%= t("helpers.links.index") %>
+              <% end %>
+
+              <% if policy(@errand).destroy? %>
+                <%= link_to errand_path(@errand),
+                                    method: :delete,
+                                    data: { confirm: t('helpers.links.confirm_destroy', data: @errand.number) }, 
+                                    class: "btn btn-danger" do %>
+                  <span class="glyphicon glyphicon-trash"></span>
+                  <%= t("helpers.links.destroy") %>
+                <% end %>
+              <% end %>
+
+              <% if policy(@errand).edit? %>
+                <%= link_to edit_errand_path(@errand), class: "btn btn-primary" do %>
+                  <span class="glyphicon glyphicon-edit"></span>
+                  <%= t("helpers.links.edit") %>
+                <% end %>
+              <% end %>
+
+            </div> <!--/col-sm-12 -->
+          </div> <!-- /row -->
+        <% else %>
+          <!-- form "New"/"Edit" -->
+        <% end %>
+
+      </div> <!--/col-sm-12-->  
+
+    </div>
+  </fieldset>
+</div>

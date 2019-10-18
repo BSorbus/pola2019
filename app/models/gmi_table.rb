@@ -1,0 +1,2 @@
+class GmiTable < ApplicationRecord
+end

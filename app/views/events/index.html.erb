@@ -1,0 +1,133 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h3 class="center colored-title index-title"><%= event_index_legend %></h3>
+  </div> <!--/col-sm-12 -->
+
+  <div class="col-sm-12">
+    <ul class="nav nav-pills nav-justified">
+       <li class="active"><a data-target="#a" data-toggle="pill"><span class="fa fa-calendar"></span> Kalendarz</a></li>
+       <li><a data-target="#b" data-toggle="pill"><span class="glyphicon glyphicon-list"></span> Tabela</a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active well" id="a">
+
+        <div class="row">
+          <div class="col-sm-12">
+            <% if policy(:event).new? %>
+              <%= link_to new_event_path, class: "btn btn-primary pull-right" do %>
+                <span class="fa fa-plus"></span>
+                <%= t("helpers.links.new") %>
+              <% end %>
+            <% end %>
+          </div> <!--/col-sm-12 -->
+        </div> <!--/row -->
+        <br>
+        <div class="row">
+        <div class="col-sm-12">
+          <div id='calendar'></div>
+        </div> <!--/col-sm-12 -->
+        </div> <!--/row -->
+
+      </div>  <!-- /class="tab-pane well" id="ba" --> 
+
+      <div class="tab-pane well" id="b">
+
+
+        <div class="row">
+          <table id="events-table" class="hover cell-border" cellspacing="0" width="100%", data-source="<%= datatables_index_events_path(format: :json) %>">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th><%= Event.human_attribute_name(:title) %></th>
+                <th><%= Event.human_attribute_name(:event_type_id) %></th>
+                <th><%= Event.human_attribute_name(:errand_id) %></th>
+                <th><%= Event.human_attribute_name(:project_id) %></th>
+                <th><%= Project.human_attribute_name(:customer_id) %></th>
+                <th><%= Event.human_attribute_name(:end_date) %></th>
+                <th><%= Event.human_attribute_name(:event_status_id) %></th>
+                <th><%= Event.human_attribute_name(:event_effect_id) %></th>
+                <th><%= Event.human_attribute_name(:updated_at) %></th>
+                <th><%= Event.human_attribute_name(:attachments_count) %></th>
+                <th><%= Event.human_attribute_name(:flat_assigned_users) %></th>
+              </tr>
+            </thead>
+            <tfoot style='display: none'>
+              <tr>
+                <th></th> <!-- id -->
+                <th> <!-- title -->
+                  <%= text_field_tag :col1filter, params[:col1filter], id: 'col1filter', 'data-column' => "1", 
+                        class: 'column_filter form-control input-sm', style: "width: 85%;" %>
+                </th>
+                <th> <!-- type -->
+                  <%= select( nil, "col2filter",
+                        EventType.all.order(:name).collect {|v| [ "#{v[:name]}", "#{v[:name]}" ] },
+                        { include_blank: true }, 
+                        { autofocus: false, class: 'column_filter form-control input-sm', 'data-column' => "2", style: "width: 65px;" }) %>
+                </th>
+                <th> <!-- erraind -->
+                  <%= text_field_tag :col3filter, params[:col3filter], id: 'col3filter', 'data-column' => "3", 
+                        class: 'column_filter form-control input-sm', style: "width: 85%;" %>                
+                </th>
+                <th> <!-- project -->
+                  <%= text_field_tag :col4filter, params[:col4filter], id: 'col4filter', 'data-column' => "4", 
+                        class: 'column_filter form-control input-sm', style: "width: 85%;" %>
+                </th>
+                <th> <!-- customer -->
+                  <%= text_field_tag :col5filter, params[:col5filter], id: 'col5filter', 'data-column' => "5", 
+                        class: 'column_filter form-control input-sm', style: "width: 85%;" %>
+                </th>
+                <th></th>  <!-- end_date -->
+                <th>  <!-- status -->
+                  <%= select( nil, "col7filter",
+                        EventStatus.all.order(:name).collect {|v| [ "#{v[:name]}", "#{v[:name]}" ] },
+                        { include_blank: true }, 
+                        { autofocus: false, class: 'column_filter form-control input-sm', 'data-column' => "7", style: "width: 65px;" }) %>
+                  
+                </th>
+                <th> <!-- effect -->
+                  <%= select( nil, "col8filter",
+                        EventEffect.all.order(:name).collect {|v| [ "#{v[:name]}", "#{v[:name]}" ] },
+                        { include_blank: true }, 
+                        { autofocus: false, class: 'column_filter form-control input-sm', 'data-column' => "8", style: "width: 65px;" }) %>
+                  
+                </th>
+                <th></th>  <!-- updated_at -->
+                <th>  <!-- attachment_count -->
+                  <%= number_field_tag :col10filter, params[:col10filter], min: 0, step: 1, id: 'col10filter', 'data-column' => "10", 
+                        class: 'column_filter form-control input-sm', style: "width: 75px;" %>                  
+                </th>
+                <th>  <!-- flat -->
+                  <%= text_field_tag :col11filter, params[:col11filter], id: 'col11filter', 'data-column' => "11", 
+                        class: 'column_filter form-control input-sm', style: "width: 85%;" %>                  
+                </th>
+              </tr>
+            </tfoot>
+            <tbody>
+              <!-- data from ajax -->
+            </tbody>
+          </table>
+        </div> <!--/row -->
+        <br>
+        <div class="row">
+          <div class="col-sm-12">
+            <% if policy(:event).new? %>
+              <%= link_to new_event_path, class: "btn btn-primary pull-right" do %>
+                <span class="fa fa-plus"></span>
+                <%= t("helpers.links.new") %>
+              <% end %>
+            <% end %>
+          </div> <!--/col-sm-12 -->
+        </div> <!--/row -->
+
+      </div> <!-- /class="tab-pane active well" id="b" --> 
+
+    </div>
+  </div>
+
+
+  </div><!-- tab content -->
+
+</div>
+
+

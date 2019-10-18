@@ -56,6 +56,22 @@ Rails.application.configure do
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
+  config.cache_store = :redis_cache_store, {
+    driver: :hiredis, 
+    url: Rails.application.secrets.redis_url,     
+    connect_timeout: 30,  # Defaults to 20 seconds
+    read_timeout:    1.2, # Defaults to 1 second
+    write_timeout:   1.2, # Defaults to 1 second
+   
+    error_handler: -> (method:, returning:, exception:) {
+      # Report errors to Sentry as warnings
+      Raven.capture_exception exception, level: 'warning',
+        tags: { method: method, returning: returning }
+    }
+  }
+
+  config.action_controller.page_cache_directory = Rails.root.join("public", "cached_pages")
+
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "pola2019_#{Rails.env}"
@@ -89,4 +105,23 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  Rails.application.routes.default_url_options = { host: Rails.application.secrets.domain_name }
+
+  config.action_mailer.smtp_settings = {
+    address: Rails.application.secrets.email_provider_address,
+    port: Rails.application.secrets.email_provider_port,
+    domain: Rails.application.secrets.domain_name,
+#    user_name: Rails.application.secrets.email_provider_username,
+#    password: Rails.application.secrets.email_provider_password
+#    authentication: "plain",
+    openssl_verify_mode: 'none',
+    enable_starttls_auto: false
+  }
+  # ActionMailer Config
+  config.action_mailer.default_url_options = { :host => Rails.application.secrets.domain_name }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = false
+  
 end

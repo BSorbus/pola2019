@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h3 class="center colored-title index-title"><%= errand_index_legend %></h3>
+    </div> <!--/col-sm-12 -->
+  </div> <!--/row -->
+</div> <!--/container -->
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <table id="errands-table" class="hover cell-border" cellspacing="0" width="100%" 
+        data-source="<%= datatables_index_errands_path(format: :json) %>">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th><%= Errand.human_attribute_name(:number) %></th>
+            <th><%= Errand.human_attribute_name(:order_date) %></th>
+            <th><%= Errand.human_attribute_name(:principal) %></th>
+            <th><%= Errand.human_attribute_name(:adoption_date) %></th>
+            <th><%= Errand.human_attribute_name(:start_date) %></th>
+            <th><%= Errand.human_attribute_name(:end_date) %></th>
+            <th><%= Errand.human_attribute_name(:errand_status_id) %></th>
+            <th><%= Errand.human_attribute_name(:attachments_count) %></th>
+          </tr>
+        </thead>
+
+        <tbody>
+           <!--data from JSON -->
+        </tbody>
+      </table>
+    </div> <!--/col-sm-12 -->
+  </div> <!--/row -->
+  <br>
+  <div class="row">
+    <div class="col-sm-12">
+      <% if policy(:errand).new? %>
+        <%= link_to new_errand_path, class: "btn btn-primary pull-right" do %>
+          <span class="fa fa-plus"></span>
+          <%= t("helpers.links.new") %>
+        <% end %>
+      <% end %>
+    </div> <!--/col-sm-12 -->
+  </div>
+
+
+</div> <!--/container -->
+

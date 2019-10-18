@@ -1,0 +1,57 @@
+<div class="col-sm-12">
+  <div class="col-sm-4">
+  </div>
+  <div class="col-sm-8">
+  </div>
+  <table class="table table-hover table-condensed">
+    <thead>
+      <tr>
+        <th><%= XmlZadanieTable.human_attribute_name(:zadanie) %></th>
+        <th><%= XmlZadanieTable.human_attribute_name(:numer_zadania) %></th>
+        <th><%= XmlZadanieTable.human_attribute_name(:nazwa) %></th>
+        <th><%= XmlZadanieTable.human_attribute_name(:idkm_data_rozpoczecia) %></th>
+        <th><%= XmlZadanieTable.human_attribute_name(:idkm_planowana_data_zakonczenia) %></th>
+        <th class="col-sm-6">Kamienie milowe</th>
+      </tr>
+    <thead>
+    <tbody>
+      <% @proposal_file.xml_zadanie_tables.order(:id).each do |x| %>
+        <tr>
+          <td><%= x.zadanie %></td>
+          <td><%= x.numer_zadania %></td>
+          <td><%= x.nazwa %></td>
+          <td><%= x.idkm_data_rozpoczecia %></td>
+          <td><%= x.idkm_planowana_data_zakonczenia %></td>
+          <td>
+
+            <table class="table table-hover table-bordered table-condensed">
+              <thead>
+                <tr>.
+                  <th><%= XmlKamienMilowyTable.human_attribute_name(:nazwa) %></th>
+                  <th><%= XmlKamienMilowyTable.human_attribute_name(:czy_oznacza_zakonczenie) %></th>
+                  <th><%= XmlKamienMilowyTable.human_attribute_name(:planowana_data_zakonczenia) %></th>
+                  <th><%= XmlKamienMilowyTable.human_attribute_name(:data_punktu_krytycznego) %></th>
+                  <th><%= XmlKamienMilowyTable.human_attribute_name(:data_punktu_ostatecznego) %></th>
+                </tr>
+              <thead>
+              <tbody>
+                <% x.xml_kamien_milowy_tables.each do |km| %>
+                  <tr>
+                    <td><%= km.nazwa %></td>
+                    <td><%= t(km.czy_oznacza_zakonczenie) %></td>
+                    <td><%= km.planowana_data_zakonczenia %></td>
+                    <td><%= km.data_punktu_krytycznego %></td>
+                    <td><%= km.data_punktu_ostatecznego %></td>
+                  </td>
+                <% end %>
+              </tbody>
+            </table>
+
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>
+

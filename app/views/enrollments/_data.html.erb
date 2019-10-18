@@ -1,0 +1,81 @@
+<div id="tab_data">
+  <fieldset class="my-fieldset">
+    <legend class="my-fieldset colored-title"><%= subtitle %></legend>
+    <div class="row">
+
+      <div class="col-sm-12">
+        <% input_disabled ||= false  
+           #if input_disabled is not passed to the partial it doesn't crash. 
+           # We default it to false 
+        %>
+
+        <%= form_errors_for @enrollment %>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="row">
+
+              <div class="form-group col-sm-12">
+                <p><strong><%= Enrollment.human_attribute_name(:name) %></strong></p>
+                <%= @enrollment.name %>
+              </div>
+
+
+            </div>  <!-- /row -->
+          </div>  <!-- /col-sm-6 -->
+
+          <div class="col-sm-6">
+            <div class="row">
+
+
+              <div class="form-group col-sm-12">
+                <p><strong><%= Enrollment.human_attribute_name(:note) %></strong></p>
+                <%= @enrollment.note.html_safe %> 
+              </div>
+
+            </div>
+          </div> <!--/col-sm-6 -->
+        </div>  <!-- /row -->
+
+
+        <hr class="hr-without-top-margin">
+
+
+        <% if input_disabled %>
+          <!-- for "Show" -->
+          <div class="row">
+            <div class="col-sm-12">
+
+              <%= link_to enrollments_path, class: "btn btn-default" do %>
+                <span class="glyphicon glyphicon-th-list"></span>
+                <%= t("helpers.links.index") %>
+              <% end %>
+
+              <% if policy(@enrollment).destroy? %>
+                <%= link_to enrollment_path(@enrollment),
+                                    method: :delete,
+                                    data: { confirm: t('helpers.links.confirm_destroy', data: @enrollment.name) }, 
+                                    class: "btn btn-danger" do %>
+                  <span class="glyphicon glyphicon-trash"></span>
+                  <%= t("helpers.links.destroy") %>
+                <% end %>
+              <% end %>
+
+              <% if policy(@enrollment).edit? %>
+                <%= link_to edit_enrollment_path(@enrollment), class: "btn btn-primary" do %>
+                  <span class="glyphicon glyphicon-edit"></span>
+                  <%= t("helpers.links.edit") %>
+                <% end %>
+              <% end %>
+
+            </div> <!--/col-sm-12 -->
+          </div> <!-- /row -->
+        <% else %>
+          <!-- form "New"/"Edit" -->
+        <% end %>
+
+      </div> <!--/col-sm-12-->  
+
+    </div>
+  </fieldset>
+</div>

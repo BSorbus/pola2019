@@ -1,0 +1,281 @@
+$(document).ready(function() {
+  var oWorkTable = $('#works-table').DataTable({
+    dom: 'lBfrtip',
+    buttons: [
+      {
+        extend:    'copy',
+        text:      '<span class="fa fa-clipboard"></span>',
+        titleAttr: 'Kopiuj do schowka'
+      },
+      {
+        extend:    'csv',
+        text:      '<span class="fa fa-file-csv"></span>',
+        titleAttr: 'Kopiuj do CSV'
+      },
+      {
+        extend:    'colvis',
+        text:      '<span class="fa fa-columns"></span>',
+        titleAttr: 'Pokaż/ukryj kolumny',
+        columns:   ':gt(0)' //exclude first col from list
+      }    
+    ],
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    searchDelay: 500,
+    ajax: { 
+      url: $('#works-table').data('source'),
+      type: "POST",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100], [10, 15, 25, 50, 100]],
+    columns: [
+      { "data": "id", "visible": false }, 
+      { "data": "created_at" }, 
+      { "data": "created_by" },
+      { "data": "action", 
+        fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+          // sData - wartosc celi, oData - wiersza
+          // console.log(oData.action)
+          $(nTd).addClass('datatable-cell-' + sData);
+        }
+      },
+      { "data": "trackable_type" },
+      { "data": "trackable_id" },
+      { "data": "parameters", 
+        "sortable": false,
+        render: function ( data, type, row ) {
+          return '<pre>' + data + '</pre>';
+        },
+      }
+    ],
+    order: [[ 1, "desc" ]],
+    language: {
+      // buttons: {
+      //   copy: 'Kopiuj',
+      //   colvis: 'Kolumny'
+      // },
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+
+
+
+  var oTrackableWorksTable = $('#trackable-works').DataTable({
+    dom: 'lBfrtip',
+    buttons: [
+      {
+        extend:    'copy',
+        text:      '<span class="fa fa-clipboard"></span>',
+        titleAttr: 'Kopiuj do schowka'
+      },
+      {
+        extend:    'csv',
+        text:      '<span class="fa fa-file-csv"></span>',
+        titleAttr: 'Kopiuj do CSV'
+      },
+      {
+        extend:    'colvis',
+        text:      '<span class="fa fa-columns"></span>',
+        titleAttr: 'Pokaż/ukryj kolumny',
+        columns:   ':gt(0)' //exclude first col from list
+      }    
+    ],
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    searchDelay: 500,
+    ajax: { 
+      url: $('#trackable-works').data('source'),
+      type: "POST",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
+    columns: [
+      { "data": "id", "visible": false }, 
+      { "data": "created_at" }, 
+      { "data": "created_by" },
+      { "data": "action", 
+        fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+          $(nTd).addClass('datatable-cell-' + sData);
+        }
+      },
+      { "data": "trackable_type" },
+      { "data": "trackable_id" },
+      { "data": "parameters", 
+        "sortable": false,
+        render: function ( data, type, row ) {
+          return '<pre>' + data + '</pre>';
+        },
+      }
+    ],
+    preDrawCallback: function( settings ) {
+      // jezeli panel nie jest widoczny, to przerwij ładowanie danych
+      if ( $( "#tab_works" ).is( ":hidden" ) ) {
+        return false;
+      }
+    },
+    order: [[ 1, "desc" ]],
+    language: {
+      // buttons: {
+      //   copy: 'Kopiuj',
+      //   colvis: 'Kolumny'
+      // },
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    var target = $(e.target).attr("href") // activated tab
+    if (target == '#works') {
+      oTrackableWorksTable.draw();
+    };
+  });
+
+ 
+
+  var oUserWorksTable = $('#user-works').DataTable({
+    dom: 'lBfrtip',
+    buttons: [
+      {
+        extend:    'copy',
+        text:      '<span class="fa fa-clipboard"></span>',
+        titleAttr: 'Kopiuj do schowka'
+      },
+      {
+        extend:    'csv',
+        text:      '<span class="fa fa-file-csv"></span>',
+        titleAttr: 'Kopiuj do CSV'
+      },
+      {
+        extend:    'colvis',
+        text:      '<span class="fa fa-columns"></span>',
+        titleAttr: 'Pokaż/ukryj kolumny',
+        columns:   ':gt(0)' //exclude first col from list
+      }    
+    ],
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    searchDelay: 500,
+    ajax: { 
+      url: $('#user-works').data('source'),
+      type: "POST",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
+    columns: [
+      { "targets": [0],
+        "title": "ID",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { "targets": [1],
+        "title": "<%= Work.human_attribute_name('created_at') %>" }, 
+      { "targets": [2],
+        "title": "<%= Work.human_attribute_name('created_by') %>" }, 
+      { "targets": [3],
+        "title": "<%= Work.human_attribute_name('action') %>" , 
+        fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+          // sData - wartosc celi, oData - wiersza
+          if (sData == 'sign_in_from_api' ) {
+            $(nTd).css('background-color', '#C2E2B6'); 
+          }
+          if (sData == 'sign_in' ) {
+            $(nTd).css('background-color', '#DFF0D8'); 
+          }
+          else if (sData == 'sign_out' ) {
+            $(nTd).css('background-color', '#DFF0D8'); 
+          }
+          else if (sData == 'sign_up' ) {
+            $(nTd).css('background-color', '#FFFFE0'); //LightYellow    #FFFFE0  '#FF5819
+          }
+          else if (sData == 'sending_reset_password_instructions' ) {
+            $(nTd).css('background-color', '#FFFFE0'); //LightYellow    #FFFFE0  '#FF5819
+          }
+          else if (sData == 'sending_unlock_instructions' ) {
+            $(nTd).css('background-color', '#FFFFE0'); //LightYellow    #FFFFE0  '#FF5819
+          }
+          else if (sData == 'account_confirmation' ) {
+            $(nTd).css('background-color', '#FFFACD'); //LemonChiffon   #FFFACD
+          }
+          else if (sData == 'resetting_password_from_token' ) {
+            $(nTd).css('background-color', '#FFFACD'); //LemonChiffon   #FFFACD
+          }
+          else if (sData == 'unlocking_from_token' ) {
+            $(nTd).css('background-color', '#FFFACD'); //LemonChiffon   #FFFACD
+          }
+          else if (sData == 'account_off' ) {
+            $(nTd).css('background-color', '#FFC04D'); //Orange mix 
+          }
+          else if (sData == 'account_on' ) {
+            $(nTd).css('background-color', '#FFC04D'); //Orange mix
+          }
+          else if (sData == 'unauthenticated' ) {
+            $(nTd).css('background-color', '#FF8C8C'); //Red mix
+          }
+        }
+      }, 
+      { "targets": [4],
+        "title": "<%= Work.human_attribute_name('trackable_type') %>" }, 
+      { "targets": [5],
+        "title": "<%= Work.human_attribute_name('trackable_id') %>" }, 
+      { "targets": [6],
+        "sortable": false,
+        "title": "<%= Work.human_attribute_name('parameters') %>" }
+    ],
+    preDrawCallback: function( settings ) {
+      // jezeli panel nie jest widoczny, to przerwij ładowanie danych
+      if ( $( "#collapse_works_inspect" ).is( ":hidden" ) ) {
+        return false;
+      }
+    },
+    order: [[ 1, "desc" ]],
+    language: {
+      // buttons: {
+      //   copy: 'Kopiuj',
+      //   colvis: 'Kolumny'
+      // },
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+
+  // jezeli nastepuje wyswietlenie panelu, to zaladuj dane
+  $('#collapse_works_inspect').on('shown.bs.collapse', function (){
+  //  Wykomentowalem wiersz ponizej poniewaz powoduje podwojne pobieranie danych    
+  //  oUserWorksTable.ajax.reload();
+    oUserWorksTable.draw();
+  });
+
+ 
+  
+  
+});
+

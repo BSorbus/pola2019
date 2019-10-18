@@ -17,6 +17,7 @@ pl:
         attach_file: 'Wystąpił błąd w czasie dodawania załącznika "%{child}" do "%{parent}". Pamiętaj, że rozmiar pliku nie może być większy niż 10 MB'
         account_off: 'Wystąpił błąd w czasie wyłączania konta "%{data}".'
         account_on: 'Wystąpił błąd w czasie włączania konta "%{data}".'
+        set_activity_at: 'Wystąpił błąd w czasie aktywowania konta "%{data}".'
         required: 'nie może być puste'
     successfull:
       messages:
@@ -27,6 +28,7 @@ pl:
         remove_role: 'Użytkownikowi "%{parent}" została pomyślnie usunięta rola "%{child}".'
         account_off: 'Pomyślnie wyłączono konto "%{data}".'
         account_on: 'Pomyślnie włączono konto "%{data}".'
+        set_activity_at: 'Pomyślnie aktywowano konto "%{data}".'
   date:
     abbr_day_names:
     - nie

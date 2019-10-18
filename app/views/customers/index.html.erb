@@ -1,0 +1,88 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h3 class="center colored-title index-title"><%= customer_index_legend %></h3>
+    </div> <!--/col-sm-12 -->
+  </div> <!--/row -->
+</div> <!--/container -->
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <table id="customers-table" class="hover cell-border" cellspacing="0" width="100%" 
+        data-source="<%= datatables_index_customers_path(format: :json) %>">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th><%= Customer.human_attribute_name(:name) %></th>
+            <th><%= Customer.human_attribute_name(:nip) %></th>
+            <th><%= Customer.human_attribute_name(:regon) %></th>
+            <th><%= Customer.human_attribute_name(:rpt) %></th>
+            <th><%= Customer.human_attribute_name(:address_city) %></th>
+            <th><%= Customer.human_attribute_name(:address_street) %></th>
+            <th><%= Customer.human_attribute_name(:address_house) %></th>
+            <th><%= Customer.human_attribute_name(:address_number) %></th>
+            <th><%= Customer.human_attribute_name(:flat_assigned_projects) %></th>
+          </tr>
+        </thead>
+        <tfoot style='display: none'>
+          <tr>
+            <th></th> <!-- id -->
+            <th> <!-- name -->
+              <%= text_field_tag :col1filter, params[:col1filter], id: 'col1filter', 'data-column' => "1", 
+                    class: 'column_filter form-control input-sm', style: "width: 85%;" %>
+            </th>
+            <th> <!-- nip -->
+              <%= text_field_tag :col2filter, params[:col2filter], id: 'col2filter', 'data-column' => "2", 
+                    class: 'column_filter form-control input-sm', style: "width: 85%;" %>
+            </th>
+            <th> <!-- regon -->
+              <%= text_field_tag :col3filter, params[:col3filter], id: 'col3filter', 'data-column' => "3", 
+                    class: 'column_filter form-control input-sm', style: "width: 85%;" %>                
+            </th>
+            <th> <!-- rpt -->
+              <%= text_field_tag :col4filter, params[:col4filter], id: 'col4filter', 'data-column' => "4", 
+                    class: 'column_filter form-control input-sm', style: "width: 85%;" %>
+            </th>
+            <th> <!-- address_city -->
+              <%= text_field_tag :col5filter, params[:col5filter], id: 'col5filter', 'data-column' => "5", 
+                    class: 'column_filter form-control input-sm', style: "width: 85%;" %>
+            </th>
+            <th> <!-- address_street -->
+              <%= text_field_tag :col6filter, params[:col6filter], id: 'col6filter', 'data-column' => "6", 
+                    class: 'column_filter form-control input-sm', style: "width: 85%;" %>
+            </th>
+            <th> <!-- address_house -->
+              <%= text_field_tag :col7filter, params[:col7filter], id: 'col7filter', 'data-column' => "7", 
+                    class: 'column_filter form-control input-sm', style: "width: 85%;" %>
+            </th>
+            <th> <!-- address_number -->
+              <%= text_field_tag :col8filter, params[:col8filter], id: 'col8filter', 'data-column' => "8", 
+                    class: 'column_filter form-control input-sm', style: "width: 85%;" %>
+            </th>
+            <th>  <!-- flat -->
+              <%= text_field_tag :col9filter, params[:col9filter], id: 'col9filter', 'data-column' => "9", 
+                    class: 'column_filter form-control input-sm', style: "width: 85%;" %>                  
+            </th>
+          </tr>
+        </tfoot>
+        <tbody>
+           <!--data from JSON -->
+        </tbody>
+      </table>
+    </div> <!--/col-sm-12 -->
+  </div> <!--/row -->
+  <br>
+  <div class="row">
+    <div class="col-sm-12">
+      <% if policy(:customer).new? %>
+        <%= link_to new_customer_path, class: "btn btn-primary pull-right" do %>
+          <span class="fa fa-plus"></span>
+          <%= t("helpers.links.new") %>
+        <% end %>
+      <% end %>
+    </div> <!--/col-sm-12 -->
+  </div>
+
+</div> <!--/container -->
+

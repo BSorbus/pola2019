@@ -1,0 +1,51 @@
+<br>
+<div class="container-fluid"> 
+  <div class="row">
+    <div class="col-sm-2">
+      <ul  class="nav nav-pills brand-pills nav-stacked">
+        <li class="brand-nav active">
+          <a href="#user_show" data-toggle="tab"><%= user_show_legend %></a>
+        </li>
+        <% if policy(:attachment).user_index? || policy(:attachment).user_show? %>
+           <li class="brand-nav brand-nav-level-1">
+          <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
+        </li>
+        <% end %>
+          <% if policy(:role).index? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#roles" data-toggle="tab"><%= fa_icon("user-tag", text: t("pages.role.index.title_special")) %></a>
+          </li>
+        <% end %>
+        <% if policy(:accessorization).index? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#accessorizations" data-toggle="tab"><%= fa_icon("calendar", text: t("pages.accessorization.user_show")) %></a>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="col-sm-10">
+      <div class="tab-content clearfix">
+
+        <div class="tab-pane active" id="user_show">
+          <%= render 'data', input_disabled: true, subtitle: user_info_legend(@user) %>
+        </div>
+
+        <div class="tab-pane" id="attachments">
+          <%= render 'attachments/attachments_tab', attachmenable: @user, subtitle: user_info_legend(@user) %>
+        </div>
+
+        <div class="tab-pane" id="roles">
+          <%= render 'roles', trackable_type: "User", trackable_id: @user.id, subtitle: user_info_legend(@user) %>
+        </div>
+
+        <div class="tab-pane" id="accessorizations">
+          <%= render 'accessorizations', subtitle: user_info_legend(@user) %>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+

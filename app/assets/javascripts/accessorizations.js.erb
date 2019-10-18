@@ -1,0 +1,83 @@
+$(document).ready(function() {
+  var oAccessorizationstable = $('#accessorizations-table').DataTable({
+    dom: 'lBfrtip',
+    buttons: [
+      {
+        extend:    'copy',
+        text:      '<span class="fa fa-clipboard"></span>',
+        titleAttr: 'Kopiuj do schowka'
+      },
+      {
+        extend:    'csv',
+        text:      '<span class="fa fa-file-csv"></span>',
+        titleAttr: 'Kopiuj do CSV'
+      },
+      {
+        extend:    'colvis',
+        text:      '<span class="fa fa-columns"></span>',
+        titleAttr: 'Pokaż/ukryj kolumny',
+        columns:   ':gt(0)' //exclude first col from list
+      }    
+    ],
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    searchDelay: 500,
+    ajax: { 
+      url: $('#accessorizations-table').data('source'),
+      type: "GET",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
+    iDisplayLength: -1,
+    columns: [
+      { "data": "id", "visible": false }, 
+      { "data": "title" }, 
+      { "data": "event_type" }, 
+      { "data": "end_date" }, 
+      { "data": "event_status" }, 
+      { "data": "project" }, 
+      { "data": "customer" }, 
+      { "data": "status" }, 
+      { "data": "event_effect"},
+      { "data": "attachments_count" },
+      { "data": "flat", 
+        "sortable": false }
+    ],
+    preDrawCallback: function( settings ) {
+      // jezeli panel nie jest widoczny, to przerwij ładowanie danych
+      if ( $( "#tab_accessorizations" ).is( ":hidden" ) ) {
+        return false;
+      }
+    },
+    order: [[ 1, "asc" ]],
+    language: {
+      // buttons: {
+      //   copy: 'Kopiuj',
+      //   colvis: 'Kolumny'
+      // },
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+
+
+  // jezeli nastepuje wyswietlenie tab, to zaladuj dane
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    var target = $(e.target).attr("href") // activated tab
+    if (target == '#accessorizations') {
+      oAccessorizationstable.draw();
+    };
+  });
+
+  
+});
+

@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.5.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.2'
+gem 'rails', '~> 5.2.3'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
@@ -14,7 +14,8 @@ gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'mini_racer', platforms: :ruby
+#gem 'mini_racer', platforms: :ruby
+gem 'therubyracer', platforms: :ruby
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
@@ -59,13 +60,46 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'bootstrap-sass', '3.3.7'
-gem 'font_awesome5_rails'
+gem 'rails-i18n'
+gem 'bootstrap-sass', '3.4.1'
+
+gem 'momentjs-rails'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.14.30'
+
 gem 'jquery-rails'
+gem 'font_awesome5_rails'
+gem 'select2-rails', '3.5.9.3'
+gem 'fullcalendar-rails'
+
+gem "hiredis"
+gem "redis", "~> 4.0"
 
 gem 'jquery-datatables', '= 1.10.16' #1.10.16 bo z .19 jest jakis problem z wyswietlaniem strzalek sortowania
 gem 'ajax-datatables-rails' #, '= 0.4.0' jeżeli wywala się na custom_filter
+gem 'kaminari'
 
-gem 'devise'
+gem "devise", ">= 4.7.1"
 gem 'devise-security'
 gem 'rails_email_validator'
+gem 'pundit'
+
+# gem 'carrierwave', '~> 1.0'
+# gem 'jquery-fileupload-rails'
+gem 'file_validators'
+gem 'activerecord-import'
+
+gem "actionpack-page_caching"
+gem "actionpack-action_caching"
+
+# gem 'chartkick'
+# gem 'groupdate'
+
+# gem 'rack-cors', :require => 'rack/cors'
+gem 'rack-attack'
+gem 'mina'
+
+gem 'inky-rb', require: 'inky'
+gem 'premailer-rails'
+gem 'delayed_job_active_record'
+gem 'daemons'
+gem 'trix-rails', require: 'trix'

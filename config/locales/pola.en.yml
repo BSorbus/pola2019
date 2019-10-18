@@ -46,7 +46,6 @@ en:
       ww_point: 'Address point'
       zs_point: 'Telecom node'
       event: 'Event'
-      comment: 'Comment'
     attributes:
       user:
         name: 'Name'
@@ -128,10 +127,6 @@ en:
         note: 'Note'
         attachments_count: 'Załączniki'
         flat_assigned_users: 'Assigned users'
-      comment:
-        project_id: 'Project'
-        user_id: 'Author'
-        body: 'Body'
   pages:
     home: 'Home'
     help: 'Help'
@@ -243,13 +238,6 @@ en:
         title: 'New Event'
       edit:
         title: 'Edit -> Event'
-    comment:
-      index:
-        title: 'Comments'
-      show:
-        title: 'Comment'
-      new:
-        title: 'New Comment'
   pundit:
     default: ' SECURITY: Access denied!'
     work_policy:

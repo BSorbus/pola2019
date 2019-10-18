@@ -1,0 +1,125 @@
+<div class="row">
+  <div class="col-sm-12">
+    <%= form_with(model: customer, local: true) do |f| %>
+
+      <% input_disabled ||= false  
+         #if input_disabled is not passed to the partial it doesn't crash. 
+         # We default it to false 
+      %>
+
+      <%= form_errors_for customer %>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="row">
+            <div class="form-group required col-sm-12">
+              <%= f.label :name, class: 'control-label' %>
+              <%= f.text_field :name, autofocus: true, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+
+            <div class="form-group col-sm-4">
+              <%= f.label :nip, class: 'control-label' %>
+              <%= f.text_field :nip, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+
+            <div class="form-group col-sm-4">
+              <%= f.label :regon, class: 'control-label' %>
+              <%= f.text_field :regon, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+
+            <div class="form-group col-sm-4">
+              <%= f.label :rpt, class: 'control-label' %>
+              <%= f.text_field :rpt, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+          </div>  <!-- /row -->
+          <hr class="hr-without-margins">
+          <div class="row">
+            <div class="form-group col-sm-8">
+              <%= f.label :address_city, class: 'control-label' %>
+              <%= f.text_field :address_city, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+
+            <div class="form-group col-sm-4">
+              <%= f.label :address_postal_code, class: 'control-label' %>
+              <%= f.text_field :address_postal_code, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+          </div>  <!-- /row -->
+          <div class="row">
+            <div class="form-group col-sm-8">
+              <%= f.label :address_street, class: 'control-label' %>
+              <%= f.text_field :address_street, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+
+            <div class="form-group col-sm-2">
+              <%= f.label :address_house, class: 'control-label' %>
+              <%= f.text_field :address_house, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+
+            <div class="form-group col-sm-2">
+              <%= f.label :address_number, class: 'control-label' %>
+              <%= f.text_field :address_number, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+          </div>  <!-- /row -->
+        </div>  <!-- /col-sm-6 -->
+
+        <div class="col-sm-6">
+          <div class="row">
+            <div class="form-group col-sm-6">
+              <%= f.label :phone, class: 'control-label' %>
+              <%= f.text_field :phone, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+            <div class="form-group col-sm-6">
+              <%= f.label :fax, class: 'control-label' %>
+              <%= f.text_field :fax, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+          </div>  <!-- /row -->
+          <div class="row">
+            <div class="form-group col-sm-6">
+              <%= f.label :email, class: 'control-label' %>
+              <%= f.text_field :email, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+            <div class="form-group col-sm-6">
+              <%= f.label :epuap, class: 'control-label' %>
+              <%= f.text_field :epuap, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+          </div> <!-- /row -->
+          <hr class="hr-without-margins">
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <%= f.label :note, class: 'control-label' %>
+              <%= f.trix_editor :note %>
+            </div>
+          </div>  <!-- /row -->
+        </div> <!--/col-sm-6 -->
+
+      </div>  <!-- /row -->
+
+
+      <hr class="hr-without-top-margin">
+
+
+      <% if input_disabled %>
+        <!-- for "Show" -->
+      <% else %>
+        <!-- form "New"/"Edit" -->
+        <div class="row">
+          <div class="col-sm-12">
+
+            <%= link_to customers_path, class: "btn btn-default" do %>
+              <span class="glyphicon glyphicon-th-list"></span>
+              <%= t("helpers.links.index") %>
+            <% end %>
+            <%= link_to :back, class: "btn btn-default" do %>
+              <span class="glyphicon glyphicon-arrow-left"></span>
+              <%= t("helpers.links.back") %>
+            <% end %>
+            <%= f.submit nil, :class => 'btn btn-success' %>
+
+          </div> <!--/col-sm-12 -->
+        </div> <!-- /row -->
+      <% end %>
+      
+    <% end %>
+
+  </div> <!--/col-sm-12-->
+</div>

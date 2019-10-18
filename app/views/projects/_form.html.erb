@@ -1,0 +1,106 @@
+<div class="row">
+  <div class="col-sm-12">
+    <%= form_with(model: project, local: true) do |f| %>
+
+      <% input_disabled ||= false  
+         #if input_disabled is not passed to the partial it doesn't crash. 
+         # We default it to false 
+      %>
+
+      <%= form_errors_for project %>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="row">
+
+            <div class="form-group required col-sm-6">
+              <%= f.label :number, class: 'control-label' %>
+              <%= f.text_field :number, autofocus: true, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+
+            <div class="form-group col-sm-6">
+              <%= f.label :enrollment_id, class: 'control-label' %>
+              <%= f.select :enrollment_id, 
+                    Enrollment.all.order(:name).collect {|v| [ "#{v[:name]}", v[:id] ] },
+                    { include_blank: false }, 
+                    { autofocus: false, class: 'form-control input-sm', disabled: input_disabled } %>
+            </div>
+
+            <div class="form-group required col-sm-6">
+              <%= f.label :area_id, class: 'control-label' %>
+              <%= f.text_field :area_id, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+
+            <div class="form-group col-sm-6">
+              <%= f.label :area_name, class: 'control-label' %>
+              <%= f.text_field :area_name, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+
+            <div class="form-group col-sm-6">
+              <%= f.label :registration, class: 'control-label' %>
+              <%= f.text_field :registration, class: 'form-control input-sm datepicker', 
+                                disabled: input_disabled %>
+            </div>
+
+            <div class="form-group col-sm-6">
+              <%= f.label :project_status_id, class: 'control-label' %>
+              <%= f.select :project_status_id, 
+                    ProjectStatus.all.order(:name).collect {|v| [ "#{v[:name]}", v[:id] ] },
+                    { include_blank: false }, 
+                    { autofocus: false, class: 'form-control input-sm', disabled: input_disabled } %>
+            </div>
+
+            <div class="form-group required col-sm-12">
+              <%= f.label :customer_id, class: "control-label" %>
+              <%= f.hidden_field :customer_id,
+                                class: "form-control input-sm select2customer", 
+                                placeholder: t('placeholder.select2customer'),
+                                style: "width:100%",
+                                disabled: input_disabled %>
+              <small class="help-block"><%= t('help_block_text.select2customer') %></small>
+            </div>
+
+
+          </div>  <!-- /row -->
+        </div>  <!-- /col-sm-6 -->
+
+        <div class="col-sm-6">
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <%= f.label :note, class: 'control-label' %>
+              <%= f.trix_editor :note %>
+            </div>
+          </div> <!-- /row -->
+        </div> <!--/col-sm-6 -->
+
+
+      </div>  <!-- /row -->
+
+
+      <hr class="hr-without-top-margin">
+
+      <% if input_disabled %>
+        <!-- for "Show" -->
+      <% else %>
+        <!-- form "New"/"Edit" -->
+        <div class="row">
+          <div class="col-sm-12">
+
+            <%= link_to projects_path, class: "btn btn-default" do %>
+              <span class="glyphicon glyphicon-th-list"></span>
+              <%= t("helpers.links.index") %>
+            <% end %>
+            <%= link_to :back, class: "btn btn-default" do %>
+              <span class="glyphicon glyphicon-arrow-left"></span>
+              <%= t("helpers.links.back") %>
+            <% end %>
+            <%= f.submit nil, :class => 'btn btn-success' %>
+
+          </div> <!--/col-sm-12 -->
+        </div> <!-- /row -->
+      <% end %>
+      
+    <% end %>
+    
+  </div> <!--/col-sm-12-->
+</div>

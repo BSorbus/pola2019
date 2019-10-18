@@ -1,0 +1,36 @@
+<div id="tab_accessorizations">
+  <fieldset class="my-fieldset">
+    <legend class="my-fieldset colored-title"><%= subtitle %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= event_index_legend %></legend>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="col-sm-3"><%= Event.human_attribute_name(:title) %></th>
+              <th class="col-sm-2"><%= Event.human_attribute_name(:event_type_id) %></th>
+              <th class="col-sm-1"><%= Event.human_attribute_name(:end_date) %></th>
+              <th class="col-sm-2"><%= Event.human_attribute_name(:event_status_id) %></th>
+              <th class="col-sm-1"><%= Event.human_attribute_name(:event_effect_id) %></th>
+              <th class="col-sm-3"><%= Event.human_attribute_name(:flat_assigned_users) %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @project.events.order(end_date: :desc).each do |event| %>
+              <tr>
+                <td><%= event.try(:title_as_link) %></td>
+                <td><%= event.event_type.try(:name) %></td>
+                <td><%= event.end_date.present? ? event.end_date.strftime("%Y-%m-%d %H:%M") : '' %></td>
+                <td><%= event.event_status.try(:name) %></td>
+                <td><%= event.event_effect.try(:name) %></td>
+                <td><%= event.try(:flat_assigned_users) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+  </fieldset>
+</div>

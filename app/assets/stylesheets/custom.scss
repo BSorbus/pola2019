@@ -61,7 +61,7 @@ main {
     text-decoration: none !important;
   }
   a:hover {
-    text-decoration: underline !important;
+    text-decoration: none !important;
   };
 }
 
@@ -119,7 +119,7 @@ footer {
   padding-top: 25px;  
 }
 
-.glyp-index-title {
+.colored-title {
   color: $brand-primary;
   //color: #BECC25;
 }
@@ -212,3 +212,258 @@ legend.my-fieldset {
     padding:0 10px;
     border-bottom:none;
 }
+
+
+.input-file-field {
+  display:  block;
+  width: 100%; 
+  height: 84px;
+  border-width: 2px;
+  border-style: dashed; 
+  background-color: $btn-default-bg;  
+}
+
+.well-accessorization {
+  @extend .well;
+  background-color: lighten(#BECC25, 48.5%);
+  padding-bottom: 1px;
+  margin-bottom: 10px;
+}
+
+.top-bottom-buffer { 
+  margin-top: -10px; 
+  margin-bottom: -18px; 
+}
+
+.hr-without-margins {
+  margin-top: 3px;  /*default: 20px; */
+  margin-bottom: 12px;
+}
+
+.spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -1,5em;
+  margin-left: -1,5em;  
+}
+
+
+.accordion-toggle {
+  text-decoration: none !important;
+}
+
+.panel-charts {
+  border-color: #ddd;  
+  .panel-heading {
+    background: $brand-primary; //#1A3069;
+    color: white;
+  }
+}
+
+.panel-xml-data {
+  border-color: #ddd;  
+  .panel-heading {
+    background: $brand-primary; //#1A3069;
+    color: white;
+  }
+}
+
+.panel-xml_zadanie_table {
+  border-color: #ddd;  
+  .panel-heading {
+    background: $brand-primary; //#1A3069;
+    color: white;
+  }
+}
+
+.panel-xml_wybrana_technologia_table {
+  border-color: #ddd;  
+  .panel-heading {
+    background: $brand-primary; //#1A3069;
+    color: white;
+  }
+}
+
+.panel-xml_wskaznik_table {
+  border-color: #ddd;  
+  .panel-heading {
+    background: $brand-primary; //#1A3069;
+    color: white;
+  }
+}
+
+.panel-xml_miejsce_realizacji_table {
+  border-color: #ddd;  
+  .panel-heading {
+    background: $brand-primary; //#1A3069;
+    color: white;
+  }
+}
+
+.panel-errand {
+  border-color: #ddd;
+  .panel-heading {
+    background: $brand-primary; //#1A3069;
+    color: white;
+  } 
+}
+
+.panel-event {
+  border-color: #ddd;
+  .panel-heading {
+    background: $brand-primary; //#1A3069;
+    color: white;
+  } 
+}
+
+.panel-ww-point {
+  border-color: #ddd;
+  .panel-heading {
+    background: $brand-primary; //#1A3069;
+    color: white;
+  } 
+}
+
+.panel-map {
+  border-color: #ddd;
+  .panel-heading {
+    background: $brand-primary; //#2F4471;
+    color: white;
+  } 
+}
+
+.panel-zs-point {
+  border-color: #ddd;
+  .panel-heading {
+    background: $brand-primary; //#1A3069;
+    color: white;
+  } 
+}
+
+.panel-oi-data {
+  border-color: #ddd;
+  .panel-heading {
+    background: $brand-primary; //#1A3069;
+    color: white;
+  } 
+}
+
+.panel-point {
+  border-color: #ddd;
+  .panel-heading {
+    background: $brand-primary; //#1A3069;
+    color: white
+  } 
+}
+
+.panel-point-file {
+  border-color: #ddd;
+  .panel-heading {
+    background: $brand-primary; //#1A3069;
+    color: white;
+  } 
+}
+
+.panel-proposal-file {
+  border-color: #ddd;
+  .panel-heading {
+    background: $brand-primary; //#1A3069;
+    color: white;
+  } 
+}
+
+.panel-attach {
+  border-color: #ddd;
+  .panel-heading {
+    background: $brand-primary; // #2F4471; #89877a; #5E5E5E;
+    color: white;
+  } 
+}
+
+.panel-customer {
+  border-color: #ddd;
+  .panel-heading {
+    background: $brand-primary; //#1A3069;
+    color: white;
+  } 
+}
+
+.panel-enrollment {
+  border-color: #ddd;
+  .panel-heading {
+    background: $brand-primary; //#2F4471;
+    color: white;
+  } 
+}
+
+#enrollments-table {
+  thead {
+    background-color: transparent !important;
+  };
+  tbody {
+    background-color: white !important;
+  }
+}
+
+.panel-project {
+  border-color: #ddd;
+  .panel-heading {
+    background: $brand-primary; //#2F4471;
+    color: white;
+  } 
+}
+
+.panel-accessorization {
+  border-color: #ddd;
+  .panel-heading {
+    background: $brand-primary; //#2C52B4; 
+    color: white;
+  } 
+}
+
+.panel-user {
+  border-color: #ddd;
+  .panel-heading {
+    background: $brand-primary; //#476AB1;
+    color: white;
+  } 
+}
+
+.panel-role {
+  border-color: #ddd;
+  .panel-heading {
+    background: $brand-primary; //#576A95; 
+    color: white;
+  } 
+}
+
+.panel-work {
+  border-color: #ddd;
+  .panel-heading {
+    background: #818FAB; 
+    color: white;
+  } 
+}
+
+.panel-business-trip {
+  border-color: #ddd;
+  .panel-heading {
+    background: $brand-primary; //#1A3069;
+    color: white;
+  } 
+}
+
+
+pre {
+    display: block;
+    //font-family: monospace;
+    font-size: 10px;
+    letter-spacing: 0px;
+    white-space: pre;
+    margin: 0 0;
+    padding: 0;
+    border: none;
+    line-height: 1.0;
+}
+

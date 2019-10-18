@@ -1,0 +1,23 @@
+  <!-- Historia -->
+  <div class="row">
+    <div class="col-sm-11 col-sm-offset-1">
+      <div class="panel panel-work">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#myaccordion" href="#collapse_works" >
+          <div class="panel-heading">
+            <div class="panel-title">
+              <span class="glyphicon glyphicon-saved">&nbsp;</span>
+              <span><%=t"pages.work.index.title"%></span>
+              <i class="indicator glyphicon glyphicon-chevron-right  pull-right"></i>
+            </div>
+          </div>
+        </a>
+        <div id="collapse_works" class="panel-collapse collapse"> <!-- id="collapse_works" -->
+          <div class="panel-body">
+
+            <%= render 'works/works', trackable_type: trackable_type, trackable_id: trackable_id %>
+
+          </div> <!-- /panel-body -->
+        </div> <!-- /id="collapse_works" -->
+      </div> <!-- /panel -->
+    </div> <!-- /col-sm-11 col-sm-offset-1 -->
+  </div> <!-- /row -->

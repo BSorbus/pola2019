@@ -1,0 +1,136 @@
+<div id="tab_data">
+  <fieldset class="my-fieldset">
+    <legend class="my-fieldset colored-title"><%= subtitle %></legend>
+    <div class="row">
+
+      <div class="col-sm-12">
+        <% input_disabled ||= false  
+           #if input_disabled is not passed to the partial it doesn't crash. 
+           # We default it to false 
+        %>
+
+        <%= form_errors_for @customer %>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="row">
+              <div class="form-group col-sm-12">
+                <p><strong><%= Customer.human_attribute_name(:name) %></strong></p>
+                <%= @customer.name %>
+              </div>
+              <div class="form-group col-sm-4">
+                <p><strong><%= Customer.human_attribute_name(:nip) %></strong></p>
+                <%= @customer.nip %>
+              </div>
+              <div class="form-group col-sm-4">
+                <p><strong><%= Customer.human_attribute_name(:regon) %></strong></p>
+                <%= @customer.regon %>
+              </div>
+              <div class="form-group col-sm-4">
+                <p><strong><%= Customer.human_attribute_name(:rpt) %></strong></p>
+                <%= @customer.rpt %>
+              </div>
+            </div>  <!-- /row -->
+            <hr class="hr-without-margins">
+            <div class="row">
+              <div class="form-group col-sm-8">
+                <p><strong><%= Customer.human_attribute_name(:address_city) %></strong></p>
+                <%= @customer.address_city %>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <p><strong><%= Customer.human_attribute_name(:address_postal_code) %></strong></p>
+                <%= @customer.address_postal_code %>
+              </div>
+            </div>  <!-- /row -->
+            <div class="row">
+              <div class="form-group col-sm-8">
+                <p><strong><%= Customer.human_attribute_name(:address_street) %></strong></p>
+                <%= @customer.address_street %>
+              </div>
+
+              <div class="form-group col-sm-2">
+                <p><strong><%= Customer.human_attribute_name(:address_house) %></strong></p>
+                <%= @customer.address_house %>
+              </div>
+
+              <div class="form-group col-sm-2">
+                <p><strong><%= Customer.human_attribute_name(:address_number) %></strong></p>
+                <%= @customer.address_number %>
+              </div>
+            </div>  <!-- /row -->
+          </div>  <!-- /col-sm-6 -->
+
+          <div class="col-sm-6">
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <p><strong><%= Customer.human_attribute_name(:phone) %></strong></p>
+                <%= @customer.phone %>
+              </div>
+              <div class="form-group col-sm-6">
+                <p><strong><%= Customer.human_attribute_name(:fax) %></strong></p>
+                <%= @customer.fax %>
+              </div>
+            </div>  <!-- /row -->
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <p><strong><%= Customer.human_attribute_name(:email) %></strong></p>
+                <%= @customer.email %>
+              </div>
+              <div class="form-group col-sm-6">
+                <p><strong><%= Customer.human_attribute_name(:epuap) %></strong></p>
+                <%= @customer.epuap %>
+              </div>
+            </div> <!-- /row -->
+            <hr class="hr-without-margins">
+            <div class="row">
+              <div class="form-group col-sm-12">
+                <p><strong><%= Customer.human_attribute_name(:note) %></strong></p>
+                <%= @customer.note.html_safe %>
+              </div>
+            </div>  <!-- /row -->
+          </div> <!--/col-sm-6 -->
+        </div>  <!-- /row -->
+
+
+        <hr class="hr-without-top-margin">
+
+
+        <% if input_disabled %>
+          <!-- for "Show" -->
+          <div class="row">
+            <div class="col-sm-12">
+
+              <%= link_to customers_path, class: "btn btn-default" do %>
+                <span class="glyphicon glyphicon-th-list"></span>
+                <%= t("helpers.links.index") %>
+              <% end %>
+
+              <% if policy(@customer).destroy? %>
+                <%= link_to customer_path(@customer),
+                                    method: :delete,
+                                    data: { confirm: t('helpers.links.confirm_destroy', data: @customer.name) }, 
+                                    class: "btn btn-danger" do %>
+                  <span class="glyphicon glyphicon-trash"></span>
+                  <%= t("helpers.links.destroy") %>
+                <% end %>
+              <% end %>
+
+              <% if policy(@customer).edit? %>
+                <%= link_to edit_customer_path(@customer), class: "btn btn-primary" do %>
+                  <span class="glyphicon glyphicon-edit"></span>
+                  <%= t("helpers.links.edit") %>
+                <% end %>
+              <% end %>
+
+            </div> <!--/col-sm-12 -->
+          </div> <!-- /row -->
+        <% else %>
+          <!-- form "New"/"Edit" -->
+        <% end %>
+
+      </div> <!--/col-sm-12-->  
+
+    </div>
+  </fieldset>
+</div>

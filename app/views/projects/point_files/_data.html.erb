@@ -1,0 +1,75 @@
+<div class="col-sm-11 col-sm-offset-1">
+  <% input_disabled ||= false  
+     #if input_disabled is not passed to the partial it doesn't crash. 
+     # We default it to false 
+  %>
+
+  <%= form_errors_for @point_file %>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="row">
+
+        <div class="form-group col-sm-6">
+          <p><strong><%= PointFile.human_attribute_name(:status) %></strong></p>
+          <%= enum_l(@point_file, :status) %>
+        </div>
+
+        <div class="form-group col-sm-6">
+          <p><strong><%= PointFile.human_attribute_name(:load_date) %></strong></p>
+          <%= @point_file.load_date.present? ? @point_file.load_date.strftime("%Y-%m-%d %H:%M:%S") : ''%>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <p><strong><%= PointFile.human_attribute_name(:load_file) %></strong></p>
+          <%= @point_file.try(:load_file).present? ? link_to(@point_file.try(:fullname), download_project_point_file_path(@project, @point_file)) : ''%>
+        </div>
+
+      </div>  <!-- /row -->
+    </div>  <!-- /col-sm-12 -->
+
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="form-group col-sm-12">
+          <p><strong><%= PointFile.human_attribute_name(:note) %></strong></p>
+          <%= @point_file.note.html_safe %>
+        </div>
+      </div>
+    </div> <!--/col-sm-6 -->
+  </div>  <!-- /row -->
+
+
+  <hr class="hr-without-top-margin">
+
+
+  <% if input_disabled %>
+    <!-- for "Show" -->
+    <div class="row">
+      <%= link_to project_path(@point_file.project), class: "btn btn-default" do %>
+        <span class="glyphicon glyphicon-arrow-left"></span>
+        <%= t("helpers.links.back") %>
+      <% end %>
+
+      <% if policy(@point_file).destroy? %>
+        <%= link_to project_point_file_path(@point_file.project, @point_file),
+                            method: :delete,
+                            data: { confirm: t('helpers.links.confirm_destroy', data: @point_file.fullname) }, 
+                            class: "btn btn-danger" do %>
+          <span class="glyphicon glyphicon-trash"></span>
+          <%= t("helpers.links.destroy") %>
+        <% end %>
+      <% end %>
+
+      <% if policy(@point_file).edit? %>
+        <%= link_to edit_project_point_file_path(@point_file.project, @point_file), class: "btn btn-primary" do %>
+          <span class="glyphicon glyphicon-edit"></span>
+          <%= t("helpers.links.edit") %>
+        <% end %>
+      <% end %>
+
+    </div> <!-- /row -->
+  <% else %>
+    <!-- form "New"/"Edit" -->
+  <% end %>
+
+</div> <!--/col-sm-11 col-sm-offset-1-->    

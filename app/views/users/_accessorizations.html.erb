@@ -1,0 +1,69 @@
+<div id="tab_accessorizations">
+  <fieldset class="my-fieldset">
+    <legend class="my-fieldset colored-title"><%= subtitle %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= event_index_legend %></legend>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <table id="accessorizations-table" class="hover cell-border compact" width="100%" data-source="<%= datatables_index_user_accessorizations_path(user_id: @user.id, format: :json) %>">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th><%= Event.human_attribute_name(:title) %></th>
+              <th><%= Event.human_attribute_name(:event_type_id) %></th>
+              <th><%= Event.human_attribute_name(:end_date) %></th>
+              <th><%= Event.human_attribute_name(:event_status_id) %></th>
+              <th><%= Event.human_attribute_name(:project_id) %></th>
+              <th><%= Project.human_attribute_name(:customer_id) %></th>
+              <th><%= Project.human_attribute_name(:project_status_id) %></th>
+              <th><%= Event.human_attribute_name(:event_effect_id) %></th>
+              <th><%= Event.human_attribute_name(:attachments_count) %></th>
+              <th><%= Event.human_attribute_name(:flat_assigned_users) %></th>
+            </tr>
+          </thead>
+          <tbody>
+             <!--data from JSON -->
+          </tbody>
+        </table>
+      </div> <!--/col-sm-12 -->
+    </div>
+
+    <br>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <hr>
+      </div> <!--/col-sm-12 -->
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <%#= chart_events_by_status_for_user(@user.id, @user.name) %>
+      </div> <!--/col-sm-12 -->
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <hr>
+      </div> <!--/col-sm-12 -->
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <%#= chart_events_by_status_type_for_user(@user.id, @user.name) %>
+      </div> <!--/col-sm-12 -->
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <hr>
+      </div> <!--/col-sm-12 -->
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <%#= chart_events_by_type_status_for_user(@user.id, @user.name) %>
+      </div> <!--/col-sm-12 -->
+    </div>
+
+  </fieldset>
+</div>

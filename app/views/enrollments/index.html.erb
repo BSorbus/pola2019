@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h3 class="center colored-title index-title"><%= enrollment_index_legend %></h3>
+    </div> <!--/col-sm-12 -->
+  </div> <!--/row -->
+</div> <!--/container -->
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <table id="enrollments-table" class="table table-hover" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th><%= Enrollment.human_attribute_name(:name) %></th>
+          <th><%= Enrollment.human_attribute_name(:note) %></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @enrollments.each do |enrollment| %>
+          <tr>
+            <td><%= enrollment.try(:name_as_link) %></td>
+            <td><%= enrollment.note.html_safe %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      </table>
+    </div> <!--/col-sm-12 -->
+  </div> <!--/row -->
+  <br>
+  <div class="row">
+    <div class="col-sm-12">
+      <% if policy(:enrollment).new? %> 
+        <%= link_to new_enrollment_path, class: "btn btn-primary pull-right" do %>
+          <span class="fa fa-plus"></span>
+          <%= t("helpers.links.new") %>
+        <% end %>
+      <% end %>
+    </div> <!--/col-sm-12 -->
+  </div> <!--/row -->
+
+</div> <!--/container -->

@@ -1,0 +1,75 @@
+<div class="col-sm-11 col-sm-offset-1">
+  <% input_disabled ||= false  
+     #if input_disabled is not passed to the partial it doesn't crash. 
+     # We default it to false 
+  %>
+
+  <%= form_errors_for @proposal_file %>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="row">
+
+        <div class="form-group col-sm-6">
+          <p><strong><%= ProposalFile.human_attribute_name(:status) %></strong></p>
+          <%= enum_l(@proposal_file, :status) %>
+        </div>
+
+        <div class="form-group col-sm-6">
+          <p><strong><%= ProposalFile.human_attribute_name(:load_date) %></strong></p>
+          <%= @proposal_file.load_date.present? ? @proposal_file.load_date.strftime("%Y-%m-%d %H:%M:%S") : ''%>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <p><strong><%= ProposalFile.human_attribute_name(:load_file) %></strong></p>
+          <%= @proposal_file.try(:load_file).present? ? link_to(@proposal_file.try(:fullname), download_project_proposal_file_path(@project, @proposal_file)) : ''%>
+        </div>
+
+      </div>  <!-- /row -->
+    </div>  <!-- /col-sm-12 -->
+
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="form-group col-sm-12">
+          <p><strong><%= ProposalFile.human_attribute_name(:note) %></strong></p>
+          <%= @proposal_file.note.html_safe %>
+        </div>
+      </div>
+    </div> <!--/col-sm-6 -->
+  </div>  <!-- /row -->
+
+
+  <hr class="hr-without-top-margin">
+
+
+  <% if input_disabled %>
+    <!-- for "Show" -->
+    <div class="row">
+      <%= link_to project_path(@proposal_file.project), class: "btn btn-default" do %>
+        <span class="glyphicon glyphicon-arrow-left"></span>
+        <%= t("helpers.links.back") %>
+      <% end %>
+
+      <% if policy(@proposal_file).destroy? %>
+        <%= link_to project_proposal_file_path(@proposal_file.project, @proposal_file),
+                            method: :delete,
+                            data: { confirm: t('helpers.links.confirm_destroy', data: @proposal_file.fullname) }, 
+                            class: "btn btn-danger" do %>
+          <span class="glyphicon glyphicon-trash"></span>
+          <%= t("helpers.links.destroy") %>
+        <% end %>
+      <% end %>
+
+      <% if policy(@proposal_file).edit? %>
+        <%= link_to edit_project_proposal_file_path(@proposal_file.project, @proposal_file), class: "btn btn-primary" do %>
+          <span class="glyphicon glyphicon-edit"></span>
+          <%= t("helpers.links.edit") %>
+        <% end %>
+      <% end %>
+
+    </div> <!-- /row -->
+  <% else %>
+    <!-- form "New"/"Edit" -->
+  <% end %>
+
+</div> <!--/col-sm-11 col-sm-offset-1-->    

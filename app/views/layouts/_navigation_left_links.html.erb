@@ -1,76 +1,76 @@
 <% if user_signed_in? %>
-  <%# if policy(:errand).index? || policy(:event).index? || policy(:project).index? %>
+  <% if policy(:errand).index? || policy(:event).index? || policy(:project).index? %>
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-signal"></span>&nbsp;<%=t "pages.charts" %> <span class="caret"></span></a>
 
       <ul class="dropdown-menu">
-        <%# if policy(:errand).index? %>
+        <% if policy(:errand).index? %>
           <li><%= link_to root_path do %>
-            <span class="glyphicon glyphicon-tasks"></span>&nbsp;<%=t "pages.errand.index.title" %>
+            <span class="fa fa-tasks"></span>&nbsp;<%=t "pages.errand.index.title" %>
             <% end %>
           </li>
-        <%# end %>
+        <% end %>
 
-        <%# if policy(:event).index? %>
+        <% if policy(:event).index? %>
           <li><%= link_to root_path do %>
-            <span class="glyphicon glyphicon-calendar"></span>&nbsp;<%=t "pages.event.index.title" %>
+            <span class="fa fa-calendar"></span>&nbsp;<%=t "pages.event.index.title" %>
             <% end %>
           </li>
-        <%# end %>
+        <% end %>
 
-        <%# if policy(:project).index? %>
+        <% if policy(:project).index? %>
           <li><%= link_to root_path do %>
-            <span class="glyphicon glyphicon-book"></span>&nbsp;<%=t "pages.project.index.title" %>
+            <span class="fa fa-project-diagram"></span>&nbsp;<%=t "pages.project.index.title" %>
             <% end %>
           </li>
-        <%# end %>
+        <% end %>
 
       </ul>
     </li>
-  <%# end %>
+  <% end %>
 
-  <%# if policy(:errand).index? || policy(:event).index? || policy(:project).index? %>
+  <% if policy(:enrollment).index? || policy(:errand).index? || policy(:event).index? || policy(:project).index? || policy(:customer).index? %>
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-database"></span>&nbsp;<%=t "pages.data" %> <span class="caret"></span></a>
 
       <ul class="dropdown-menu">
-        <%# if policy(:enrollment).index? %>
-          <li><%= link_to root_path do %>
-            <span class="glyphicon glyphicon-briefcase"></span>&nbsp;<%=t "pages.enrollment.index.title" %>
+        <% if policy(:enrollment).index? %>
+          <li><%= link_to enrollments_path do %>
+            <span><%= enrollment_index_legend %></span>
             <% end %>
           </li>
-        <%# end %>
+        <% end %>
 
-        <%# if policy(:errand).index? %>
-          <li><%= link_to root_path do %>
-            <span class="glyphicon glyphicon-tasks"></span>&nbsp;<%=t "pages.errand.index.title" %>
+        <% if policy(:errand).index? %>
+          <li><%= link_to errands_path do %>
+            <span><%= errand_index_legend %></span>
             <% end %>
           </li>
-        <%# end %>
+        <% end %>
 
-        <%# if policy(:event).index? %>
-          <li><%= link_to root_path do %>
-            <span class="glyphicon glyphicon-calendar"></span>&nbsp;<%=t "pages.event.index.title" %>
+        <% if policy(:event).index? %>
+          <li><%= link_to events_path do %>
+            <span><%= event_index_legend %></span>
             <% end %>
           </li>
-        <%# end %>
+        <% end %>
 
-        <%# if policy(:project).index? %>
-          <li><%= link_to root_path do %>
-            <span class="glyphicon glyphicon-book"></span>&nbsp;<%=t "pages.project.index.title" %>
+        <% if policy(:project).index? %>
+          <li><%= link_to projects_path do %>
+            <span><%= project_index_legend %></span>
             <% end %>
           </li>
-        <%# end %>
+        <% end %>
 
-        <%# if policy(:customer).index? %>
-          <li><%= link_to root_path do %>
-            <span class="glyphicon glyphicon-flag"></span>&nbsp;<%=t "pages.customer.index.title" %>
+        <% if policy(:customer).index? %>
+          <li><%= link_to customers_path do %>
+            <span><%= customer_index_legend %></span>
             <% end %>
           </li>
-        <%# end %>
+        <% end %>
 
       </ul>
     </li>
-  <%# end %>
+  <% end %>
 
 <% end %>

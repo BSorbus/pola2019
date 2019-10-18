@@ -1,0 +1,32 @@
+<div class="col-sm-12">
+  <table class="table table-hover table-condensed">
+    <thead>
+      <tr>
+        <th><%= XmlWskaznikTable.human_attribute_name(:numer) %></th>
+        <th><%= XmlWskaznikTable.human_attribute_name(:nazwa_id) %></th>
+        <th><%= XmlWskaznikTable.human_attribute_name(:nazwa_kod) %></th>
+        <th><%= XmlWskaznikTable.human_attribute_name(:nazwa_opis) %></th>
+        <th><%= XmlWskaznikTable.human_attribute_name(:typ) %></th>
+        <th><%= XmlWskaznikTable.human_attribute_name(:jednostka_miary_opis) %></th>
+        <th><%= XmlWskaznikTable.human_attribute_name(:wartosc_bazowa) %></th>
+        <th><%= XmlWskaznikTable.human_attribute_name(:wartosc_docelowa) %></th>
+      </tr>
+    <thead>
+    <tbody>
+      <% @proposal_file.xml_wskaznik_tables.order(:numer).each do |x| %>
+        <tr>
+          <td><%= x.numer %></td>
+          <td><%= x.nazwa_id %></td>
+          <td><%= x.nazwa_kod %></td>
+          <td><%= x.nazwa_opis %></td>
+          <td><%= x.typ %></td>
+          <td><%= x.jednostka_miary_opis %></td>
+          <td><%= x.wartosc_bazowa %></td>
+          <td><%= x.wartosc_docelowa %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>
+

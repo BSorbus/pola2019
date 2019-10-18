@@ -1,0 +1,81 @@
+<% @proposal_file.xml_projekt_tables.each do |projekt| %>
+  <hr>
+  <div class="row">
+
+    <div class="col-sm-6">
+      <div class="row">
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlProjektTable.human_attribute_name(:do_tytul) %></strong><br>
+          <%= projekt.do_tytul %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlProjektTable.human_attribute_name(:do_okres_realizacji_data_od) %></strong><br>
+          <%= projekt.do_okres_realizacji_data_od %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlProjektTable.human_attribute_name(:do_okres_realizacji_data_do) %></strong><br>
+          <%= projekt.do_okres_realizacji_data_do %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlProjektTable.human_attribute_name(:do_okres_kwalifikowalnosci_wydatkow_data_od) %></strong><br>
+          <%= projekt.do_okres_kwalifikowalnosci_wydatkow_data_od %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlProjektTable.human_attribute_name(:do_okres_kwalifikowalnosci_wydatkow_data_do) %></strong><br>
+          <%= projekt.do_okres_kwalifikowalnosci_wydatkow_data_do %>
+        </div>
+
+
+      </div>  <!-- /row -->
+    </div>  <!-- /col-sm-6 -->
+
+
+    <div class="col-sm-6">
+      <div class="row">
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlProjektTable.human_attribute_name(:mfp_mfo_mf_wydatki_ogolem) %></strong><br>
+          <%= number_with_precision(projekt.mfp_mfo_mf_wydatki_ogolem, precision: 2, separator: ',', delimiter: ' ') %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlProjektTable.human_attribute_name(:mfp_mfo_mf_wydatki_kwalifikowane) %></strong><br>
+          <%= number_with_precision(projekt.mfp_mfo_mf_wydatki_kwalifikowane, precision: 2, separator: ',', delimiter: ' ') %>
+        </div>
+
+        <div class="form-group col-sm-6">
+          <strong><%= XmlProjektTable.human_attribute_name(:mfp_mfo_mf_dofinansowanie) %></strong><br>
+          <%= number_with_precision(projekt.mfp_mfo_mf_dofinansowanie, precision: 2, separator: ',', delimiter: ' ') %>
+        </div>
+
+        <div class="form-group col-sm-6">
+          <strong><%= XmlProjektTable.human_attribute_name(:mfp_mfo_mf_procent_dofinansowania) %></strong><br>
+          <%= number_with_precision(projekt.mfp_mfo_mf_procent_dofinansowania, precision: 2, separator: ',', delimiter: ' ') %>
+        </div>
+
+        <div class="form-group col-sm-6">
+          <strong><%= XmlProjektTable.human_attribute_name(:mfp_mfo_mf_wklad_ue) %></strong><br>
+          <%= number_with_precision(projekt.mfp_mfo_mf_wklad_ue, precision: 2, separator: ',', delimiter: ' ') %>
+        </div>
+
+        <div class="form-group col-sm-6">
+          <strong><%= XmlProjektTable.human_attribute_name(:mfp_mfo_mf_procent_dofinansowanie_ue) %></strong><br>
+          <%= number_with_precision(projekt.mfp_mfo_mf_procent_dofinansowanie_ue, precision: 2, separator: ',', delimiter: ' ') %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlProjektTable.human_attribute_name(:mfp_mfo_mf_wklad_wlasny) %></strong><br>
+          <%= number_with_precision(projekt.mfp_mfo_mf_wklad_wlasny, precision: 2, separator: ',', delimiter: ' ') %>
+        </div>
+
+      </div>  <!-- /row -->
+    </div>  <!-- /col-sm-6 -->
+
+  </div>   <!-- /row -->
+
+<% end %>

@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h3 class="center colored-title index-title"><%= user_index_legend %></h3>
+    </div> <!--/col-sm-12 -->
+  </div> <!--/row -->
+</div> <!--/container -->
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <table id="users-table" class="hover cell-border" cellspacing="0" width="100%" 
+        data-source="<%= datatables_index_users_path(format: :json) %>">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th class='col-sm-2'><%= User.human_attribute_name(:name) %></th>
+            <th class='col-sm-1'><%= User.human_attribute_name(:current_sign_in_ip) %></th>
+            <th class='col-sm-1'><%= User.human_attribute_name(:current_sign_in_at) %></th>
+            <th class='col-sm-1'><%= User.human_attribute_name(:last_activity_at) %></th>
+            <th class='col-sm-1'><%= User.human_attribute_name(:password_changed_at) %></th>
+            <th class='col-sm-1'><%= User.human_attribute_name(:deleted_at) %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- data from ajax -->
+        </tbody>
+      </table>
+    </div> <!--/col-sm-12 -->
+  </div>
+
+</div> <!--/container -->

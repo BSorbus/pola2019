@@ -1,0 +1,2 @@
+class WojTable < ApplicationRecord
+end

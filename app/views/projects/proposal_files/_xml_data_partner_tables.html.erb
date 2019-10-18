@@ -1,0 +1,131 @@
+<% @proposal_file.xml_partner_tables.each do |partner| %>
+  <hr>
+  <div class="row">
+
+    <div class="col-sm-6">
+      <div class="row">
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:dp_nazwa) %></strong><br>
+          <%= partner.dp_nazwa %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:dp_nip) %></strong><br>
+          <%= partner.dp_nip %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:dp_regon) %></strong><br>
+          <%= partner.dp_regon %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:dp_as_telefon) %></strong><br>
+          <%= partner.dp_as_telefon %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:dp_as_faks) %></strong><br>
+          <%= partner.dp_as_faks %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:dp_as_email) %></strong><br>
+          <%= partner.dp_as_email %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:dp_as_epuap) %></strong><br>
+          <%= partner.dp_as_epuap %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:numer_wpisu_uke) %></strong><br>
+          <%= partner.numer_wpisu_uke %>
+        </div>
+
+
+      </div>  <!-- /row -->
+    </div>  <!-- /col-sm-6 -->
+
+
+    <div class="col-sm-6">
+      <div class="row">
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:dp_as_miejscowosc_id) %></strong><br>
+          <%= partner.dp_as_miejscowosc_id %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:dp_as_miejscowosc_opis) %></strong><br>
+          <%= partner.dp_as_miejscowosc_opis %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:dp_as_kod_pocztowy) %></strong><br>
+          <%= partner.dp_as_kod_pocztowy %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:dp_as_ulica_id) %></strong><br>
+          <%= partner.dp_as_ulica_id %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:dp_as_ulica_opis) %></strong><br>
+          <%= partner.dp_as_ulica_opis %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:dp_as_nr) %></strong><br>
+          <%= partner.dp_as_nr %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:dp_as_lokal) %></strong><br>
+          <%= partner.dp_as_lokal %>
+        </div>
+
+      </div>  <!-- /row -->
+    </div>  <!-- /col-sm-6 -->
+
+  </div>   <!-- /row -->
+
+  <hr>
+  <div class="row"> 
+    <div class="col-sm-6">
+      <div class="row">
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:mrp_obszar_realizacji_id) %></strong><br>
+          <%= partner.mrp_obszar_realizacji_id %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:mrp_obszar_realizacji_opis) %></strong><br>
+          <%= partner.mrp_obszar_realizacji_opis %>
+        </div>
+
+      </div>  <!-- /row -->
+    </div>  <!-- /col-sm-6 -->
+
+    <div class="col-sm-6">
+      <div class="row">
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:mrp_maksymalna_kwota_dofinansowania) %></strong><br>
+          <%= partner.mrp_maksymalna_kwota_dofinansowania %>
+        </div>
+
+        <div class="form-group col-sm-12">
+          <strong><%= XmlPartnerTable.human_attribute_name(:mrp_maksymalna_intensywnosc_wsparcia) %></strong><br>
+          <%= number_with_precision(partner.mrp_maksymalna_intensywnosc_wsparcia, precision: 2, separator: ',', delimiter: ' ') %>
+        </div>
+
+      </div>  <!-- /row -->
+    </div>  <!-- /col-sm-6 -->
+
+  </div> <!-- /row --> 
+<% end %>

@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-sm-12">
+
+    <fieldset class="my-fieldset">
+      <legend class="my-fieldset"><%= t('pages.business_trip.fieldset.roads_title') %></legend>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th class='col-sm-2'><%= Road.human_attribute_name(:from) %></th>
+            <th class='col-sm-2'><%= Road.human_attribute_name(:start_date_time) %></th>
+            <th class='col-sm-2'><%= Road.human_attribute_name(:to) %></th>
+            <th class='col-sm-2'><%= Road.human_attribute_name(:end_date_time) %></th>
+            <th class='col-sm-2'><%= Road.human_attribute_name(:transport_type_id) %></th>
+            <th class='col-sm-1 text-right'><%= Road.human_attribute_name(:cost) %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @business_trip.roads.order(:id).each do |road| %>
+            <tr>
+              <td><%= road.from %></td>
+              <td><%= road.start_date_time.strftime("%Y-%m-%d %H:%M") %></td>
+              <td><%= road.to %></td>
+              <td><%= road.end_date_time.strftime("%Y-%m-%d %H:%M") %></td>
+              <td><%= road.transport_type.name %></td>
+              <td class='text-right'><%= number_with_precision(road.cost, precision: 2, delimiter: ' ', separator: ',') %></td>
+            </tr>
+          <% end %>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class='text-right'><%= number_with_precision(@business_trip.roads.sum(:cost), precision: 2, delimiter: ' ', separator: ',') %></td>
+          </tr>
+        </tfoot>
+      </table>
+
+    </fieldset>
+
+  </div> <!--/col-sm-12 -->
+</div>  <!-- /row -->

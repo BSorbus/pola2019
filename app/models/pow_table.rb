@@ -1,0 +1,2 @@
+class PowTable < ApplicationRecord
+end

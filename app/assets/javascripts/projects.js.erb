@@ -1,0 +1,276 @@
+$(document).ready(function() {
+  $('.select2project').select2({
+    minimumInputLength: 1,
+    allowClear: false,
+    ajax: {
+      url: "/projects/select2_index.json",
+      dataType: 'json',
+      quietMillis: 250,
+      type: 'GET',
+      data: function(term, page) {
+        return {
+          q: term,
+          page_limit: 10,
+          page: page
+        };
+      },
+      results: function(data, page) {
+        //var more = (page * 10) < data.total_count;
+        var more = (page * 10) < data.meta.total_count;
+        var projects = $.map(data.projects, function(project, i) {
+          return { id: project.id, text: project.fullname };
+        });
+        return { results: projects, more: more };
+      }
+    },
+    formatAjaxError: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        getErrorMessage(jqXHR, jqXHR.status);
+      }
+      return errorThrown + " " + jqXHR.responseText;
+    },
+    initSelection: function(element, callback) {
+      var id=$(element).val();
+      if (id!=="") {
+        $.get("/projects/"+id+".json", function(data_from_json) {
+          if(data_from_json)
+            callback({ id: data_from_json.id, text: data_from_json.fullname });
+        });
+      }
+    },
+    dropdownCssClass: "bigdrop"
+  });
+
+
+
+  function filterProjectColumnParams ( i ) {
+    $('#projects-table').DataTable().column( i ).search(
+      $('#col'+i+'filter').val(), false, true, true
+    );
+    $('#projects-table').DataTable().draw();
+  };
+
+
+  $.fn.dataTable.ext.buttons.project_button_only_my_data = {
+    //text: 'Wszystko',
+    text: '<span class="fa fa-user-friends"></span>',
+    titleAttr: 'Wszystkie/tylko moje',
+    action: function ( e, dt, node, config ) {
+      if (dt.button( 3 ).active() == false) {
+        //dt.button( 3 ).text('Tylko moje');
+        dt.button( 3 ).text('<span class="fa fa-user"></span> Tylko moje');
+        dt.button( 3 ).active( true );
+      } else {
+        //dt.button( 3 ).text('Wszystko');
+        dt.button( 3 ).text('<span class="fa fa-user-friends"></span>');
+        dt.button( 3 ).active( false );
+      };
+      //oEventtable.ajax.reload();
+      $('#projects-table').DataTable().draw();
+    }
+  };
+
+
+  $.fn.dataTable.ext.buttons.project_button_filter_show_hide = {
+    //text: 'Filtr',
+    text: '<span class="fa fa-filter"></span>',
+    titleAttr: 'Filtrowanie po kolumnach',
+    //className: 'btn btn-info',
+    action: function ( e, dt, node, config ) {
+    //var list = document.getElementsByClassName("column_filter");
+      // for (var i = 0; i < list.length; i++) {
+      //   if (list[i].style.display === "none") {
+      //     list[i].style.display = "block";
+      //     filterEventColumnParams( $(list[i]).attr('data-column') );
+      //   } else {
+      //     $(list[i]).val('');
+      //     list[i].style.display = "none";
+      //     filterEventColumnParams( $(list[i]).attr('data-column') );
+      //   };
+      // };
+      if ($('#projects-table').DataTable().tables().footer().to$().css('display') === 'none') {
+        $('#projects-table').DataTable().tables().footer().to$().css('display', 'table-row-group');
+        //dt.button( 4 ).text('Filtrowanie...');
+        dt.button( 4 ).text('<span class="fa fa-filter"></span> Filtrowanie...');
+        dt.button( 4 ).active( true );
+          // Redraw table (and reset main search filter)
+          // OK - działa też $('#aus_tables-datatable').DataTable().search("").draw();
+          $($.fn.dataTable.tables(true)).DataTable().search("").draw();
+          $(".dataTables_filter").hide();
+      } else {
+        $('#projects-table').DataTable().tables().footer().to$().css('display', 'none');
+        //dt.button( 4 ).text('Filtr');
+        dt.button( 4 ).text('<span class="fa fa-filter"></span>');
+        dt.button( 4 ).active( false );
+          // Reset Column filtering
+          $('#projects-table tfoot input').val('').keyup();
+          $('#projects-table tfoot select').val('').keyup();
+
+          $(".dataTables_filter").show();
+      }
+
+      $($.fn.dataTable.tables(true)).DataTable()
+        .columns.adjust()
+        .responsive.recalc();
+    }
+  };
+
+
+  var oProjecttable = $('#projects-table').DataTable({
+    dom: 'lBfrtip',
+    buttons: [
+      {
+        extend:    'copy',
+        text:      '<span class="fa fa-clipboard"></span>',
+        titleAttr: 'Kopiuj do schowka'
+      },
+      {
+        extend:    'csv',
+        text:      '<span class="fa fa-file-csv"></span>',
+        titleAttr: 'Kopiuj do CSV'
+      },
+      {
+        extend:    'colvis',
+        text:      '<span class="fa fa-columns"></span>',
+        titleAttr: 'Pokaż/ukryj kolumny',
+        columns:   ':gt(0)' //exclude first col from list
+      }, 
+      'project_button_only_my_data', 'project_button_filter_show_hide'
+    ],
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    searchDelay: 500,
+    ajax: { 
+      url: $('#projects-table').data('source'),
+      type: "GET",
+      data: function(d){
+        d.eager_filter_for_current_user = $('#projects-table').DataTable().button(3).active();
+      },
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
+    columns: [
+      { "data": "id",
+        "visible": false }, 
+      { "data": "number" }, 
+      { "data": "enrollment" },
+      { "data": "area_id" },
+      { "data": "area_name" },
+      { "data": "status" },
+      { "data": "customer" },
+      { "data": "flat", 
+        "sortable": false }
+    ],
+    order: [[ 1, "asc" ]],
+    language: {
+      // buttons: {
+      //   copy: 'Kopiuj',
+      //   colvis: 'Kolumny'
+      // },
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+
+  });
+ 
+  //$('input.global_filter').on( 'keyup click', function () {
+  //  filterGlobalParams();
+  //});
+
+  $('input.column_filter').on( 'keyup click', function () {
+    filterProjectColumnParams( $(this).attr('data-column') );
+  });
+
+  $('select.column_filter').on( 'keyup click', function () {
+    filterProjectColumnParams( $(this).attr('data-column') );
+  });
+
+
+  var oCustomerProjectstable = $('#customer-projects-table').DataTable({
+    dom: 'lBfrtip',
+    buttons: [
+      {
+        extend:    'copy',
+        text:      '<span class="fa fa-clipboard"></span>',
+        titleAttr: 'Kopiuj do schowka'
+      },
+      {
+        extend:    'csv',
+        text:      '<span class="fa fa-file-csv"></span>',
+        titleAttr: 'Kopiuj do CSV'
+      },
+      {
+        extend:    'colvis',
+        text:      '<span class="fa fa-columns"></span>',
+        titleAttr: 'Pokaż/ukryj kolumny',
+        columns:   ':gt(0)' //exclude first col from list
+      }    
+    ],
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    searchDelay: 500,
+    ajax: { 
+      url: $('#customer-projects-table').data('source'),
+      type: "GET",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
+    iDisplayLength: -1,
+    columns: [
+      { "data": "id",
+        "visible": false }, 
+      { "data": "number" }, 
+      { "data": "enrollment" },
+      { "data": "area_id" },
+      { "data": "area_name" },
+      { "data": "status" },
+      { "data": "flat", 
+        "sortable": false }
+    ],
+    preDrawCallback: function( settings ) {
+      // jezeli panel nie jest widoczny, to przerwij ładowanie danych
+      if ( $( "#tab_projects" ).is( ":hidden" ) ) {
+        return false;
+      }
+    },
+    order: [[ 1, "asc" ]],
+    language: {
+      // buttons: {
+      //   copy: 'Kopiuj',
+      //   colvis: 'Kolumny'
+      // },
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+
+  // jezeli nastepuje wyswietlenie tab, to zaladuj dane
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    var target = $(e.target).attr("href") // activated tab
+    if (target == '#projects') {
+    oCustomerProjectstable.draw();
+    };
+  });
+
+});

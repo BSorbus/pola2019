@@ -1,0 +1,105 @@
+<spacer size="16"></spacer>
+<container>
+  <row>
+    <columns large="4">
+      <spacer size="16"></spacer>
+      <center>
+        <%=link_to( image_tag( attachments['logo.jpg'].url, alt: "POLA" ), root_url, target: "_blank" ) %>
+      </center>
+    </columns>
+    <columns large="8">
+      <spacer size="16"></spacer>
+
+    </columns>
+  </row>
+
+  <spacer size="16"></spacer>
+
+  <row>
+    <columns>
+      <h4>Witaj!</h4>
+      <p>W programie POLA utworzono nowy, wprowadzono zmiany lub dodano załącznik w projekcie <%= link_to @project.try(:number), project_url(@project), target: "_blank" %></p>
+    </columns>
+  </row>
+
+  <row>
+    <columns>
+      <hr class="hr-brand2">
+    </columns>
+  </row>
+
+  <row>
+    <columns>
+      <h5 class="text-center">Projekt:</h5>
+      <row>
+        <columns large="2">
+          <h6 class="h6-small text-left"><small>Numer:</small></h6>
+          <h6 class="h6-small text-left"><small>Nabór:</small></h6>
+          <h6 class="h6-small text-left"><small>Status:</small></h6>
+          <h6 class="h6-small text-left"><small>Wnioskodawca:</small></h6>
+          <spacer size="16"></spacer>
+          <h6 class="h6-small text-left"><small>Załączniki:</small></h6>
+        </columns>
+        <columns large="10">
+          <h6 class="h6-small text-left"><%= @project.try(:number) %></h6>
+          <h6 class="h6-small text-left"><%= @project.enrollment.try(:name) %></h6>
+          <h6 class="h6-small text-left"><%= @project.project_status.try(:name) %></h6>
+          <h6 class="h6-small text-left"><%= @project.customer.try(:name) %></h6>
+          <spacer size="16"></spacer>
+          <% @project.attachments.each do |attachment| %>
+            <h6 class="h6-small text-left"><%= attachment.try(:attached_file_identifier) %></h6>
+          <% end %>
+        </columns>
+        </row>
+    </columns>
+  </row>
+
+  <row>
+    <columns>
+      <hr class="hr-brand2">
+    </columns>
+  </row>
+
+  <row>
+    <columns>
+      <h5 class="text-center">Powiązane zadania:</h5>
+      <row>
+        <columns large="12">
+          <% @project.events.each do |event| %>
+            <h6 class="h6-small text-left"><%= event.try(:title_as_link) %></h6>
+          <% end %>
+        </columns>
+        </row>
+    </columns>
+  </row>
+
+
+
+
+
+  <spacer size="16"></spacer>
+
+  <row class="collapsed footer">
+    <columns>
+      <hr class="hr-brand">
+      <row>
+        <columns large="4">
+          <spacer size="8"></spacer>
+          <center>
+              <%= image_tag( attachments['logo_uke.jpg'].url, alt: "UKE" ) %>
+          </center>
+          <spacer size="16"></spacer>
+          <p class="text-left"><small>&copy; 2018 UKE-BI-WUR<small></small></p>
+        </columns>
+        <columns large="8">
+          <spacer size="8"></spacer>
+          <h6 class="text-right h6-small"><%= mail_to "pawel.dabrowski@uke.gov.pl" %></h6>
+          <h6 class="text-right h6-small"><%= mail_to "piotr.jankowski@uke.gov.pl" %></h6>
+          <h6 class="text-right h6-small"><%= mail_to "serwis.pola@uke.gov.pl" %></h6>
+        </columns>
+
+      </row>
+    </columns>
+  </row>
+
+</container>

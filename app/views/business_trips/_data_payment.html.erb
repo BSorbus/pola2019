@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="row">
+
+      <div class="form-group col-sm-12">
+        <fieldset class="my-fieldset">
+          <legend class="my-fieldset"><%= t('pages.business_trip.fieldset.payment_title') %></legend>
+
+          <div class="row">
+            <div class="form-group col-sm-2">
+              <p><strong><%= BusinessTrip.human_attribute_name(:payment_on_account) %></strong></p>
+              <%= @business_trip.payment_on_account %>
+            </div>
+
+            <div class="form-group col-sm-4">
+              <% if policy(@business_trip).edit? %>
+                <%= link_to payment_approved_business_trip_path(@business_trip), method: :patch, class: "btn btn-success" do %>
+                  <span class="glyphicon glyphicon-check"></span>
+                  <%= t("helpers.links.payment_approved") %>
+                <% end %>
+              <% end %>
+            </div>
+
+            <div class="col-sm-6">
+              <p class="text-right"><%= business_trip_payment_approved_info(@business_trip) %></p>
+            </div> <!--/col-sm-6-->    
+
+
+          </div> <!--/row -->
+        </fieldset>
+      </div>
+
+
+    </div>  <!-- /row -->
+  </div>  <!-- /col-sm-12 -->
+
+</div>  <!-- /row -->
