@@ -1,0 +1,6 @@
+<% if @attachment.new_record? %>
+  alert("Failed to upload attachment: <%= j @attachment.errors.full_messages.join(', ').html_safe %>");
+<% else %>
+  $('#attachmenable-attachments').DataTable().draw();
+  toastr['success']("<%= @attachment.attached_file.file.filename %>" + '<br>...pobieranie zakończone');
+<% end %>

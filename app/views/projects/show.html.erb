@@ -77,16 +77,6 @@
   </div> <!-- /row -->
 
 
-  <% if policy(:project).work? %>
-    <%= render partial: "works/works_in_panel", locals: {trackable_type: 'Project', trackable_id: @project.id} %>
-  <% end %>
-
-
-  <!-- Attachments for this project-->
-  <% if policy(:attachment).project_index? %>
-    <%#= render 'attachments/attachments_in_panel', attachmenable: @project %>
-  <% end %>
-
 
   <!-- ProposalFiles-->
   <% if policy(:proposal_file).index? %>

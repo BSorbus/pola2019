@@ -83,8 +83,8 @@ gem 'devise-security'
 gem 'rails_email_validator'
 gem 'pundit'
 
-# gem 'carrierwave', '~> 1.0'
-# gem 'jquery-fileupload-rails'
+gem 'carrierwave', '~> 1.0'
+gem 'jquery-fileupload-rails'
 gem 'file_validators'
 gem 'activerecord-import'
 

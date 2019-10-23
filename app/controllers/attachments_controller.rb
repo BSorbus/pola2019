@@ -4,10 +4,9 @@ class AttachmentsController < ApplicationController
 
   def datatables_index
     respond_to do |format|
-      format.json{ render json: AttachmentDatatable.new(view_context, { attachmenable_id: params[:attachmenable_id], attachmenable_type: params[:attachmenable_type] }) }
+      format.json{ render json: AttachmentDatatable.new(params, view_context: view_context, attachmenable_id: params[:attachmenable_id], attachmenable_type: params[:attachmenable_type] ) }
     end
   end
-
 
   # GET /attachments/1
   # GET /attachments/1.json
@@ -88,6 +87,7 @@ class AttachmentsController < ApplicationController
     @attachment = Attachment.find(params[:id])
     attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
     if @attachment.destroy
+      #flash.now[:success] = t('activerecord.successfull.messages.destroyed', data: @attachment.fullname)
       head :no_content
     end
   end
