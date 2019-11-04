@@ -74,7 +74,8 @@ gem 'fullcalendar-rails'
 gem "hiredis"
 gem "redis", "~> 4.0"
 
-gem 'jquery-datatables', '= 1.10.16' #1.10.16 bo z .19 jest jakis problem z wyswietlaniem strzalek sortowania
+#gem 'jquery-datatables', '= 1.10.16' #1.10.16 bo z .19 jest jakis problem z wyswietlaniem strzalek sortowania
+gem 'jquery-datatables' #1.10.16 bo z .19 jest jakis problem z wyswietlaniem strzalek sortowania
 gem 'ajax-datatables-rails' #, '= 0.4.0' jeżeli wywala się na custom_filter
 gem 'kaminari'
 
@@ -83,7 +84,8 @@ gem 'devise-security'
 gem 'rails_email_validator'
 gem 'pundit'
 
-gem 'carrierwave', '~> 1.0'
+gem 'carrierwave', '~> 2.0'
+gem 'mini_magick'
 gem 'jquery-fileupload-rails'
 gem 'file_validators'
 gem 'activerecord-import'

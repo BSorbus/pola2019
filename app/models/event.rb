@@ -59,7 +59,8 @@ class Event < ApplicationRecord
   end
 
   def send_notification_to_pool
-    NotificationPoolJob.set(wait: 300.seconds).perform_later(self) unless self.is_closed
+    # TO DO odblokuj po testach
+    #NotificationPoolJob.set(wait: 300.seconds).perform_later(self) unless self.is_closed
   end
 
   def fullname

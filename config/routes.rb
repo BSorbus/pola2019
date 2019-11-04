@@ -110,6 +110,7 @@ Rails.application.routes.draw do
 
   resources :attachments, only: [:show, :edit, :update, :destroy] do
     get 'datatables_index', on: :collection # for Trackable
+    get 'download', on: :member
   end
 
   resources :zs_points

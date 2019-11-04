@@ -2,7 +2,7 @@ class AttachmentUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
+  include CarrierWave::MiniMagick
 
   include ActionView::Helpers::NumberHelper
 
@@ -32,9 +32,43 @@ class AttachmentUploader < CarrierWave::Uploader::Base
   # end
 
   # Create different versions of your uploaded files:
-  # version :thumb do
-  #   process resize_to_fit: [50, 50]
+  # version :for_preview do
+  #   process resize_to_fit: [640, 640]
   # end
+
+  version :for_preview do
+    process convert_previewable: :png, if: :previewable?
+
+    def full_filename (for_file = model.source.file)
+      super.chomp(File.extname(super)) + '.png'
+    end
+  end
+
+  def convert_previewable(format)
+    manipulate! do |img| # this is ::MiniMagick::Image instance
+      img.format(format.to_s.downcase, 0)
+      img
+    end
+  end
+
+  def format(format, page = 0)
+    @info.clear
+
+    if @tempfile
+      new_tempfile = MiniMagick::Utilities.tempfile(".#{format}")
+      new_path = new_tempfile.path
+    else
+      new_path = path.sub(/\.\w+$/, ".#{format}")
+    end
+
+    MiniMagick::Tool::Convert.new do |convert|
+      convert << (page ? "#{path}[#{page}]" : path)
+      yield convert if block_given?
+      convert << new_path
+    end
+
+  end
+
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
@@ -61,4 +95,29 @@ class AttachmentUploader < CarrierWave::Uploader::Base
     model.file_size = number_to_human_size(file.size) if file.size
   end
 
+
+  private
+
+    def previewable?(file)
+      puts '---------------------------------'
+      puts model.file_content_type
+      puts '---------------------------------'
+      image?(file) || pdf?(file) || docx?(file) || xlsx?(file)
+    end
+
+    def image?(file)
+      model.file_content_type.include? 'image'
+    end
+
+    def pdf?(file)
+      model.file_content_type == 'application/pdf'
+    end
+
+    def docx?(file)
+      model.file_content_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    end
+
+    def xlsx?(file)
+      model.file_content_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    end
 end

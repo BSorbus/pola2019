@@ -111,7 +111,7 @@
           <div class="row">
 
             <%= link_to users_path, class: "btn btn-default" do %>
-              <span class="glyphicon glyphicon-th-list"></span>
+              <span class="fa fa-list"></span>
               <%= t("helpers.links.index") %>
             <% end %>
 
@@ -120,14 +120,14 @@
                                   method: :delete,
                                   data: { confirm: t('helpers.links.confirm_destroy', data: @user.name) }, 
                                   class: "btn btn-danger" do %>
-                <span class="glyphicon glyphicon-trash"></span>
+                <span class="fa fa-trash"></span>
                 <%= t("helpers.links.destroy") %>
               <% end %>
             <% end %>
 
             <% if policy(@user).edit? %>
               <%= link_to edit_user_path(@user), class: "btn btn-primary" do %>
-                <span class="glyphicon glyphicon-edit"></span>
+                <span class="fa fa-edit"></span>
                 <%= t("helpers.links.edit") %>
               <% end %>
 

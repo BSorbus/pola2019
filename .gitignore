@@ -28,6 +28,7 @@
 /public/assets
 .byebug_history
 /public/cached_pages
+/public/uploads
 
 # Ignore master key for decrypting credentials and more.
 /config/credentials.yml.enc

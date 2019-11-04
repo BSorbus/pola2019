@@ -8,14 +8,9 @@ class AttachmentsController < ApplicationController
     end
   end
 
-  # GET /attachments/1
-  # GET /attachments/1.json
-  def show
+  def download
     @attachment = Attachment.find(params[:id])
     attachment_authorize(@attachment, "show", @attachment.attachmenable_type.singularize.downcase)
-
-    # to działa
-    # send_file "#{@attachment.attached_file.file.file}"
 
     send_file "#{@attachment.attached_file.path}", 
       type: "#{@attachment.file_content_type}",
@@ -24,6 +19,19 @@ class AttachmentsController < ApplicationController
       status: 200, 
       stream: true, 
       x_sendfile: true    
+  end
+
+  # GET /attachments/1
+  # GET /attachments/1.json
+  def show
+    @attachment = Attachment.find(params[:id])
+    attachment_authorize(@attachment, "show", @attachment.attachmenable_type.singularize.downcase)
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
+
   end
 
   # GET /attachments/1/edit
@@ -35,24 +43,10 @@ class AttachmentsController < ApplicationController
   # POST /attachments
   # POST /attachments.json
   def create
-    # @attachment = params[:attachment].present? ? @attachmenable.attachments.new(attachment_params) : @attachmenable.attachments.new()
-    # @attachment.user = current_user
-    # attachment_authorize(@attachment, "create", params[:controller].classify.deconstantize.singularize.downcase)    
-    # respond_to do |format|
-    #   if @attachment.save
-    #     flash[:success] = t('activerecord.successfull.messages.created', data: @attachment.fullname)
-    #     format.html { redirect_to @attachmenable }
-    #   else
-    #     flash[:error] = t('activerecord.errors.messages.created', data: '')
-    #     format.html { redirect_to @attachmenable }
-    #   end
-    # end
-
     @attachment = params[:attachment].present? ? @attachmenable.attachments.new(attachment_params) : @attachmenable.attachments.new()
     attachment_authorize(@attachment, "create", params[:controller].classify.deconstantize.singularize.downcase)
 
     @attachment = @attachmenable.attachments.create(attachment_params)
-    #head :ok
   end
 
   # PATCH/PUT /attachments/1

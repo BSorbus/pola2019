@@ -55,14 +55,14 @@
                             method: :delete,
                             data: { confirm: t('helpers.links.confirm_destroy', data: @point_file.fullname) }, 
                             class: "btn btn-danger" do %>
-          <span class="glyphicon glyphicon-trash"></span>
+          <span class="fa fa-trash"></span>
           <%= t("helpers.links.destroy") %>
         <% end %>
       <% end %>
 
       <% if policy(@point_file).edit? %>
         <%= link_to edit_project_point_file_path(@point_file.project, @point_file), class: "btn btn-primary" do %>
-          <span class="glyphicon glyphicon-edit"></span>
+          <span class="fa fa-edit"></span>
           <%= t("helpers.links.edit") %>
         <% end %>
       <% end %>
