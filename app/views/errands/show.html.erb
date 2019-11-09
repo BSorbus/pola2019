@@ -8,8 +8,13 @@
         </li>
         <% if policy(:attachment).errand_index? %>
           <li class="brand-nav brand-nav-level-1">
-          <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
-        </li>
+            <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
+          </li>
+        <% end %>
+        <% if policy(:correspondence).errand_index? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#correspondences" data-toggle="tab"><%= correspondence_index_legend %></a>
+          </li>
         <% end %>
         <% if policy(:errand).work? %>
           <li class="brand-nav brand-nav-level-1">
@@ -32,6 +37,10 @@
 
         <div class="tab-pane" id="attachments">
           <%= render 'attachments/attachments_tab', attachmenable: @errand, subtitle: errand_info_legend(@errand) %>
+        </div>
+
+        <div class="tab-pane" id="correspondences">
+          <%= render 'correspondences/correspondences_tab', correspondenable: @errand, subtitle: errand_info_legend(@errand) %>
         </div>
 
         <div class="tab-pane" id="works">

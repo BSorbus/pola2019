@@ -1,0 +1,3 @@
+$('#statement_file_preview_area').html('');
+$('#statement_file_preview_area').prepend('<div><%= image_tag @statement.attached_file_url(:thumb), class: "img img-thumbnail" %></div');
+$('#statement_file_preview_area').prepend('<div><strong>Plik:</strong> <%= @statement.fullname %>, <%= @statement.file_size %></div');

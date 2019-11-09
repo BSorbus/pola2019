@@ -1,4 +1,4 @@
-module EnrollmentHelper
+module EnrollmentsHelper
 
   def enrollment_show_legend
     fa_icon("briefcase", text: t("pages.enrollment.show.title"))

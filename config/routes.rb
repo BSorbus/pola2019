@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     get 'datatables_index', on: :collection
     get 'datatables_index_customer', on: :collection # Displays projects for showed customer
     resources :attachments, module: :projects, only: [:create]
+    resources :correspondences, module: :projects, only: [:create]
     resources :point_files, module: :projects, except: [:index] do
       get 'download', on: :member
       get 'datatables_index_zs_point', on: :collection # Displays zs_points for showed point_file
@@ -43,6 +44,7 @@ Rails.application.routes.draw do
 
   resources :enrollments do
     resources :attachments, module: :enrollments, only: [:create]
+    resources :correspondences, module: :enrollments, only: [:create]
   end
 
   resources :roles do
@@ -62,6 +64,9 @@ Rails.application.routes.draw do
     get 'send_status', on: :member 
     post 'datatables_index', on: :collection
     resources :attachments, module: :events, only: [:create]
+    resources :statements, module: :events, only: [:create]
+    resources :correspondences, module: :events, only: [:create]
+    resources :opinions, module: :events, only: [:create]
   end
 
   resources :errands do
@@ -69,6 +74,7 @@ Rails.application.routes.draw do
     get 'select2_index', on: :collection
     get 'datatables_index', on: :collection
     resources :attachments, module: :errands, only: [:create]
+    resources :correspondences, module: :errands, only: [:create]
   end
 
   resources :charts, only: [] do
@@ -109,6 +115,21 @@ Rails.application.routes.draw do
   get 'static_pages/help'
 
   resources :attachments, only: [:show, :edit, :update, :destroy] do
+    get 'datatables_index', on: :collection # for Trackable
+    get 'download', on: :member
+  end
+
+  resources :statements, only: [:show, :edit, :update, :destroy] do
+    get 'datatables_index', on: :collection # for Trackable
+    get 'download', on: :member
+  end
+
+  resources :correspondences, only: [:show, :edit, :update, :destroy] do
+    get 'datatables_index', on: :collection # for Trackable
+    get 'download', on: :member
+  end
+
+  resources :opinions, only: [:show, :edit, :update, :destroy] do
     get 'datatables_index', on: :collection # for Trackable
     get 'download', on: :member
   end

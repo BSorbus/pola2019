@@ -1,15 +1,15 @@
-class Attachment < ApplicationRecord
+class Opinion < ApplicationRecord
   delegate :url_helpers, to: 'Rails.application.routes'
 
   # relations
   belongs_to :user
-  belongs_to :attachmenable, polymorphic: true, counter_cache: true
+  belongs_to :opinionable, polymorphic: true
 
   # validates
   validates :attached_file, presence: true, file_size: { in: 1.byte..500.megabyte }
 
   # callbacks
-  after_create_commit { self.log_work('upload_attachment') }
+  after_create_commit { self.log_work('upload_opinion') }
   after_update_commit { self.log_work('update') }
   after_commit :send_notification_to_model
 
@@ -18,9 +18,9 @@ class Attachment < ApplicationRecord
 
 
   def log_work(action = '', action_user_id = nil)
-    trackable_url = url_helpers(only_path: true, controller: self.attachmenable.class.to_s.pluralize.downcase, action: 'show', id: self.attachmenable.id)
+    trackable_url = url_helpers(only_path: true, controller: self.opinionable.class.to_s.pluralize.downcase, action: 'show', id: self.opinionable.id)
     worker_id = action_user_id || self.user_id
-    Work.create!(trackable_type: "#{self.attachmenable.class.to_s}", trackable_id: self.attachmenable.id, trackable_url: trackable_url, action: "#{action}", user_id: worker_id, 
+    Work.create!(trackable_type: "#{self.opinionable.class.to_s}", trackable_id: self.opinionable.id, trackable_url: trackable_url, action: "#{action}", user_id: worker_id, 
       parameters: self.to_json(except: [:user_id], include: {user: {only: [:id, :name, :email]}}))
   end
 
@@ -28,14 +28,14 @@ class Attachment < ApplicationRecord
     destroyed_clone = self.clone
     destroyed_return = self.destroy
     if destroyed_return
-      destroyed_clone.log_work('destroy_attachment', current_user_id)
+      destroyed_clone.log_work('destroy_opinion', current_user_id)
     end
     return destroyed_return
   end
 
   def send_notification_to_model
 # TO DO
-#    attachmenable.send_notification_to_pool if (['Errand', 'Event', 'Project']).include? self.attachmenable.class.to_s     
+#    opinionable.send_notification_to_pool if (['Errand', 'Event', 'Project']).include? self.opinionable.class.to_s     
   end
 
   # validate :attached_file_size_validation

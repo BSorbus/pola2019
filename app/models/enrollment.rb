@@ -7,6 +7,7 @@ class Enrollment < ApplicationRecord
   has_many :projects, dependent: :destroy
 
   has_many :attachments, as: :attachmenable, dependent: :destroy
+  has_many :correspondences, as: :correspondenable, dependent: :destroy
   has_many :works, as: :trackable
 
   # validates

@@ -1,4 +1,4 @@
-class AttachmentUploader < CarrierWave::Uploader::Base
+class AbleUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
@@ -31,20 +31,19 @@ class AttachmentUploader < CarrierWave::Uploader::Base
   #   # do something
   # end
 
-  # Create different versions of your uploaded files:
-  # version :for_preview do
-  #   process resize_to_fit: [640, 640]
-  # end
 
-  version :for_preview do
-    process convert_previewable: :png, if: :previewable?
+  version :thumb do
+
+    process convert_convertable: :png, if: :convertable?
+    process resize_to_fit: [800, 800], if: :image?
 
     def full_filename (for_file = model.source.file)
       super.chomp(File.extname(super)) + '.png'
     end
+
   end
 
-  def convert_previewable(format)
+  def convert_convertable(format)
     manipulate! do |img| # this is ::MiniMagick::Image instance
       img.format(format.to_s.downcase, 0)
       img
@@ -98,11 +97,8 @@ class AttachmentUploader < CarrierWave::Uploader::Base
 
   private
 
-    def previewable?(file)
-      puts '---------------------------------'
-      puts model.file_content_type
-      puts '---------------------------------'
-      image?(file) || pdf?(file) || docx?(file) || xlsx?(file)
+    def convertable?(file)
+      pdf?(file) || docx?(file) || xlsx?(file) || pptx?(file)
     end
 
     def image?(file)
@@ -119,5 +115,9 @@ class AttachmentUploader < CarrierWave::Uploader::Base
 
     def xlsx?(file)
       model.file_content_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    end
+
+    def pptx?(file)
+      model.file_content_type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
     end
 end

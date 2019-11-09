@@ -1,4 +1,4 @@
-module BusinessTripHelper
+module BusinessTripsHelper
 
   def business_trip_payment_approved_info(bt)
     if bt.payment_on_account_approved_id.present?

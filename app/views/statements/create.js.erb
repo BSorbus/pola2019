@@ -1,0 +1,6 @@
+<% if @statement.new_record? %>
+  alert("Failed to upload statement: <%= j @statement.errors.full_messages.join(', ').html_safe %>");
+<% else %>
+  $('#statemenable-statements').DataTable().draw();
+  toastr['success']("<%= @statement.attached_file.file.filename %>" + '<br>...pobieranie zakończone');
+<% end %>

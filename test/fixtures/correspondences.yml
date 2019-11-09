@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  correspondeable: one
+  correspondeable_type: Correspondeable
+  attached_file: MyString
+  file_content_type: MyString
+  file_size: MyString
+  note: MyText
+  user: one
+
+two:
+  correspondeable: two
+  correspondeable_type: Correspondeable
+  attached_file: MyString
+  file_content_type: MyString
+  file_size: MyString
+  note: MyText
+  user: two

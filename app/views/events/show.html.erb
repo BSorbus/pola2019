@@ -8,8 +8,23 @@
         </li>
         <% if policy(:attachment).event_index? %>
           <li class="brand-nav brand-nav-level-1">
-          <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
-        </li>
+            <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
+          </li>
+        <% end %>
+        <% if policy(:statement).event_index? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#statements" data-toggle="tab"><%= statement_index_legend %></a>
+          </li>
+        <% end %>
+        <% if policy(:correspondence).event_index? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#correspondences" data-toggle="tab"><%= correspondence_index_legend %></a>
+          </li>
+        <% end %>
+        <% if policy(:opinion).event_index? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#opinions" data-toggle="tab"><%= opinion_index_legend %></a>
+          </li>
         <% end %>
         <% if policy(:event).work? %>
           <li class="brand-nav brand-nav-level-1">
@@ -27,6 +42,18 @@
 
         <div class="tab-pane" id="attachments">
           <%= render 'attachments/attachments_tab', attachmenable: @event, subtitle: event_info_legend(@event) %>
+        </div>
+
+        <div class="tab-pane" id="statements">
+          <%= render 'statements/statements_tab', statemenable: @event, subtitle: event_info_legend(@event) %>
+        </div>
+
+        <div class="tab-pane" id="correspondences">
+          <%= render 'correspondences/correspondences_tab', correspondenable: @event, subtitle: event_info_legend(@event) %>
+        </div>
+
+        <div class="tab-pane" id="opinions">
+          <%= render 'opinions/opinions_tab', opinionable: @event, subtitle: event_info_legend(@event) %>
         </div>
 
         <div class="tab-pane" id="works">

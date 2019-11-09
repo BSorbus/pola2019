@@ -1,4 +1,4 @@
-module ProjectHelper
+module ProjectsHelper
 
   def project_show_legend
     fa_icon("project-diagram", text: t("pages.project.show.title"))

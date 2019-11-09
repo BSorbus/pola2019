@@ -1,4 +1,4 @@
-module RoleHelper
+module RolesHelper
 
   def role_show_legend
     fa_icon("user-tag", text: t("pages.role.show.title"))

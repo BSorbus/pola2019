@@ -2,7 +2,7 @@ jQuery ->
   $('#new_attachment').fileupload
     dataType: "script"
     add: (e, data) ->
-      data.context = $(tmpl("template-upload", data.files[0]))
+      data.context = $(tmpl("attachment-template-upload", data.files[0]))
       $('#new_attachment').append(data.context)
       $('#new_attachment').append("<img class='spinner' src='<%= asset_path('spinner.gif') %>'>")
       data.submit()

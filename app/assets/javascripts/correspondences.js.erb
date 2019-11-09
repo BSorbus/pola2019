@@ -1,0 +1,84 @@
+$(document).ready(function() {
+  var oCorrespondenableCorrespondencesTable = $('#correspondenable-correspondences').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    searchDelay: 500,
+    ajax: { 
+      url: $('#correspondenable-correspondences').data('source'),
+      type: "GET",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
+    iDisplayLength: -1,
+    columns: [
+      { "data": "id",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { "data": "attached_file" }, 
+      { "data": "note" }, 
+      { "data": "user" },
+      { "data": "updated_at" },
+      { "data": "file_size",
+        "searchable": false,
+        "sortable": false },
+      { "data": "action",
+        "searchable": false,
+        "sortable": false }
+    ],
+    preDrawCallback: function( settings ) {
+      // jezeli panel nie jest widoczny, to przerwij ładowanie danych
+      if ( $( "#tab_correspondences" ).is( ":hidden" ) ) {
+        return false;
+      }
+    },
+    order: [[ 4, "desc" ]],
+    language: {
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+
+
+  // jezeli nastepuje wyswietlenie tab, to zaladuj dane
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    var target = $(e.target).attr("href") // activated tab
+    if (target == '#correspondences') {
+      oCorrespondenableCorrespondencesTable.draw();
+    };
+  });
+
+
+  $('#correspondenable-correspondences tbody').on( 'click', 'button-as-link', function () {
+    if (confirm('Czy na pewno chcesz usunać plik?')) {
+      $.ajax({
+        url: $(this).attr('ajax-path'),
+        type: $(this).attr('ajax-method'),
+        async: true,
+        success: function (response) {
+          oCorrespondenableCorrespondencesTable.draw();
+          toastr['success']('plik został trwale usunięty');
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          console.log(xhr);
+          if (xhr.status == 401) {
+            window.location.reload();
+          } else {
+            getErrorMessage(xhr, thrownError);
+          }
+        }
+      });
+    };
+  });
+
+  
+});

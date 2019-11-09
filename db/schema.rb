@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_03_201850) do
+ActiveRecord::Schema.define(version: 2019_11_08_202519) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -44,9 +44,12 @@ ActiveRecord::Schema.define(version: 2019_03_03_201850) do
   end
 
   create_table "business_trip_statuses", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
+    t.integer "step", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_business_trip_statuses_on_name", unique: true
+    t.index ["step"], name: "index_business_trip_statuses_on_step", unique: true
   end
 
   create_table "business_trips", force: :cascade do |t|
@@ -58,17 +61,18 @@ ActiveRecord::Schema.define(version: 2019_03_03_201850) do
     t.text "purpose", default: ""
     t.text "trip_confirmation", default: ""
     t.decimal "payment_on_account", precision: 8, scale: 2, default: "0.0"
-    t.bigint "approved_id"
-    t.datetime "approved_date_time"
     t.bigint "payment_on_account_approved_id"
     t.datetime "payment_on_account_approved_date_time"
     t.text "note", default: ""
     t.bigint "business_trip_status_id", default: 1
+    t.bigint "business_trip_status_updated_user_id"
+    t.datetime "business_trip_status_updated_at"
     t.bigint "user_id"
+    t.integer "hotel"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["approved_id"], name: "index_business_trips_on_approved_id"
     t.index ["business_trip_status_id"], name: "index_business_trips_on_business_trip_status_id"
+    t.index ["business_trip_status_updated_user_id"], name: "index_business_trips_on_business_trip_status_updated_user_id"
     t.index ["employee_id"], name: "index_business_trips_on_employee_id"
     t.index ["payment_on_account_approved_id"], name: "index_business_trips_on_payment_on_account_approved_id"
     t.index ["user_id"], name: "index_business_trips_on_user_id"
@@ -90,6 +94,20 @@ ActiveRecord::Schema.define(version: 2019_03_03_201850) do
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_comments_on_event_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "correspondences", force: :cascade do |t|
+    t.string "correspondenable_type"
+    t.bigint "correspondenable_id"
+    t.string "attached_file"
+    t.string "file_content_type"
+    t.string "file_size"
+    t.text "note", default: ""
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["correspondenable_type", "correspondenable_id"], name: "index_correspondences_on_correspondenable_type_and_id"
+    t.index ["user_id"], name: "index_correspondences_on_user_id"
   end
 
   create_table "customers", force: :cascade do |t|
@@ -219,6 +237,19 @@ ActiveRecord::Schema.define(version: 2019_03_03_201850) do
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
+  create_table "flows", force: :cascade do |t|
+    t.bigint "business_trip_id"
+    t.bigint "business_trip_status_id"
+    t.bigint "business_trip_status_updated_user_id"
+    t.datetime "business_trip_status_updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["business_trip_id"], name: "index_flows_on_business_trip_id"
+    t.index ["business_trip_status_id"], name: "index_flows_on_business_trip_status_id"
+    t.index ["business_trip_status_updated_at"], name: "index_flows_on_business_trip_status_updated_at"
+    t.index ["business_trip_status_updated_user_id"], name: "index_flows_on_business_trip_status_updated_user_id"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.text "body"
     t.bigint "user_id"
@@ -236,6 +267,20 @@ ActiveRecord::Schema.define(version: 2019_03_03_201850) do
     t.integer "password_archivable_id", null: false
     t.datetime "created_at"
     t.index ["password_archivable_type", "password_archivable_id"], name: "index_password_archivable"
+  end
+
+  create_table "opinions", force: :cascade do |t|
+    t.string "opinionable_type"
+    t.bigint "opinionable_id"
+    t.string "attached_file"
+    t.string "file_content_type"
+    t.string "file_size"
+    t.text "note", default: ""
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["opinionable_type", "opinionable_id"], name: "index_opinions_on_opinionable_type_and_opinionable_id"
+    t.index ["user_id"], name: "index_opinions_on_user_id"
   end
 
   create_table "point_files", force: :cascade do |t|
@@ -350,6 +395,20 @@ ActiveRecord::Schema.define(version: 2019_03_03_201850) do
     t.index ["role_id"], name: "index_roles_users_on_role_id"
     t.index ["user_id", "role_id"], name: "index_roles_users_on_user_id_and_role_id", unique: true
     t.index ["user_id"], name: "index_roles_users_on_user_id"
+  end
+
+  create_table "statements", force: :cascade do |t|
+    t.string "statemenable_type"
+    t.bigint "statemenable_id"
+    t.string "attached_file"
+    t.string "file_content_type"
+    t.string "file_size"
+    t.text "note", default: ""
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["statemenable_type", "statemenable_id"], name: "index_statements_on_statemenable_type_and_statemenable_id"
+    t.index ["user_id"], name: "index_statements_on_user_id"
   end
 
   create_table "transport_types", force: :cascade do |t|
@@ -606,10 +665,12 @@ ActiveRecord::Schema.define(version: 2019_03_03_201850) do
   add_foreign_key "attachments", "users"
   add_foreign_key "business_trips", "business_trip_statuses"
   add_foreign_key "business_trips", "users"
+  add_foreign_key "business_trips", "users", column: "business_trip_status_updated_user_id"
   add_foreign_key "business_trips", "users", column: "employee_id"
   add_foreign_key "chat_rooms", "users"
   add_foreign_key "comments", "events"
   add_foreign_key "comments", "users"
+  add_foreign_key "correspondences", "users"
   add_foreign_key "customers", "users"
   add_foreign_key "enrollments", "users"
   add_foreign_key "errands", "errand_statuses"
@@ -618,8 +679,12 @@ ActiveRecord::Schema.define(version: 2019_03_03_201850) do
   add_foreign_key "events", "event_statuses"
   add_foreign_key "events", "event_types"
   add_foreign_key "events", "users"
+  add_foreign_key "flows", "business_trip_statuses"
+  add_foreign_key "flows", "business_trips"
+  add_foreign_key "flows", "users", column: "business_trip_status_updated_user_id"
   add_foreign_key "messages", "chat_rooms"
   add_foreign_key "messages", "users"
+  add_foreign_key "opinions", "users"
   add_foreign_key "point_files", "projects"
   add_foreign_key "projects", "customers"
   add_foreign_key "projects", "enrollments"
@@ -630,6 +695,7 @@ ActiveRecord::Schema.define(version: 2019_03_03_201850) do
   add_foreign_key "roads", "transport_types"
   add_foreign_key "roles_users", "roles"
   add_foreign_key "roles_users", "users"
+  add_foreign_key "statements", "users"
   add_foreign_key "transports", "business_trips"
   add_foreign_key "transports", "transport_types"
   add_foreign_key "ww_points", "point_files"

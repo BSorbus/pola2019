@@ -1,4 +1,4 @@
-module CustomerHelper
+module CustomersHelper
 
   def customer_show_legend
     fa_icon("flag", text: t("pages.customer.show.title"))

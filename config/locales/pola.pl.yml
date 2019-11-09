@@ -63,6 +63,9 @@ pl:
       project_status: 'Status Projektu'
       customer: 'Wnioskodawca'
       attachment: 'Załącznik'
+      statement: 'Oświadczenie'
+      correspondence: 'Korespondencja'
+      opinion: 'Ocena/Opinia'
       point_file: 'Plik Punktów Adresowych'
       ww_point: 'Punkt Adresowy'
       zs_point: 'Węzeł'
@@ -155,6 +158,33 @@ pl:
         rpt: 'RPT'
         flat_assigned_projects: 'Powiązane projekty'
       attachment:
+        attached_file: 'Plik'
+        attached_file_identifier: 'Plik'
+        file_content_type: 'Typ'
+        file_size: 'Rozmiar'
+        created_at: 'Utworzony'
+        updated_at: 'Aktualizacja'
+        user_id: 'Autor'
+        note: 'Uwagi'
+      statement:
+        attached_file: 'Plik'
+        attached_file_identifier: 'Plik'
+        file_content_type: 'Typ'
+        file_size: 'Rozmiar'
+        created_at: 'Utworzony'
+        updated_at: 'Aktualizacja'
+        user_id: 'Autor'
+        note: 'Uwagi'
+      correspondence:
+        attached_file: 'Plik'
+        attached_file_identifier: 'Plik'
+        file_content_type: 'Typ'
+        file_size: 'Rozmiar'
+        created_at: 'Utworzony'
+        updated_at: 'Aktualizacja'
+        user_id: 'Autor'
+        note: 'Uwagi'
+      opinion:
         attached_file: 'Plik'
         attached_file_identifier: 'Plik'
         file_content_type: 'Typ'
@@ -406,6 +436,21 @@ pl:
         title: 'Załączniki'
       edit:
         title: 'Edycja -> Załącznik'
+    statement:
+      index:
+        title: 'Oświadczenia'
+      edit:
+        title: 'Edycja -> Oświadczenie'
+    correspondence:
+      index:
+        title: 'Korespondencja'
+      edit:
+        title: 'Edycja -> Korespondencja'
+    opinion:
+      index:
+        title: 'Oceny/Opinie'
+      edit:
+        title: 'Edycja -> Ocena/Opinia'
     point_file:
       index:
         title: 'Pliki Punktów Adresowych'

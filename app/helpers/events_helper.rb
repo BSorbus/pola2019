@@ -1,4 +1,4 @@
-module EventHelper
+module EventsHelper
 
   def event_show_legend
     fa_icon("calendar", text: t("pages.event.show.title"))

@@ -1,4 +1,4 @@
-module UserHelper
+module UsersHelper
 
   def user_show_legend
     fa_icon("user", text: t("pages.user.show.title"))

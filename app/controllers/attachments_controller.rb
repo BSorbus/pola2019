@@ -80,7 +80,7 @@ class AttachmentsController < ApplicationController
     # end      
     @attachment = Attachment.find(params[:id])
     attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
-    if @attachment.destroy
+    if @attachment.destroy_and_log_work(current_user.id)
       #flash.now[:success] = t('activerecord.successfull.messages.destroyed', data: @attachment.fullname)
       head :no_content
     end

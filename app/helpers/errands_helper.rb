@@ -1,4 +1,4 @@
-module ErrandHelper
+module ErrandsHelper
 
   def errand_show_legend
     fa_icon("tasks", text: t("pages.errand.show.title") )

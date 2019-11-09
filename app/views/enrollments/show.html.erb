@@ -8,8 +8,13 @@
         </li>
         <% if policy(:attachment).enrollment_index? %>
           <li class="brand-nav brand-nav-level-1">
-          <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
-        </li>
+            <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
+          </li>
+        <% end %>
+        <% if policy(:correspondence).enrollment_index? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#correspondences" data-toggle="tab"><%= correspondence_index_legend %></a>
+          </li>
         <% end %>
         <% if policy(:enrollment).work? %>
           <li class="brand-nav brand-nav-level-1">
@@ -27,6 +32,10 @@
 
         <div class="tab-pane" id="attachments">
           <%= render 'attachments/attachments_tab', attachmenable: @enrollment, subtitle: enrollment_info_legend(@enrollment) %>
+        </div>
+
+        <div class="tab-pane" id="correspondences">
+          <%= render 'correspondences/correspondences_tab', correspondenable: @enrollment, subtitle: enrollment_info_legend(@enrollment) %>
         </div>
 
         <div class="tab-pane" id="works">

@@ -10,6 +10,7 @@ class Errand < ApplicationRecord
   has_many :events, dependent: :nullify, index_errors: true
 
   has_many :attachments, as: :attachmenable, dependent: :destroy
+  has_many :correspondences, as: :correspondenable, dependent: :destroy
   has_many :works, as: :trackable
 
   # validates
