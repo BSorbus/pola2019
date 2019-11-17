@@ -1,6 +1,6 @@
 class AttachmentsController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized, only: [:show, :edit, :update, :create, :destroy]
+  after_action :verify_authorized, only: [:show, :edit, :update, :create, :destroy, :move_to_correspondence]
 
   def datatables_index
     respond_to do |format|
@@ -84,6 +84,17 @@ class AttachmentsController < ApplicationController
       #flash.now[:success] = t('activerecord.successfull.messages.destroyed', data: @attachment.fullname)
       head :no_content
     end
+  end
+
+  def move_to_correspondence
+    puts '##################################### move_to_correspondence ##################################### '
+    @attachment = Attachment.find(params[:id])
+    attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
+ 
+    if @attachment.move_to_correspondence_and_log_work(current_user.id)
+      head :no_content
+    end
+ 
   end
 
   private

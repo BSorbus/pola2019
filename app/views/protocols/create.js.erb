@@ -1,0 +1,6 @@
+<% if @protocol.new_record? %>
+  alert("Failed to upload protocol: <%= j @protocol.errors.full_messages.join(', ').html_safe %>");
+<% else %>
+  $('#protocolable-protocols').DataTable().draw();
+  toastr['success']("<%= @protocol.attached_file.file.filename %>" + '<br>...pobieranie zakończone');
+<% end %>

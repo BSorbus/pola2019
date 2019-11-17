@@ -1,20 +1,20 @@
-<div id="tab_statements">
+<div id="tab_protocols">
   <fieldset class="my-fieldset">
-    <legend class="my-fieldset colored-title"><%= subtitle %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= statement_index_legend %></legend>
+    <legend class="my-fieldset colored-title"><%= subtitle %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= protocol_index_legend %></legend>
 
     <div class="row">
 
       <div class="col-sm-12">
-        <table id="statemenable-statements" width="100%" class="hover cell-border compact" width="100%" 
-          data-source="<%= datatables_index_statements_path(statemenable_type: statemenable.class.to_s, statemenable_id: statemenable.id.to_s, format: :json) %>">
+        <table id="protocolable-protocols" width="100%" class="hover cell-border compact" width="100%" 
+          data-source="<%= datatables_index_protocols_path(protocolable_type: protocolable.class.to_s, protocolable_id: protocolable.id.to_s, format: :json) %>">
           <thead>
             <tr>
               <th>0 ID </th>
-              <th><%= Statement.human_attribute_name(:attached_file) %></th>
-              <th><%= Statement.human_attribute_name(:note) %></th>
-              <th><%= Statement.human_attribute_name(:user_id) %></th>
-              <th><%= Statement.human_attribute_name(:updated_at) %></th>
-              <th><%= Statement.human_attribute_name(:file_size) %></th>
+              <th><%= Protocol.human_attribute_name(:attached_file) %></th>
+              <th><%= Protocol.human_attribute_name(:note) %></th>
+              <th><%= Protocol.human_attribute_name(:user_id) %></th>
+              <th><%= Protocol.human_attribute_name(:updated_at) %></th>
+              <th><%= Protocol.human_attribute_name(:file_size) %></th>
               <th></th>
             </tr>
           </thead>
@@ -27,32 +27,30 @@
 
       <div class="col-sm-3">
         <hr>
-        <%= form_for [statemenable, Statement.new] do |f| %>
+        <%= form_for [protocolable, Protocol.new] do |f| %>
 
           <div class="row">
             <div class="form-group col-sm-12">
               <%= f.label :attached_file, class: 'control-label' %><small>&nbsp;&nbsp;(<%= t('help_block_text.fileuploaddragdrop') %>)</small><br>
-              <%= f.file_field :attached_file, multiple: true, name: "statement[attached_file]", class: 'form-control input input-file-field' %>
+              <%= f.file_field :attached_file, multiple: true, name: "protocol[attached_file]", class: 'form-control input input-file-field' %>
             </div>
 
           </div>
 
         <% end %>
-
       </div> <!-- /col-sm-3 -->
       <div class="col-sm-9">
         <hr>
         <div class="row">
           <div class="col-sm-12 center">
-            <div id="statement_file_preview_area"></div>
+            <div id="protocol_file_preview_area"></div>
           </div>
-
         </div>
       </div> <!-- /col-sm-3 -->
 
 
       <div class="col-sm-12">
-        <script id="statement-template-upload" type="text/x-tmpl">
+        <script id="protocol-template-upload" type="text/x-tmpl">
 
           <div class="upload" id="{%=o.name%}_id_file">
             <div>{%=o.name%}</div> 
@@ -75,12 +73,11 @@
   // jezeli nastepuje ukrycie tab
   $('a[data-toggle="tab"]').on('hide.bs.tab', function (e) {
     var target = $(e.target).attr("href") // activated tab
-    if (target == '#statements') {
+    if (target == '#protocols') {
 
-      toastr['warning']('#statements hide');
+      toastr['warning']('#protocols hide');
 
     };
   });
-  
   
 </script>

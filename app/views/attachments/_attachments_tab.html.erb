@@ -6,7 +6,8 @@
 
       <div class="col-sm-12">
         <table id="attachmenable-attachments" width="100%" class="hover cell-border compact" width="100%" 
-          data-source="<%= datatables_index_attachments_path(attachmenable_type: attachmenable.class.to_s, attachmenable_id: attachmenable.id.to_s, format: :json) %>">
+          data-source="<%= datatables_index_attachments_path(attachmenable_type: attachmenable.class.to_s, attachmenable_id: attachmenable.id.to_s, format: :json) %>"
+          data-attachmenable_type="<%= attachmenable.class.to_s %>">
           <thead>
             <tr>
               <th>0 ID </th>
@@ -69,3 +70,18 @@
 
   </fieldset>
 </div>
+
+<script type="text/javascript">
+
+  // jezeli nastepuje ukrycie tab
+  $('a[data-toggle="tab"]').on('hide.bs.tab', function (e) {
+    var target = $(e.target).attr("href") // activated tab
+    if (target == '#attachments') {
+
+      toastr['warning']('#attachments hide');
+      $("#attachment_file_move_area").hide();
+
+    };
+  });
+  
+</script>

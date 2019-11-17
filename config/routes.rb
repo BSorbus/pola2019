@@ -67,6 +67,7 @@ Rails.application.routes.draw do
     resources :statements, module: :events, only: [:create]
     resources :correspondences, module: :events, only: [:create]
     resources :opinions, module: :events, only: [:create]
+    resources :protocols, module: :events, only: [:create]
   end
 
   resources :errands do
@@ -117,6 +118,10 @@ Rails.application.routes.draw do
   resources :attachments, only: [:show, :edit, :update, :destroy] do
     get 'datatables_index', on: :collection # for Trackable
     get 'download', on: :member
+    post 'move_to_statement', on: :member
+    post 'move_to_correspondence', on: :member
+    post 'move_to_opinion', on: :member
+    post 'move_to_protocol', on: :member
   end
 
   resources :statements, only: [:show, :edit, :update, :destroy] do
@@ -130,6 +135,11 @@ Rails.application.routes.draw do
   end
 
   resources :opinions, only: [:show, :edit, :update, :destroy] do
+    get 'datatables_index', on: :collection # for Trackable
+    get 'download', on: :member
+  end
+
+  resources :protocols, only: [:show, :edit, :update, :destroy] do
     get 'datatables_index', on: :collection # for Trackable
     get 'download', on: :member
   end

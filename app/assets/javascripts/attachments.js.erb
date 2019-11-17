@@ -1,5 +1,213 @@
 $(document).ready(function() {
+
+  $.fn.dataTable.ext.buttons.attachment_selected_destroy = {
+    text: '<span class="text-danger fa fa-trash"></span><br><span>Usuń</span>',
+    titleAttr: 'Usuń zaznaczone wiersze',
+    className: 'btn btn-default',
+    init: function ( dt, node, config ) {
+      var that = this;
+      dt.on( 'select.dt.DT deselect.dt.DT', function () {
+        that.enable( dt.rows( { selected: true } ).any() );
+      });
+      this.disable();
+    },
+    action: function ( e, dt, button, config ) {
+      if (confirm('Czy na pewno chcesz usunąć plik(-i)?')) {
+        $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
+
+          $.ajax({
+            url: '/attachments/' + item.id,
+            type: 'DELETE',
+            async: true,
+            success: function (response) {
+              oAttachmentableAttachmentsTable.draw();
+              toastr['success']('"' + item.attached_file + '" został trwale usunięty');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+              console.log(xhr);
+              if (xhr.status == 401) {
+                window.location.reload();
+              } else {
+                getErrorMessage(xhr, thrownError);
+              }
+            }
+          });
+
+        });
+      }
+    }  
+  };
+
+  $.fn.dataTable.ext.buttons.attachment_move_to_statement = {
+    text: '<span class="fa fa-file-export"></span><br><span>Oświadczenia</span>',
+    titleAttr: 'Przenieś zaznaczone wiersze do "Oświadczenia/Upoważnienia"',
+    className: 'btn btn-default',
+    available: function ( dt, config ) {
+      var availableFor = ["Event", "Project"];
+      return ( (availableFor.indexOf( $('#attachmenable-attachments').data('attachmenable_type') ) > -1) );
+    },
+    init: function ( dt, node, config ) {
+      var that = this;
+      dt.on( 'select.dt.DT deselect.dt.DT', function () {
+        that.enable( dt.rows( { selected: true } ).any() );
+      });
+      this.disable();
+    },
+    action: function ( e, dt, button, config ) {
+      //window.location = $('#aus_tables-datatable').data('export_csv_url');
+      toastr['success']($('#attachmenable-attachments').data('attachmenable_type'));
+    }  
+  };
+
+  $.fn.dataTable.ext.buttons.attachment_move_to_correspondence = {
+    text: '<span class="fa fa-file-export"></span><br><span>Korespondencja</span>',
+    titleAttr: 'Przenieś zaznaczone wiersze do "Korespondencja"',
+    className: 'btn btn-default',
+    available: function ( dt, config ) {
+      var availableFor = ["Enrollment", "Errand", "Event", "Project"];
+      return ( (availableFor.indexOf( $('#attachmenable-attachments').data('attachmenable_type') ) > -1) );
+    },
+    init: function ( dt, node, config ) {
+      var that = this;
+      dt.on( 'select.dt.DT deselect.dt.DT', function () {
+        that.enable( dt.rows( { selected: true } ).any() );
+      });
+      this.disable();
+    },
+    action: function ( e, dt, button, config ) {
+      if (confirm('Czy na pewno chcesz przenieść plik(-i) do "Korespondencja"?')) {
+
+        //var rowData = oAttachmentableAttachmentsTable.rows( { selected: true } ).data().toArray();
+
+        // var ids = $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
+        //     toastr['info'](item.id);
+        //     return item.id
+        // });
+
+        $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
+
+          $.ajax({
+            url: '/attachments/' + item.id + '/move_to_correspondence',
+            type: 'POST',
+            async: true,
+            success: function (response) {
+              oAttachmentableAttachmentsTable.draw();
+              toastr['success']('"' + item.attached_file + '" został przeniesiony do "Korespondencja"');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+              console.log(xhr);
+              if (xhr.status == 401) {
+                window.location.reload();
+              } else {
+                getErrorMessage(xhr, thrownError);
+              }
+            }
+          });
+
+        });
+      }
+    }  
+  };
+
+
+  $.fn.dataTable.ext.buttons.attachment_move_to_opinion = {
+    text: '<span class="fa fa-file-export"></span><br><span>Opinie</span>',
+    titleAttr: 'Przenieś zaznaczone wiersze do "Opinie/Oceny"',
+    className: 'btn btn-default',
+    available: function ( dt, config ) {
+      var availableFor = ["Event", "Project"];
+      return ( (availableFor.indexOf( $('#attachmenable-attachments').data('attachmenable_type') ) > -1) );
+    },
+    init: function ( dt, node, config ) {
+      var that = this;
+      dt.on( 'select.dt.DT deselect.dt.DT', function () {
+        that.enable( dt.rows( { selected: true } ).any() );
+      });
+      this.disable();
+    },
+    action: function ( e, dt, button, config ) {
+      if (confirm('Czy na pewno chcesz przenieść plik(-i) do "Oceny/Opinie"?')) {
+        $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
+
+          $.ajax({
+            url: '/attachments/' + item.id + '/move_to_opinion',
+            type: 'POST',
+            async: true,
+            success: function (response) {
+              oAttachmentableAttachmentsTable.draw();
+              toastr['success']('"' + item.attached_file + '" został przeniesiony do "Oceny/Opinie"');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+              console.log(xhr);
+              if (xhr.status == 401) {
+                window.location.reload();
+              } else {
+                getErrorMessage(xhr, thrownError);
+              }
+            }
+          });
+
+        });
+      }
+    }  
+  };
+
+
+  $.fn.dataTable.ext.buttons.attachment_move_to_protocol = {
+    text: '<span class="fa fa-file-export"></span><br><span>Protokoły</span>',
+    titleAttr: 'Przenieś zaznaczone wiersze do "Protokóły"',
+    className: 'btn btn-default',
+    available: function ( dt, config ) {
+      var availableFor = ["Event", "Project"];
+      return ( (availableFor.indexOf( $('#attachmenable-attachments').data('attachmenable_type') ) > -1) );
+    },
+    init: function ( dt, node, config ) {
+      var that = this;
+      dt.on( 'select.dt.DT deselect.dt.DT', function () {
+        that.enable( dt.rows( { selected: true } ).any() );
+      });
+      this.disable();
+    },
+    action: function ( e, dt, button, config ) {
+      if (confirm('Czy na pewno chcesz przenieść plik(-i) do "Protokoły"?')) {
+        $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
+
+          $.ajax({
+            url: '/attachments/' + item.id + '/move_to_protocol',
+            type: 'POST',
+            async: true,
+            success: function (response) {
+              oAttachmentableAttachmentsTable.draw();
+              toastr['success']('"' + item.attached_file + '" został przeniesiony do "Protokoły"');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+              console.log(xhr);
+              if (xhr.status == 401) {
+                window.location.reload();
+              } else {
+                getErrorMessage(xhr, thrownError);
+              }
+            }
+          });
+
+        });
+      };
+    }  
+  };
+
+
   var oAttachmentableAttachmentsTable = $('#attachmenable-attachments').DataTable({
+    dom: 'lBfrtip',
+    buttons: [
+      'attachment_selected_destroy',
+      'attachment_move_to_statement', 
+      'attachment_move_to_correspondence',
+      'attachment_move_to_opinion',
+      'attachment_move_to_protocol'
+    ],
+    select: {
+      style: 'multi'
+    },
     responsive: true,
     processing: true,
     serverSide: true,
@@ -49,15 +257,26 @@ $(document).ready(function() {
   });
 
 
+  oAttachmentableAttachmentsTable
+  .on( 'draw', function () {
+    //oAttachmentableAttachmentsTable.button( '0-1' ).remove();
+    oAttachmentableAttachmentsTable.rows().deselect();
+  });
+
+
   // jezeli nastepuje wyswietlenie tab, to zaladuj dane
   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var target = $(e.target).attr("href") // activated tab
     if (target == '#attachments') {
+
+      toastr['info']('#attachments show');
+
       oAttachmentableAttachmentsTable.draw();
     };
   });
 
 
+  // column 'action' delete button
   $('#attachmenable-attachments tbody').on( 'click', 'button-as-link', function () {
     if (confirm('Czy na pewno chcesz usunać plik?')) {
       $.ajax({

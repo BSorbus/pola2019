@@ -16,6 +16,7 @@ class Event < ApplicationRecord
   has_many :statements, as: :statemenable, dependent: :destroy
   has_many :correspondences, as: :correspondenable, dependent: :destroy
   has_many :opinions, as: :opinionable, dependent: :destroy
+  has_many :protocols, as: :protocolable, dependent: :destroy
   has_many :works, as: :trackable
 
   # validates

@@ -1,5 +1,51 @@
 $(document).ready(function() {
+
+  $.fn.dataTable.ext.buttons.opinion_selected_destroy = {
+    text: '<span class="text-danger fa fa-trash"></span>',
+    titleAttr: 'Usuń zaznaczone wiersze',
+    className: 'btn btn-default',
+    init: function ( dt, node, config ) {
+      var that = this;
+      dt.on( 'select.dt.DT deselect.dt.DT', function () {
+        that.enable( dt.rows( { selected: true } ).any() );
+      });
+      this.disable();
+    },
+    action: function ( e, dt, button, config ) {
+      if (confirm('Czy na pewno chcesz usunąć plik(-i)?')) {
+        $.map(oOpinionableOpinionsTable.rows( { selected: true } ).data(), function (item) {
+
+          $.ajax({
+            url: '/opinions/' + item.id,
+            type: 'DELETE',
+            async: true,
+            success: function (response) {
+              oOpinionableOpinionsTable.draw();
+              toastr['success']('"' + item.attached_file + '" został trwale usunięty');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+              console.log(xhr);
+              if (xhr.status == 401) {
+                window.location.reload();
+              } else {
+                getErrorMessage(xhr, thrownError);
+              }
+            }
+          });
+
+        });
+      }
+    }  
+  };
+
   var oOpinionableOpinionsTable = $('#opinionable-opinions').DataTable({
+    dom: 'lBfrtip',
+    buttons: [
+      'opinion_selected_destroy'
+    ],
+    select: {
+      style: 'multi'
+    },
     responsive: true,
     processing: true,
     serverSide: true,
@@ -53,6 +99,9 @@ $(document).ready(function() {
   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var target = $(e.target).attr("href") // activated tab
     if (target == '#opinions') {
+
+      toastr['info']('#opinions show');
+
       oOpinionableOpinionsTable.draw();
     };
   });

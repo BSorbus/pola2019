@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-  $.fn.dataTable.ext.buttons.correspondence_selected_destroy = {
+  $.fn.dataTable.ext.buttons.protocol_selected_destroy = {
     text: '<span class="text-danger fa fa-trash"></span>',
     titleAttr: 'Usuń zaznaczone wiersze',
     className: 'btn btn-default',
@@ -13,14 +13,14 @@ $(document).ready(function() {
     },
     action: function ( e, dt, button, config ) {
       if (confirm('Czy na pewno chcesz usunąć plik(-i)?')) {
-        $.map(oCorrespondenableCorrespondencesTable.rows( { selected: true } ).data(), function (item) {
+        $.map(oProtocolableProtocolsTable.rows( { selected: true } ).data(), function (item) {
 
           $.ajax({
-            url: '/correspondences/' + item.id,
+            url: '/protocols/' + item.id,
             type: 'DELETE',
             async: true,
             success: function (response) {
-              oCorrespondenableCorrespondencesTable.draw();
+              oProtocolableProtocolsTable.draw();
               toastr['success']('"' + item.attached_file + '" został trwale usunięty');
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -38,10 +38,10 @@ $(document).ready(function() {
     }  
   };
 
-  var oCorrespondenableCorrespondencesTable = $('#correspondenable-correspondences').DataTable({
+  var oProtocolableProtocolsTable = $('#protocolable-protocols').DataTable({
     dom: 'lBfrtip',
     buttons: [
-      'correspondence_selected_destroy'
+      'protocol_selected_destroy'
     ],
     select: {
       style: 'multi'
@@ -52,7 +52,7 @@ $(document).ready(function() {
     deferRender: true,
     searchDelay: 500,
     ajax: { 
-      url: $('#correspondenable-correspondences').data('source'),
+      url: $('#protocolable-protocols').data('source'),
       type: "GET",
       error: function (jqXHR, exception) {
         console.log(jqXHR);
@@ -84,7 +84,7 @@ $(document).ready(function() {
     ],
     preDrawCallback: function( settings ) {
       // jezeli panel nie jest widoczny, to przerwij ładowanie danych
-      if ( $( "#tab_correspondences" ).is( ":hidden" ) ) {
+      if ( $( "#tab_protocols" ).is( ":hidden" ) ) {
         return false;
       }
     },
@@ -95,36 +95,26 @@ $(document).ready(function() {
   });
 
 
-  oCorrespondenableCorrespondencesTable
-  .on( 'draw', function () {
-    //oCorrespondenableCorrespondencesTable.button( '0-1' ).remove();
-    oCorrespondenableCorrespondencesTable.rows().deselect();
-  });
-
-
   // jezeli nastepuje wyswietlenie tab, to zaladuj dane
   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var target = $(e.target).attr("href") // activated tab
-    if (target == '#correspondences') {
+    if (target == '#protocols') {
 
-      toastr['info']('#correspondences show');
+      toastr['info']('#protocols show');
 
-      oCorrespondenableCorrespondencesTable.draw();
-
-      //$('#correspondence_form_upload').fadeIn("slow");
-
+      oProtocolableProtocolsTable.draw();
     };
   });
 
 
-  $('#correspondenable-correspondences tbody').on( 'click', 'button-as-link', function () {
+  $('#protocolable-protocols tbody').on( 'click', 'button-as-link', function () {
     if (confirm('Czy na pewno chcesz usunać plik?')) {
       $.ajax({
         url: $(this).attr('ajax-path'),
         type: $(this).attr('ajax-method'),
         async: true,
         success: function (response) {
-          oCorrespondenableCorrespondencesTable.draw();
+          oProtocolableProtocolsTable.draw();
           toastr['success']('plik został trwale usunięty');
         },
         error: function (xhr, ajaxOptions, thrownError) {

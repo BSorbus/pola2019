@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_08_202519) do
+ActiveRecord::Schema.define(version: 2019_11_11_225523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -76,14 +76,6 @@ ActiveRecord::Schema.define(version: 2019_11_08_202519) do
     t.index ["employee_id"], name: "index_business_trips_on_employee_id"
     t.index ["payment_on_account_approved_id"], name: "index_business_trips_on_payment_on_account_approved_id"
     t.index ["user_id"], name: "index_business_trips_on_user_id"
-  end
-
-  create_table "chat_rooms", force: :cascade do |t|
-    t.string "title"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_chat_rooms_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -250,16 +242,6 @@ ActiveRecord::Schema.define(version: 2019_11_08_202519) do
     t.index ["business_trip_status_updated_user_id"], name: "index_flows_on_business_trip_status_updated_user_id"
   end
 
-  create_table "messages", force: :cascade do |t|
-    t.text "body"
-    t.bigint "user_id"
-    t.bigint "chat_room_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["chat_room_id"], name: "index_messages_on_chat_room_id"
-    t.index ["user_id"], name: "index_messages_on_user_id"
-  end
-
   create_table "old_passwords", force: :cascade do |t|
     t.string "encrypted_password", null: false
     t.string "password_salt"
@@ -360,6 +342,20 @@ ActiveRecord::Schema.define(version: 2019_11_08_202519) do
     t.index ["load_date"], name: "index_proposal_files_on_load_date"
     t.index ["project_id"], name: "index_proposal_files_on_project_id"
     t.index ["status"], name: "index_proposal_files_on_status"
+  end
+
+  create_table "protocols", force: :cascade do |t|
+    t.string "protocolable_type"
+    t.bigint "protocolable_id"
+    t.string "attached_file"
+    t.string "file_content_type"
+    t.string "file_size"
+    t.text "note", default: ""
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["protocolable_type", "protocolable_id"], name: "index_protocols_on_protocolable_type_and_protocolable_id"
+    t.index ["user_id"], name: "index_protocols_on_user_id"
   end
 
   create_table "roads", force: :cascade do |t|
@@ -667,7 +663,6 @@ ActiveRecord::Schema.define(version: 2019_11_08_202519) do
   add_foreign_key "business_trips", "users"
   add_foreign_key "business_trips", "users", column: "business_trip_status_updated_user_id"
   add_foreign_key "business_trips", "users", column: "employee_id"
-  add_foreign_key "chat_rooms", "users"
   add_foreign_key "comments", "events"
   add_foreign_key "comments", "users"
   add_foreign_key "correspondences", "users"
@@ -682,8 +677,6 @@ ActiveRecord::Schema.define(version: 2019_11_08_202519) do
   add_foreign_key "flows", "business_trip_statuses"
   add_foreign_key "flows", "business_trips"
   add_foreign_key "flows", "users", column: "business_trip_status_updated_user_id"
-  add_foreign_key "messages", "chat_rooms"
-  add_foreign_key "messages", "users"
   add_foreign_key "opinions", "users"
   add_foreign_key "point_files", "projects"
   add_foreign_key "projects", "customers"
@@ -691,6 +684,7 @@ ActiveRecord::Schema.define(version: 2019_11_08_202519) do
   add_foreign_key "projects", "project_statuses"
   add_foreign_key "projects", "users"
   add_foreign_key "proposal_files", "projects"
+  add_foreign_key "protocols", "users"
   add_foreign_key "roads", "business_trips"
   add_foreign_key "roads", "transport_types"
   add_foreign_key "roles_users", "roles"

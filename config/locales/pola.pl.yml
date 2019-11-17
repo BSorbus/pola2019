@@ -63,9 +63,10 @@ pl:
       project_status: 'Status Projektu'
       customer: 'Wnioskodawca'
       attachment: 'Załącznik'
-      statement: 'Oświadczenie'
+      statement: 'Oświadczenie/Upoważnienie'
       correspondence: 'Korespondencja'
       opinion: 'Ocena/Opinia'
+      protocol: 'Protokół'
       point_file: 'Plik Punktów Adresowych'
       ww_point: 'Punkt Adresowy'
       zs_point: 'Węzeł'
@@ -185,6 +186,15 @@ pl:
         user_id: 'Autor'
         note: 'Uwagi'
       opinion:
+        attached_file: 'Plik'
+        attached_file_identifier: 'Plik'
+        file_content_type: 'Typ'
+        file_size: 'Rozmiar'
+        created_at: 'Utworzony'
+        updated_at: 'Aktualizacja'
+        user_id: 'Autor'
+        note: 'Uwagi'
+      protocol:
         attached_file: 'Plik'
         attached_file_identifier: 'Plik'
         file_content_type: 'Typ'
@@ -438,7 +448,7 @@ pl:
         title: 'Edycja -> Załącznik'
     statement:
       index:
-        title: 'Oświadczenia'
+        title: 'Oświadczenia/Upoważnienia'
       edit:
         title: 'Edycja -> Oświadczenie'
     correspondence:
@@ -451,6 +461,11 @@ pl:
         title: 'Oceny/Opinie'
       edit:
         title: 'Edycja -> Ocena/Opinia'
+    protocol:
+      index:
+        title: 'Protokoły'
+      edit:
+        title: 'Edycja -> Protokół'
     point_file:
       index:
         title: 'Pliki Punktów Adresowych'

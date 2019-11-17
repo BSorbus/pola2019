@@ -26,6 +26,11 @@
             <a href="#opinions" data-toggle="tab"><%= opinion_index_legend %></a>
           </li>
         <% end %>
+        <% if policy(:protocol).event_index? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#protocols" data-toggle="tab"><%= protocol_index_legend %></a>
+          </li>
+        <% end %>
         <% if policy(:event).work? %>
           <li class="brand-nav brand-nav-level-1">
             <a href="#works" data-toggle="tab"><%= work_index_legend %></a>
@@ -54,6 +59,10 @@
 
         <div class="tab-pane" id="opinions">
           <%= render 'opinions/opinions_tab', opinionable: @event, subtitle: event_info_legend(@event) %>
+        </div>
+
+        <div class="tab-pane" id="protocols">
+          <%= render 'protocols/protocols_tab', protocolable: @event, subtitle: event_info_legend(@event) %>
         </div>
 
         <div class="tab-pane" id="works">

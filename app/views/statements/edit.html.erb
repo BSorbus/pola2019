@@ -1,0 +1,16 @@
+<br>
+<div class="container-fluid"> 
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="center colored-title"><%= fa_icon("edit", size: '3x') %></div>
+    </div>
+    <div class="col-sm-10">
+      <fieldset class="my-fieldset">
+        <legend class="my-fieldset colored-title"><%= statement_edit_legend(@statement) %></legend>
+        <%= render 'form', statement: @statement %>
+      </fieldset>
+    </div>
+
+  </div>
+
+</div>
