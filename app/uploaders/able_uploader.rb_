@@ -28,10 +28,20 @@ class AbleUploader < CarrierWave::Uploader::Base
   #   # do something
   # end
 
-  process :override_content_type_and_save_info
 
+  version :thumb do
+
+    process convert_convertable: :png, if: :convertable?
+    process resize_to_fit: [800, 800], if: :image?
+
+    def full_filename (for_file = model.source.file)
+      super.chomp(File.extname(super)) + '.png'
+    end
+
+  end
 
   def convert_convertable(format)
+    puts '----------------- run convert_convertable(format) -----------------------------------'
     manipulate! do |img| # this is ::MiniMagick::Image instance
       img.format(format.to_s.downcase, 0)
       img
@@ -57,20 +67,6 @@ class AbleUploader < CarrierWave::Uploader::Base
   end
 
 
-  version :thumb do
-
-    process convert_convertable: :png, if: :convertable?
-    process resize_to_fit: [800, 800], if: :image?
-    process convert: :png, if: :image?
-    #process convert: :png, if: :not_convertable?
-
-    def full_filename (for_file = model.source.file)
-      super.chomp(File.extname(super)) + '.png'
-    end
-
-  end
-
-
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   # def extension_whitelist
@@ -84,52 +80,24 @@ class AbleUploader < CarrierWave::Uploader::Base
   # end
 
 
+  process :save_content_type_size_in_model
+
 
   # def size_range
   #   0..2.megabytes
   # end
-
 
   def save_content_type_size_in_model
     model.file_content_type = file.content_type if file.content_type
     model.file_size = number_to_human_size(file.size) if file.size
   end
 
-  def override_content_type_and_save_info
-    case File.extname(file.file).delete('.').to_sym
-    when :xlsx
-      file.content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    when :docx
-      file.content_type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-    when :pptx
-      file.content_type = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-    end
-
-    # if File.extname(file.file).delete('.').to_sym == :xlsx
-    #   file.content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    # end
-    # if File.extname(file.file).delete('.').to_sym == :docx
-    #   file.content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-    # end
-    # if File.extname(file.file).delete('.').to_sym == :pptx
-    #   file.content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation'
-    # end
-
-    model.file_content_type = file.content_type if file.content_type
-    model.file_size = number_to_human_size(file.size) if file.size
-  end
 
   private
 
     def convertable?(file)
-      # puts '-------------------- check convertable?(file) -------------------------------'
-      # puts model.file_content_type
-      # puts file.content_type
-      # puts ( pdf?(file) || docx?(file) || xlsx?(file) || pptx?(file) )
-      # puts '-----------------------------------------------------------------------------'
-      ( pdf?(file) || docx?(file) || xlsx?(file) || pptx?(file) )
+      pdf?(file) || docx?(file) || xlsx?(file) || pptx?(file)
     end
-
 
     def image?(file)
       model.file_content_type.include? 'image'

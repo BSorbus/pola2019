@@ -95,13 +95,16 @@ $(document).ready(function() {
   });
 
 
+  oOpinionableOpinionsTable
+  .on( 'draw', function () {
+    oOpinionableOpinionsTable.rows().deselect();
+  });
+
+
   // jezeli nastepuje wyswietlenie tab, to zaladuj dane
   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var target = $(e.target).attr("href") // activated tab
     if (target == '#opinions') {
-
-      toastr['info']('#opinions show');
-
       oOpinionableOpinionsTable.draw();
     };
   });

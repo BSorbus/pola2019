@@ -69,18 +69,3 @@
 
   </fieldset>
 </div>
-
-<script type="text/javascript">
-
-  // jezeli nastepuje ukrycie tab
-  $('a[data-toggle="tab"]').on('hide.bs.tab', function (e) {
-    var target = $(e.target).attr("href") // activated tab
-    if (target == '#statements') {
-
-      toastr['warning']('#statements hide');
-
-    };
-  });
-  
-  
-</script>

@@ -95,13 +95,16 @@ $(document).ready(function() {
   });
 
 
+  oStatemenableStatementsTable
+  .on( 'draw', function () {
+    oStatemenableStatementsTable.rows().deselect();
+  });
+
+
   // jezeli nastepuje wyswietlenie tab, to zaladuj dane
   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var target = $(e.target).attr("href") // activated tab
     if (target == '#statements') {
-
-      toastr['info']('#statements show');
-
       oStatemenableStatementsTable.draw();
     };
   });

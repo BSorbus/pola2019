@@ -33,10 +33,51 @@ class Attachment < ApplicationRecord
     return destroyed_return
   end
 
+
   def move_to_correspondence_and_log_work(current_user_id)
-    puts '================== move_to_correspondence_and_log_work(current_user_id) ===================='
-    self.destroy
+    ApplicationRecord.transaction do
+      correspondence = Correspondence.create(correspondenable_type: self.attachmenable_type, correspondenable_id: self.attachmenable_id, user_id: current_user_id)
+      correspondence.attached_file = File.new(File.join(Rails.root, '/public' + self.attached_file.url))
+      correspondence.save!
+      correspondence.attached_file.recreate_versions!(:thumb)
+
+      self.destroy_and_log_work(current_user_id)
+    end
   end
+
+  def move_to_opinion_and_log_work(current_user_id)
+    ApplicationRecord.transaction do
+      opinion = Opinion.create(opinionable_type: self.attachmenable_type, opinionable_id: self.attachmenable_id, user_id: current_user_id)
+      opinion.attached_file = File.new(File.join(Rails.root, '/public' + self.attached_file.url))
+      opinion.save!
+      opinion.attached_file.recreate_versions!(:thumb)
+
+      self.destroy_and_log_work(current_user_id)
+    end
+  end
+
+  def move_to_protocol_and_log_work(current_user_id)
+    ApplicationRecord.transaction do
+      protocol = Protocol.create(protocolable_type: self.attachmenable_type, protocolable_id: self.attachmenable_id, user_id: current_user_id)
+      protocol.attached_file = File.new(File.join(Rails.root, '/public' + self.attached_file.url))
+      protocol.save!
+      protocol.attached_file.recreate_versions!(:thumb)
+
+      self.destroy_and_log_work(current_user_id)
+    end
+  end
+
+  def move_to_statement_and_log_work(current_user_id)
+    ApplicationRecord.transaction do
+      statement = Statement.create(statemenable_type: self.attachmenable_type, statemenable_id: self.attachmenable_id, user_id: current_user_id)
+      statement.attached_file = File.new(File.join(Rails.root, '/public' + self.attached_file.url))
+      statement.save!
+      statement.attached_file.recreate_versions!(:thumb)
+
+      self.destroy_and_log_work(current_user_id)
+    end
+  end
+
 
   def send_notification_to_model
 # TO DO

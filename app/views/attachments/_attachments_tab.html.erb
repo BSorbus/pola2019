@@ -71,17 +71,3 @@
   </fieldset>
 </div>
 
-<script type="text/javascript">
-
-  // jezeli nastepuje ukrycie tab
-  $('a[data-toggle="tab"]').on('hide.bs.tab', function (e) {
-    var target = $(e.target).attr("href") // activated tab
-    if (target == '#attachments') {
-
-      toastr['warning']('#attachments hide');
-      $("#attachment_file_move_area").hide();
-
-    };
-  });
-  
-</script>

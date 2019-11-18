@@ -97,7 +97,6 @@ $(document).ready(function() {
 
   oCorrespondenableCorrespondencesTable
   .on( 'draw', function () {
-    //oCorrespondenableCorrespondencesTable.button( '0-1' ).remove();
     oCorrespondenableCorrespondencesTable.rows().deselect();
   });
 
@@ -106,13 +105,7 @@ $(document).ready(function() {
   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var target = $(e.target).attr("href") // activated tab
     if (target == '#correspondences') {
-
-      toastr['info']('#correspondences show');
-
       oCorrespondenableCorrespondencesTable.draw();
-
-      //$('#correspondence_form_upload').fadeIn("slow");
-
     };
   });
 

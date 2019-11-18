@@ -10,9 +10,19 @@ puts "#####  RUN - all.rb  #####"
 # end
 
 
-instance = AbleUploader.new
-instance.recreate_versions!(:thumb)
+Attachment.all.each do |attachment|
+  puts '------------------------------------------------------'
+  puts 'attachment.id:' 
+  puts "  #{attachment.id}"
+  puts "attachment.attached_file.file:"
+  puts "  #{attachment.attached_file.file}"
+  puts ''
+  attachment.attached_file.recreate_versions!(:thumb)
+  puts '------------------------------------------------------'
+end
 
+
+CarrierWave.clean_cached_files!
 
 puts "#####  END OF - all.rb  #####"
 puts " "

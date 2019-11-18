@@ -95,13 +95,16 @@ $(document).ready(function() {
   });
 
 
+  oProtocolableProtocolsTable
+  .on( 'draw', function () {
+    oProtocolableProtocolsTable.rows().deselect();
+  });
+
+
   // jezeli nastepuje wyswietlenie tab, to zaladuj dane
   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var target = $(e.target).attr("href") // activated tab
     if (target == '#protocols') {
-
-      toastr['info']('#protocols show');
-
       oProtocolableProtocolsTable.draw();
     };
   });

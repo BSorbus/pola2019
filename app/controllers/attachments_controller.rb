@@ -87,14 +87,35 @@ class AttachmentsController < ApplicationController
   end
 
   def move_to_correspondence
-    puts '##################################### move_to_correspondence ##################################### '
     @attachment = Attachment.find(params[:id])
     attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
- 
     if @attachment.move_to_correspondence_and_log_work(current_user.id)
       head :no_content
-    end
- 
+    end 
+  end
+
+  def move_to_opinion
+    @attachment = Attachment.find(params[:id])
+    attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
+    if @attachment.move_to_opinion_and_log_work(current_user.id)
+      head :no_content
+    end 
+  end
+
+  def move_to_protocol
+    @attachment = Attachment.find(params[:id])
+    attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
+    if @attachment.move_to_protocol_and_log_work(current_user.id)
+      head :no_content
+    end 
+  end
+
+  def move_to_statement
+    @attachment = Attachment.find(params[:id])
+    attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
+    if @attachment.move_to_statement_and_log_work(current_user.id)
+      head :no_content
+    end 
   end
 
   private

@@ -1,0 +1,1 @@
+MiniMagick.logger.level = Logger::DEBUG
