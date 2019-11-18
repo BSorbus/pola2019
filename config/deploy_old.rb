@@ -83,7 +83,7 @@ task :pre_deploy do
     command "scp config/master.key #{fetch(:user)}@#{fetch(:domain)}:#{fetch(:shared_path)}/config/master.key"
     command "scp config/database.yml #{fetch(:user)}@#{fetch(:domain)}:#{fetch(:shared_path)}/config/database.yml"
     command "scp config/secrets.yml #{fetch(:user)}@#{fetch(:domain)}:#{fetch(:shared_path)}/config/secrets.yml"
-    command "scp config/storage.yml #{fetch(:user)}@#{fetch(:domain)}:#{fetch(:shared_path)}/config/storage.yml"
+    #command "scp config/storage.yml #{fetch(:user)}@#{fetch(:domain)}:#{fetch(:shared_path)}/config/storage.yml"
   end
 
 end

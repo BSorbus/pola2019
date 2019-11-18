@@ -14,7 +14,7 @@ jQuery(function() {
       if (data.context) {
         percentComplete = Math.round(data.loaded / data.total * 100);
         data.context.find('.progress-bar').css("width", percentComplete + '%').attr('aria-valuenow', percentComplete);
-        data.context.find('.progress-bar').text("<%= I18n.t('file_upload.in_progress') %> " + `${percentComplete}%`);
+        data.context.find('.progress-bar').text("<%= I18n.t('file_upload.in_progress') %> " + (percentComplete + "%"));
         if (percentComplete === 100) {
           return data.context.find('.progress-bar').text('<%= I18n.t("file_upload.wait_to_save") %>');
         }
