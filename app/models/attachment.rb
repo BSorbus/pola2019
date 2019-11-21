@@ -37,7 +37,7 @@ class Attachment < ApplicationRecord
   def move_to_correspondence_and_log_work(current_user_id)
     ApplicationRecord.transaction do
       correspondence = Correspondence.create(correspondenable_type: self.attachmenable_type, correspondenable_id: self.attachmenable_id, user_id: current_user_id)
-      correspondence.attached_file = File.new(File.join(Rails.root, '/public' + self.attached_file.url))
+      correspondence.attached_file = File.new(File.join(Rails.root, '/public' + only_file_path(self.attached_file.url) + self.attached_file.file.filename))
       correspondence.save!
       correspondence.attached_file.recreate_versions!(:thumb)
 
@@ -48,7 +48,7 @@ class Attachment < ApplicationRecord
   def move_to_opinion_and_log_work(current_user_id)
     ApplicationRecord.transaction do
       opinion = Opinion.create(opinionable_type: self.attachmenable_type, opinionable_id: self.attachmenable_id, user_id: current_user_id)
-      opinion.attached_file = File.new(File.join(Rails.root, '/public' + self.attached_file.url))
+      opinion.attached_file = File.new(File.join(Rails.root, '/public' + only_file_path(self.attached_file.url) + self.attached_file.file.filename))
       opinion.save!
       opinion.attached_file.recreate_versions!(:thumb)
 
@@ -59,7 +59,7 @@ class Attachment < ApplicationRecord
   def move_to_protocol_and_log_work(current_user_id)
     ApplicationRecord.transaction do
       protocol = Protocol.create(protocolable_type: self.attachmenable_type, protocolable_id: self.attachmenable_id, user_id: current_user_id)
-      protocol.attached_file = File.new(File.join(Rails.root, '/public' + self.attached_file.url))
+      protocol.attached_file = File.new(File.join(Rails.root, '/public' + only_file_path(self.attached_file.url) + self.attached_file.file.filename))
       protocol.save!
       protocol.attached_file.recreate_versions!(:thumb)
 
@@ -70,7 +70,7 @@ class Attachment < ApplicationRecord
   def move_to_statement_and_log_work(current_user_id)
     ApplicationRecord.transaction do
       statement = Statement.create(statemenable_type: self.attachmenable_type, statemenable_id: self.attachmenable_id, user_id: current_user_id)
-      statement.attached_file = File.new(File.join(Rails.root, '/public' + self.attached_file.url))
+      statement.attached_file = File.new(File.join(Rails.root, '/public' + only_file_path(self.attached_file.url) + self.attached_file.file.filename))
       statement.save!
       statement.attached_file.recreate_versions!(:thumb)
 
@@ -96,5 +96,13 @@ class Attachment < ApplicationRecord
   def fullname
     "#{self.attached_file_identifier}"
   end
+
+  private
+
+    def only_file_path(path_with_file_name)
+      length_path = path_with_file_name.length
+      length_filename = path_with_file_name.reverse.index('/')
+      path_with_file_name[0, (length_path-length_filename)]
+    end
 
 end

@@ -448,7 +448,7 @@ pl:
         title: 'Edycja -> Załącznik'
     statement:
       index:
-        title: 'Oświadczenia/Upoważnienia'
+        title: 'Oświadczenia/Upoważ.'
       edit:
         title: 'Edycja -> Oświadczenie'
     correspondence:
