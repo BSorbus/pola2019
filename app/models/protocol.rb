@@ -34,8 +34,7 @@ class Protocol < ApplicationRecord
   end
 
   def send_notification_to_model
-# TO DO
-#    protocolable.send_notification_to_pool if (['Errand', 'Event', 'Project']).include? self.protocolable.class.to_s     
+    protocolable.send_notification_to_pool if (['Errand', 'Event', 'Project']).include? self.protocolable.class.to_s     
   end
 
   # validate :attached_file_size_validation

@@ -34,8 +34,7 @@ class Opinion < ApplicationRecord
   end
 
   def send_notification_to_model
-# TO DO
-#    opinionable.send_notification_to_pool if (['Errand', 'Event', 'Project']).include? self.opinionable.class.to_s     
+    opinionable.send_notification_to_pool if (['Errand', 'Event', 'Project']).include? self.opinionable.class.to_s     
   end
 
   # validate :attached_file_size_validation

@@ -80,8 +80,7 @@ class Attachment < ApplicationRecord
 
 
   def send_notification_to_model
-# TO DO
-#    attachmenable.send_notification_to_pool if (['Errand', 'Event', 'Project']).include? self.attachmenable.class.to_s     
+    attachmenable.send_notification_to_pool if (['Errand', 'Event', 'Project']).include? self.attachmenable.class.to_s     
   end
 
   # validate :attached_file_size_validation

@@ -34,8 +34,7 @@ class Statement < ApplicationRecord
   end
 
   def send_notification_to_model
-# TO DO
-#    statemenable.send_notification_to_pool if (['Errand', 'Event', 'Project']).include? self.statemenable.class.to_s     
+    statemenable.send_notification_to_pool if (['Errand', 'Event', 'Project']).include? self.statemenable.class.to_s     
   end
 
   # validate :attached_file_size_validation

@@ -34,8 +34,7 @@ class Correspondence < ApplicationRecord
   end
 
   def send_notification_to_model
-# TO DO
-#    correspondenable.send_notification_to_pool if (['Errand', 'Event', 'Project']).include? self.correspondenable.class.to_s     
+    correspondenable.send_notification_to_pool if (['Errand', 'Event', 'Project']).include? self.correspondenable.class.to_s     
   end
 
   # validate :attached_file_size_validation
