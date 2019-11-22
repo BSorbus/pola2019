@@ -468,7 +468,7 @@ pl:
         title: 'Edycja -> Protokół'
     point_file:
       index:
-        title: 'Pliki Punktów Adresowych'
+        title: 'Pliki Punktów Adres.'
       show:
         title: 'Plik Punktów Adresowych'
       new:

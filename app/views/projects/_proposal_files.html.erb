@@ -1,40 +1,8 @@
-<div class="col-sm-12">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th class="col-sm-5"><%= ProposalFile.human_attribute_name(:load_file) %></th>
-        <th class="col-sm-4"><%= ProposalFile.human_attribute_name(:note) %></th>
-        <th class="col-sm-1"><%= ProposalFile.human_attribute_name(:status) %></th>
-        <th class="col-sm-2"><%= ProposalFile.human_attribute_name(:load_date) %></th>
-      </tr>
-    <thead>
-    <tbody>
-      <% @project.proposal_files.order(load_date: :desc).each do |proposal_file| %>
-        <tr>
-          <td class="<%='success' if proposal_file.status == 'active' %>">
-            <%= link_to proposal_file.fullname, project_proposal_file_path(@project, proposal_file)  %>
-          </td>
-          <td class="<%='success' if proposal_file.active? %>" >
-            <%= truncate(Loofah.fragment(proposal_file.note).text, length: 50) %>
-          </td>
-          <td class="<%='success' if proposal_file.active? %>" >
-            <%= enum_l(proposal_file, :status) %>
-          </td>
-          <td class="<%='success' if proposal_file.status == 'active' %>">
-            <%= proposal_file.load_date.present? ? proposal_file.load_date.strftime("%Y-%m-%d %H:%M:%S") : ''%>
-          </td>
-        </tr>
-      <% end %>
-     </tbody>
-  </table>
+<div id="tab_proposal_files">
+  <fieldset class="my-fieldset">
+    <legend class="my-fieldset colored-title"><%= subtitle %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= proposal_file_index_legend %></legend>
 
+    <h1>PROPOSAL FILES</h1>
+    
+  </fieldset>
 </div>
-
-<div class="col-sm-12">
-  <% if policy(:proposal_file).new? %>
-    <%= link_to new_project_proposal_file_path(@project), class: "btn btn-primary pull-right" do %>
-      <span class="fa fa-plus"></span>
-      <%= t("helpers.links.new") %>
-    <% end %>
-  <% end %>
-</div> <!--/col-sm-12 -->

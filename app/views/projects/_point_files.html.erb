@@ -1,40 +1,8 @@
-<div class="col-sm-12">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th class="col-sm-5"><%= PointFile.human_attribute_name(:load_file) %></th>
-        <th class="col-sm-4"><%= PointFile.human_attribute_name(:note) %></th>
-        <th class="col-sm-1"><%= PointFile.human_attribute_name(:status) %></th>
-        <th class="col-sm-2"><%= PointFile.human_attribute_name(:load_date) %></th>
-      </tr>
-    <thead>
-    <tbody>
-      <% @project.point_files.order(load_date: :desc).each do |point_file| %>
-        <tr>
-          <td class="<%='success' if point_file.status == 'active' %>">
-            <%= link_to point_file.fullname, project_point_file_path(@project, point_file)  %>
-          </td>
-          <td class="<%='success' if point_file.active? %>" >
-            <%= truncate(Loofah.fragment(point_file.note).text, length: 50) %>
-          </td>
-          <td class="<%='success' if point_file.active? %>" >
-            <%= enum_l(point_file, :status) %>
-          </td>
-          <td class="<%='success' if point_file.status == 'active' %>">
-            <%= point_file.load_date.present? ? point_file.load_date.strftime("%Y-%m-%d %H:%M:%S") : ''%>
-          </td>
-        </tr>
-      <% end %>
-     </tbody>
-  </table>
+<div id="tab_point_files">
+  <fieldset class="my-fieldset">
+    <legend class="my-fieldset colored-title"><%= subtitle %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= point_file_index_legend %></legend>
 
+    <h1>POINT FILES</h1>
+    
+  </fieldset>
 </div>
-
-<div class="col-sm-12">
-  <% if policy(:point_file).new? %>
-    <%= link_to new_project_point_file_path(@project), class: "btn btn-primary pull-right" do %>
-      <span class="fa fa-plus"></span>
-      <%= t("helpers.links.new") %>
-    <% end %>
-  <% end %>
-</div> <!--/col-sm-12 -->

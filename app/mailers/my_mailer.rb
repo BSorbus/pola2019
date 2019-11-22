@@ -25,9 +25,6 @@ class MyMailer < Devise::Mailer
 
   # Overrides same inside Devise::Mailer
   def reset_password_instructions(record, token, opts={})
-
-    opts[:to] = 'BSorbus@gmail.com'   
-
     @url  = Rails.application.secrets.domain_name
     attachments.inline['logo.jpg'] = File.read("app/assets/images/pola.png")
     attachments.inline['logo_uke.jpg'] = File.read("app/assets/images/logo_uke_pl_do_lewej_small.png")
