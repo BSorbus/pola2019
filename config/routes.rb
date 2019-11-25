@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     get 'datatables_index', on: :collection
     get 'datatables_index_customer', on: :collection # Displays projects for showed customer
     resources :attachments, module: :projects, only: [:create]
+    resources :opinions, module: :projects, only: [:create]
     resources :correspondences, module: :projects, only: [:create]
     resources :point_files, module: :projects, except: [:index] do
       get 'download', on: :member
@@ -117,7 +118,9 @@ Rails.application.routes.draw do
 
   resources :attachments, only: [:show, :edit, :update, :destroy] do
     get 'datatables_index', on: :collection # for Trackable
+    get 'datatables_index_through_events', on: :collection # for Trackable
     get 'download', on: :member
+    get 'show_through_events', on: :member
     post 'move_to_statement', on: :member
     post 'move_to_correspondence', on: :member
     post 'move_to_opinion', on: :member
@@ -126,22 +129,30 @@ Rails.application.routes.draw do
 
   resources :statements, only: [:show, :edit, :update, :destroy] do
     get 'datatables_index', on: :collection # for Trackable
+    get 'datatables_index_through_events', on: :collection # for Trackable
     get 'download', on: :member
+    get 'show_through_events', on: :member
   end
 
   resources :correspondences, only: [:show, :edit, :update, :destroy] do
     get 'datatables_index', on: :collection # for Trackable
+    get 'datatables_index_through_events', on: :collection # for Trackable
     get 'download', on: :member
+    get 'show_through_events', on: :member
   end
 
   resources :opinions, only: [:show, :edit, :update, :destroy] do
     get 'datatables_index', on: :collection # for Trackable
+    get 'datatables_index_through_events', on: :collection # for Trackable
     get 'download', on: :member
+    get 'show_through_events', on: :member
   end
 
   resources :protocols, only: [:show, :edit, :update, :destroy] do
     get 'datatables_index', on: :collection # for Trackable
+    get 'datatables_index_through_events', on: :collection # for Trackable
     get 'download', on: :member
+    get 'show_through_events', on: :member
   end
 
   resources :zs_points

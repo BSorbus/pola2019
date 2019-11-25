@@ -8,6 +8,12 @@ class OpinionsController < ApplicationController
     end
   end
 
+  def datatables_index_through_events
+    respond_to do |format|
+      format.json{ render json: ThroughEventsOpinionDatatable.new(params, view_context: view_context, for_parent_id: params[:for_parent_id], for_parent_type: params[:for_parent_type] ) }
+    end
+  end
+
   def download
     @opinion = Opinion.find(params[:id])
     opinion_authorize(@opinion, "show", @opinion.opinionable_type.singularize.downcase)
@@ -31,7 +37,15 @@ class OpinionsController < ApplicationController
       format.html
       format.js
     end
+  end
 
+  def show_through_events
+    @opinion = Opinion.find(params[:id])
+    opinion_authorize(@opinion, "show", @opinion.opinionable_type.singularize.downcase)
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   # GET /opinions/1/edit

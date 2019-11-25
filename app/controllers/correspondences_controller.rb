@@ -8,6 +8,12 @@ class CorrespondencesController < ApplicationController
     end
   end
 
+  def datatables_index_through_events
+    respond_to do |format|
+      format.json{ render json: ThroughEventsCorrespondenceDatatable.new(params, view_context: view_context, for_parent_id: params[:for_parent_id], for_parent_type: params[:for_parent_type] ) }
+    end
+  end
+
   def download
     @correspondence = Correspondence.find(params[:id])
     correspondence_authorize(@correspondence, "show", @correspondence.correspondenable_type.singularize.downcase)
@@ -31,7 +37,15 @@ class CorrespondencesController < ApplicationController
       format.html
       format.js
     end
+  end
 
+  def show_through_events
+    @correspondence = Correspondence.find(params[:id])
+    correspondence_authorize(@correspondence, "show", @correspondence.correspondenable_type.singularize.downcase)
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   # GET /correspondences/1/edit

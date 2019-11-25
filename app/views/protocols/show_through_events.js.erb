@@ -1,0 +1,3 @@
+$('#through_events_protocol_file_preview_area').html('');
+$('#through_events_protocol_file_preview_area').prepend('<div><%= image_tag @protocol.attached_file_url(:thumb), class: "img img-thumbnail" %></div');
+$('#through_events_protocol_file_preview_area').prepend('<div><strong>Plik:</strong> <%= @protocol.fullname %>, <%= @protocol.file_size %></div');

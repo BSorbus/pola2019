@@ -8,4 +8,8 @@ module CorrespondencesHelper
     fa_icon("flag", text: t("pages.correspondence.edit.title") + ": " + data_obj.fullname )
   end
 
+  def through_events_correspondence_index_legend
+    fa_icon("paperclip", text: t("pages.correspondence.through_events_index.title"))
+  end
+
 end

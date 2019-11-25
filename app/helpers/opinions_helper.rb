@@ -8,4 +8,8 @@ module OpinionsHelper
     fa_icon("flag", text: t("pages.opinion.edit.title") + ": " + data_obj.fullname )
   end
 
+  def through_events_opinion_index_legend
+    fa_icon("paperclip", text: t("pages.opinion.through_events_index.title"))
+  end
+
 end

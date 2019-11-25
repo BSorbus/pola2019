@@ -13,9 +13,7 @@ class Attachment < ApplicationRecord
   after_update_commit { self.log_work('update') }
   after_commit :send_notification_to_model
 
-
   mount_uploader :attached_file, AbleUploader
-
 
   def log_work(action = '', action_user_id = nil)
     trackable_url = url_helpers(only_path: true, controller: self.attachmenable.class.to_s.pluralize.downcase, action: 'show', id: self.attachmenable.id)

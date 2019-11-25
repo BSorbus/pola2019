@@ -8,4 +8,8 @@ module StatementsHelper
     fa_icon("flag", text: t("pages.statement.edit.title") + ": " + data_obj.fullname )
   end
 
+  def through_events_statement_index_legend
+    fa_icon("paperclip", text: t("pages.statement.through_events_index.title"))
+  end
+
 end

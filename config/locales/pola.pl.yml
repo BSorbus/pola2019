@@ -159,6 +159,7 @@ pl:
         rpt: 'RPT'
         flat_assigned_projects: 'Powiązane projekty'
       attachment:
+        attachmenable: 'Załączony do'
         attached_file: 'Plik'
         attached_file_identifier: 'Plik'
         file_content_type: 'Typ'
@@ -168,6 +169,7 @@ pl:
         user_id: 'Autor'
         note: 'Uwagi'
       statement:
+        statemenable: 'Załączony do'
         attached_file: 'Plik'
         attached_file_identifier: 'Plik'
         file_content_type: 'Typ'
@@ -177,6 +179,7 @@ pl:
         user_id: 'Autor'
         note: 'Uwagi'
       correspondence:
+        correspondenable: 'Załączony do'
         attached_file: 'Plik'
         attached_file_identifier: 'Plik'
         file_content_type: 'Typ'
@@ -186,6 +189,7 @@ pl:
         user_id: 'Autor'
         note: 'Uwagi'
       opinion:
+        opinionable: 'Załączony do'
         attached_file: 'Plik'
         attached_file_identifier: 'Plik'
         file_content_type: 'Typ'
@@ -195,6 +199,7 @@ pl:
         user_id: 'Autor'
         note: 'Uwagi'
       protocol:
+        protocolable: 'Załączony do'
         attached_file: 'Plik'
         attached_file_identifier: 'Plik'
         file_content_type: 'Typ'
@@ -442,26 +447,36 @@ pl:
       edit:
         title: 'Edycja -> Wnioskodawca'
     attachment:
+      through_events_index:
+        title: 'Załączniki Zadań'
       index:
         title: 'Załączniki'
       edit:
         title: 'Edycja -> Załącznik'
     statement:
+      through_events_index:
+        title: 'Oświadczenia/Upoważ. Zadań'
       index:
         title: 'Oświadczenia/Upoważ.'
       edit:
         title: 'Edycja -> Oświadczenie'
     correspondence:
+      through_events_index:
+        title: 'Korespondencja Zadań'
       index:
         title: 'Korespondencja'
       edit:
         title: 'Edycja -> Korespondencja'
     opinion:
+      through_events_index:
+        title: 'Oceny/Opinie Zadań'
       index:
         title: 'Oceny/Opinie'
       edit:
         title: 'Edycja -> Ocena/Opinia'
     protocol:
+      through_events_index:
+        title: 'Protokoły Zadań'
       index:
         title: 'Protokoły'
       edit:

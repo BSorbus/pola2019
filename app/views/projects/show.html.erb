@@ -8,12 +8,32 @@
         </li>
         <% if policy(:attachment).project_index? %>
           <li class="brand-nav brand-nav-level-1">
-          <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
-        </li>
+            <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
+          </li>
         <% end %>
-        <% if policy(:project).work? %>
+        <% if policy(:attachment).project_index? %>
           <li class="brand-nav brand-nav-level-1">
-            <a href="#works" data-toggle="tab"><%= work_index_legend %></a>
+            <a href="#through_events_attachments" data-toggle="tab"><%= through_events_attachment_index_legend %></a>
+          </li>
+        <% end %>
+        <% if policy(:statement).project_index? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#through_events_statements" data-toggle="tab"><%= through_events_statement_index_legend %></a>
+          </li>
+        <% end %>
+        <% if policy(:correspondence).project_index? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#through_events_correspondences" data-toggle="tab"><%= through_events_correspondence_index_legend %></a>
+          </li>
+        <% end %>
+        <% if policy(:opinion).project_index? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#through_events_opinions" data-toggle="tab"><%= through_events_opinion_index_legend %></a>
+          </li>
+        <% end %>
+        <% if policy(:protocol).project_index? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#through_events_protocols" data-toggle="tab"><%= through_events_protocol_index_legend %></a>
           </li>
         <% end %>
         <% if policy(:event).index? %>
@@ -31,6 +51,11 @@
             <a href="#point_files" data-toggle="tab"><%= point_file_index_legend %></a>
           </li>
         <% end %>
+        <% if policy(:project).work? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#works" data-toggle="tab"><%= work_index_legend %></a>
+          </li>
+        <% end %>
 
       </ul>
     </div>
@@ -45,8 +70,24 @@
           <%= render 'attachments/attachments_tab', attachmenable: @project, subtitle: project_info_legend(@project) %>
         </div>
 
-        <div class="tab-pane" id="works">
-          <%= render 'works/works_tab', trackable_type: "Project", trackable_id: @project.id, subtitle: project_info_legend(@project) %>
+        <div class="tab-pane" id="through_events_attachments">
+          <%= render 'attachments/through_events_attachments_tab', for_parent: @project, subtitle: project_info_legend(@project) %>
+        </div>
+
+        <div class="tab-pane" id="through_events_statements">
+          <%= render 'statements/through_events_statements_tab', for_parent: @project, subtitle: project_info_legend(@project) %>
+        </div>
+
+        <div class="tab-pane" id="through_events_correspondences">
+          <%= render 'correspondences/through_events_correspondences_tab', for_parent: @project, subtitle: project_info_legend(@project) %>
+        </div>
+
+        <div class="tab-pane" id="through_events_opinions">
+          <%= render 'opinions/through_events_opinions_tab', for_parent: @project, subtitle: project_info_legend(@project) %>
+        </div>
+
+        <div class="tab-pane" id="through_events_protocols">
+          <%= render 'protocols/through_events_protocols_tab', for_parent: @project, subtitle: project_info_legend(@project) %>
         </div>
 
         <div class="tab-pane" id="events">
@@ -59,6 +100,10 @@
 
         <div class="tab-pane" id="point_files">
           <%= render 'point_files', subtitle: project_info_legend(@project) %>
+        </div>
+
+        <div class="tab-pane" id="works">
+          <%= render 'works/works_tab', trackable_type: "Project", trackable_id: @project.id, subtitle: project_info_legend(@project) %>
         </div>
 
       </div>

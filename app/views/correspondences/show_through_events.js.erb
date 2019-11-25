@@ -1,0 +1,3 @@
+$('#through_events_correspondence_file_preview_area').html('');
+$('#through_events_correspondence_file_preview_area').prepend('<div><%= image_tag @correspondence.attached_file_url(:thumb), class: "img img-thumbnail" %></div');
+$('#through_events_correspondence_file_preview_area').prepend('<div><strong>Plik:</strong> <%= @correspondence.fullname %>, <%= @correspondence.file_size %></div');

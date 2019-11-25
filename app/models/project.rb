@@ -21,6 +21,13 @@ class Project < ApplicationRecord
   has_many :accesses_users, through: :events
 
   has_many :attachments, as: :attachmenable, dependent: :destroy
+
+  has_many :events_attachments, through: :events, source: :attachments
+  has_many :events_statements, through: :events, source: :statements
+  has_many :events_correspondences, through: :events, source: :correspondences
+  has_many :events_opinions, through: :events, source: :opinions
+  has_many :events_protocols, through: :events, source: :protocols
+
   has_many :works, as: :trackable
 
   # validates
