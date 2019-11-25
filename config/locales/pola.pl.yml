@@ -455,7 +455,7 @@ pl:
         title: 'Edycja -> Załącznik'
     statement:
       through_events_index:
-        title: 'Oświadczenia/Upoważ. Zadań'
+        title: 'Oświadcz./Upoważ. Zadań'
       index:
         title: 'Oświadczenia/Upoważ.'
       edit:
