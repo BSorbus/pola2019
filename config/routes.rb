@@ -31,8 +31,6 @@ Rails.application.routes.draw do
     get 'datatables_index', on: :collection
     get 'datatables_index_customer', on: :collection # Displays projects for showed customer
     resources :attachments, module: :projects, only: [:create]
-    resources :opinions, module: :projects, only: [:create]
-    resources :correspondences, module: :projects, only: [:create]
     resources :point_files, module: :projects, except: [:index] do
       get 'download', on: :member
       get 'datatables_index_zs_point', on: :collection # Displays zs_points for showed point_file
@@ -69,6 +67,7 @@ Rails.application.routes.draw do
     resources :correspondences, module: :events, only: [:create]
     resources :opinions, module: :events, only: [:create]
     resources :protocols, module: :events, only: [:create]
+    resources :inspection_protocols, module: :events, only: [:create]
   end
 
   resources :errands do
@@ -149,6 +148,13 @@ Rails.application.routes.draw do
   end
 
   resources :protocols, only: [:show, :edit, :update, :destroy] do
+    get 'datatables_index', on: :collection # for Trackable
+    get 'datatables_index_through_events', on: :collection # for Trackable
+    get 'download', on: :member
+    get 'show_through_events', on: :member
+  end
+
+  resources :inspection_protocols, only: [:show, :edit, :update, :destroy] do
     get 'datatables_index', on: :collection # for Trackable
     get 'datatables_index_through_events', on: :collection # for Trackable
     get 'download', on: :member

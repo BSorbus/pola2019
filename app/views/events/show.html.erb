@@ -6,30 +6,47 @@
         <li class="brand-nav active">
           <a href="#event_show" data-toggle="tab"><%= event_show_legend %></a>
         </li>
-        <% if policy(:attachment).event_index? %>
-          <li class="brand-nav brand-nav-level-1">
-            <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
-          </li>
+        <% if @event.access_attachments? %>
+          <% if policy(:attachment).event_index? %>
+            <li class="brand-nav brand-nav-level-1">
+              <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
+            </li>
+          <% end %>
         <% end %>
-        <% if policy(:statement).event_index? %>
-          <li class="brand-nav brand-nav-level-1">
-            <a href="#statements" data-toggle="tab"><%= statement_index_legend %></a>
-          </li>
+        <% if @event.access_statements? %>
+          <% if policy(:statement).event_index? %>
+            <li class="brand-nav brand-nav-level-1">
+              <a href="#statements" data-toggle="tab"><%= statement_index_legend %></a>
+            </li>
+          <% end %>
         <% end %>
-        <% if policy(:correspondence).event_index? %>
-          <li class="brand-nav brand-nav-level-1">
-            <a href="#correspondences" data-toggle="tab"><%= correspondence_index_legend %></a>
-          </li>
+        <% if @event.access_correspondences? %>
+          <% if policy(:correspondence).event_index? %>
+            <li class="brand-nav brand-nav-level-1">
+              <a href="#correspondences" data-toggle="tab"><%= correspondence_index_legend %></a>
+            </li>
+          <% end %>
         <% end %>
-        <% if policy(:opinion).event_index? %>
-          <li class="brand-nav brand-nav-level-1">
-            <a href="#opinions" data-toggle="tab"><%= opinion_index_legend %></a>
-          </li>
+        <% if @event.access_opinions? %>
+          <% if policy(:opinion).event_index? %>
+            <li class="brand-nav brand-nav-level-1">
+              <a href="#opinions" data-toggle="tab"><%= opinion_index_legend %></a>
+            </li>
+          <% end %>
         <% end %>
-        <% if policy(:protocol).event_index? %>
-          <li class="brand-nav brand-nav-level-1">
-            <a href="#protocols" data-toggle="tab"><%= protocol_index_legend %></a>
-          </li>
+        <% if @event.access_protocols? %>
+          <% if policy(:protocol).event_index? %>
+            <li class="brand-nav brand-nav-level-1">
+              <a href="#protocols" data-toggle="tab"><%= protocol_index_legend %></a>
+            </li>
+          <% end %>
+        <% end %>
+        <% if @event.access_inspection_protocols? %>
+          <% if policy(:inspection_protocol).event_index? %>
+            <li class="brand-nav brand-nav-level-1">
+              <a href="#inspection_protocols" data-toggle="tab"><%= inspection_protocol_index_legend %></a>
+            </li>
+          <% end %>
         <% end %>
         <% if policy(:event).work? %>
           <li class="brand-nav brand-nav-level-1">
@@ -45,25 +62,41 @@
           <%= render 'data', input_disabled: true, subtitle: event_info_legend(@event) %>
         </div>
 
-        <div class="tab-pane" id="attachments">
-          <%= render 'attachments/attachments_tab', attachmenable: @event, subtitle: event_info_legend(@event) %>
-        </div>
+        <% if @event.access_attachments? %>
+          <div class="tab-pane" id="attachments">
+            <%= render 'attachments/attachments_tab', attachmenable: @event, subtitle: event_info_legend(@event) %>
+          </div>
+        <% end %>
 
-        <div class="tab-pane" id="statements">
-          <%= render 'statements/statements_tab', statemenable: @event, subtitle: event_info_legend(@event) %>
-        </div>
+        <% if @event.access_statements? %>
+          <div class="tab-pane" id="statements">
+            <%= render 'statements/statements_tab', statemenable: @event, subtitle: event_info_legend(@event) %>
+          </div>
+        <% end %>
 
-        <div class="tab-pane" id="correspondences">
-          <%= render 'correspondences/correspondences_tab', correspondenable: @event, subtitle: event_info_legend(@event) %>
-        </div>
+        <% if @event.access_correspondences? %>
+          <div class="tab-pane" id="correspondences">
+            <%= render 'correspondences/correspondences_tab', correspondenable: @event, subtitle: event_info_legend(@event) %>
+          </div>
+        <% end %>
 
-        <div class="tab-pane" id="opinions">
-          <%= render 'opinions/opinions_tab', opinionable: @event, subtitle: event_info_legend(@event) %>
-        </div>
+        <% if @event.access_opinions? %>
+          <div class="tab-pane" id="opinions">
+            <%= render 'opinions/opinions_tab', opinionable: @event, subtitle: event_info_legend(@event) %>
+          </div>
+        <% end %>
 
-        <div class="tab-pane" id="protocols">
-          <%= render 'protocols/protocols_tab', protocolable: @event, subtitle: event_info_legend(@event) %>
-        </div>
+        <% if @event.access_protocols? %>
+          <div class="tab-pane" id="protocols">
+            <%= render 'protocols/protocols_tab', protocolable: @event, subtitle: event_info_legend(@event) %>
+          </div>
+        <% end %>
+
+        <% if @event.access_inspection_protocols? %>
+          <div class="tab-pane" id="inspection_protocols">
+            <%= render 'inspection_protocols/inspection_protocols_tab', inspectionable: @event, subtitle: event_info_legend(@event) %>
+          </div>
+        <% end %>
 
         <div class="tab-pane" id="works">
           <%= render 'works/works_tab', trackable_type: "Event", trackable_id: @event.id, subtitle: event_info_legend(@event) %>

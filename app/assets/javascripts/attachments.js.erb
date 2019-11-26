@@ -43,7 +43,7 @@ $(document).ready(function() {
     titleAttr: 'Przenieś zaznaczone wiersze do "Korespondencja"',
     className: 'btn btn-default',
     available: function ( dt, config ) {
-      var availableFor = ["Enrollment", "Errand", "Event", "Project"];
+      var availableFor = ["Enrollment", "Errand", "Event"];
       return ( (availableFor.indexOf( $('#attachmenable-attachments').data('attachmenable_type') ) > -1) );
     },
     init: function ( dt, node, config ) {
@@ -86,7 +86,7 @@ $(document).ready(function() {
     titleAttr: 'Przenieś zaznaczone wiersze do "Oceny/Opinie"',
     className: 'btn btn-default',
     available: function ( dt, config ) {
-      var availableFor = ["Event", "Project"];
+      var availableFor = ["Event"];
       return ( (availableFor.indexOf( $('#attachmenable-attachments').data('attachmenable_type') ) > -1) );
     },
     init: function ( dt, node, config ) {
@@ -129,7 +129,7 @@ $(document).ready(function() {
     titleAttr: 'Przenieś zaznaczone wiersze do "Protokoły"',
     className: 'btn btn-default',
     available: function ( dt, config ) {
-      var availableFor = ["Event", "Project"];
+      var availableFor = ["Event"];
       return ( (availableFor.indexOf( $('#attachmenable-attachments').data('attachmenable_type') ) > -1) );
     },
     init: function ( dt, node, config ) {
@@ -172,7 +172,7 @@ $(document).ready(function() {
     titleAttr: 'Przenieś zaznaczone wiersze do "Oświadczenia/Upoważnienia"',
     className: 'btn btn-default',
     available: function ( dt, config ) {
-      var availableFor = ["Event", "Project"];
+      var availableFor = ["Event"];
       return ( (availableFor.indexOf( $('#attachmenable-attachments').data('attachmenable_type') ) > -1) );
     },
     init: function ( dt, node, config ) {

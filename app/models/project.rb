@@ -27,6 +27,7 @@ class Project < ApplicationRecord
   has_many :events_correspondences, through: :events, source: :correspondences
   has_many :events_opinions, through: :events, source: :opinions
   has_many :events_protocols, through: :events, source: :protocols
+  has_many :events_inspection_protocols, through: :events, source: :inspection_protocols
 
   has_many :works, as: :trackable
 

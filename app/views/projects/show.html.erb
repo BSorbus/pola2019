@@ -11,34 +11,39 @@
             <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
           </li>
         <% end %>
-        <% if policy(:attachment).project_index? %>
+        <% if policy(:event).index? %>
           <li class="brand-nav brand-nav-level-1">
+            <a href="#events" data-toggle="tab"><%= event_index_legend %></a>
+          </li>
+        <% end %>
+        <% if policy(:attachment).project_index? %>
+          <li class="brand-nav brand-nav-level-2">
             <a href="#through_events_attachments" data-toggle="tab"><%= through_events_attachment_index_legend %></a>
           </li>
         <% end %>
         <% if policy(:statement).project_index? %>
-          <li class="brand-nav brand-nav-level-1">
+          <li class="brand-nav brand-nav-level-2">
             <a href="#through_events_statements" data-toggle="tab"><%= through_events_statement_index_legend %></a>
           </li>
         <% end %>
         <% if policy(:correspondence).project_index? %>
-          <li class="brand-nav brand-nav-level-1">
+          <li class="brand-nav brand-nav-level-2">
             <a href="#through_events_correspondences" data-toggle="tab"><%= through_events_correspondence_index_legend %></a>
           </li>
         <% end %>
         <% if policy(:opinion).project_index? %>
-          <li class="brand-nav brand-nav-level-1">
+          <li class="brand-nav brand-nav-level-2">
             <a href="#through_events_opinions" data-toggle="tab"><%= through_events_opinion_index_legend %></a>
           </li>
         <% end %>
         <% if policy(:protocol).project_index? %>
-          <li class="brand-nav brand-nav-level-1">
+          <li class="brand-nav brand-nav-level-2">
             <a href="#through_events_protocols" data-toggle="tab"><%= through_events_protocol_index_legend %></a>
           </li>
         <% end %>
-        <% if policy(:event).index? %>
-          <li class="brand-nav brand-nav-level-1">
-            <a href="#events" data-toggle="tab"><%= event_index_legend %></a>
+        <% if policy(:inspection_protocol).project_index? %>
+          <li class="brand-nav brand-nav-level-2">
+            <a href="#through_events_inspection_protocols" data-toggle="tab"><%= through_events_inspection_protocol_index_legend %></a>
           </li>
         <% end %>
         <% if policy(:proposal_file).index? %>
@@ -70,6 +75,10 @@
           <%= render 'attachments/attachments_tab', attachmenable: @project, subtitle: project_info_legend(@project) %>
         </div>
 
+        <div class="tab-pane" id="events">
+          <%= render 'events', subtitle: project_info_legend(@project) %>
+        </div>
+
         <div class="tab-pane" id="through_events_attachments">
           <%= render 'attachments/through_events_attachments_tab', for_parent: @project, subtitle: project_info_legend(@project) %>
         </div>
@@ -90,8 +99,8 @@
           <%= render 'protocols/through_events_protocols_tab', for_parent: @project, subtitle: project_info_legend(@project) %>
         </div>
 
-        <div class="tab-pane" id="events">
-          <%= render 'events', subtitle: project_info_legend(@project) %>
+        <div class="tab-pane" id="through_events_inspection_protocols">
+          <%= render 'inspection_protocols/through_events_inspection_protocols_tab', for_parent: @project, subtitle: project_info_legend(@project) %>
         </div>
 
         <div class="tab-pane" id="proposal_files">

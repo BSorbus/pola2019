@@ -66,7 +66,8 @@ pl:
       statement: 'Oświadczenie/Upoważnienie'
       correspondence: 'Korespondencja'
       opinion: 'Ocena/Opinia'
-      protocol: 'Protokół'
+      protocol: 'Protokół Odbioru'
+      inspection_protocol: 'Protokół Oględzin'
       point_file: 'Plik Punktów Adresowych'
       ww_point: 'Punkt Adresowy'
       zs_point: 'Węzeł'
@@ -200,6 +201,16 @@ pl:
         note: 'Uwagi'
       protocol:
         protocolable: 'Załączony do'
+        attached_file: 'Plik'
+        attached_file_identifier: 'Plik'
+        file_content_type: 'Typ'
+        file_size: 'Rozmiar'
+        created_at: 'Utworzony'
+        updated_at: 'Aktualizacja'
+        user_id: 'Autor'
+        note: 'Uwagi'
+      inspection_protocol:
+        inspectionable: 'Załączony do'
         attached_file: 'Plik'
         attached_file_identifier: 'Plik'
         file_content_type: 'Typ'
@@ -476,11 +487,18 @@ pl:
         title: 'Edycja -> Ocena/Opinia'
     protocol:
       through_events_index:
-        title: 'Protokoły Zadań'
+        title: 'Protokoły Odbioru Zadań'
       index:
-        title: 'Protokoły'
+        title: 'Protokoły Odbioru'
       edit:
-        title: 'Edycja -> Protokół'
+        title: 'Edycja -> Protokół Odbioru'
+    inspection_protocol:
+      through_events_index:
+        title: 'Protokoły Oględzin Zadań'
+      index:
+        title: 'Protokoły Oględzin'
+      edit:
+        title: 'Edycja -> Protokół Oględzin'
     point_file:
       index:
         title: 'Pliki Punktów Adres.'

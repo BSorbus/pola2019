@@ -17,6 +17,7 @@ class Event < ApplicationRecord
   has_many :correspondences, as: :correspondenable, dependent: :destroy
   has_many :opinions, as: :opinionable, dependent: :destroy
   has_many :protocols, as: :protocolable, dependent: :destroy
+  has_many :inspection_protocols, as: :inspectionable, dependent: :destroy
   has_many :works, as: :trackable
 
   # validates
@@ -102,6 +103,31 @@ class Event < ApplicationRecord
         ''      
       end
     end
+  end
+
+
+  def access_attachments?
+    self.event_type.access_to_attachments?
+  end
+
+  def access_statements?
+    self.event_type.access_to_statements?
+  end
+
+  def access_correspondences?
+    self.event_type.access_to_correspondences?
+  end
+
+  def access_opinions?
+    self.event_type.access_to_opinions?
+  end
+
+  def access_protocols?
+    self.event_type.access_to_protocols?
+  end
+
+  def access_inspection_protocols?
+    self.event_type.access_to_inspection_protocols?
   end
 
   private

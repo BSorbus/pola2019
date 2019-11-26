@@ -1,0 +1,6 @@
+<% if @inspection_protocol.new_record? %>
+  alert("Failed to upload inspection_protocol: <%= j @inspection_protocol.errors.full_messages.join(', ').html_safe %>");
+<% else %>
+  $('#inspectionable-inspection_protocols').DataTable().draw();
+  toastr['success']("<%= @inspection_protocol.attached_file.file.filename %>" + '<br>...pobieranie zakończone');
+<% end %>

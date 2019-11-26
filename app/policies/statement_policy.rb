@@ -13,25 +13,25 @@ class StatementPolicy < ApplicationPolicy
         .merge(EventStatus.status_can_change)
         .select(:activities).distinct.map(&:activities).flatten
     else
-      case @model.correspondenable.class.to_s
+      case @model.statemenable.class.to_s
       when 'Customer'
         EventType.joins(events: {accessorizations: [:user], event_status: [], project: {customer: []}})
-          .where(events: {accessorizations: {user_id: [@user]}, projects: {customer: [@model.correspondenable]} })
+          .where(events: {accessorizations: {user_id: [@user]}, projects: {customer: [@model.statemenable]} })
           .merge(EventStatus.status_can_change)
           .select(:activities).distinct.map(&:activities).flatten
       when 'Project'
         EventType.joins(events: {accessorizations: [:user], event_status: [], project: []})
-          .where(events: {accessorizations: {user_id: [@user]}, project: [@model.correspondenable]})
+          .where(events: {accessorizations: {user_id: [@user]}, project: [@model.statemenable]})
           .merge(EventStatus.status_can_change)
           .select(:activities).distinct.map(&:activities).flatten
       when 'Errand'
         EventType.joins(events: {accessorizations: [:user], event_status: [], errand: []})
-          .where(events: {accessorizations: {user_id: [@user]}, errand: [@model.correspondenable]})
+          .where(events: {accessorizations: {user_id: [@user]}, errand: [@model.statemenable]})
           .merge(EventStatus.status_can_change)
           .select(:activities).distinct.map(&:activities).flatten
       when 'Event'
         EventType.joins(events: {accessorizations: [:user], event_status: []})
-          .where(events: {accessorizations: {user_id: [@user], event_id: [@model.correspondenable]}})
+          .where(events: {accessorizations: {user_id: [@user], event_id: [@model.statemenable]}})
           .merge(EventStatus.status_can_change)
           .select(:activities).distinct.map(&:activities).flatten
       end
@@ -44,25 +44,25 @@ class StatementPolicy < ApplicationPolicy
     if @model.class.to_s == 'Symbol'
       []
     else
-      case @model.correspondenable.class.to_s
+      case @model.statemenable.class.to_s
       when 'Customer'
         Role.joins(accessorizations: {user:[], event: {event_status:[], project: [:customer]}})
-          .where(accessorizations: {user: [@user], events: {projects: {customer: [@model.correspondenable]}}})
+          .where(accessorizations: {user: [@user], events: {projects: {customer: [@model.statemenable]}}})
           .merge(EventStatus.status_can_change)
           .select(:activities).distinct.map(&:activities).flatten
       when 'Project'
         Role.joins(accessorizations: {user:[], event: [:event_status, :project]})
-          .where(accessorizations: {user: [@user], events: {project: [@model.correspondenable]}})
+          .where(accessorizations: {user: [@user], events: {project: [@model.statemenable]}})
           .merge(EventStatus.status_can_change)
           .select(:activities).distinct.map(&:activities).flatten
       when 'Errand'
         Role.joins(accessorizations: {user:[], event: [:event_status, :errand]})
-          .where(accessorizations: {user: [@user], events: {errand: [@model.correspondenable]}})
+          .where(accessorizations: {user: [@user], events: {errand: [@model.statemenable]}})
           .merge(EventStatus.status_can_change)
           .select(:activities).distinct.map(&:activities).flatten
       when 'Event'
         Role.joins(accessorizations: {user:[], event: [:event_status]})
-          .where(accessorizations: {user: [@user], event: [@model.correspondenable]})
+          .where(accessorizations: {user: [@user], event: [@model.statemenable]})
           .merge(EventStatus.status_can_change)
           .select(:activities).distinct.map(&:activities).flatten
       end

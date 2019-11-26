@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_11_225523) do
+ActiveRecord::Schema.define(version: 2019_11_25_231505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -240,6 +240,20 @@ ActiveRecord::Schema.define(version: 2019_11_11_225523) do
     t.index ["business_trip_status_id"], name: "index_flows_on_business_trip_status_id"
     t.index ["business_trip_status_updated_at"], name: "index_flows_on_business_trip_status_updated_at"
     t.index ["business_trip_status_updated_user_id"], name: "index_flows_on_business_trip_status_updated_user_id"
+  end
+
+  create_table "inspection_protocols", force: :cascade do |t|
+    t.string "inspectionable_type"
+    t.bigint "inspectionable_id"
+    t.string "attached_file"
+    t.string "file_content_type"
+    t.string "file_size"
+    t.text "note", default: ""
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["inspectionable_type", "inspectionable_id"], name: "index_inspection_protocols_on_inspectionable_type_and_id"
+    t.index ["user_id"], name: "index_inspection_protocols_on_user_id"
   end
 
   create_table "old_passwords", force: :cascade do |t|
@@ -677,6 +691,7 @@ ActiveRecord::Schema.define(version: 2019_11_11_225523) do
   add_foreign_key "flows", "business_trip_statuses"
   add_foreign_key "flows", "business_trips"
   add_foreign_key "flows", "users", column: "business_trip_status_updated_user_id"
+  add_foreign_key "inspection_protocols", "users"
   add_foreign_key "opinions", "users"
   add_foreign_key "point_files", "projects"
   add_foreign_key "projects", "customers"
