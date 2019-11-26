@@ -26,7 +26,7 @@ class ThroughEventsOpinionDatatable < AjaxDatatablesRails::ActiveRecord
       {
         id:             record.id,
         opinionable:    record.opinionable.title_as_link,
-        attached_file:  link_to(truncate(record.attached_file_identifier, length: 150), download_opinion_path(record.id), title: t('tooltip.download'), rel: 'tooltip') + '  ' +  
+        attached_file:  link_to(truncate(record.attached_file_identifier, length: 100), download_opinion_path(record.id), title: t('tooltip.download'), rel: 'tooltip') + '  ' +  
                           link_to(' ', @view.show_through_events_opinion_path(record.id), remote: true, class: 'fa fa-eye pull-right', title: "Podgląd", rel: 'tooltip'),
         note:           truncate(record.note, length: 50) + '  ' +  
                           link_to(' ', @view.edit_opinion_path(record.id), class: 'fa fa-edit pull-right', title: "Edycja", rel: 'tooltip'),
