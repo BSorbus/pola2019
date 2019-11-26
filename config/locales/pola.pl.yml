@@ -459,42 +459,42 @@ pl:
         title: 'Edycja -> Wnioskodawca'
     attachment:
       through_events_index:
-        title: 'Załączniki Zadań'
+        title: 'Załączniki (Z)adań'
       index:
         title: 'Załączniki'
       edit:
         title: 'Edycja -> Załącznik'
     statement:
       through_events_index:
-        title: 'Oświad./Upow. Zadań'
+        title: 'Oświad./Upow. (Z)'
       index:
         title: 'Oświadczenia/Upow.'
       edit:
         title: 'Edycja -> Oświadczenie/Upoważnienie'
     correspondence:
       through_events_index:
-        title: 'Korespondencja Zadań'
+        title: 'Korespondencja (Z)'
       index:
         title: 'Korespondencja'
       edit:
         title: 'Edycja -> Korespondencja'
     opinion:
       through_events_index:
-        title: 'Oceny/Opinie Zadań'
+        title: 'Oceny/Opinie (Z)'
       index:
         title: 'Oceny/Opinie'
       edit:
         title: 'Edycja -> Ocena/Opinia'
     protocol:
       through_events_index:
-        title: 'Protokoły Odbioru Zadań'
+        title: 'Protokoły Odbioru (Z)'
       index:
         title: 'Protokoły Odbioru'
       edit:
         title: 'Edycja -> Protokół Odbioru'
     inspection_protocol:
       through_events_index:
-        title: 'Protokoły Oględzin Zadań'
+        title: 'Protokoły Oględzin (Z)'
       index:
         title: 'Protokoły Oględzin'
       edit:
