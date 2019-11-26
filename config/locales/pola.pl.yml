@@ -466,11 +466,11 @@ pl:
         title: 'Edycja -> Załącznik'
     statement:
       through_events_index:
-        title: 'Oświadcz./Upoważ. Zadań'
+        title: 'Oświad./Upow. Zadań'
       index:
-        title: 'Oświadczenia/Upoważ.'
+        title: 'Oświadczenia/Upow.'
       edit:
-        title: 'Edycja -> Oświadczenie'
+        title: 'Edycja -> Oświadczenie/Upoważnienie'
     correspondence:
       through_events_index:
         title: 'Korespondencja Zadań'
