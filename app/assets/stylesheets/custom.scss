@@ -130,15 +130,14 @@ footer {
 }
 
 
-.modal-content {
-  height: 100%; /* = 100% of the .modal-dialog block */
-}
-
 .modal-dialog {
     max-height: 90vh;
     overflow-y: auto;
 }
 
+.modal-content {
+  height: 100%; /* = 100% of the .modal-dialog block */
+}
 
 .center {
   text-align: center;

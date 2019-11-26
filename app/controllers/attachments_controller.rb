@@ -39,15 +39,6 @@ class AttachmentsController < ApplicationController
     end
   end
 
-  def show_through_events
-    @attachment = Attachment.find(params[:id])
-    attachment_authorize(@attachment, "show", @attachment.attachmenable_type.singularize.downcase)
-
-    respond_to do |format|
-      format.js
-    end
-  end
-
   # GET /attachments/1/edit
   def edit
     @attachment = Attachment.find(params[:id])

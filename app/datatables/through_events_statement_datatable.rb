@@ -1,7 +1,7 @@
 class ThroughEventsStatementDatatable < AjaxDatatablesRails::ActiveRecord
   extend Forwardable
 
-  def_delegators :@view, :link_to, :truncate, :statement_path, :show_through_events_statement_path, :download_statement_path, :edit_statement_path, :t
+  def_delegators :@view, :link_to, :truncate, :statement_path, :download_statement_path, :edit_statement_path, :t
 
   def initialize(params, opts = {})
     @view = opts[:view_context]
@@ -27,7 +27,7 @@ class ThroughEventsStatementDatatable < AjaxDatatablesRails::ActiveRecord
         id:             record.id,
         statemenable:   record.statemenable.title_as_link,
         attached_file:  link_to(truncate(record.attached_file_identifier, length: 100), download_statement_path(record.id), title: t('tooltip.download'), rel: 'tooltip') + '  ' +  
-                          link_to(' ', @view.show_through_events_statement_path(record.id), remote: true, class: 'fa fa-eye pull-right', title: "Podgląd", rel: 'tooltip'),
+                          link_to(' ', @view.statement_path(record.id), remote: true, class: 'fa fa-eye pull-right', title: "Podgląd", rel: 'tooltip'),
         note:           truncate(record.note, length: 50) + '  ' +  
                           link_to(' ', @view.edit_statement_path(record.id), class: 'fa fa-edit pull-right', title: "Edycja", rel: 'tooltip'),
         file_size:      record.try(:file_size),

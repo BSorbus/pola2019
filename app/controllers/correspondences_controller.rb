@@ -39,15 +39,6 @@ class CorrespondencesController < ApplicationController
     end
   end
 
-  def show_through_events
-    @correspondence = Correspondence.find(params[:id])
-    correspondence_authorize(@correspondence, "show", @correspondence.correspondenable_type.singularize.downcase)
-
-    respond_to do |format|
-      format.js
-    end
-  end
-
   # GET /correspondences/1/edit
   def edit
     @correspondence = Correspondence.find(params[:id])

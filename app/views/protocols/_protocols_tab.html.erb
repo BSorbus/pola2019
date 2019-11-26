@@ -25,29 +25,17 @@
       </div> <!--/col-sm-12 -->
 
 
-      <div class="col-sm-3">
+      <div class="col-sm-12">
         <hr>
         <%= form_for [protocolable, Protocol.new] do |f| %>
-
           <div class="row">
             <div class="form-group col-sm-12">
               <%= f.label :attached_file, class: 'control-label' %><small>&nbsp;&nbsp;(<%= t('help_block_text.fileuploaddragdrop') %>)</small><br>
               <%= f.file_field :attached_file, multiple: true, name: "protocol[attached_file]", class: 'form-control input input-file-field' %>
             </div>
-
           </div>
-
         <% end %>
-      </div> <!-- /col-sm-3 -->
-      <div class="col-sm-9">
-        <hr>
-        <div class="row">
-          <div class="col-sm-12 center">
-            <div id="protocol_file_preview_area"></div>
-          </div>
-        </div>
-      </div> <!-- /col-sm-9 -->
-
+      </div> <!-- /col-sm-12 -->
 
       <div class="col-sm-12">
         <script id="protocol-template-upload" type="text/x-tmpl">

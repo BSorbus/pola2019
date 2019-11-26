@@ -39,15 +39,6 @@ class OpinionsController < ApplicationController
     end
   end
 
-  def show_through_events
-    @opinion = Opinion.find(params[:id])
-    opinion_authorize(@opinion, "show", @opinion.opinionable_type.singularize.downcase)
-
-    respond_to do |format|
-      format.js
-    end
-  end
-
   # GET /opinions/1/edit
   def edit
     @opinion = Opinion.find(params[:id])

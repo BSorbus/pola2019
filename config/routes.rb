@@ -119,7 +119,6 @@ Rails.application.routes.draw do
     get 'datatables_index', on: :collection # for Trackable
     get 'datatables_index_through_events', on: :collection # for Trackable
     get 'download', on: :member
-    get 'show_through_events', on: :member
     post 'move_to_statement', on: :member
     post 'move_to_correspondence', on: :member
     post 'move_to_opinion', on: :member
@@ -130,35 +129,30 @@ Rails.application.routes.draw do
     get 'datatables_index', on: :collection # for Trackable
     get 'datatables_index_through_events', on: :collection # for Trackable
     get 'download', on: :member
-    get 'show_through_events', on: :member
   end
 
   resources :correspondences, only: [:show, :edit, :update, :destroy] do
     get 'datatables_index', on: :collection # for Trackable
     get 'datatables_index_through_events', on: :collection # for Trackable
     get 'download', on: :member
-    get 'show_through_events', on: :member
   end
 
   resources :opinions, only: [:show, :edit, :update, :destroy] do
     get 'datatables_index', on: :collection # for Trackable
     get 'datatables_index_through_events', on: :collection # for Trackable
     get 'download', on: :member
-    get 'show_through_events', on: :member
   end
 
   resources :protocols, only: [:show, :edit, :update, :destroy] do
     get 'datatables_index', on: :collection # for Trackable
     get 'datatables_index_through_events', on: :collection # for Trackable
     get 'download', on: :member
-    get 'show_through_events', on: :member
   end
 
   resources :inspection_protocols, only: [:show, :edit, :update, :destroy] do
     get 'datatables_index', on: :collection # for Trackable
     get 'datatables_index_through_events', on: :collection # for Trackable
     get 'download', on: :member
-    get 'show_through_events', on: :member
   end
 
   resources :zs_points

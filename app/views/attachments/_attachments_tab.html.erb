@@ -2,30 +2,11 @@
   <fieldset class="my-fieldset">
     <legend class="my-fieldset colored-title"><%= subtitle %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= attachment_index_legend %></legend>
 
-
-
-
-<%#= link_to 'view attachment', attachment_path(attachmenable.attachments.first), :remote => true %>
-
-<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content"></div>
-  </div>
-</div>
-
-
-
-
-
-
-
-
     <div class="row">
 
       <div class="col-sm-12">
         <table id="attachmenable-attachments" width="100%" class="hover cell-border compact" width="100%" 
-          data-source="<%= datatables_index_attachments_path(attachmenable_type: attachmenable.class.to_s, attachmenable_id: attachmenable.id.to_s, format: :json) %>"
-          data-attachmenable_type="<%= attachmenable.class.to_s %>">
+          data-source="<%= datatables_index_attachments_path(attachmenable_type: attachmenable.class.to_s, attachmenable_id: attachmenable.id.to_s, format: :json) %>">
           <thead>
             <tr>
               <th>0 ID </th>
@@ -44,31 +25,17 @@
       </div> <!--/col-sm-12 -->
 
 
-      <div class="col-sm-3">
+      <div class="col-sm-12">
         <hr>
         <%= form_for [attachmenable, Attachment.new] do |f| %>
-
           <div class="row">
             <div class="form-group col-sm-12">
               <%= f.label :attached_file, class: 'control-label' %><small>&nbsp;&nbsp;(<%= t('help_block_text.fileuploaddragdrop') %>)</small><br>
               <%= f.file_field :attached_file, multiple: true, name: "attachment[attached_file]", class: 'form-control input input-file-field' %>
             </div>
-
           </div>
-
         <% end %>
-
-      </div> <!-- /col-sm-3 -->
-      <div class="col-sm-9">
-        <hr>
-        <div class="row">
-          <div class="col-sm-12 center">
-            <div id="attachment_file_preview_area"></div>
-          </div>
-
-        </div>
-      </div> <!-- /col-sm-9 -->
-
+      </div> <!-- /col-sm-12 -->
 
       <div class="col-sm-12">
         <script id="attachment-template-upload" type="text/x-tmpl">

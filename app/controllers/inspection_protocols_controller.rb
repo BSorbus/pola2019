@@ -39,15 +39,6 @@ class InspectionProtocolsController < ApplicationController
     end
   end
 
-  def show_through_events
-    @inspection_protocol = InspectionProtocol.find(params[:id])
-    inspection_protocol_authorize(@inspection_protocol, "show", @inspection_protocol.inspectionable_type.singularize.downcase)
-
-    respond_to do |format|
-      format.js
-    end
-  end
-
   # GET /inspection_protocols/1/edit
   def edit
     @inspection_protocol = InspectionProtocol.find(params[:id])

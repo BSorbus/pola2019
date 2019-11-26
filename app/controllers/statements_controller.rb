@@ -39,15 +39,6 @@ class StatementsController < ApplicationController
     end
   end
 
-  def show_through_events
-    @statement = Statement.find(params[:id])
-    statement_authorize(@statement, "show", @statement.statemenable_type.singularize.downcase)
-
-    respond_to do |format|
-      format.js
-    end
-  end
-
   # GET /statements/1/edit
   def edit
     @statement = Statement.find(params[:id])

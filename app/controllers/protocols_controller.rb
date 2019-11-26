@@ -39,15 +39,6 @@ class ProtocolsController < ApplicationController
     end
   end
 
-  def show_through_events
-    @protocol = Protocol.find(params[:id])
-    protocol_authorize(@protocol, "show", @protocol.protocolable_type.singularize.downcase)
-
-    respond_to do |format|
-      format.js
-    end
-  end
-
   # GET /protocols/1/edit
   def edit
     @protocol = Protocol.find(params[:id])

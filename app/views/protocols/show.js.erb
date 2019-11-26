@@ -1,3 +1,2 @@
-$('#protocol_file_preview_area').html('');
-$('#protocol_file_preview_area').prepend('<div><%= image_tag @protocol.attached_file_url(:thumb), class: "img img-thumbnail" %></div>');
-$('#protocol_file_preview_area').prepend('<div><strong>Plik:</strong> <%= @protocol.fullname %>, <%= @protocol.file_size %></div>');
+$("#myModal").find(".modal-content").html("<%= j (render 'protocol') %>");
+$("#myModal").modal('show');

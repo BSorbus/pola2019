@@ -1,7 +1,7 @@
 class ThroughEventsProtocolDatatable < AjaxDatatablesRails::ActiveRecord
   extend Forwardable
 
-  def_delegators :@view, :link_to, :truncate, :protocol_path, :show_through_events_protocol_path, :download_protocol_path, :edit_protocol_path, :t
+  def_delegators :@view, :link_to, :truncate, :protocol_path, :download_protocol_path, :edit_protocol_path, :t
 
   def initialize(params, opts = {})
     @view = opts[:view_context]
@@ -27,7 +27,7 @@ class ThroughEventsProtocolDatatable < AjaxDatatablesRails::ActiveRecord
         id:             record.id,
         protocolable:   record.protocolable.title_as_link,
         attached_file:  link_to(truncate(record.attached_file_identifier, length: 100), download_protocol_path(record.id), title: t('tooltip.download'), rel: 'tooltip') + '  ' +  
-                          link_to(' ', @view.show_through_events_protocol_path(record.id), remote: true, class: 'fa fa-eye pull-right', title: "Podgląd", rel: 'tooltip'),
+                          link_to(' ', @view.protocol_path(record.id), remote: true, class: 'fa fa-eye pull-right', title: "Podgląd", rel: 'tooltip'),
         note:           truncate(record.note, length: 50) + '  ' +  
                           link_to(' ', @view.edit_protocol_path(record.id), class: 'fa fa-edit pull-right', title: "Edycja", rel: 'tooltip'),
         file_size:      record.try(:file_size),

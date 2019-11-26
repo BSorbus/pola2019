@@ -6,8 +6,7 @@
 
       <div class="col-sm-12">
         <table id="through-events-attachmenable-attachments" width="100%" class="hover cell-border compact" width="100%" 
-          data-source="<%= datatables_index_through_events_attachments_path(for_parent_type: for_parent.class.to_s, for_parent_id: for_parent.id.to_s, format: :json) %>"
-          data-attachmenable_type="<%= for_parent.class.to_s %>">
+          data-source="<%= datatables_index_through_events_attachments_path(for_parent_type: for_parent.class.to_s, for_parent_id: for_parent.id.to_s, format: :json) %>">
           <thead>
             <tr>
               <th>0 ID </th>
@@ -25,20 +24,6 @@
           </tbody>
         </table>
       </div> <!--/col-sm-12 -->
-
-
-      <div class="col-sm-3">
-      </div> <!--/col-sm-3 -->
-
-      <div class="col-sm-9">
-        <hr>
-        <div class="row">
-          <div class="col-sm-12 center">
-            <div id="through_events_attachment_file_preview_area"></div>
-          </div>
-        </div>
-      </div> <!-- /col-sm-9 -->
-
 
     </div>
 

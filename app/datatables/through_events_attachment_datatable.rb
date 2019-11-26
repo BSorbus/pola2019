@@ -1,7 +1,7 @@
 class ThroughEventsAttachmentDatatable < AjaxDatatablesRails::ActiveRecord
   extend Forwardable
 
-  def_delegators :@view, :link_to, :truncate, :attachment_path, :show_through_events_attachment_path, :download_attachment_path, :edit_attachment_path, :t
+  def_delegators :@view, :link_to, :truncate, :attachment_path, :download_attachment_path, :edit_attachment_path, :t
 
   def initialize(params, opts = {})
     @view = opts[:view_context]
@@ -27,7 +27,7 @@ class ThroughEventsAttachmentDatatable < AjaxDatatablesRails::ActiveRecord
         id:             record.id,
         attachmenable:  record.attachmenable.title_as_link,
         attached_file:  link_to(truncate(record.attached_file_identifier, length: 100), download_attachment_path(record.id), title: t('tooltip.download'), rel: 'tooltip') + '  ' +  
-                          link_to(' ', @view.show_through_events_attachment_path(record.id), remote: true, class: 'fa fa-eye pull-right', title: "Podgląd", rel: 'tooltip'),
+                          link_to(' ', @view.attachment_path(record.id), remote: true, class: 'fa fa-eye pull-right', title: "Podgląd", rel: 'tooltip'),
         note:           truncate(record.note, length: 50) + '  ' +  
                           link_to(' ', @view.edit_attachment_path(record.id), class: 'fa fa-edit pull-right', title: "Edycja", rel: 'tooltip'),
         file_size:      record.try(:file_size),
