@@ -28,6 +28,7 @@ class Project < ApplicationRecord
   has_many :events_opinions, through: :events, source: :opinions
   has_many :events_protocols, through: :events, source: :protocols
   has_many :events_inspection_protocols, through: :events, source: :inspection_protocols
+  has_many :events_photos, through: :events, source: :photos
 
   has_many :works, as: :trackable
 

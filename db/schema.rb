@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_25_231505) do
+ActiveRecord::Schema.define(version: 2019_11_29_075911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -277,6 +277,26 @@ ActiveRecord::Schema.define(version: 2019_11_25_231505) do
     t.datetime "updated_at", null: false
     t.index ["opinionable_type", "opinionable_id"], name: "index_opinions_on_opinionable_type_and_opinionable_id"
     t.index ["user_id"], name: "index_opinions_on_user_id"
+  end
+
+  create_table "photos", force: :cascade do |t|
+    t.string "photoable_type"
+    t.bigint "photoable_id"
+    t.string "attached_file"
+    t.string "file_content_type"
+    t.string "file_size"
+    t.text "note", default: ""
+    t.bigint "user_id"
+    t.float "latitude"
+    t.float "longitude"
+    t.datetime "photo_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["latitude"], name: "index_photos_on_latitude"
+    t.index ["longitude"], name: "index_photos_on_longitude"
+    t.index ["photo_created_at"], name: "index_photos_on_photo_created_at"
+    t.index ["photoable_type", "photoable_id"], name: "index_photos_on_photoable_type_and_photoable_id"
+    t.index ["user_id"], name: "index_photos_on_user_id"
   end
 
   create_table "point_files", force: :cascade do |t|
@@ -693,6 +713,7 @@ ActiveRecord::Schema.define(version: 2019_11_25_231505) do
   add_foreign_key "flows", "users", column: "business_trip_status_updated_user_id"
   add_foreign_key "inspection_protocols", "users"
   add_foreign_key "opinions", "users"
+  add_foreign_key "photos", "users"
   add_foreign_key "point_files", "projects"
   add_foreign_key "projects", "customers"
   add_foreign_key "projects", "enrollments"

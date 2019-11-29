@@ -2,74 +2,33 @@ puts " "
 puts "#####  RUN - test.rb  #####"
 puts " "
 
-#doc = Nokogiri::XML(xml_doc)
-#puts '------------------------------------------'
-#doc.remove_namespaces! # Remove namespaces from xml to make it clean
-#print doc
-
-
-# def display_xml(filename)
-#   xsd_doc = Nokogiri::XML::Schema(File.open("db/seeds/"+filename)) do |config|
-#   #doc = Nokogiri::XML::Schema(File.open("db/seeds/"+filename)) do |config|
-#     config.strict.nonet
-#   end
-#   print xsd_doc
-# end
 
 
 
+  attachment = Attachment.last
+  puts attachment.attached_file.file.filename
+  puts attachment.attached_file.url
+  puts attachment.attached_file.path
 
-# #display_xml("rodzaj_wysylki.xml")
-# display_xml("adres.xsd")
+  photo = attachment.attached_file.path
 
-Role.destroy_all
-user = User.last
-role = CreateRoleService.new.role_admin
-puts 'CREATED ROLE: ' << role.name
-user.roles << role
-puts "ADD ROLE: #{role.name}   TO USER: #{user.email}"
+  system("exiftool #{photo}")
 
-role = CreateRoleService.new.role_observer
-puts 'CREATED ROLE: ' << role.name
+# File.open("db/seeds/wniosek.xml")
 
-
-role = CreateRoleService.new.user_admin
-puts 'CREATED ROLE: ' << role.name
-user.roles << role
-puts "ADD ROLE: #{role.name}   TO USER: #{user.email}"
-
-role = CreateRoleService.new.user_observer
-puts 'CREATED ROLE: ' << role.name
+#       correspondence.attached_file = File.new(File.join(Rails.root, '/public' + only_file_path(self.attached_file.url) + self.attached_file.file.filename))
 
 
-role = CreateRoleService.new.customer_admin
-puts 'CREATED ROLE: ' << role.name
-user.roles << role
-puts "ADD ROLE: #{role.name}   TO USER: #{user.email}"
 
-role = CreateRoleService.new.customer_observer
-puts 'CREATED ROLE: ' << role.name
-
-role = CreateRoleService.new.project_admin
-puts 'CREATED ROLE: ' << role.name
-user.roles << role
-puts "ADD ROLE: #{role.name}   TO USER: #{user.email}"
-
-role = CreateRoleService.new.project_observer
-puts 'CREATED ROLE: ' << role.name
+# File.open(File.join("db/seeds/files/log", 'swiadectwo_gd.log'), 'a+') do |f|
+#   f.puts "#####  203_certificates_gd.rb  #####"
+#   f.puts "Certificates all: #{Certificate.all.size}"
+#   f.puts "... load from db/seeds/files/swiadectwo_gd.csv... start..."
+# end 
 
 
-role = CreateRoleService.new.accessorization_manager
-puts 'CREATED ROLE: ' << role.name
+#   exiftool FOTO1.JPG
 
-role = CreateRoleService.new.accessorization_observer
-puts 'CREATED ROLE: ' << role.name
-
-role = CreateRoleService.new.role_for_projects_publisher
-puts 'CREATED ROLE: ' << role.name
-
-role = CreateRoleService.new.role_for_projects_writer
-puts 'CREATED ROLE: ' << role.name
 
 puts " "
 puts "#####  END OF - test.rb  #####"

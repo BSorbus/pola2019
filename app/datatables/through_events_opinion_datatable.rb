@@ -11,8 +11,8 @@ class ThroughEventsOpinionDatatable < AjaxDatatablesRails::ActiveRecord
   def view_columns
     @view_columns ||= {
       id:             { source: "Opinion.id", cond: :eq, searchable: false, orderable: false },
-      opinionable:    { source: "Event.title", cond: :like, searchable: true, orderable: true },
       attached_file:  { source: "Opinion.attached_file", cond: :like, searchable: true, orderable: true },
+      opinionable:    { source: "Event.title", cond: :like, searchable: true, orderable: true },
       note:           { source: "Opinion.note",  cond: :like, searchable: true, orderable: true },
       user:           { source: "User.name",  cond: :like, searchable: true, orderable: true },
       updated_at:     { source: "Opinion.updated_at",  cond: :like, searchable: true, orderable: true },
@@ -25,9 +25,9 @@ class ThroughEventsOpinionDatatable < AjaxDatatablesRails::ActiveRecord
     records.map do |record|
       {
         id:             record.id,
-        opinionable:    record.opinionable.title_as_link,
         attached_file:  link_to(truncate(record.attached_file_identifier, length: 100), download_opinion_path(record.id), title: t('tooltip.download'), rel: 'tooltip') + '  ' +  
                           link_to(' ', @view.opinion_path(record.id), remote: true, class: 'fa fa-eye pull-right', title: "Podgląd", rel: 'tooltip'),
+        opinionable:    record.opinionable.title_as_link,
         note:           truncate(record.note, length: 50) + '  ' +  
                           link_to(' ', @view.edit_opinion_path(record.id), class: 'fa fa-edit pull-right', title: "Edycja", rel: 'tooltip'),
         file_size:      record.try(:file_size),

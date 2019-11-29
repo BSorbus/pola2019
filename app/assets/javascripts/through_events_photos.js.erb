@@ -1,0 +1,143 @@
+$(document).ready(function() {
+
+  $.fn.dataTable.ext.buttons.through_events_photo_selected_destroy = {
+    text: '<span class="text-danger fa fa-trash"></span>',
+    titleAttr: 'Usuń zaznaczone wiersze',
+    className: 'btn btn-default',
+    init: function ( dt, node, config ) {
+      var that = this;
+      dt.on( 'select.dt.DT deselect.dt.DT', function () {
+        that.enable( dt.rows( { selected: true } ).any() );
+      });
+      this.disable();
+    },
+    action: function ( e, dt, button, config ) {
+      if (confirm('Czy na pewno chcesz usunąć plik(-i)?')) {
+        $.map(oThroughEventsPhotoablePhotosTable.rows( { selected: true } ).data(), function (item) {
+
+          $.ajax({
+            url: '/photos/' + item.id,
+            type: 'DELETE',
+            async: true,
+            success: function (response) {
+              oThroughEventsPhotoablePhotosTable.draw();
+              toastr['success']('"' + item.attached_file + '" został trwale usunięty');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+              console.log(xhr);
+              if (xhr.status == 401) {
+                window.location.reload();
+              } else {
+                getErrorMessage(xhr, thrownError);
+              }
+            }
+          });
+
+        });
+      }
+    }  
+  };
+
+  var oThroughEventsPhotoablePhotosTable = $('#through-events-photoable-photos').DataTable({
+    dom: 'lBfrtip',
+    buttons: [
+      'through_events_photo_selected_destroy'
+    ],
+    select: {
+      style: 'multi'
+    },
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    searchDelay: 500,
+    ajax: { 
+      url: $('#through-events-photoable-photos').data('source'),
+      type: "GET",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
+    iDisplayLength: -1,
+    columns: [
+      { "data": "id",
+        "visible": false,
+        "searchable": false,
+        "sortable": false }, 
+      { "data": "miniature",
+        "searchable": false,
+        "sortable": false }, 
+      { "data": "photo_created_at" }, 
+      { "data": "latitude" }, 
+      { "data": "longitude" }, 
+      { "data": "attached_file" }, 
+      { "data": "photoable" },
+      { "data": "note" }, 
+      { "data": "user" },
+      { "data": "updated_at" },
+      { "data": "file_size",
+        "searchable": false,
+        "sortable": false },
+      { "data": "action",
+        "searchable": false,
+        "sortable": false }
+    ],
+    preDrawCallback: function( settings ) {
+      // jezeli panel nie jest widoczny, to przerwij ładowanie danych
+      if ( $( "#tab_through_events_photos" ).is( ":hidden" ) ) {
+        return false;
+      }
+    },
+    order: [[ 4, "desc" ]],
+    language: {
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+
+
+  oThroughEventsPhotoablePhotosTable
+  .on( 'draw', function () {
+    oThroughEventsPhotoablePhotosTable.rows().deselect();
+  });
+
+
+  // jezeli nastepuje wyswietlenie tab, to zaladuj dane
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    var target = $(e.target).attr("href") // activated tab
+    if (target == '#through_events_photos') {
+      oThroughEventsPhotoablePhotosTable.draw();
+    };
+  });
+
+
+  $('#through-events-photoable-photos tbody').on( 'click', 'button-as-link', function () {
+    if (confirm('Czy na pewno chcesz usunać plik?')) {
+      $.ajax({
+        url: $(this).attr('ajax-path'),
+        type: $(this).attr('ajax-method'),
+        async: true,
+        success: function (response) {
+          oThroughEventsPhotoablePhotosTable.draw();
+          toastr['success']('plik został trwale usunięty');
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          console.log(xhr);
+          if (xhr.status == 401) {
+            window.location.reload();
+          } else {
+            getErrorMessage(xhr, thrownError);
+          }
+        }
+      });
+    };
+  });
+
+  
+});

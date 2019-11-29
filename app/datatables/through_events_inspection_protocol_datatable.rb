@@ -11,8 +11,8 @@ class ThroughEventsInspectionProtocolDatatable < AjaxDatatablesRails::ActiveReco
   def view_columns
     @view_columns ||= {
       id:             { source: "InspectionProtocol.id", cond: :eq, searchable: false, orderable: false },
-      inspectionable: { source: "Event.title", cond: :like, searchable: true, orderable: true },
       attached_file:  { source: "InspectionProtocol.attached_file", cond: :like, searchable: true, orderable: true },
+      inspectionable: { source: "Event.title", cond: :like, searchable: true, orderable: true },
       note:           { source: "InspectionProtocol.note",  cond: :like, searchable: true, orderable: true },
       user:           { source: "User.name",  cond: :like, searchable: true, orderable: true },
       updated_at:     { source: "InspectionProtocol.updated_at",  cond: :like, searchable: true, orderable: true },
@@ -25,9 +25,9 @@ class ThroughEventsInspectionProtocolDatatable < AjaxDatatablesRails::ActiveReco
     records.map do |record|
       {
         id:             record.id,
-        inspectionable:   record.inspectionable.title_as_link,
         attached_file:  link_to(truncate(record.attached_file_identifier, length: 100), download_inspection_protocol_path(record.id), title: t('tooltip.download'), rel: 'tooltip') + '  ' +  
                           link_to(' ', @view.inspection_protocol_path(record.id), remote: true, class: 'fa fa-eye pull-right', title: "Podgląd", rel: 'tooltip'),
+        inspectionable: record.inspectionable.title_as_link,
         note:           truncate(record.note, length: 50) + '  ' +  
                           link_to(' ', @view.edit_inspection_protocol_path(record.id), class: 'fa fa-edit pull-right', title: "Edycja", rel: 'tooltip'),
         file_size:      record.try(:file_size),

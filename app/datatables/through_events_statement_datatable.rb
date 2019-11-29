@@ -11,8 +11,8 @@ class ThroughEventsStatementDatatable < AjaxDatatablesRails::ActiveRecord
   def view_columns
     @view_columns ||= {
       id:             { source: "Statement.id", cond: :eq, searchable: false, orderable: false },
-      statemenable:   { source: "Event.title", cond: :like, searchable: true, orderable: true },
       attached_file:  { source: "Statement.attached_file", cond: :like, searchable: true, orderable: true },
+      statemenable:   { source: "Event.title", cond: :like, searchable: true, orderable: true },
       note:           { source: "Statement.note",  cond: :like, searchable: true, orderable: true },
       user:           { source: "User.name",  cond: :like, searchable: true, orderable: true },
       updated_at:     { source: "Statement.updated_at",  cond: :like, searchable: true, orderable: true },
@@ -25,9 +25,9 @@ class ThroughEventsStatementDatatable < AjaxDatatablesRails::ActiveRecord
     records.map do |record|
       {
         id:             record.id,
-        statemenable:   record.statemenable.title_as_link,
         attached_file:  link_to(truncate(record.attached_file_identifier, length: 100), download_statement_path(record.id), title: t('tooltip.download'), rel: 'tooltip') + '  ' +  
                           link_to(' ', @view.statement_path(record.id), remote: true, class: 'fa fa-eye pull-right', title: "Podgląd", rel: 'tooltip'),
+        statemenable:   record.statemenable.title_as_link,
         note:           truncate(record.note, length: 50) + '  ' +  
                           link_to(' ', @view.edit_statement_path(record.id), class: 'fa fa-edit pull-right', title: "Edycja", rel: 'tooltip'),
         file_size:      record.try(:file_size),

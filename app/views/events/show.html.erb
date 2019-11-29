@@ -48,6 +48,13 @@
             </li>
           <% end %>
         <% end %>
+        <% if @event.access_photos? %>
+          <% if policy(:photo).event_index? %>
+            <li class="brand-nav brand-nav-level-1">
+              <a href="#photos" data-toggle="tab"><%= photo_index_legend %></a>
+            </li>
+          <% end %>
+        <% end %>
         <% if policy(:event).work? %>
           <li class="brand-nav brand-nav-level-1">
             <a href="#works" data-toggle="tab"><%= work_index_legend %></a>
@@ -95,6 +102,12 @@
         <% if @event.access_inspection_protocols? %>
           <div class="tab-pane" id="inspection_protocols">
             <%= render 'inspection_protocols/inspection_protocols_tab', inspectionable: @event, subtitle: event_info_legend(@event) %>
+          </div>
+        <% end %>
+
+        <% if @event.access_photos? %>
+          <div class="tab-pane" id="photos">
+            <%= render 'photos/photos_tab', photoable: @event, subtitle: event_info_legend(@event) %>
           </div>
         <% end %>
 

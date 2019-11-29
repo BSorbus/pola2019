@@ -46,6 +46,11 @@
             <a href="#through_events_inspection_protocols" data-toggle="tab"><%= through_events_inspection_protocol_index_legend %></a>
           </li>
         <% end %>
+        <% if policy(:photo).project_index? %>
+          <li class="brand-nav brand-nav-level-2">
+            <a href="#through_events_photos" data-toggle="tab"><%= through_events_photo_index_legend %></a>
+          </li>
+        <% end %>
         <% if policy(:proposal_file).index? %>
           <li class="brand-nav brand-nav-level-1">
             <a href="#proposal_files" data-toggle="tab"><%= proposal_file_index_legend %></a>
@@ -101,6 +106,10 @@
 
         <div class="tab-pane" id="through_events_inspection_protocols">
           <%= render 'inspection_protocols/through_events_inspection_protocols_tab', for_parent: @project, subtitle: project_info_legend(@project) %>
+        </div>
+
+        <div class="tab-pane" id="through_events_photos">
+          <%= render 'photos/through_events_photos_tab', for_parent: @project, subtitle: project_info_legend(@project) %>
         </div>
 
         <div class="tab-pane" id="proposal_files">

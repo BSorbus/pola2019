@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h4 id="myModalLabel"><strong><%= @photo.fullname %>, <%= @photo.file_size %></strong>
+  </h4>
+  <h4>Mapa: 
+    <% unless @photo.latitude.blank? %>
+      <%= link_to image_tag('marker.png', size: "48x48"), "http://maps.google.com/maps?&z=18&mrt=yp&t=k&q=#{@photo.latitude}+#{@photo.longitude}", :target => "_blank" %>
+    <% end %>
+  </h4>
+</div>
+<div class="modal-body">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div><%= image_tag @photo.attached_file_url(:thumb), class: "img img-thumbnail img-responsive" %></div>
+    </div>
+  </div>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Zamknij</button>
+</div>

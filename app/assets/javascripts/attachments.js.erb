@@ -209,6 +209,49 @@ $(document).ready(function() {
     }  
   };
 
+  $.fn.dataTable.ext.buttons.attachment_move_to_photo = {
+    text: '<span class="fa fa-file-export"></span><br><span>Zdjęcia</span>',
+    titleAttr: 'Przenieś zaznaczone wiersze do "Zdjęcia"',
+    className: 'btn btn-default',
+    available: function ( dt, config ) {
+      var availableFor = ["Event"];
+      return ( (availableFor.indexOf( $('#attachmenable-attachments').data('attachmenable_type') ) > -1) );
+    },
+    init: function ( dt, node, config ) {
+      var that = this;
+      dt.on( 'select.dt.DT deselect.dt.DT', function () {
+        that.enable( dt.rows( { selected: true } ).any() );
+      });
+      this.disable();
+    },
+    action: function ( e, dt, button, config ) {
+      if (confirm('Czy na pewno chcesz przenieść plik(-i) do "Zdjęcia"?')) {
+        $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
+
+          $.ajax({
+            url: '/attachments/' + item.id + '/move_to_photo',
+            type: 'POST',
+            async: true,
+            success: function (response) {
+              oAttachmentableAttachmentsTable.draw();
+              toastr['success']('"' + item.attached_file + '" został przeniesiony do "Zdjęcia"');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+              console.log(xhr);
+              if (xhr.status == 401) {
+                window.location.reload();
+              } else {
+                getErrorMessage(xhr, thrownError);
+              }
+            }
+          });
+
+        });
+      };
+    }  
+  };
+
+
   var oAttachmentableAttachmentsTable = $('#attachmenable-attachments').DataTable({
     dom: 'lBfrtip',
     buttons: [
@@ -216,7 +259,8 @@ $(document).ready(function() {
       'attachment_move_to_statement', 
       'attachment_move_to_correspondence',
       'attachment_move_to_opinion',
-      'attachment_move_to_protocol'
+      'attachment_move_to_protocol',
+      'attachment_move_to_photo'
     ],
     select: {
       style: 'multi'

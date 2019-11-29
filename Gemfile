@@ -105,3 +105,5 @@ gem 'premailer-rails'
 gem 'delayed_job_active_record'
 gem 'daemons'
 gem 'trix-rails', require: 'trix'
+
+gem 'mini_exiftool'

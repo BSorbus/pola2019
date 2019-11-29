@@ -1,19 +1,21 @@
 module EnrollmentsHelper
 
+  ICON = "briefcase"
+
   def enrollment_show_legend
-    fa_icon("briefcase", text: t("pages.enrollment.show.title"))
+    fa_icon(ICON, text: t("pages.enrollment.show.title"))
   end
 
   def enrollment_index_legend
-    fa_icon("briefcase", text: t("pages.enrollment.index.title"))
+    fa_icon(ICON, text: t("pages.enrollment.index.title"))
   end
 
   def enrollment_edit_legend(data_obj)
-    fa_icon("briefcase", text: t("pages.enrollment.edit.title") + ": " + data_obj.fullname )
+    fa_icon(ICON, text: t("pages.enrollment.edit.title") + ": " + data_obj.fullname )
   end
 
   def enrollment_new_legend(data_obj)
-    fa_icon("briefcase", text: t("pages.enrollment.new.title"))
+    fa_icon(ICON, text: t("pages.enrollment.new.title"))
   end
 
   def enrollment_info_legend(data_obj)

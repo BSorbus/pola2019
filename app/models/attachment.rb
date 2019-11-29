@@ -76,6 +76,18 @@ class Attachment < ApplicationRecord
     end
   end
 
+  def move_to_photo_and_log_work(current_user_id)
+    ApplicationRecord.transaction do
+      photo = Photo.create(photoable_type: self.attachmenable_type, photoable_id: self.attachmenable_id, user_id: current_user_id)
+      photo.attached_file = File.new(File.join(Rails.root, '/public' + only_file_path(self.attached_file.url) + self.attached_file.file.filename))
+      photo.save!
+      #photo.attached_file.recreate_versions!(:thumb, :small)
+      photo.attached_file.recreate_versions!(:thumb)
+
+      self.destroy_and_log_work(current_user_id)
+    end
+  end
+
 
   def send_notification_to_model
     attachmenable.send_notification_to_pool if (['Errand', 'Event', 'Project']).include? self.attachmenable.class.to_s     

@@ -123,6 +123,14 @@ class AttachmentsController < ApplicationController
     end 
   end
 
+  def move_to_photo
+    @attachment = Attachment.find(params[:id])
+    attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
+    if @attachment.move_to_photo_and_log_work(current_user.id)
+      head :no_content
+    end 
+  end
+
   private
     def attachment_authorize(model_class, action, sub_controller)
       unless ['index', 'show', 'edit', 'create', 'update', 'destroy'].include?(action)
