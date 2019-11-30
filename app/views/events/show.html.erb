@@ -48,6 +48,27 @@
             </li>
           <% end %>
         <% end %>
+        <% if @event.access_measurements? %>
+          <% if policy(:measurement).event_index? %>
+            <li class="brand-nav brand-nav-level-1">
+              <a href="#measurements" data-toggle="tab"><%= measurement_index_legend %></a>
+            </li>
+          <% end %>
+        <% end %>
+        <% if @event.access_documentations? %>
+          <% if policy(:documentation).event_index? %>
+            <li class="brand-nav brand-nav-level-1">
+              <a href="#documentations" data-toggle="tab"><%= documentation_index_legend %></a>
+            </li>
+          <% end %>
+        <% end %>
+        <% if @event.access_infos? %>
+          <% if policy(:info).event_index? %>
+            <li class="brand-nav brand-nav-level-1">
+              <a href="#infos" data-toggle="tab"><%= info_index_legend %></a>
+            </li>
+          <% end %>
+        <% end %>
         <% if @event.access_photos? %>
           <% if policy(:photo).event_index? %>
             <li class="brand-nav brand-nav-level-1">
@@ -71,7 +92,16 @@
 
         <% if @event.access_attachments? %>
           <div class="tab-pane" id="attachments">
-            <%= render 'attachments/attachments_tab', attachmenable: @event, subtitle: event_info_legend(@event) %>
+            <%= render 'attachments/attachments_tab', attachmenable: @event, subtitle: event_info_legend(@event),
+              move_statement_access: @event.access_statements?,
+              move_correspondence_access: @event.access_correspondences?,
+              move_opinion_access: @event.access_opinions?,
+              move_protocol_access: @event.access_protocols?,
+              move_inspection_protocol_access: @event.access_inspection_protocols?,
+              move_measurement_access: @event.access_measurements?,
+              move_documentation_access: @event.access_documentations?,
+              move_info_access: @event.access_infos?,
+              move_photo_access: @event.access_photos? %>
           </div>
         <% end %>
 
@@ -102,6 +132,24 @@
         <% if @event.access_inspection_protocols? %>
           <div class="tab-pane" id="inspection_protocols">
             <%= render 'inspection_protocols/inspection_protocols_tab', inspectionable: @event, subtitle: event_info_legend(@event) %>
+          </div>
+        <% end %>
+
+        <% if @event.access_measurements? %>
+          <div class="tab-pane" id="measurements">
+            <%= render 'measurements/measurements_tab', measurementable: @event, subtitle: event_info_legend(@event) %>
+          </div>
+        <% end %>
+
+        <% if @event.access_documentations? %>
+          <div class="tab-pane" id="documentations">
+            <%= render 'documentations/documentations_tab', documentationable: @event, subtitle: event_info_legend(@event) %>
+          </div>
+        <% end %>
+
+        <% if @event.access_infos? %>
+          <div class="tab-pane" id="infos">
+            <%= render 'infos/infos_tab', infoable: @event, subtitle: event_info_legend(@event) %>
           </div>
         <% end %>
 

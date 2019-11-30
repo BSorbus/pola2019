@@ -1,0 +1,6 @@
+<% if @info.new_record? %>
+  alert("Failed to upload info: <%= j @info.errors.full_messages.join(', ').html_safe %>");
+<% else %>
+  $('#infoable-infos').DataTable().draw();
+  toastr['success']("<%= @info.attached_file.file.filename %>" + '<br>...pobieranie zakończone');
+<% end %>

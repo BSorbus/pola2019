@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_29_075911) do
+ActiveRecord::Schema.define(version: 2019_11_30_220621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -142,6 +142,20 @@ ActiveRecord::Schema.define(version: 2019_11_29_075911) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "documentations", force: :cascade do |t|
+    t.string "documentationable_type"
+    t.bigint "documentationable_id"
+    t.string "attached_file"
+    t.string "file_content_type"
+    t.string "file_size"
+    t.text "note", default: ""
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["documentationable_type", "documentationable_id"], name: "index_documentations_on_documentationable_type_and_id"
+    t.index ["user_id"], name: "index_documentations_on_user_id"
+  end
+
   create_table "enrollments", force: :cascade do |t|
     t.string "name"
     t.text "note", default: ""
@@ -242,6 +256,20 @@ ActiveRecord::Schema.define(version: 2019_11_29_075911) do
     t.index ["business_trip_status_updated_user_id"], name: "index_flows_on_business_trip_status_updated_user_id"
   end
 
+  create_table "infos", force: :cascade do |t|
+    t.string "infoable_type"
+    t.bigint "infoable_id"
+    t.string "attached_file"
+    t.string "file_content_type"
+    t.string "file_size"
+    t.text "note", default: ""
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["infoable_type", "infoable_id"], name: "index_infos_on_infoable_type_and_infoable_id"
+    t.index ["user_id"], name: "index_infos_on_user_id"
+  end
+
   create_table "inspection_protocols", force: :cascade do |t|
     t.string "inspectionable_type"
     t.bigint "inspectionable_id"
@@ -254,6 +282,20 @@ ActiveRecord::Schema.define(version: 2019_11_29_075911) do
     t.datetime "updated_at", null: false
     t.index ["inspectionable_type", "inspectionable_id"], name: "index_inspection_protocols_on_inspectionable_type_and_id"
     t.index ["user_id"], name: "index_inspection_protocols_on_user_id"
+  end
+
+  create_table "measurements", force: :cascade do |t|
+    t.string "measurementable_type"
+    t.bigint "measurementable_id"
+    t.string "attached_file"
+    t.string "file_content_type"
+    t.string "file_size"
+    t.text "note", default: ""
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["measurementable_type", "measurementable_id"], name: "index_measurements_on_measurementable_type_and_id"
+    t.index ["user_id"], name: "index_measurements_on_user_id"
   end
 
   create_table "old_passwords", force: :cascade do |t|
@@ -701,6 +743,7 @@ ActiveRecord::Schema.define(version: 2019_11_29_075911) do
   add_foreign_key "comments", "users"
   add_foreign_key "correspondences", "users"
   add_foreign_key "customers", "users"
+  add_foreign_key "documentations", "users"
   add_foreign_key "enrollments", "users"
   add_foreign_key "errands", "errand_statuses"
   add_foreign_key "errands", "users"
@@ -711,7 +754,9 @@ ActiveRecord::Schema.define(version: 2019_11_29_075911) do
   add_foreign_key "flows", "business_trip_statuses"
   add_foreign_key "flows", "business_trips"
   add_foreign_key "flows", "users", column: "business_trip_status_updated_user_id"
+  add_foreign_key "infos", "users"
   add_foreign_key "inspection_protocols", "users"
+  add_foreign_key "measurements", "users"
   add_foreign_key "opinions", "users"
   add_foreign_key "photos", "users"
   add_foreign_key "point_files", "projects"

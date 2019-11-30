@@ -68,6 +68,9 @@ Rails.application.routes.draw do
     resources :opinions, module: :events, only: [:create]
     resources :protocols, module: :events, only: [:create]
     resources :inspection_protocols, module: :events, only: [:create]
+    resources :measurements, module: :events, only: [:create]
+    resources :documentations, module: :events, only: [:create]
+    resources :infos, module: :events, only: [:create]
     resources :photos, module: :events, only: [:create]
   end
 
@@ -124,6 +127,10 @@ Rails.application.routes.draw do
     post 'move_to_correspondence', on: :member
     post 'move_to_opinion', on: :member
     post 'move_to_protocol', on: :member
+    post 'move_to_inspection_protocol', on: :member
+    post 'move_to_measurement', on: :member
+    post 'move_to_documentation', on: :member
+    post 'move_to_info', on: :member
     post 'move_to_photo', on: :member
   end
 
@@ -152,6 +159,24 @@ Rails.application.routes.draw do
   end
 
   resources :inspection_protocols, only: [:show, :edit, :update, :destroy] do
+    get 'datatables_index', on: :collection # for Trackable
+    get 'datatables_index_through_events', on: :collection # for Trackable
+    get 'download', on: :member
+  end
+
+  resources :measurements, only: [:show, :edit, :update, :destroy] do
+    get 'datatables_index', on: :collection # for Trackable
+    get 'datatables_index_through_events', on: :collection # for Trackable
+    get 'download', on: :member
+  end
+
+  resources :documentations, only: [:show, :edit, :update, :destroy] do
+    get 'datatables_index', on: :collection # for Trackable
+    get 'datatables_index_through_events', on: :collection # for Trackable
+    get 'download', on: :member
+  end
+
+  resources :infos, only: [:show, :edit, :update, :destroy] do
     get 'datatables_index', on: :collection # for Trackable
     get 'datatables_index_through_events', on: :collection # for Trackable
     get 'download', on: :member

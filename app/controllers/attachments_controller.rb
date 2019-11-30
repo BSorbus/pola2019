@@ -91,6 +91,14 @@ class AttachmentsController < ApplicationController
     end
   end
 
+  def move_to_statement
+    @attachment = Attachment.find(params[:id])
+    attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
+    if @attachment.move_to_statement_and_log_work(current_user.id)
+      head :no_content
+    end 
+  end
+
   def move_to_correspondence
     @attachment = Attachment.find(params[:id])
     attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
@@ -115,10 +123,26 @@ class AttachmentsController < ApplicationController
     end 
   end
 
-  def move_to_statement
+  def move_to_inspection_protocol
     @attachment = Attachment.find(params[:id])
     attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
-    if @attachment.move_to_statement_and_log_work(current_user.id)
+    if @attachment.move_to_inspection_protocol_and_log_work(current_user.id)
+      head :no_content
+    end 
+  end
+
+  def move_to_measurement
+    @attachment = Attachment.find(params[:id])
+    attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
+    if @attachment.move_to_measurement_and_log_work(current_user.id)
+      head :no_content
+    end 
+  end
+
+  def move_to_documentation
+    @attachment = Attachment.find(params[:id])
+    attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
+    if @attachment.move_to_documentation_and_log_work(current_user.id)
       head :no_content
     end 
   end

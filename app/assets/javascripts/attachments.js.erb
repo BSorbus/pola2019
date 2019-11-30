@@ -38,13 +38,55 @@ $(document).ready(function() {
     }  
   };
 
+  $.fn.dataTable.ext.buttons.attachment_move_to_statement = {
+    text: '<span class="fa fa-file-export"></span><br><span>Oświadczenia</span>',
+    titleAttr: 'Przenieś zaznaczone wiersze do "Oświadczenia/Upoważnienia"',
+    className: 'btn btn-default',
+    available: function ( dt, config ) {
+      // var availableFor = ["Event"];
+      // return ( (availableFor.indexOf( $('#attachmenable-attachments').data('attachmenable_type') ) > -1) );
+      return (  $('#attachmenable-attachments').data('move_statement_access') );
+    },
+    init: function ( dt, node, config ) {
+      var that = this;
+      dt.on( 'select.dt.DT deselect.dt.DT', function () {
+        that.enable( dt.rows( { selected: true } ).any() );
+      });
+      this.disable();
+    },
+    action: function ( e, dt, button, config ) {
+      if (confirm('Czy na pewno chcesz przenieść plik(-i) do "Oświadczenia/Upoważnienia"?')) {
+        $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
+
+          $.ajax({
+            url: '/attachments/' + item.id + '/move_to_statement',
+            type: 'POST',
+            async: true,
+            success: function (response) {
+              oAttachmentableAttachmentsTable.draw();
+              toastr['success']('"' + item.attached_file + '" został przeniesiony do "Oświadczenia/Upoważnienia"');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+              console.log(xhr);
+              if (xhr.status == 401) {
+                window.location.reload();
+              } else {
+                getErrorMessage(xhr, thrownError);
+              }
+            }
+          });
+
+        });
+      };
+    }  
+  };
+
   $.fn.dataTable.ext.buttons.attachment_move_to_correspondence = {
     text: '<span class="fa fa-file-export"></span><br><span>Korespondencja</span>',
     titleAttr: 'Przenieś zaznaczone wiersze do "Korespondencja"',
     className: 'btn btn-default',
     available: function ( dt, config ) {
-      var availableFor = ["Enrollment", "Errand", "Event"];
-      return ( (availableFor.indexOf( $('#attachmenable-attachments').data('attachmenable_type') ) > -1) );
+      return (  $('#attachmenable-attachments').data('move_correspondence_access') );
     },
     init: function ( dt, node, config ) {
       var that = this;
@@ -86,8 +128,7 @@ $(document).ready(function() {
     titleAttr: 'Przenieś zaznaczone wiersze do "Oceny/Opinie"',
     className: 'btn btn-default',
     available: function ( dt, config ) {
-      var availableFor = ["Event"];
-      return ( (availableFor.indexOf( $('#attachmenable-attachments').data('attachmenable_type') ) > -1) );
+      return (  $('#attachmenable-attachments').data('move_opinion_access') );
     },
     init: function ( dt, node, config ) {
       var that = this;
@@ -125,12 +166,11 @@ $(document).ready(function() {
 
 
   $.fn.dataTable.ext.buttons.attachment_move_to_protocol = {
-    text: '<span class="fa fa-file-export"></span><br><span>Protokoły</span>',
-    titleAttr: 'Przenieś zaznaczone wiersze do "Protokoły"',
+    text: '<span class="fa fa-file-export"></span><br><span>Protok. Odb.</span>',
+    titleAttr: 'Przenieś zaznaczone wiersze do "Protokoły Odbioru"',
     className: 'btn btn-default',
     available: function ( dt, config ) {
-      var availableFor = ["Event"];
-      return ( (availableFor.indexOf( $('#attachmenable-attachments').data('attachmenable_type') ) > -1) );
+      return (  $('#attachmenable-attachments').data('move_protocol_access') );
     },
     init: function ( dt, node, config ) {
       var that = this;
@@ -140,7 +180,7 @@ $(document).ready(function() {
       this.disable();
     },
     action: function ( e, dt, button, config ) {
-      if (confirm('Czy na pewno chcesz przenieść plik(-i) do "Protokoły"?')) {
+      if (confirm('Czy na pewno chcesz przenieść plik(-i) do "Protokoły Odbioru"?')) {
         $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
 
           $.ajax({
@@ -149,7 +189,7 @@ $(document).ready(function() {
             async: true,
             success: function (response) {
               oAttachmentableAttachmentsTable.draw();
-              toastr['success']('"' + item.attached_file + '" został przeniesiony do "Protokoły"');
+              toastr['success']('"' + item.attached_file + '" został przeniesiony do "Protokoły Odbioru"');
             },
             error: function (xhr, ajaxOptions, thrownError) {
               console.log(xhr);
@@ -167,13 +207,12 @@ $(document).ready(function() {
   };
 
 
-  $.fn.dataTable.ext.buttons.attachment_move_to_statement = {
-    text: '<span class="fa fa-file-export"></span><br><span>Oświadczenia</span>',
-    titleAttr: 'Przenieś zaznaczone wiersze do "Oświadczenia/Upoważnienia"',
+  $.fn.dataTable.ext.buttons.attachment_move_to_inspection_protocol = {
+    text: '<span class="fa fa-file-export"></span><br><span>Protok. Ogl.</span>',
+    titleAttr: 'Przenieś zaznaczone wiersze do "Protokoły Oględzin"',
     className: 'btn btn-default',
     available: function ( dt, config ) {
-      var availableFor = ["Event"];
-      return ( (availableFor.indexOf( $('#attachmenable-attachments').data('attachmenable_type') ) > -1) );
+      return (  $('#attachmenable-attachments').data('move_inspection_protocol_access') );
     },
     init: function ( dt, node, config ) {
       var that = this;
@@ -183,16 +222,16 @@ $(document).ready(function() {
       this.disable();
     },
     action: function ( e, dt, button, config ) {
-      if (confirm('Czy na pewno chcesz przenieść plik(-i) do "Oświadczenia/Upoważnienia"?')) {
+      if (confirm('Czy na pewno chcesz przenieść plik(-i) do "Protokoły Oglądzin"?')) {
         $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
 
           $.ajax({
-            url: '/attachments/' + item.id + '/move_to_statement',
+            url: '/attachments/' + item.id + '/move_to_inspection_protocol',
             type: 'POST',
             async: true,
             success: function (response) {
               oAttachmentableAttachmentsTable.draw();
-              toastr['success']('"' + item.attached_file + '" został przeniesiony do "Oświadczenia/Upoważnienia"');
+              toastr['success']('"' + item.attached_file + '" został przeniesiony do "Protokoły Oględzin"');
             },
             error: function (xhr, ajaxOptions, thrownError) {
               console.log(xhr);
@@ -209,13 +248,139 @@ $(document).ready(function() {
     }  
   };
 
+
+  $.fn.dataTable.ext.buttons.attachment_move_to_measurement = {
+    text: '<span class="fa fa-file-export"></span><br><span>Pomiary</span>',
+    titleAttr: 'Przenieś zaznaczone wiersze do "Pomiary"',
+    className: 'btn btn-default',
+    available: function ( dt, config ) {
+      return (  $('#attachmenable-attachments').data('move_measurement_access') );
+    },
+    init: function ( dt, node, config ) {
+      var that = this;
+      dt.on( 'select.dt.DT deselect.dt.DT', function () {
+        that.enable( dt.rows( { selected: true } ).any() );
+      });
+      this.disable();
+    },
+    action: function ( e, dt, button, config ) {
+      if (confirm('Czy na pewno chcesz przenieść plik(-i) do "Pomiary"?')) {
+        $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
+
+          $.ajax({
+            url: '/attachments/' + item.id + '/move_to_measurement',
+            type: 'POST',
+            async: true,
+            success: function (response) {
+              oAttachmentableAttachmentsTable.draw();
+              toastr['success']('"' + item.attached_file + '" został przeniesiony do "Pomiary"');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+              console.log(xhr);
+              if (xhr.status == 401) {
+                window.location.reload();
+              } else {
+                getErrorMessage(xhr, thrownError);
+              }
+            }
+          });
+
+        });
+      };
+    }  
+  };
+
+
+  $.fn.dataTable.ext.buttons.attachment_move_to_documentation = {
+    text: '<span class="fa fa-file-export"></span><br><span>Dokumentacja</span>',
+    titleAttr: 'Przenieś zaznaczone wiersze do "Dokumentacja"',
+    className: 'btn btn-default',
+    available: function ( dt, config ) {
+      return (  $('#attachmenable-attachments').data('move_documentation_access') );
+    },
+    init: function ( dt, node, config ) {
+      var that = this;
+      dt.on( 'select.dt.DT deselect.dt.DT', function () {
+        that.enable( dt.rows( { selected: true } ).any() );
+      });
+      this.disable();
+    },
+    action: function ( e, dt, button, config ) {
+      if (confirm('Czy na pewno chcesz przenieść plik(-i) do "Dokumentacja"?')) {
+        $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
+
+          $.ajax({
+            url: '/attachments/' + item.id + '/move_to_documentation',
+            type: 'POST',
+            async: true,
+            success: function (response) {
+              oAttachmentableAttachmentsTable.draw();
+              toastr['success']('"' + item.attached_file + '" został przeniesiony do "Dokumentacja"');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+              console.log(xhr);
+              if (xhr.status == 401) {
+                window.location.reload();
+              } else {
+                getErrorMessage(xhr, thrownError);
+              }
+            }
+          });
+
+        });
+      };
+    }  
+  };
+
+
+  $.fn.dataTable.ext.buttons.attachment_move_to_info = {
+    text: '<span class="fa fa-file-export"></span><br><span>I.P.</span>',
+    titleAttr: 'Przenieś zaznaczone wiersze do "Informacje Pokontrolne"',
+    className: 'btn btn-default',
+    available: function ( dt, config ) {
+      return (  $('#attachmenable-attachments').data('move_info_access') );
+    },
+    init: function ( dt, node, config ) {
+      var that = this;
+      dt.on( 'select.dt.DT deselect.dt.DT', function () {
+        that.enable( dt.rows( { selected: true } ).any() );
+      });
+      this.disable();
+    },
+    action: function ( e, dt, button, config ) {
+      if (confirm('Czy na pewno chcesz przenieść plik(-i) do "Informacje Pokontrolne"?')) {
+        $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
+
+          $.ajax({
+            url: '/attachments/' + item.id + '/move_to_info',
+            type: 'POST',
+            async: true,
+            success: function (response) {
+              oAttachmentableAttachmentsTable.draw();
+              toastr['success']('"' + item.attached_file + '" został przeniesiony do "Informacje Pokontrolne"');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+              console.log(xhr);
+              if (xhr.status == 401) {
+                window.location.reload();
+              } else {
+                getErrorMessage(xhr, thrownError);
+              }
+            }
+          });
+
+        });
+      };
+    }  
+  };
+
+
   $.fn.dataTable.ext.buttons.attachment_move_to_photo = {
     text: '<span class="fa fa-file-export"></span><br><span>Zdjęcia</span>',
     titleAttr: 'Przenieś zaznaczone wiersze do "Zdjęcia"',
     className: 'btn btn-default',
     available: function ( dt, config ) {
-      var availableFor = ["Event"];
-      return ( (availableFor.indexOf( $('#attachmenable-attachments').data('attachmenable_type') ) > -1) );
+      return (  $('#attachmenable-attachments').data('move_photo_access') );
     },
     init: function ( dt, node, config ) {
       var that = this;
@@ -260,6 +425,10 @@ $(document).ready(function() {
       'attachment_move_to_correspondence',
       'attachment_move_to_opinion',
       'attachment_move_to_protocol',
+      'attachment_move_to_inspection_protocol',
+      'attachment_move_to_measurement',
+      'attachment_move_to_documentation',
+      'attachment_move_to_info',
       'attachment_move_to_photo'
     ],
     select: {

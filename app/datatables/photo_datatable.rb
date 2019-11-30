@@ -30,7 +30,7 @@ class PhotoDatatable < AjaxDatatablesRails::ActiveRecord
       {
         id:               record.id,
         miniature:        link_to( image_tag(record.attached_file_url(:miniature)), @view.photo_path(record.id), remote: true, title: "Podgląd", rel: 'tooltip'),
-        photo_created_at: record.photo_created_at.present? ? record.photo_created_at.strftime("%Y-%m-%d") : '' ,
+        photo_created_at: record.photo_created_at.present? ? record.photo_created_at.strftime("%Y-%m-%d %H:%M:%S") : '' ,
         latitude:         record.latitude,
         longitude:        record.longitude,
         attached_file:    link_to(truncate(record.attached_file_identifier, length: 100), download_photo_path(record.id), title: t('tooltip.download'), rel: 'tooltip'),

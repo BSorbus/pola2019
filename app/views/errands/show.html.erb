@@ -36,7 +36,8 @@
         </div>
 
         <div class="tab-pane" id="attachments">
-          <%= render 'attachments/attachments_tab', attachmenable: @errand, subtitle: errand_info_legend(@errand) %>
+          <%= render 'attachments/attachments_tab', attachmenable: @errand, subtitle: errand_info_legend(@errand),
+            move_correspondence_access: true %>
         </div>
 
         <div class="tab-pane" id="correspondences">

@@ -46,6 +46,21 @@
             <a href="#through_events_inspection_protocols" data-toggle="tab"><%= through_events_inspection_protocol_index_legend %></a>
           </li>
         <% end %>
+        <% if policy(:measurement).project_index? %>
+          <li class="brand-nav brand-nav-level-2">
+            <a href="#through_events_measurements" data-toggle="tab"><%= through_events_measurement_index_legend %></a>
+          </li>
+        <% end %>
+        <% if policy(:documentation).project_index? %>
+          <li class="brand-nav brand-nav-level-2">
+            <a href="#through_events_documentations" data-toggle="tab"><%= through_events_documentation_index_legend %></a>
+          </li>
+        <% end %>
+        <% if policy(:info).project_index? %>
+          <li class="brand-nav brand-nav-level-2">
+            <a href="#through_events_infos" data-toggle="tab"><%= through_events_info_index_legend %></a>
+          </li>
+        <% end %>
         <% if policy(:photo).project_index? %>
           <li class="brand-nav brand-nav-level-2">
             <a href="#through_events_photos" data-toggle="tab"><%= through_events_photo_index_legend %></a>
@@ -106,6 +121,18 @@
 
         <div class="tab-pane" id="through_events_inspection_protocols">
           <%= render 'inspection_protocols/through_events_inspection_protocols_tab', for_parent: @project, subtitle: project_info_legend(@project) %>
+        </div>
+
+        <div class="tab-pane" id="through_events_measurements">
+          <%= render 'measurements/through_events_measurements_tab', for_parent: @project, subtitle: project_info_legend(@project) %>
+        </div>
+
+        <div class="tab-pane" id="through_events_documentations">
+          <%= render 'documentations/through_events_documentations_tab', for_parent: @project, subtitle: project_info_legend(@project) %>
+        </div>
+
+        <div class="tab-pane" id="through_events_infos">
+          <%= render 'infos/through_events_infos_tab', for_parent: @project, subtitle: project_info_legend(@project) %>
         </div>
 
         <div class="tab-pane" id="through_events_photos">

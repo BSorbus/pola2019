@@ -32,6 +32,17 @@ class Attachment < ApplicationRecord
   end
 
 
+  def move_to_statement_and_log_work(current_user_id)
+    ApplicationRecord.transaction do
+      statement = Statement.create(statemenable_type: self.attachmenable_type, statemenable_id: self.attachmenable_id, user_id: current_user_id)
+      statement.attached_file = File.new(File.join(Rails.root, '/public' + only_file_path(self.attached_file.url) + self.attached_file.file.filename))
+      statement.save!
+      statement.attached_file.recreate_versions!(:thumb)
+
+      self.destroy_and_log_work(current_user_id)
+    end
+  end
+
   def move_to_correspondence_and_log_work(current_user_id)
     ApplicationRecord.transaction do
       correspondence = Correspondence.create(correspondenable_type: self.attachmenable_type, correspondenable_id: self.attachmenable_id, user_id: current_user_id)
@@ -65,12 +76,45 @@ class Attachment < ApplicationRecord
     end
   end
 
-  def move_to_statement_and_log_work(current_user_id)
+  def move_to_inspection_protocol_and_log_work(current_user_id)
     ApplicationRecord.transaction do
-      statement = Statement.create(statemenable_type: self.attachmenable_type, statemenable_id: self.attachmenable_id, user_id: current_user_id)
-      statement.attached_file = File.new(File.join(Rails.root, '/public' + only_file_path(self.attached_file.url) + self.attached_file.file.filename))
-      statement.save!
-      statement.attached_file.recreate_versions!(:thumb)
+      inspection_protocol = InspectionProtocol.create(inspectionable_type: self.attachmenable_type, inspectionable_id: self.attachmenable_id, user_id: current_user_id)
+      inspection_protocol.attached_file = File.new(File.join(Rails.root, '/public' + only_file_path(self.attached_file.url) + self.attached_file.file.filename))
+      inspection_protocol.save!
+      inspection_protocol.attached_file.recreate_versions!(:thumb)
+
+      self.destroy_and_log_work(current_user_id)
+    end
+  end
+
+  def move_to_measurement_and_log_work(current_user_id)
+    ApplicationRecord.transaction do
+      measurement = Measurement.create(measurementable_type: self.attachmenable_type, measurementable_id: self.attachmenable_id, user_id: current_user_id)
+      measurement.attached_file = File.new(File.join(Rails.root, '/public' + only_file_path(self.attached_file.url) + self.attached_file.file.filename))
+      measurement.save!
+      measurement.attached_file.recreate_versions!(:thumb)
+
+      self.destroy_and_log_work(current_user_id)
+    end
+  end
+
+  def move_to_documentation_and_log_work(current_user_id)
+    ApplicationRecord.transaction do
+      documentation = Documentation.create(documentationable_type: self.attachmenable_type, documentationable_id: self.attachmenable_id, user_id: current_user_id)
+      documentation.attached_file = File.new(File.join(Rails.root, '/public' + only_file_path(self.attached_file.url) + self.attached_file.file.filename))
+      documentation.save!
+      documentation.attached_file.recreate_versions!(:thumb)
+
+      self.destroy_and_log_work(current_user_id)
+    end
+  end
+
+  def move_to_info_and_log_work(current_user_id)
+    ApplicationRecord.transaction do
+      info = Info.create(infoable_type: self.attachmenable_type, infoable_id: self.attachmenable_id, user_id: current_user_id)
+      info.attached_file = File.new(File.join(Rails.root, '/public' + only_file_path(self.attached_file.url) + self.attached_file.file.filename))
+      info.save!
+      info.attached_file.recreate_versions!(:thumb)
 
       self.destroy_and_log_work(current_user_id)
     end
@@ -81,8 +125,7 @@ class Attachment < ApplicationRecord
       photo = Photo.create(photoable_type: self.attachmenable_type, photoable_id: self.attachmenable_id, user_id: current_user_id)
       photo.attached_file = File.new(File.join(Rails.root, '/public' + only_file_path(self.attached_file.url) + self.attached_file.file.filename))
       photo.save!
-      #photo.attached_file.recreate_versions!(:thumb, :small)
-      photo.attached_file.recreate_versions!(:thumb)
+      photo.attached_file.recreate_versions!(:thumb, :miniature)
 
       self.destroy_and_log_work(current_user_id)
     end

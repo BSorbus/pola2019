@@ -31,7 +31,8 @@
         </div>
 
         <div class="tab-pane" id="attachments">
-          <%= render 'attachments/attachments_tab', attachmenable: @enrollment, subtitle: enrollment_info_legend(@enrollment) %>
+          <%= render 'attachments/attachments_tab', attachmenable: @enrollment, subtitle: enrollment_info_legend(@enrollment), 
+            move_correspondence_access: true %>
         </div>
 
         <div class="tab-pane" id="correspondences">

@@ -68,6 +68,9 @@ pl:
       opinion: 'Ocena/Opinia'
       protocol: 'Protokół Odbioru'
       inspection_protocol: 'Protokół Oględzin'
+      measurement: 'Pomiar'
+      documentation: 'Dokumentacja bud.'
+      info: 'Informacja Pokontrolna'
       photo: 'Zdjęcie'
       point_file: 'Plik Punktów Adresowych'
       ww_point: 'Punkt Adresowy'
@@ -212,6 +215,36 @@ pl:
         note: 'Uwagi'
       inspection_protocol:
         inspectionable: 'Załączony do'
+        attached_file: 'Plik'
+        attached_file_identifier: 'Plik'
+        file_content_type: 'Typ'
+        file_size: 'Rozmiar'
+        created_at: 'Utworzony'
+        updated_at: 'Aktualizacja'
+        user_id: 'Autor'
+        note: 'Uwagi'
+      measurement:
+        measuremenable: 'Załączony do'
+        attached_file: 'Plik'
+        attached_file_identifier: 'Plik'
+        file_content_type: 'Typ'
+        file_size: 'Rozmiar'
+        created_at: 'Utworzony'
+        updated_at: 'Aktualizacja'
+        user_id: 'Autor'
+        note: 'Uwagi'
+      documentation:
+        documentationable: 'Załączony do'
+        attached_file: 'Plik'
+        attached_file_identifier: 'Plik'
+        file_content_type: 'Typ'
+        file_size: 'Rozmiar'
+        created_at: 'Utworzony'
+        updated_at: 'Aktualizacja'
+        user_id: 'Autor'
+        note: 'Uwagi'
+      info:
+        infoable: 'Załączony do'
         attached_file: 'Plik'
         attached_file_identifier: 'Plik'
         file_content_type: 'Typ'
@@ -514,6 +547,27 @@ pl:
         title: 'Protokoły Oględzin'
       edit:
         title: 'Edycja -> Protokół Oględzin'
+    measurement:
+      through_events_index:
+        title: 'Pomiary (Z)'
+      index:
+        title: 'Pomiary'
+      edit:
+        title: 'Edycja -> Pomiar'
+    documentation:
+      through_events_index:
+        title: 'Dokumentacje bud. (Z)'
+      index:
+        title: 'Dokumentacje bud.'
+      edit:
+        title: 'Edycja -> Dokumentacja budowlana'
+    info:
+      through_events_index:
+        title: 'Informacje Pok. (Z)'
+      index:
+        title: 'Informacje Pok.'
+      edit:
+        title: 'Edycja -> Informacja Pokontrolna'
     photo:
       through_events_index:
         title: 'Zdjęcia (Z)'

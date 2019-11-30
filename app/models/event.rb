@@ -18,6 +18,9 @@ class Event < ApplicationRecord
   has_many :opinions, as: :opinionable, dependent: :destroy
   has_many :protocols, as: :protocolable, dependent: :destroy
   has_many :inspection_protocols, as: :inspectionable, dependent: :destroy
+  has_many :measurements, as: :measurementable, dependent: :destroy
+  has_many :documentations, as: :documentationable, dependent: :destroy
+  has_many :infos, as: :infoable, dependent: :destroy
   has_many :photos, as: :photoable, dependent: :destroy
   has_many :works, as: :trackable
 
@@ -129,6 +132,18 @@ class Event < ApplicationRecord
 
   def access_inspection_protocols?
     self.event_type.access_to_inspection_protocols?
+  end
+
+  def access_measurements?
+    self.event_type.access_to_measurements?
+  end
+
+  def access_documentations?
+    self.event_type.access_to_documentations?
+  end
+
+  def access_infos?
+    self.event_type.access_to_infos?
   end
 
   def access_photos?
