@@ -56,13 +56,44 @@ class AbleUploader < CarrierWave::Uploader::Base
 
   end
 
+  def list_compressable(format)
+    puts '----------------------------- Am compressable ------------------------------------'
+
+    # file.file == current_path
+    # puts current_path
+    # puts File.extname(current_path).delete('.').to_sym
+
+    puts file.file
+    puts File.extname(file.file).delete('.').to_sym
+
+    case File.extname(file.file).delete('.').to_sym
+    when :rar
+      list_file_from_rar(file)
+    when :zip
+      list_file_from_zip(file)
+    end
+    puts '----------------------------------------------------------------------------------'
+  end
+
+  def list_file_from_rar(file)
+    puts 'Am :rar file'      
+    puts 'List compressed files from .rar and create png'
+    #system("unrar lb 03.rar | convert -background black -fill lightgray -page 11x17 -pointsize 10 -font Courier text:- 03_11x17_10.png")
+    system("unrar lb #{file.file} | convert -background black -fill lightgray -page 11x17 -pointsize 10 -font Courier text:- test_rar01.png")
+
+  end
+
+  def list_file_from_zip(file)
+      puts 'Am :zip file'
+    puts 'List compressed files from .zip and create png'    
+  end
 
   version :thumb do
 
     process convert_convertable: :png, if: :convertable?
+    process list_compressable: :png, if: :compressable?
     process resize_to_fit: [800, 800], if: :image?
     process convert: :png, if: :image?
-    #process convert: :png, if: :not_convertable?
 
     def full_filename (for_file = model.source.file)
       super.chomp(File.extname(super)) + '.png'
@@ -89,11 +120,6 @@ class AbleUploader < CarrierWave::Uploader::Base
   #   0..2.megabytes
   # end
 
-
-  def save_content_type_size_in_model
-    model.file_content_type = file.content_type if file.content_type
-    model.file_size = number_to_human_size(file.size) if file.size
-  end
 
   def override_content_type_and_save_info
     case File.extname(file.file).delete('.').to_sym
@@ -122,12 +148,11 @@ class AbleUploader < CarrierWave::Uploader::Base
   private
 
     def convertable?(file)
-      # puts '-------------------- check convertable?(file) -------------------------------'
-      # puts model.file_content_type
-      # puts file.content_type
-      # puts ( pdf?(file) || docx?(file) || xlsx?(file) || pptx?(file) )
-      # puts '-----------------------------------------------------------------------------'
       ( pdf?(file) || docx?(file) || xlsx?(file) || pptx?(file) )
+    end
+
+    def compressable?(file)
+      ( rar?(file) || zip?(file) )
     end
 
 
@@ -149,5 +174,13 @@ class AbleUploader < CarrierWave::Uploader::Base
 
     def pptx?(file)
       model.file_content_type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+    end
+
+    def rar?(file)
+      model.file_content_type == 'application/vnd.rar'
+    end
+
+    def zip?(file)
+      model.file_content_type == 'application/zip'
     end
 end
