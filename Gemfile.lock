@@ -217,7 +217,7 @@ GEM
       actionmailer (>= 3)
       premailer (~> 1.7, >= 1.7.9)
     public_suffix (4.0.1)
-    puma (3.12.1)
+    puma (3.12.2)
     pundit (2.1.0)
       activesupport (>= 3.0.0)
     rack (2.0.7)
@@ -359,7 +359,7 @@ DEPENDENCIES
   momentjs-rails
   pg (>= 0.18, < 2.0)
   premailer-rails
-  puma (~> 3.11)
+  puma (~> 3.12)
   pundit
   rack-attack
   rails (~> 5.2.3)
