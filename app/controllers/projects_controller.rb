@@ -2,6 +2,8 @@ class ProjectsController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :datatables_index, :datatables_index_customer, :show_charts]
   before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :set_proposal_file, only: [:show]
+  before_action :set_point_file, only: [:show]
 
 
   def show_charts
@@ -129,6 +131,14 @@ class ProjectsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_project
       @project = Project.find(params[:id])
+    end
+
+    def set_proposal_file
+      @proposal_file = @project.last_active_proposal_file
+    end
+
+    def set_point_file
+      @point_file = @project.last_active_point_file
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

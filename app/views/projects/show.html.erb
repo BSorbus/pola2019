@@ -70,6 +70,23 @@
           <li class="brand-nav brand-nav-level-1">
             <a href="#proposal_files" data-toggle="tab"><%= proposal_file_index_legend %></a>
           </li>
+          <% if @proposal_file.present? %>
+            <li class="brand-nav brand-nav-level-2">
+              <a href="#proposal_files_xml_data_show" data-toggle="tab"><%= proposal_file_xml_data_show_legend %></a>
+            </li>
+            <li class="brand-nav brand-nav-level-2">
+              <a href="#proposal_files_xml_miejsce_realizacji_show" data-toggle="tab"><%= proposal_file_xml_miejsce_realizacji_show_legend %></a>
+            </li>
+            <li class="brand-nav brand-nav-level-2">
+              <a href="#proposal_files_xml_wybrana_technologia_show" data-toggle="tab"><%= proposal_file_xml_wybrana_technologia_show_legend %></a>
+            </li>
+            <li class="brand-nav brand-nav-level-2">
+              <a href="#proposal_files_xml_wskaznik_show" data-toggle="tab"><%= proposal_file_xml_wskaznik_show_legend %></a>
+            </li>
+            <li class="brand-nav brand-nav-level-2">
+              <a href="#proposal_files_xml_zadanie_show" data-toggle="tab"><%= proposal_file_xml_zadanie_show_legend %></a>
+            </li>
+          <% end %>
         <% end %>
         <% if policy(:point_file).index? %>
           <li class="brand-nav brand-nav-level-1">
@@ -140,8 +157,31 @@
         </div>
 
         <div class="tab-pane" id="proposal_files">
-          <%= render 'proposal_files', subtitle: project_info_legend(@project) %>
+          <%= render 'projects/proposal_files/index', subtitle: project_info_legend(@project) %>
         </div>
+  
+        <% if @proposal_file.present? %>
+          <div class="tab-pane" id="proposal_files_xml_data_show">
+            <%= render 'projects/proposal_files/xml_data', subtitle: project_info_legend(@project) %>
+          </div>
+
+          <div class="tab-pane" id="proposal_files_xml_miejsce_realizacji_show">
+            <%= render 'projects/proposal_files/xml_miejsce_realizacji_tables', subtitle: project_info_legend(@project) %>
+          </div>
+
+          <div class="tab-pane" id="proposal_files_xml_wybrana_technologia_show">
+            <%= render 'projects/proposal_files/xml_wybrana_technologia_tables', subtitle: project_info_legend(@project) %>
+          </div>
+
+          <div class="tab-pane" id="proposal_files_xml_wskaznik_show">
+            <%= render 'projects/proposal_files/xml_wskaznik_tables', subtitle: project_info_legend(@project) %>
+          </div>
+
+          <div class="tab-pane" id="proposal_files_xml_zadanie_show">
+            <%= render 'projects/proposal_files/xml_zadanie_tables', subtitle: project_info_legend(@project) %>
+          </div>
+        <% end %>
+
 
         <div class="tab-pane" id="point_files">
           <%= render 'point_files', subtitle: project_info_legend(@project) %>

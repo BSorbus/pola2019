@@ -1,20 +1,30 @@
-<div class="col-sm-12">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th><%= XmlWybranaTechnologiaTable.human_attribute_name(:element_id) %></th>
-        <th><%= XmlWybranaTechnologiaTable.human_attribute_name(:element_opis) %></th>
-      </tr>
-    <thead>
-    <tbody>
-      <% @proposal_file.xml_wybrana_technologia_tables.order(:element_id).each do |x| %>
-        <tr>
-          <td><%= x.element_id %></td>
-          <td><%= x.element_opis %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+<div id="tab_proposal_files_data">
+  <fieldset class="my-fieldset">
+    <legend class="my-fieldset colored-title"><%= subtitle %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= proposal_file_xml_wybrana_technologia_info_legend(@proposal_file) %></legend>
 
+    <h1>PROPOSAL FILES - XML WYBRANA TECHNOLOGIA (_xml_wybrana_technologia.html.erb)</h1>
+    <div class="row">
+      <div class="col-sm-12">
+
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th><%= XmlWybranaTechnologiaTable.human_attribute_name(:element_id) %></th>
+              <th><%= XmlWybranaTechnologiaTable.human_attribute_name(:element_opis) %></th>
+            </tr>
+          <thead>
+          <tbody>
+            <% @proposal_file.xml_wybrana_technologia_tables.order(:element_id).each do |x| %>
+              <tr>
+                <td><%= x.element_id %></td>
+                <td><%= x.element_opis %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+      </div>  <!-- /col-sm-12 -->
+    </div>  <!-- /row -->
+    
+  </fieldset>
 </div>
-

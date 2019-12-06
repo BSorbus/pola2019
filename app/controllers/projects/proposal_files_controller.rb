@@ -43,11 +43,10 @@ class Projects::ProposalFilesController < ApplicationController
       if @proposal_file.save
         flash[:success] = t('activerecord.successfull.messages.created', data: @proposal_file.fullname)
         @proposal_file.load_data_from_xml_file
-        format.html { redirect_to project_proposal_file_path(@project, @proposal_file) }
-        format.json { render :show, status: :created, location: @proposal_file }
+        #format.html { redirect_to project_proposal_file_path(@project, @proposal_file) }
+        format.html { redirect_to project_path(@proposal_file.project) }
       else
         format.html { render :new }
-        format.json { render json: @proposal_file.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -59,11 +58,10 @@ class Projects::ProposalFilesController < ApplicationController
     respond_to do |format|
       if @proposal_file.update(proposal_file_params)
         flash[:success] = t('activerecord.successfull.messages.updated', data: @proposal_file.fullname)
-        format.html { redirect_to project_proposal_file_path(@project, @proposal_file) }
-        format.json { render :show, status: :ok, location: @proposal_file }
+        #format.html { redirect_to project_proposal_file_path(@project, @proposal_file) }
+        format.html { redirect_to project_path(@proposal_file.project) }
       else
         format.html { render :edit }
-        format.json { render json: @proposal_file.errors, status: :unprocessable_entity }
       end
     end
   end

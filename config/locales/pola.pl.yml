@@ -639,6 +639,8 @@ pl:
         title: 'Pliki Projektu (XML)'
       show:
         title: 'Plik Projektu (XML)'
+      data_show:
+        title: 'Dane Ogólne'
       new:
         title: 'Nowy Plik Projektu (XML)'
       edit:

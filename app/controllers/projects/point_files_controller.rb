@@ -58,11 +58,10 @@ class Projects::PointFilesController < ApplicationController
         flash[:success] = t('activerecord.successfull.messages.created', data: @point_file.fullname)
         @point_file.load_data_from_csv_file
         flash[:notice] = "Pomyślnie załadowano #{@point_file.zs_points.size} punktów ZS"
-        format.html { redirect_to project_point_file_path(@project, @point_file) }
-        format.json { render :show, status: :created, location: @point_file }
+        # format.html { redirect_to project_point_file_path(@project, @point_file) }
+        format.html { redirect_to project_path(@point_file.project) }
       else
         format.html { render :new }
-        format.json { render json: @point_file.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -74,11 +73,10 @@ class Projects::PointFilesController < ApplicationController
     respond_to do |format|
       if @point_file.update(point_file_params)
         flash[:success] = t('activerecord.successfull.messages.updated', data: @point_file.fullname)
-        format.html { redirect_to project_point_file_path(@project, @point_file) }
-        format.json { render :show, status: :ok, location: @point_file }
+        # format.html { redirect_to project_point_file_path(@project, @point_file) }
+        format.html { redirect_to project_path(@point_file.project) }
       else
         format.html { render :edit }
-        format.json { render json: @point_file.errors, status: :unprocessable_entity }
       end
     end
   end

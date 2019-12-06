@@ -1,0 +1,61 @@
+<div id="tab_proposal_files">
+  <fieldset class="my-fieldset">
+    <legend class="my-fieldset colored-title"><%= subtitle %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= proposal_file_index_legend %></legend>
+
+    <h1>PROPOSAL FILES (_index)</h1>
+    <div class="row">
+      <div class="col-sm-12">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="col-sm-5"><%= ProposalFile.human_attribute_name(:load_file) %></th>
+              <th class="col-sm-4"><%= ProposalFile.human_attribute_name(:note) %></th>
+              <th class="col-sm-1"><%= ProposalFile.human_attribute_name(:status) %></th>
+              <th class="col-sm-1"><%= ProposalFile.human_attribute_name(:load_date) %></th>
+              <th class="col-sm-1"></th>
+            </tr>
+          <thead>
+          <tbody>
+            <% @project.proposal_files.order(load_date: :desc).each do |pf| %>
+              <tr>
+                <td class="<%='success' if pf.status == 'active' %>">
+                  <%= pf.load_file.present? ? link_to(pf.try(:fullname), download_project_proposal_file_path(pf.project, pf), title: t('tooltip.download'), rel: 'tooltip') : ''%>
+                </td>
+                <td class="<%='success' if pf.active? %>" >
+                  <%= truncate(Loofah.fragment(pf.note).text, length: 50) %>
+                </td>
+                <td class="<%='success' if pf.active? %>" >
+                  <%= enum_l(pf, :status) %>
+                </td>
+                <td class="<%='success' if pf.status == 'active' %>">
+                  <%= pf.load_date.present? ? pf.load_date.strftime("%Y-%m-%d %H:%M:%S") : ''%>
+                </td>
+                <td class="<%='success' if pf.status == 'active' %>" style='white-space: nowrap; text-align: center' >
+                  <%= link_to( '', edit_project_proposal_file_path(pf.project, pf), class: "fa fa-edit", title: t('tooltip.edit'), rel: 'tooltip') if policy(pf).edit? %>
+                  <%= link_to('', project_proposal_file_path(pf.project, pf),
+                            method: :delete,
+                            data: { confirm: t('helpers.links.confirm_destroy', data: pf.fullname) }, 
+                            class: "fa fa-trash text-danger",
+                            title: t('tooltip.destroy'), 
+                            rel: 'tooltip') if policy(pf).destroy? %>
+                </td>
+              </tr>
+            <% end %>
+           </tbody>
+        </table>
+
+      </div>
+
+      <div class="col-sm-12">
+        <% if policy(:proposal_file).new? %>
+          <%= link_to new_project_proposal_file_path(@project), class: "btn btn-primary pull-right" do %>
+            <span class="fa fa-plus"></span>
+            <%= t("helpers.links.new") %>
+          <% end %>
+        <% end %>
+      </div> <!--/col-sm-12 -->
+
+    </div> <!--/row -->
+    
+  </fieldset>
+</div>
