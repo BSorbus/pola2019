@@ -57,34 +57,28 @@ class AbleUploader < CarrierWave::Uploader::Base
   end
 
   def list_compressable(format)
-    puts '----------------------------- Am compressable ------------------------------------'
-
+    # File.delete(current_path)
+    # FileUtils.cp("tmp/" + file.name.gsub("/", "-"), current_path)
     # file.file == current_path
-    # puts current_path
     # puts File.extname(current_path).delete('.').to_sym
-
-    puts file.file
-    puts File.extname(file.file).delete('.').to_sym
-
+    # puts file.file
+    # puts File.extname(file.file).delete('.').to_sym
     case File.extname(file.file).delete('.').to_sym
     when :rar
       list_file_from_rar(file)
     when :zip
       list_file_from_zip(file)
     end
-    puts '----------------------------------------------------------------------------------'
   end
 
   def list_file_from_rar(file)
-    puts 'Am :rar file'      
-    puts 'List compressed files from .rar and create png'
-    #system("unrar lb 03.rar | convert -background black -fill lightgray -page 11x17 -pointsize 10 -font Courier text:- 03_11x17_10.png")
-    system("unrar lb #{file.file} | convert -background black -fill lightgray -page 11x17 -pointsize 10 -font Courier text:- test_rar01.png")
-
+    new_file_name = file.file.gsub('.rar', '.png')
+    system("unrar lb #{file.file} | convert -background black -fill lightgray -page 11x17 -pointsize 14 -font Courier text:- #{new_file_name}")
+    File.rename new_file_name, current_path
   end
 
   def list_file_from_zip(file)
-      puts 'Am :zip file'
+    puts 'Am :zip file'
     puts 'List compressed files from .zip and create png'    
   end
 
