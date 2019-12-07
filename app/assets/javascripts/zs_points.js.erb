@@ -1,0 +1,78 @@
+$(document).ready(function() {
+  var oPointFileZsPointstable = $('#point_file-zs_points-table').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    scrollX: true,
+    ajax: { 
+      url: $('#point_file-zs_points-table').data('source'),
+      type: "GET",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 50, 100, 250, 1000], [10, 50, 100, 250, 1000]],
+    iDisplayLength: 10,
+    columns: [
+      { "data": "id",
+        "visible": false }, 
+      { "data": "zs_2", "width": "70" }, 
+      { "data": "zs_3", "width": "50" }, 
+      { "data": "zs_4", "width": "100" }, 
+      { "data": "zs_5", "width": "100" }, 
+      { "data": "zs_6", "width": "100" },
+      { "data": "zs_7" },
+      { "data": "zs_8", "width": "100" },
+      { "data": "zs_9" },
+      { "data": "zs_10", "width": "100" },
+      { "data": "zs_11", "width": "40" },
+      { "data": "zs_12", "width": "40" },
+      { "data": "zs_13" },
+      { "data": "zs_14" },
+      { "data": "zs_15", "width": "120" },
+      { "data": "zs_16", "width": "40" },
+      { "data": "zs_17", "width": "40" },
+      { "data": "zs_18", "width": "120" },
+      { "data": "zs_19", "width": "40" },
+      { "data": "zs_20", "width": "40" },
+      { "data": "zs_21", "width": "40" }
+    ],
+    preDrawCallback: function( settings ) {
+      // jezeli panel nie jest widoczny, to przerwij ładowanie danych
+      if ( $( "#tab_point_files_zs_points" ).is( ":hidden" ) ) {
+        return false;
+      }
+    },
+    order: [[ 1, "asc" ]],
+    language: {
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+
+  // jezeli nastepuje wyswietlenie tab, to zaladuj dane
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    var target = $(e.target).attr("href") // activated tab
+    if (target == '#point_files_zs_points') {
+      oPointFileZsPointstable.draw();
+    };
+  });
+
+
+  $('#point_file-zs_points-table tbody').on('click', 'tr', function () {
+    $(this).toggleClass('selected');
+  });
+
+  $('#point_file-zs_points-table tbody').on('dblclick', 'tr', function () {
+    //$(this).toggleClass('selected');
+    var rowData = oPointFileZsPointstable.row( this ).data();
+    geoShowOneMarkerZS( rowData );
+  });
+  
+});

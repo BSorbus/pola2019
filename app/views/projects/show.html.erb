@@ -16,83 +16,80 @@
             <a href="#events" data-toggle="tab"><%= event_index_legend %></a>
           </li>
         <% end %>
-        <% if policy(:attachment).project_index? %>
-          <li class="brand-nav brand-nav-level-2">
-            <a href="#through_events_attachments" data-toggle="tab"><%= through_events_attachment_index_legend %></a>
-          </li>
-        <% end %>
-        <% if policy(:statement).project_index? %>
-          <li class="brand-nav brand-nav-level-2">
-            <a href="#through_events_statements" data-toggle="tab"><%= through_events_statement_index_legend %></a>
-          </li>
-        <% end %>
-        <% if policy(:correspondence).project_index? %>
-          <li class="brand-nav brand-nav-level-2">
-            <a href="#through_events_correspondences" data-toggle="tab"><%= through_events_correspondence_index_legend %></a>
-          </li>
-        <% end %>
-        <% if policy(:opinion).project_index? %>
-          <li class="brand-nav brand-nav-level-2">
-            <a href="#through_events_opinions" data-toggle="tab"><%= through_events_opinion_index_legend %></a>
-          </li>
-        <% end %>
-        <% if policy(:protocol).project_index? %>
-          <li class="brand-nav brand-nav-level-2">
-            <a href="#through_events_protocols" data-toggle="tab"><%= through_events_protocol_index_legend %></a>
-          </li>
-        <% end %>
-        <% if policy(:inspection_protocol).project_index? %>
-          <li class="brand-nav brand-nav-level-2">
-            <a href="#through_events_inspection_protocols" data-toggle="tab"><%= through_events_inspection_protocol_index_legend %></a>
-          </li>
-        <% end %>
-        <% if policy(:measurement).project_index? %>
-          <li class="brand-nav brand-nav-level-2">
-            <a href="#through_events_measurements" data-toggle="tab"><%= through_events_measurement_index_legend %></a>
-          </li>
-        <% end %>
-        <% if policy(:documentation).project_index? %>
-          <li class="brand-nav brand-nav-level-2">
-            <a href="#through_events_documentations" data-toggle="tab"><%= through_events_documentation_index_legend %></a>
-          </li>
-        <% end %>
-        <% if policy(:info).project_index? %>
-          <li class="brand-nav brand-nav-level-2">
-            <a href="#through_events_infos" data-toggle="tab"><%= through_events_info_index_legend %></a>
-          </li>
-        <% end %>
-        <% if policy(:photo).project_index? %>
-          <li class="brand-nav brand-nav-level-2">
-            <a href="#through_events_photos" data-toggle="tab"><%= through_events_photo_index_legend %></a>
-          </li>
-        <% end %>
+
+        <li class="dropdown brand-nav brand-nav-level-1">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= through_events_dropdown_legend %>
+          <span class="caret caret-right"></span></a>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <% if policy(:attachment).project_index? %>
+              <li><a href="#through_events_attachments" data-toggle="tab"><%= through_events_attachment_index_legend %></a></li>
+            <% end %>
+            <% if policy(:statement).project_index? %>
+              <li><a href="#through_events_statements" data-toggle="tab"><%= through_events_statement_index_legend %></a></li>
+            <% end %>
+            <% if policy(:correspondence).project_index? %>
+              <li><a href="#through_events_correspondences" data-toggle="tab"><%= through_events_correspondence_index_legend %></a></li>
+            <% end %>
+            <% if policy(:opinion).project_index? %>
+              <li><a href="#through_events_opinions" data-toggle="tab"><%= through_events_opinion_index_legend %></a></li>
+            <% end %>
+            <% if policy(:protocol).project_index? %>
+              <li><a href="#through_events_protocols" data-toggle="tab"><%= through_events_protocol_index_legend %></a></li>
+            <% end %>
+            <% if policy(:inspection_protocol).project_index? %>
+              <li><a href="#through_events_inspection_protocols" data-toggle="tab"><%= through_events_inspection_protocol_index_legend %></a></li>
+            <% end %>
+            <% if policy(:measurement).project_index? %>
+              <li><a href="#through_events_measurements" data-toggle="tab"><%= through_events_measurement_index_legend %></a></li>
+            <% end %>
+            <% if policy(:documentation).project_index? %>
+              <li><a href="#through_events_documentations" data-toggle="tab"><%= through_events_documentation_index_legend %></a></li>
+            <% end %>
+            <% if policy(:info).project_index? %>
+              <li><a href="#through_events_infos" data-toggle="tab"><%= through_events_info_index_legend %></a></li>
+            <% end %>
+            <% if policy(:photo).project_index? %>
+              <li><a href="#through_events_photos" data-toggle="tab"><%= through_events_photo_index_legend %></a></li>
+            <% end %>
+          </ul>
+        </li>
+
         <% if policy(:proposal_file).index? %>
-          <li class="brand-nav brand-nav-level-1">
-            <a href="#proposal_files" data-toggle="tab"><%= proposal_file_index_legend %></a>
+          <li class="dropdown brand-nav brand-nav-level-1">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= proposal_file_dropdown_legend %>
+            <span class="caret caret-right"></span></a>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li><a href="#proposal_files" data-toggle="tab"><%= proposal_file_index_legend %></a></li>
+              <% if @proposal_file.present? %>
+                <li class="divider"></li>
+                <li><a href="#proposal_files_xml_data" data-toggle="tab"><%= proposal_file_xml_data_show_legend %></a></li>
+                <li><a href="#proposal_files_xml_miejsce_realizacji" data-toggle="tab"><%= proposal_file_xml_miejsce_realizacji_show_legend %></a></li>
+                <li><a href="#proposal_files_xml_wybrana_technologia" data-toggle="tab"><%= proposal_file_xml_wybrana_technologia_show_legend %></a></li>
+                <li><a href="#proposal_files_xml_wskaznik" data-toggle="tab"><%= proposal_file_xml_wskaznik_show_legend %></a></li>
+                <li><a href="#proposal_files_xml_zadanie" data-toggle="tab"><%= proposal_file_xml_zadanie_show_legend %></a></li>
+              <% end %>
+            </ul>
           </li>
-          <% if @proposal_file.present? %>
-            <li class="brand-nav brand-nav-level-2">
-              <a href="#proposal_files_xml_data_show" data-toggle="tab"><%= proposal_file_xml_data_show_legend %></a>
-            </li>
-            <li class="brand-nav brand-nav-level-2">
-              <a href="#proposal_files_xml_miejsce_realizacji_show" data-toggle="tab"><%= proposal_file_xml_miejsce_realizacji_show_legend %></a>
-            </li>
-            <li class="brand-nav brand-nav-level-2">
-              <a href="#proposal_files_xml_wybrana_technologia_show" data-toggle="tab"><%= proposal_file_xml_wybrana_technologia_show_legend %></a>
-            </li>
-            <li class="brand-nav brand-nav-level-2">
-              <a href="#proposal_files_xml_wskaznik_show" data-toggle="tab"><%= proposal_file_xml_wskaznik_show_legend %></a>
-            </li>
-            <li class="brand-nav brand-nav-level-2">
-              <a href="#proposal_files_xml_zadanie_show" data-toggle="tab"><%= proposal_file_xml_zadanie_show_legend %></a>
-            </li>
-          <% end %>
         <% end %>
+
         <% if policy(:point_file).index? %>
-          <li class="brand-nav brand-nav-level-1">
-            <a href="#point_files" data-toggle="tab"><%= point_file_index_legend %></a>
+          <li class="dropdown brand-nav brand-nav-level-1">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= point_file_dropdown_legend %>
+            <span class="caret caret-right"></span></a>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li><a href="#point_files" data-toggle="tab"><%= point_file_index_legend %></a></li>
+              <% if @point_file.present? %>
+                <li class="divider"></li>
+                <li><a href="#point_files_oi_data" data-toggle="tab"><%= point_file_oi_data_show_legend %></a></li>
+                <li><a href="#point_files_zs_points" data-toggle="tab"><%= point_file_zs_show_legend %></a></li>
+                <li><a href="#point_files_maps" data-toggle="tab"><%= point_file_map_show_legend %></a></li>
+                <li><a href="#point_files_ww_points" data-toggle="tab"><%= point_file_ww_show_legend %></a></li>
+              <% end %>
+            </ul>
           </li>
         <% end %>
+
+
         <% if policy(:project).work? %>
           <li class="brand-nav brand-nav-level-1">
             <a href="#works" data-toggle="tab"><%= work_index_legend %></a>
@@ -161,31 +158,49 @@
         </div>
   
         <% if @proposal_file.present? %>
-          <div class="tab-pane" id="proposal_files_xml_data_show">
+          <div class="tab-pane" id="proposal_files_xml_data">
             <%= render 'projects/proposal_files/xml_data', subtitle: project_info_legend(@project) %>
           </div>
 
-          <div class="tab-pane" id="proposal_files_xml_miejsce_realizacji_show">
+          <div class="tab-pane" id="proposal_files_xml_miejsce_realizacji">
             <%= render 'projects/proposal_files/xml_miejsce_realizacji_tables', subtitle: project_info_legend(@project) %>
           </div>
 
-          <div class="tab-pane" id="proposal_files_xml_wybrana_technologia_show">
+          <div class="tab-pane" id="proposal_files_xml_wybrana_technologia">
             <%= render 'projects/proposal_files/xml_wybrana_technologia_tables', subtitle: project_info_legend(@project) %>
           </div>
 
-          <div class="tab-pane" id="proposal_files_xml_wskaznik_show">
+          <div class="tab-pane" id="proposal_files_xml_wskaznik">
             <%= render 'projects/proposal_files/xml_wskaznik_tables', subtitle: project_info_legend(@project) %>
           </div>
 
-          <div class="tab-pane" id="proposal_files_xml_zadanie_show">
+          <div class="tab-pane" id="proposal_files_xml_zadanie">
             <%= render 'projects/proposal_files/xml_zadanie_tables', subtitle: project_info_legend(@project) %>
           </div>
         <% end %>
 
 
         <div class="tab-pane" id="point_files">
-          <%= render 'point_files', subtitle: project_info_legend(@project) %>
+          <%= render 'projects/point_files/index', subtitle: project_info_legend(@project) %>
         </div>
+
+        <% if @point_file.present? %>
+          <div class="tab-pane" id="point_files_oi_data">
+            <%= render 'projects/point_files/oi_data', subtitle: project_info_legend(@project) %>
+          </div>
+
+          <div class="tab-pane" id="point_files_zs_points">
+            <%= render 'projects/point_files/zs_points', subtitle: project_info_legend(@project) %>
+          </div>
+
+          <div class="tab-pane" id="point_files_maps">
+            <%= render 'projects/point_files/maps', subtitle: project_info_legend(@project) %>
+          </div>
+
+          <div class="tab-pane" id="point_files_ww_points">
+            <%= render 'projects/point_files/ww_points', subtitle: project_info_legend(@project) %>
+          </div>
+        <% end %>
 
         <div class="tab-pane" id="works">
           <%= render 'works/works_tab', trackable_type: "Project", trackable_id: @project.id, subtitle: project_info_legend(@project) %>

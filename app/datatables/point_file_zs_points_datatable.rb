@@ -1,29 +1,6 @@
-class PointFileZsPointsDatatable < AjaxDatatablesRails::Base
+class PointFileZsPointsDatatable < AjaxDatatablesRails::ActiveRecord
 
   include ActionView::Helpers::NumberHelper
-
-  # t.bigint "point_file_id"
-  # t.string "zs_2", limit: 10
-  # t.string "zs_3", limit: 100
-  # t.string "zs_4", limit: 100
-  # t.string "zs_5", limit: 100
-  # t.string "zs_6", limit: 100
-  # t.string "zs_7", limit: 7
-  # t.string "zs_8", limit: 100
-  # t.string "zs_9", limit: 7
-  # t.string "zs_10", limit: 250
-  # t.string "zs_11", limit: 5
-  # t.string "zs_12", limit: 50
-  # t.decimal "zs_13", precision: 7, scale: 4
-  # t.decimal "zs_14", precision: 7, scale: 4
-  # t.string "zs_15", limit: 100
-  # t.integer "zs_16"
-  # t.integer "zs_17"
-  # t.string "zs_18", limit: 100
-  # t.integer "zs_19"
-  # t.integer "zs_20"
-  # t.integer "zs_21"
-
 
   def view_columns
     @view_columns ||= {

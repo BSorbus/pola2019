@@ -1,0 +1,76 @@
+$(document).ready(function() {
+  var oPointFileWwPointstable = $('#point_file-ww_points-table').DataTable({
+    responsive: true,
+    processing: true,
+    serverSide: true,
+    deferRender: true,
+    scrollX: true,
+    ajax: { 
+      url: $('#point_file-ww_points-table').data('source'),
+      type: "GET",
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+    },
+    pagingType: "full_numbers",
+    lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
+    iDisplayLength: 10,
+    columns: [
+      { "data": "id",
+        "visible": false }, 
+      { "data": "ww_2", "width": "70" }, 
+      { "data": "ww_3", "width": "50" }, 
+      { "data": "ww_4", "width": "100" }, 
+      { "data": "ww_5", "width": "100" }, 
+      { "data": "ww_6", "width": "100" },
+      { "data": "ww_7" },
+      { "data": "ww_8", "width": "100" },
+      { "data": "ww_9" },
+      { "data": "ww_10", "width": "100" },
+      { "data": "ww_11", "width": "40" },
+      { "data": "ww_12", "width": "40" },
+      { "data": "ww_13", "width": "40" },
+      { "data": "ww_14", "width": "40" },
+      { "data": "ww_15", "width": "40" },
+      { "data": "ww_16", "width": "120" }
+    ],
+    preDrawCallback: function( settings ) {
+      // jezeli panel nie jest widoczny, to przerwij ładowanie danych
+      if ( $( "#tab_point_files_ww_points" ).is( ":hidden" ) ) {
+        return false;
+      }
+    },
+    order: [[ 1, "asc" ]],
+    language: {
+      url: '<%= asset_path("pl.json.erb") %>'
+    }
+  });
+
+
+  // jezeli nastepuje wyswietlenie tab, to zaladuj dane
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    var target = $(e.target).attr("href") // activated tab
+    if (target == '#point_files_ww_points') {
+      oPointFileWwPointstable.draw();
+    };
+  });
+
+
+  $('#point_file-ww_points-table tbody').on('click', 'tr', function () {
+    $(this).toggleClass('selected');
+  });
+
+  $('#point_file-ww_points-table tbody').on('dblclick', 'tr', function () {
+    //$(this).toggleClass('selected');
+    var rowData = oPointFileWwPointstable.row( this ).data();
+    geoShowOneMarkerWW( rowData );
+  });
+
+  
+});
+

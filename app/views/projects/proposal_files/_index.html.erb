@@ -2,9 +2,9 @@
   <fieldset class="my-fieldset">
     <legend class="my-fieldset colored-title"><%= subtitle %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= proposal_file_index_legend %></legend>
 
-    <h1>PROPOSAL FILES (_index)</h1>
     <div class="row">
       <div class="col-sm-12">
+
         <table class="table table-hover">
           <thead>
             <tr>
@@ -16,35 +16,35 @@
             </tr>
           <thead>
           <tbody>
-            <% @project.proposal_files.order(load_date: :desc).each do |pf| %>
+            <% @project.proposal_files.order(load_date: :desc).each do |pr_f| %>
               <tr>
-                <td class="<%='success' if pf.status == 'active' %>">
-                  <%= pf.load_file.present? ? link_to(pf.try(:fullname), download_project_proposal_file_path(pf.project, pf), title: t('tooltip.download'), rel: 'tooltip') : ''%>
+                <td class="<%='success' if pr_f.status == 'active' %>">
+                  <%= pr_f.load_file.present? ? link_to(pr_f.try(:fullname), download_project_proposal_file_path(pr_f.project, pr_f), title: t('tooltip.download'), rel: 'tooltip') : ''%>
                 </td>
-                <td class="<%='success' if pf.active? %>" >
-                  <%= truncate(Loofah.fragment(pf.note).text, length: 50) %>
+                <td class="<%='success' if pr_f.active? %>" >
+                  <%= truncate(Loofah.fragment(pr_f.note).text, length: 50) %>
                 </td>
-                <td class="<%='success' if pf.active? %>" >
-                  <%= enum_l(pf, :status) %>
+                <td class="<%='success' if pr_f.active? %>" >
+                  <%= enum_l(pr_f, :status) %>
                 </td>
-                <td class="<%='success' if pf.status == 'active' %>">
-                  <%= pf.load_date.present? ? pf.load_date.strftime("%Y-%m-%d %H:%M:%S") : ''%>
+                <td class="<%='success' if pr_f.status == 'active' %>">
+                  <%= pr_f.load_date.present? ? pr_f.load_date.strftime("%Y-%m-%d %H:%M:%S") : '' %>
                 </td>
-                <td class="<%='success' if pf.status == 'active' %>" style='white-space: nowrap; text-align: center' >
-                  <%= link_to( '', edit_project_proposal_file_path(pf.project, pf), class: "fa fa-edit", title: t('tooltip.edit'), rel: 'tooltip') if policy(pf).edit? %>
-                  <%= link_to('', project_proposal_file_path(pf.project, pf),
+                <td class="<%='success' if pr_f.status == 'active' %>" style='white-space: nowrap; text-align: center' >
+                  <%= link_to( '', edit_project_proposal_file_path(pr_f.project, pr_f), class: "fa fa-edit", title: t('tooltip.edit'), rel: 'tooltip') if policy(pr_f).edit? %>&nbsp;&nbsp;&nbsp;
+                  <%= link_to('', project_proposal_file_path(pr_f.project, pr_f),
                             method: :delete,
-                            data: { confirm: t('helpers.links.confirm_destroy', data: pf.fullname) }, 
+                            data: { confirm: t('helpers.links.confirm_destroy', data: pr_f.fullname) }, 
                             class: "fa fa-trash text-danger",
                             title: t('tooltip.destroy'), 
-                            rel: 'tooltip') if policy(pf).destroy? %>
+                            rel: 'tooltip') if policy(pr_f).destroy? %>
                 </td>
               </tr>
             <% end %>
            </tbody>
         </table>
 
-      </div>
+      </div> <!--/col-sm-12 -->
 
       <div class="col-sm-12">
         <% if policy(:proposal_file).new? %>

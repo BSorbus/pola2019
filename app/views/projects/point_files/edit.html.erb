@@ -1,21 +1,16 @@
-<div class="row">
-  <div class="col-sm-12">
-    <div class="panel panel-point-file">
-      <div class="panel-heading">
-        <div class="panel-title">
-          <span class="glyphicon glyphicon-book">&nbsp;</span>
-          <span><%=t "pages.point_file.edit.title"%>:&nbsp;<%= @point_file.fullname %></span>
-        </div>
-      </div>
-        <div class="panel-body">
-          <div class="col-sm-1">
-            <h1><span class="fa fa-edit"></span></h1> 
-          </div> <!--/col-sm-1-->
+<br>
+<div class="container-fluid"> 
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="center colored-title"><%= fa_icon("edit", size: '3x') %></div>
+    </div>
+    <div class="col-sm-10">
+      <fieldset class="my-fieldset">
+        <legend class="my-fieldset colored-title"><%= project_info_legend(@project) %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= point_file_edit_legend(@point_file) %></legend>
+        <%= render 'form', project: @project, point_file: @point_file %>
+      </fieldset>
+    </div>
 
-          <%= render 'form', project: @project, point_file: @point_file %>
-    
-        </div>
-    </div> <!-- /panel -->
-  </div> <!-- /col-sm-12-->
-</div> <!-- /row -->
+  </div>
 
+</div>

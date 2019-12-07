@@ -22,4 +22,8 @@ module EventsHelper
     event_show_legend + ": " + data_obj.fullname
   end
 
+  def through_events_dropdown_legend
+    fa_icon(ICON, text: t("pages.event.through_events_dropdown.title"))
+  end
+
 end

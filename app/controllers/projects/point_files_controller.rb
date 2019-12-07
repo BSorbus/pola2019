@@ -8,14 +8,14 @@ class Projects::PointFilesController < ApplicationController
   # ZsPoints for showed PointFile
   def datatables_index_zs_point
     respond_to do |format|
-      format.json{ render json: PointFileZsPointsDatatable.new(view_context, { only_for_current_point_file_id: params[:point_file_id] }) }
+      format.json{ render json: PointFileZsPointsDatatable.new(params, view_context: view_context, only_for_current_point_file_id: params[:point_file_id] ) }
     end
   end
 
   # WwPoints for showed PointFile
   def datatables_index_ww_point
     respond_to do |format|
-      format.json{ render json: PointFileWwPointsDatatable.new(view_context, { only_for_current_point_file_id: params[:point_file_id] }) }
+      format.json{ render json: PointFileWwPointsDatatable.new(params, view_context: view_context, only_for_current_point_file_id: params[:point_file_id] ) }
     end
   end
 

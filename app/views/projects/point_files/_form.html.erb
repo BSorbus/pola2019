@@ -1,76 +1,78 @@
-<%#= form_with(model: point_file, local: true) do |form| %>
-<div class="col-sm-11">
-<%= form_for [project, point_file] do |f| %>
+<div class="row">
+  <div class="col-sm-12">
+    <%= form_for [project, point_file] do |f| %>
 
-    <% input_disabled ||= false  
-       #if input_disabled is not passed to the partial it doesn't crash. 
-       # We default it to false 
-    %>
+      <% input_disabled ||= false  
+         #if input_disabled is not passed to the partial it doesn't crash. 
+         # We default it to false 
+      %>
 
-    <%= form_errors_for point_file %>
+      <%= form_errors_for point_file %>
 
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="row">
-
-          <div class="form-group col-sm-6">
-            <%= f.label :status, class: 'control-label' %>
-            <%= f.select :status, 
-                  enum_options_for_select(PointFile, :status),
-#                    PointFile.statuses.keys.map {|status| [status.titleize, status]},
-                  { include_blank: false }, 
-                  { autofocus: true, class: 'form-control input-sm', disabled: input_disabled } %>
-          </div>
-
-          <div class="form-group col-sm-6">
-            <%= f.label :load_date, class: 'control-label' %>
-            <%= f.text_field :load_date, class: 'form-control input-sm datetimepicker', 
-                              disabled: !point_file.new_record? %>
-          </div>
-
-          <div class="form-group col-sm-12">
-            <%= f.label :load_file, class: 'control-label' %>
-            <%= f.file_field :load_file, class: 'form-control input-sm', disabled: !point_file.new_record? %>
-            <%= point_file.try(:load_file_identifier) %><br>
-          </div>
-          <%= f.hidden_field :load_file_cache %>
-
-        </div>  <!-- /row -->
-      </div>  <!-- /col-sm-6 -->
-
-
-      <div class="col-sm-6">
-        <div class="row">
-          <div class="form-group col-sm-12">
-            <%= f.label :note, class: 'control-label' %>
-            <%= f.trix_editor :note %>
-          </div>
-        </div> <!-- /row -->
-      </div> <!--/col-sm-6 -->
-
-    </div>  <!-- /row -->
-
-
-    <hr class="hr-without-top-margin">
-
-
-    <% if input_disabled %>
-      <!-- for "Show" -->
-    <% else %>
-      <!-- form "New"/"Edit" -->
       <div class="row">
-        <%= link_to @project.try(:number), project_path(@project), :class => 'btn btn-default' %>
+        <div class="col-sm-6">
+          <div class="row">
 
-        <%= link_to :back, class: "btn btn-default" do %>
-          <span class="glyphicon glyphicon-arrow-left"></span>
-          <%= t("helpers.links.back") %>
-        <% end %>
+            <div class="form-group col-sm-6">
+              <%= f.label :status, class: 'control-label' %>
+              <%= f.select :status, 
+                    enum_options_for_select(PointFile, :status),
+  #                    PointFile.statuses.keys.map {|status| [status.titleize, status]},
+                    { include_blank: false }, 
+                    { autofocus: true, class: 'form-control input-sm', disabled: input_disabled } %>
+            </div>
 
-        <%= f.submit nil, :class => 'btn btn-success' %>
-      </div> <!-- /row -->
+            <div class="form-group col-sm-6">
+              <%= f.label :load_date, class: 'control-label' %>
+              <%= f.text_field :load_date, class: 'form-control input-sm datetimepicker', 
+                                disabled: !point_file.new_record? %>
+            </div>
+
+            <div class="form-group col-sm-12">
+              <%= f.label :load_file, class: 'control-label' %>
+              <%= f.file_field :load_file, class: 'form-control input-sm', disabled: !point_file.new_record? %>
+              <%= point_file.try(:load_file_identifier) %><br>
+            </div>
+            <%= f.hidden_field :load_file_cache %>
+
+          </div>  <!-- /row -->
+        </div>  <!-- /col-sm-6 -->
+
+
+        <div class="col-sm-6">
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <%= f.label :note, class: 'control-label' %>
+              <%= f.trix_editor :note %>
+            </div>
+          </div> <!-- /row -->
+        </div> <!--/col-sm-6 -->
+
+      </div>  <!-- /row -->
+
+
+      <hr class="hr-without-top-margin">
+
+
+      <% if input_disabled %>
+        <!-- for "Show" -->
+      <% else %>
+        <!-- form "New"/"Edit" -->
+        <div class="row">
+          <div class="col-sm-12">
+            <%= link_to @project.try(:number), project_path(@project), :class => 'btn btn-default' %>
+
+            <%= link_to :back, class: "btn btn-default" do %>
+              <span class="glyphicon glyphicon-arrow-left"></span>
+              <%= t("helpers.links.back") %>
+            <% end %>
+
+            <%= f.submit nil, :class => 'btn btn-success' %>
+          </div> <!--/col-sm-12 -->
+        </div> <!-- /row -->
+      <% end %>
+      
     <% end %>
-    
-  <% end %>
 
-</div> <!--/col-sm-11-->
-
+  </div> <!--/col-sm-12-->
+</div> <!-- /row -->

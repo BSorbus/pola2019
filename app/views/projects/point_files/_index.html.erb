@@ -1,0 +1,60 @@
+<div id="tab_point_files">
+  <fieldset class="my-fieldset">
+    <legend class="my-fieldset colored-title"><%= subtitle %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= point_file_index_legend %></legend>
+
+    <h1>POINT FILES</h1>
+    <div class="row">
+      <div class="col-sm-12">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="col-sm-5"><%= PointFile.human_attribute_name(:load_file) %></th>
+              <th class="col-sm-4"><%= PointFile.human_attribute_name(:note) %></th>
+              <th class="col-sm-1"><%= PointFile.human_attribute_name(:status) %></th>
+              <th class="col-sm-1"><%= PointFile.human_attribute_name(:load_date) %></th>
+              <th class="col-sm-1"></th>
+            </tr>
+          <thead>
+          <tbody>
+            <% @project.point_files.order(load_date: :desc).each do |po_f| %>
+              <tr>
+                <td class="<%='success' if po_f.status == 'active' %>">
+                  <%= po_f.load_file.present? ? link_to(po_f.try(:fullname), download_project_point_file_path(po_f.project, po_f), title: t('tooltip.download'), rel: 'tooltip') : ''%>
+                </td>
+                <td class="<%='success' if po_f.active? %>" >
+                  <%= truncate(Loofah.fragment(po_f.note).text, length: 50) %>
+                </td>
+                <td class="<%='success' if po_f.active? %>" >
+                  <%= enum_l(po_f, :status) %>
+                </td>
+                <td class="<%='success' if po_f.status == 'active' %>">
+                  <%= po_f.load_date.present? ? po_f.load_date.strftime("%Y-%m-%d %H:%M:%S") : '' %>
+                </td>
+                <td class="<%='success' if po_f.status == 'active' %>" style='white-space: nowrap; text-align: center' >
+                  <%= link_to( '', edit_project_point_file_path(po_f.project, po_f), class: "fa fa-edit", title: t('tooltip.edit'), rel: 'tooltip') if policy(po_f).edit? %>&nbsp;&nbsp;&nbsp;
+                  <%= link_to('', project_point_file_path(po_f.project, po_f),
+                            method: :delete,
+                            data: { confirm: t('helpers.links.confirm_destroy', data: po_f.fullname) }, 
+                            class: "fa fa-trash text-danger",
+                            title: t('tooltip.destroy'), 
+                            rel: 'tooltip') if policy(po_f).destroy? %>
+                </td>
+              </tr>
+            <% end %>
+           </tbody>
+        </table>
+      </div>
+
+      <div class="col-sm-12">
+        <% if policy(:point_file).new? %>
+          <%= link_to new_project_point_file_path(@project), class: "btn btn-primary pull-right" do %>
+            <span class="fa fa-plus"></span>
+            <%= t("helpers.links.new") %>
+          <% end %>
+        <% end %>
+      </div> <!--/col-sm-12 -->
+    </div> <!--/row -->
+
+    
+  </fieldset>
+</div>

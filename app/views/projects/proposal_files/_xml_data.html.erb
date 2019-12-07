@@ -1,76 +1,62 @@
-<div id="tab_proposal_files_data">
+<div id="tab_proposal_files_xml_data">
   <fieldset class="my-fieldset">
     <legend class="my-fieldset colored-title"><%= subtitle %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= proposal_file_xml_data_info_legend(@proposal_file) %></legend>
 
-    <h1>PROPOSAL FILES - XML DATA (_xml_data.html.erb)</h1>
     <div class="row">
+      <div class="col-sm-12">
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="row">
+
+              <div class="form-group col-sm-12">
+                <strong><%= ProposalFile.human_attribute_name(:nabor_id) %></strong><br>
+                <%= @proposal_file.nabor_id %>
+              </div>
+
+              <div class="form-group col-sm-12">
+                <strong><%= ProposalFile.human_attribute_name(:nabor_opis) %></strong><br>
+                <%= @proposal_file.nabor_opis %>
+              </div>
+
+            </div>  <!-- /row -->
+          </div>  <!-- /col-sm-6 -->
+
+          <div class="col-sm-6">
+            <div class="row">
+              <div class="form-group col-sm-12">
+                <strong><%= ProposalFile.human_attribute_name(:rodzaj_id) %></strong><br>
+                <%= @proposal_file.rodzaj_id %>
+              </div>
+
+              <div class="form-group col-sm-12">
+                <strong><%= ProposalFile.human_attribute_name(:rodzaj_opis) %></strong><br>
+                <%= @proposal_file.rodzaj_opis %>
+              </div>
+
+            </div>   <!-- /row -->
+          </div> <!--/col-sm-6 -->
+        </div>  <!-- /row -->
 
 
+        <div class="row">
+          <div class="col-sm-12">
 
-<div class="col-sm-12">
+            <%= render 'projects/proposal_files/xml_data_projekt_tables' %>
 
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="row">
+          </div>  <!-- /col-sm-6 -->
+        </div>  <!-- /row -->
 
-        <div class="form-group col-sm-12">
-          <strong><%= ProposalFile.human_attribute_name(:nabor_id) %></strong><br>
-          <%= @proposal_file.nabor_id %>
-        </div>
+        <div class="row">
+          <div class="col-sm-12">
 
-        <div class="form-group col-sm-12">
-          <strong><%= ProposalFile.human_attribute_name(:nabor_opis) %></strong><br>
-          <%= @proposal_file.nabor_opis %>
-        </div>
+            <%= render 'projects/proposal_files/xml_data_partner_tables' %>
 
-      </div>  <!-- /row -->
-    </div>  <!-- /col-sm-6 -->
-
-    <div class="col-sm-6">
-      <div class="row">
-        <div class="form-group col-sm-12">
-          <strong><%= ProposalFile.human_attribute_name(:rodzaj_id) %></strong><br>
-          <%= @proposal_file.rodzaj_id %>
-        </div>
-
-        <div class="form-group col-sm-12">
-          <strong><%= ProposalFile.human_attribute_name(:rodzaj_opis) %></strong><br>
-          <%= @proposal_file.rodzaj_opis %>
-        </div>
-
-      </div>   <!-- /row -->
-    </div> <!--/col-sm-6 -->
-  </div>  <!-- /row -->
+          </div>  <!-- /col-sm-6 -->
+        </div>  <!-- /row -->
 
 
-  <div class="row">
-    <div class="col-sm-12">
-
-      <%= render 'projects/proposal_files/xml_data_projekt_tables' %>
-
-    </div>  <!-- /col-sm-6 -->
-  </div>  <!-- /row -->
-
-  <div class="row">
-    <div class="col-sm-12">
-
-      <%= render 'projects/proposal_files/xml_data_partner_tables' %>
-
-    </div>  <!-- /col-sm-6 -->
-  </div>  <!-- /row -->
-
-
-</div> <!--/col-sm-12-->    
-
-
-
-
-
-
-
-
-
-
+      </div> <!--/col-sm-12-->    
     </div> <!--/row -->
     
   </fieldset>

@@ -576,8 +576,10 @@ pl:
       edit:
         title: 'Edycja -> Zdjęcie'
     point_file:
+      dropdown:
+        title: 'Pliki Punktów Adresowych'
       index:
-        title: 'Pliki Punktów Adres.'
+        title: 'Lista'
       show:
         title: 'Plik Punktów Adresowych'
       new:
@@ -595,7 +597,7 @@ pl:
         title: 'Edycja -> Obszar Inwestycyjny'
     zs_point:
       index:
-        title: 'Punkty ZS - Budynki w Zasięgu Sieci'
+        title: 'Punkty ZS'
       show:
         title: 'Punkt ZS - Budynek w Zasięgu Sieci'
       new:
@@ -607,7 +609,7 @@ pl:
         title: 'Mapa'
     ww_point:
       index:
-        title: 'Punkty WW - Własne i Współdzielone węzły telekomunikacyjne'
+        title: 'Punkty WW'
       show:
         title: 'Punkt WW - Własny/Współdzielony węzeł telekomunikacyjny'
       new:
@@ -624,6 +626,8 @@ pl:
       edit:
         title: 'Edycja -> Zlecenie'
     event:
+      through_events_dropdown:
+        title: 'Załączniki Zadań (Z)'
       index:
         title: 'Zadania'
       show:
@@ -635,8 +639,10 @@ pl:
       fieldset:
         accessorizations_title: 'Użytkownicy realizujący'
     proposal_file:
-      index:
+      dropdown:
         title: 'Pliki Projektu (XML)'
+      index:
+        title: 'Lista'
       show:
         title: 'Plik Projektu (XML)'
       data_show:

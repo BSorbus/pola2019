@@ -1,17 +1,28 @@
-<div class="col-sm-12" class="clearfix">
-  <div >
-    <%= button_tag "Mapa - pokaż/wyczyść", type: "button", onclick: "geoClearFunction()", class: "btn btn-primary", title: 'Inicjuje lub czyści mapę', 'data-toggle' => 'tooltip' %>
-  </div> <!--/col-sm-12 -->
-  <br>
-  <div >
-    <div id="iapi" class="clearfix"></div>
-  </div> <!--/col-sm-12 -->
+<div id="tab_point_files_maps">
+  <fieldset class="my-fieldset">
+    <legend class="my-fieldset colored-title"><%= subtitle %>&nbsp;&nbsp;-&nbsp;&nbsp;<%= point_file_map_info_legend(@point_file) %></legend>
 
-</div> <!--/col-sm-12 -->
+    <div clas="row">
+      <div class="col-sm-12" class="clearfix">
 
-<script>
-  // window.onload = function(){
-  //   //initMap();  
-  //   //myClearFunction();
-  // };
+        <div >
+          <%= button_tag "Mapa - pokaż/wyczyść", type: "button", onclick: "geoClearFunction()", class: "btn btn-primary", title: 'Inicjuje lub czyści mapę', 'data-toggle' => 'tooltip' %>
+        </div> <!--/col-sm-12 -->
+        <br>
+        <div >
+          <div id="iapi" class="clearfix"></div>
+        </div> <!--/col-sm-12 -->
+
+      </div> <!--/col-sm-12 -->
+    </div>  <!-- /row -->
+    
+  </fieldset>
+</div>
+
+<script type="text/javascript">
+// window.onload = function(){
+//   //initMap();  
+//   //myClearFunction();
+// };  
 </script>
+
