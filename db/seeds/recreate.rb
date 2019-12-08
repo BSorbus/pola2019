@@ -17,7 +17,9 @@ Attachment.all.each do |attachment|
   puts "attachment.attached_file.file:"
   puts "  #{attachment.attached_file.file}"
   puts ''
-  attachment.attached_file.recreate_versions!(:thumb)
+  if (attachment.attached_file.file.content_type == "application/vnd.rar") || (attachment.attached_file.file.content_type == "application/zip") 
+  	attachment.attached_file.recreate_versions!(:thumb)
+  end
   puts '------------------------------------------------------'
 end
 

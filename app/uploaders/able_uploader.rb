@@ -72,14 +72,33 @@ class AbleUploader < CarrierWave::Uploader::Base
   end
 
   def list_file_from_rar(file)
+    tmp_dir = only_file_path(current_path)
     new_file_name = file.file.gsub('.rar', '.png')
-    system("unrar lb #{file.file} | convert -background black -fill lightgray -page 11x17 -pointsize 14 -font Courier text:- #{new_file_name}")
+#    system("unrar lb #{file.file} | convert -background black -fill lightgray -page 11x17 -pointsize 14 -font Courier text:- #{new_file_name}")
+    system("unrar lb #{file.file} | convert -background black -fill white -page 11x17 -pointsize 14 -font Courier text:- #{new_file_name}")
+
+    # add all files (-01.png, -02.png) to new_file_name
+    all_tmp_files = Dir["#{tmp_dir}*.png"]
+    for current_file in all_tmp_files
+      system("convert #{new_file_name} #{current_file} -append #{new_file_name}")
+    end if all_tmp_files.size > 1
+
     File.rename new_file_name, current_path
   end
 
   def list_file_from_zip(file)
-    puts 'Am :zip file'
-    puts 'List compressed files from .zip and create png'    
+    tmp_dir = only_file_path(current_path)
+    new_file_name = file.file.gsub('.zip', '.png')
+#    system("unzip -Z1 #{file.file} | convert -background black -fill lightgray -page 11x17 -pointsize 14 -font Courier text:- #{new_file_name}")
+    system("unzip -Z1 #{file.file} | convert -background black -fill white -page 11x17 -pointsize 14 -font Courier text:- #{new_file_name}")
+
+    # add all files (-01.png, -02.png) to new_file_name
+    all_tmp_files = Dir["#{tmp_dir}*.png"]
+    for current_file in all_tmp_files
+      system("convert #{new_file_name} #{current_file} -append #{new_file_name}")
+    end if all_tmp_files.size > 1
+
+    File.rename new_file_name, current_path
   end
 
   version :thumb do
@@ -123,17 +142,11 @@ class AbleUploader < CarrierWave::Uploader::Base
       file.content_type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     when :pptx
       file.content_type = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+    when :rar
+      file.content_type = 'application/vnd.rar'
+    when :zip
+      file.content_type = 'application/zip'
     end
-
-    # if File.extname(file.file).delete('.').to_sym == :xlsx
-    #   file.content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    # end
-    # if File.extname(file.file).delete('.').to_sym == :docx
-    #   file.content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-    # end
-    # if File.extname(file.file).delete('.').to_sym == :pptx
-    #   file.content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation'
-    # end
 
     model.file_content_type = file.content_type if file.content_type
     model.file_size = number_to_human_size(file.size) if file.size
@@ -177,4 +190,11 @@ class AbleUploader < CarrierWave::Uploader::Base
     def zip?(file)
       model.file_content_type == 'application/zip'
     end
+
+    def only_file_path(path_with_file_name)
+      length_path = path_with_file_name.length
+      length_filename = path_with_file_name.reverse.index('/')
+      path_with_file_name[0, (length_path-length_filename)]
+    end
+
 end
