@@ -72,6 +72,7 @@ gem 'font_awesome5_rails'
 gem 'select2-rails', '3.5.9.3'
 gem 'fullcalendar-rails'
 
+gem 'redis-rails'
 gem "hiredis"
 gem "redis", "~> 4.0"
 
