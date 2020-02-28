@@ -58,6 +58,7 @@ $(document).ready(function() {
     //text: 'Wszystko',
     text: '<span class="fa fa-user-friends"></span>',
     titleAttr: 'Wszystkie/tylko moje',
+    className: 'btn btn-sm btn-default',
     action: function ( e, dt, node, config ) {
       if (dt.button( 3 ).active() == false) {
         //dt.button( 3 ).text('Tylko moje');
@@ -78,7 +79,7 @@ $(document).ready(function() {
     //text: 'Filtr',
     text: '<span class="fa fa-filter"></span>',
     titleAttr: 'Filtrowanie po kolumnach',
-    //className: 'btn btn-info',
+    className: 'btn btn-sm btn-default',
     action: function ( e, dt, node, config ) {
     //var list = document.getElementsByClassName("column_filter");
       // for (var i = 0; i < list.length; i++) {
@@ -120,22 +121,26 @@ $(document).ready(function() {
 
 
   var oProjecttable = $('#projects-table').DataTable({
-    dom: 'lBfrtip',
+    // dom: 'lBfrtip',
+    dom: '<"top" <"row" <"col-sm-6" <"pull-left"l><"pull-left"B> > <"col-sm-6 pull-right"f> > > rt <"bottom"ip><"clear">',
     buttons: [
       {
         extend:    'copy',
         text:      '<span class="fa fa-clipboard"></span>',
-        titleAttr: 'Kopiuj do schowka'
+        titleAttr: 'Kopiuj do schowka',
+        className: 'btn btn-sm btn-default'
       },
       {
         extend:    'csv',
         text:      '<span class="fa fa-file-csv"></span>',
-        titleAttr: 'Kopiuj do CSV'
+        titleAttr: 'Kopiuj do CSV',
+        className: 'btn btn-sm btn-default'
       },
       {
         extend:    'colvis',
         text:      '<span class="fa fa-columns"></span>',
         titleAttr: 'Pokaż/ukryj kolumny',
+        className: 'btn btn-sm btn-default',
         columns:   ':gt(0)' //exclude first col from list
       }, 
       'project_button_only_my_data', 'project_button_filter_show_hide'
@@ -199,22 +204,26 @@ $(document).ready(function() {
 
 
   var oCustomerProjectstable = $('#customer-projects-table').DataTable({
-    dom: 'lBfrtip',
+    // dom: 'lBfrtip',
+    dom: '<"top" <"row" <"col-sm-6" <"pull-left"l><"pull-left"B> > <"col-sm-6 pull-right"f> > > rt <"bottom"ip><"clear">',
     buttons: [
       {
         extend:    'copy',
         text:      '<span class="fa fa-clipboard"></span>',
-        titleAttr: 'Kopiuj do schowka'
+        titleAttr: 'Kopiuj do schowka',
+        className: 'btn btn-sm btn-default'
       },
       {
         extend:    'csv',
         text:      '<span class="fa fa-file-csv"></span>',
-        titleAttr: 'Kopiuj do CSV'
+        titleAttr: 'Kopiuj do CSV',
+        className: 'btn btn-sm btn-default'
       },
       {
         extend:    'colvis',
         text:      '<span class="fa fa-columns"></span>',
         titleAttr: 'Pokaż/ukryj kolumny',
+        className: 'btn btn-sm btn-default',
         columns:   ':gt(0)' //exclude first col from list
       }    
     ],

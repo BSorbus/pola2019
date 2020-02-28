@@ -1,9 +1,9 @@
 $(document).ready(function() {
 
-  $.fn.dataTable.ext.buttons.correspondence_selected_destroy = {
+  $.fn.dataTable.ext.buttons.correspondence_delete_selected = {
     text: '<span class="text-danger fa fa-trash"></span>',
     titleAttr: 'Usuń zaznaczone wiersze',
-    className: 'btn btn-default',
+    className: 'btn btn-sm btn-default',
     init: function ( dt, node, config ) {
       var that = this;
       dt.on( 'select.dt.DT deselect.dt.DT', function () {
@@ -38,10 +38,41 @@ $(document).ready(function() {
     }  
   };
 
+  $.fn.dataTable.ext.buttons.correspondence_select_all = {
+    text: '<span class="text-info fa fa-check-square"></span>',
+    titleAttr: 'Zaznacz wszystkie wiersze',
+    className: 'btn btn-sm btn-default',
+    init: function ( dt, node, config ) {
+      true
+    },
+    action: function ( e, dt, button, config ) {
+      oCorrespondenableCorrespondencesTable.rows().select();
+    }
+  };
+
+  $.fn.dataTable.ext.buttons.correspondence_unselect_all = {
+    text: '<span class="text-info fa fa-square"></span>',
+    titleAttr: 'Odznacz wszystkie wiersze',
+    className: 'btn btn-sm btn-default',
+    init: function ( dt, node, config ) {
+      var that = this;
+      dt.on( 'select.dt.DT deselect.dt.DT', function () {
+        that.enable( dt.rows( { selected: true } ).any() );
+      });
+      this.disable();
+    },
+    action: function ( e, dt, button, config ) {
+      oCorrespondenableCorrespondencesTable.rows().deselect();
+    }
+  };
+
   var oCorrespondenableCorrespondencesTable = $('#correspondenable-correspondences').DataTable({
-    dom: 'lBfrtip',
+    // dom: 'lBfrtip',
+    dom: '<"top" <"row" <"col-sm-6" <"pull-left"l><"pull-left"B> > <"col-sm-6 pull-right"f> > > rt <"bottom"ip><"clear">',
     buttons: [
-      'correspondence_selected_destroy'
+      'correspondence_delete_selected',
+      'correspondence_select_all',
+      'correspondence_unselect_all'
     ],
     select: {
       style: 'multi'

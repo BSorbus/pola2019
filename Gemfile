@@ -95,6 +95,8 @@ gem 'activerecord-import'
 gem "actionpack-page_caching"
 gem "actionpack-action_caching"
 
+gem 'piwik_analytics'
+
 # gem 'chartkick'
 # gem 'groupdate'
 

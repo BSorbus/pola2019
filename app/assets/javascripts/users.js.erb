@@ -46,22 +46,26 @@ $(document).ready(function() {
 
 
   var oUsertable = $('#users-table').DataTable({
-    dom: 'lBfrtip',
+    // dom: 'lBfrtip',
+    dom: '<"top" <"row" <"col-sm-6" <"pull-left"l><"pull-left"B> > <"col-sm-6 pull-right"f> > > rt <"bottom"ip><"clear">',
     buttons: [
       {
         extend:    'copy',
         text:      '<span class="fa fa-clipboard"></span>',
-        titleAttr: 'Kopiuj do schowka'
+        titleAttr: 'Kopiuj do schowka',
+        className: 'btn btn-sm btn-default'
       },
       {
         extend:    'csv',
         text:      '<span class="fa fa-file-csv"></span>',
-        titleAttr: 'Kopiuj do CSV'
+        titleAttr: 'Kopiuj do CSV',
+        className: 'btn btn-sm btn-default'
       },
       {
         extend:    'colvis',
         text:      '<span class="fa fa-columns"></span>',
         titleAttr: 'Pokaż/ukryj kolumny',
+        className: 'btn btn-sm btn-default',
         columns:   ':gt(0)' //exclude first col from list
       }
     ],
@@ -105,22 +109,26 @@ $(document).ready(function() {
 
 
   var oRoleUserstable = $('#role-users-table').DataTable({
-    dom: 'lBfrtip',
+    // dom: 'lBfrtip',
+    dom: '<"top" <"row" <"col-sm-6" <"pull-left"l><"pull-left"B> > <"col-sm-6 pull-right"f> > > rt <"bottom"ip><"clear">',
     buttons: [
       {
         extend:    'copy',
         text:      '<span class="fa fa-clipboard"></span>',
-        titleAttr: 'Kopiuj do schowka'
+        titleAttr: 'Kopiuj do schowka',
+        className: 'btn btn-sm btn-default'
       },
       {
         extend:    'csv',
         text:      '<span class="fa fa-file-csv"></span>',
-        titleAttr: 'Kopiuj do CSV'
+        titleAttr: 'Kopiuj do CSV',
+        className: 'btn btn-sm btn-default'
       },
       {
         extend:    'colvis',
         text:      '<span class="fa fa-columns"></span>',
         titleAttr: 'Pokaż/ukryj kolumny',
+        className: 'btn btn-sm btn-default',
         columns:   ':gt(0)' //exclude first col from list
       }
     ],

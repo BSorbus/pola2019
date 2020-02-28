@@ -1,9 +1,75 @@
 $(document).ready(function() {
 
+  $.fn.dataTable.ext.buttons.attachment_delete_selected = {
+    text: '<span class="text-danger fa fa-trash"></span>',
+    titleAttr: 'Usuń zaznaczone wiersze',
+    className: 'btn btn-sm btn-default',
+    init: function ( dt, node, config ) {
+      var that = this;
+      dt.on( 'select.dt.DT deselect.dt.DT', function () {
+        that.enable( dt.rows( { selected: true } ).any() );
+      });
+      this.disable();
+    },
+    action: function ( e, dt, button, config ) {
+      if (confirm('Czy na pewno chcesz usunąć plik(-i)?')) {
+        $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
+
+          $.ajax({
+            url: '/attachments/' + item.id,
+            type: 'DELETE',
+            async: true,
+            success: function (response) {
+              oAttachmentableAttachmentsTable.draw();
+              toastr['success']('"' + item.attached_file + '" został trwale usunięty');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+              console.log(xhr);
+              if (xhr.status == 401) {
+                window.location.reload();
+              } else {
+                getErrorMessage(xhr, thrownError);
+              }
+            }
+          });
+
+        });
+      }
+    }  
+  };
+
+  $.fn.dataTable.ext.buttons.attachment_select_all = {
+    text: '<span class="text-info fa fa-check-square"></span>',
+    titleAttr: 'Zaznacz wszystkie wiersze',
+    className: 'btn btn-sm btn-default',
+    init: function ( dt, node, config ) {
+      true
+    },
+    action: function ( e, dt, button, config ) {
+      oAttachmentableAttachmentsTable.rows().select();
+    }
+  };
+
+  $.fn.dataTable.ext.buttons.attachment_unselect_all = {
+    text: '<span class="text-info fa fa-square"></span>',
+    titleAttr: 'Odznacz wszystkie wiersze',
+    className: 'btn btn-sm btn-default',
+    init: function ( dt, node, config ) {
+      var that = this;
+      dt.on( 'select.dt.DT deselect.dt.DT', function () {
+        that.enable( dt.rows( { selected: true } ).any() );
+      });
+      this.disable();
+    },
+    action: function ( e, dt, button, config ) {
+      oAttachmentableAttachmentsTable.rows().deselect();
+    }
+  };
+
   $.fn.dataTable.ext.buttons.attachment_move_to_statement = {
     text: '<span class="fa fa-file-export"></span><br><span>Oświadczenia</span>',
     titleAttr: 'Przenieś zaznaczone wiersze do "Oświadczenia/Upoważnienia"',
-    className: 'btn btn-default',
+    className: 'btn btn-xs btn-default',
     available: function ( dt, config ) {
       // var availableFor = ["Event"];
       // return ( (availableFor.indexOf( $('#attachmenable-attachments').data('attachmenable_type') ) > -1) );
@@ -46,7 +112,7 @@ $(document).ready(function() {
   $.fn.dataTable.ext.buttons.attachment_move_to_correspondence = {
     text: '<span class="fa fa-file-export"></span><br><span>Korespondencja</span>',
     titleAttr: 'Przenieś zaznaczone wiersze do "Korespondencja"',
-    className: 'btn btn-default',
+    className: 'btn btn-xs btn-default',
     available: function ( dt, config ) {
       return (  $('#attachmenable-attachments').data('move_correspondence_access') );
     },
@@ -88,7 +154,7 @@ $(document).ready(function() {
   $.fn.dataTable.ext.buttons.attachment_move_to_opinion = {
     text: '<span class="fa fa-file-export"></span><br><span>Oceny</span>',
     titleAttr: 'Przenieś zaznaczone wiersze do "Oceny/Opinie"',
-    className: 'btn btn-default',
+    className: 'btn btn-xs btn-default',
     available: function ( dt, config ) {
       return (  $('#attachmenable-attachments').data('move_opinion_access') );
     },
@@ -130,7 +196,7 @@ $(document).ready(function() {
   $.fn.dataTable.ext.buttons.attachment_move_to_protocol = {
     text: '<span class="fa fa-file-export"></span><br><span>Protok. Odb.</span>',
     titleAttr: 'Przenieś zaznaczone wiersze do "Protokoły Odbioru"',
-    className: 'btn btn-default',
+    className: 'btn btn-xs btn-default',
     available: function ( dt, config ) {
       return (  $('#attachmenable-attachments').data('move_protocol_access') );
     },
@@ -172,7 +238,7 @@ $(document).ready(function() {
   $.fn.dataTable.ext.buttons.attachment_move_to_inspection_protocol = {
     text: '<span class="fa fa-file-export"></span><br><span>Protok. Ogl.</span>',
     titleAttr: 'Przenieś zaznaczone wiersze do "Protokoły Oględzin"',
-    className: 'btn btn-default',
+    className: 'btn btn-xs btn-default',
     available: function ( dt, config ) {
       return (  $('#attachmenable-attachments').data('move_inspection_protocol_access') );
     },
@@ -214,7 +280,7 @@ $(document).ready(function() {
   $.fn.dataTable.ext.buttons.attachment_move_to_measurement = {
     text: '<span class="fa fa-file-export"></span><br><span>Pomiary</span>',
     titleAttr: 'Przenieś zaznaczone wiersze do "Pomiary"',
-    className: 'btn btn-default',
+    className: 'btn btn-xs btn-default',
     available: function ( dt, config ) {
       return (  $('#attachmenable-attachments').data('move_measurement_access') );
     },
@@ -256,7 +322,7 @@ $(document).ready(function() {
   $.fn.dataTable.ext.buttons.attachment_move_to_documentation = {
     text: '<span class="fa fa-file-export"></span><br><span>Dokumentacja</span>',
     titleAttr: 'Przenieś zaznaczone wiersze do "Dokumentacja"',
-    className: 'btn btn-default',
+    className: 'btn btn-xs btn-default',
     available: function ( dt, config ) {
       return (  $('#attachmenable-attachments').data('move_documentation_access') );
     },
@@ -298,7 +364,7 @@ $(document).ready(function() {
   $.fn.dataTable.ext.buttons.attachment_move_to_info = {
     text: '<span class="fa fa-file-export"></span><br><span>I.P.</span>',
     titleAttr: 'Przenieś zaznaczone wiersze do "Informacje Pokontrolne"',
-    className: 'btn btn-default',
+    className: 'btn btn-xs btn-default',
     available: function ( dt, config ) {
       return (  $('#attachmenable-attachments').data('move_info_access') );
     },
@@ -340,7 +406,7 @@ $(document).ready(function() {
   $.fn.dataTable.ext.buttons.attachment_move_to_photo = {
     text: '<span class="fa fa-file-export"></span><br><span>Zdjęcia</span>',
     titleAttr: 'Przenieś zaznaczone wiersze do "Zdjęcia"',
-    className: 'btn btn-default',
+    className: 'btn btn-xs btn-default',
     available: function ( dt, config ) {
       return (  $('#attachmenable-attachments').data('move_photo_access') );
     },
@@ -379,47 +445,13 @@ $(document).ready(function() {
   };
 
 
-  $.fn.dataTable.ext.buttons.attachment_selected_destroy = {
-    text: '<span class="text-danger fa fa-trash"></span><br><span>Usuń</span>',
-    titleAttr: 'Usuń zaznaczone wiersze',
-    className: 'btn btn-default',
-    init: function ( dt, node, config ) {
-      var that = this;
-      dt.on( 'select.dt.DT deselect.dt.DT', function () {
-        that.enable( dt.rows( { selected: true } ).any() );
-      });
-      this.disable();
-    },
-    action: function ( e, dt, button, config ) {
-      if (confirm('Czy na pewno chcesz usunąć plik(-i)?')) {
-        $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
-
-          $.ajax({
-            url: '/attachments/' + item.id,
-            type: 'DELETE',
-            async: true,
-            success: function (response) {
-              oAttachmentableAttachmentsTable.draw();
-              toastr['success']('"' + item.attached_file + '" został trwale usunięty');
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-              console.log(xhr);
-              if (xhr.status == 401) {
-                window.location.reload();
-              } else {
-                getErrorMessage(xhr, thrownError);
-              }
-            }
-          });
-
-        });
-      }
-    }  
-  };
-
   var oAttachmentableAttachmentsTable = $('#attachmenable-attachments').DataTable({
-    dom: 'lBfrtip',
+    // dom: 'lBfrtip',
+    dom: '<"top" <"row" <"col-sm-6" <"pull-left"l><"pull-left"B> > <"col-sm-6 pull-right"f> > > rt <"bottom"ip><"clear">',
     buttons: [
+      'attachment_delete_selected',
+      'attachment_select_all',
+      'attachment_unselect_all',
       'attachment_move_to_statement', 
       'attachment_move_to_correspondence',
       'attachment_move_to_opinion',
@@ -428,8 +460,7 @@ $(document).ready(function() {
       'attachment_move_to_measurement',
       'attachment_move_to_documentation',
       'attachment_move_to_info',
-      'attachment_move_to_photo',
-      'attachment_selected_destroy'
+      'attachment_move_to_photo'
     ],
     select: {
       style: 'multi'
