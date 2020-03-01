@@ -21,6 +21,7 @@ class Project < ApplicationRecord
   has_many :accesses_users, through: :events
 
   has_many :attachments, as: :attachmenable, dependent: :destroy
+  has_many :original_documentations, as: :original_documentionable, dependent: :destroy
 
   has_many :events_attachments, through: :events, source: :attachments
   has_many :events_statements, through: :events, source: :statements

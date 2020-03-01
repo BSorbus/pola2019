@@ -35,8 +35,7 @@
 /config/master.key
 /config/secrets.yml
 /config/deploy.rb
-/config/deploy.rb_test
-/config/deploy.rb_prod
+/config/deploy.rb_old
 
 # Ignore files with secret info.
 #/config/secrets.*
