@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_20_220621) do
+ActiveRecord::Schema.define(version: 2020_02_21_220621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -241,6 +241,20 @@ ActiveRecord::Schema.define(version: 2020_02_20_220621) do
     t.index ["start_date"], name: "index_events_on_start_date"
     t.index ["title"], name: "index_events_on_title"
     t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
+  create_table "final_documentations", force: :cascade do |t|
+    t.string "final_documentionable_type"
+    t.bigint "final_documentionable_id"
+    t.string "attached_file"
+    t.string "file_content_type"
+    t.string "file_size"
+    t.text "note", default: ""
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["final_documentionable_type", "final_documentionable_id"], name: "index_final_documentations_on_type_and_id"
+    t.index ["user_id"], name: "index_final_documentations_on_user_id"
   end
 
   create_table "flows", force: :cascade do |t|
@@ -765,6 +779,7 @@ ActiveRecord::Schema.define(version: 2020_02_20_220621) do
   add_foreign_key "events", "event_statuses"
   add_foreign_key "events", "event_types"
   add_foreign_key "events", "users"
+  add_foreign_key "final_documentations", "users"
   add_foreign_key "flows", "business_trip_statuses"
   add_foreign_key "flows", "business_trips"
   add_foreign_key "flows", "users", column: "business_trip_status_updated_user_id"

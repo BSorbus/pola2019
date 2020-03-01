@@ -16,6 +16,11 @@
             <a href="#original_documentations" data-toggle="tab"><%= original_documentation_index_legend %></a>
           </li>
         <% end %>
+        <% if policy(:final_documentation).project_index? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#final_documentations" data-toggle="tab"><%= final_documentation_index_legend %></a>
+          </li>
+        <% end %>
         <% if policy(:event).index? %>
           <li class="brand-nav brand-nav-level-1">
             <a href="#events" data-toggle="tab"><%= event_index_legend %></a>
@@ -112,11 +117,16 @@
 
         <div class="tab-pane" id="attachments">
           <%= render 'attachments/attachments_tab', attachmenable: @project, subtitle: project_info_legend(@project),
-            move_original_documentation_access: true %>
+            move_original_documentation_access: true,
+            move_final_documentation_access: true %>
         </div>
 
         <div class="tab-pane" id="original_documentations">
           <%= render 'original_documentations/original_documentations_tab', original_documentionable: @project, subtitle: project_info_legend(@project) %>
+        </div>
+
+        <div class="tab-pane" id="final_documentations">
+          <%= render 'final_documentations/final_documentations_tab', final_documentionable: @project, subtitle: project_info_legend(@project) %>
         </div>
 
         <div class="tab-pane" id="events">

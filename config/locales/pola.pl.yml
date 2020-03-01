@@ -72,7 +72,8 @@ pl:
       documentation: 'Dokumentacja bud.'
       info: 'Informacja Pokontrolna'
       photo: 'Zdjęcie'
-      original_documentation: 'Oryginalna Dokumentacja'
+      original_documentation: 'Dokumentacja Oryginalna'
+      final_documentation: 'Dokumentacja Ostateczna'
       point_file: 'Plik Punktów Adresowych'
       ww_point: 'Punkt Adresowy'
       zs_point: 'Węzeł'
@@ -226,6 +227,16 @@ pl:
         note: 'Uwagi'
       original_documentation:
         original_documentionable: 'Załączony do'
+        attached_file: 'Plik'
+        attached_file_identifier: 'Plik'
+        file_content_type: 'Typ'
+        file_size: 'Rozmiar'
+        created_at: 'Utworzony'
+        updated_at: 'Aktualizacja'
+        user_id: 'Autor'
+        note: 'Uwagi'
+      final_documentation:
+        final_documentionable: 'Załączony do'
         attached_file: 'Plik'
         attached_file_identifier: 'Plik'
         file_content_type: 'Typ'
@@ -525,9 +536,14 @@ pl:
         title: 'Edycja -> Załącznik'
     original_documentation:
       index:
-        title: 'Dokumentacja pierwotna'
+        title: 'Dokumentacja Pierwotna'
       edit:
-        title: 'Edycja -> Dokumentacja budowlana'
+        title: 'Edycja -> Dokumentacja Pierwotna'
+    final_documentation:
+      index:
+        title: 'Dokumentacja Ostateczna'
+      edit:
+        title: 'Edycja -> Dokumentacja Ostateczna'
     statement:
       through_events_index:
         title: 'Oświad./Upow. (Z)'
