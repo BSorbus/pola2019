@@ -111,3 +111,5 @@ gem 'daemons'
 gem 'trix-rails', require: 'trix'
 
 gem 'mini_exiftool'
+
+gem "nokogiri", ">= 1.10.8"
