@@ -1,0 +1,9 @@
+$('#attachment_name_if_folder').val('');
+<% if @attachment.new_record? %>
+  // alternative alert("Error: <%= j @attachment.errors.full_messages.join(', ').html_safe %>");
+  toastr['error']("<%= @attachment.errors.full_messages.join(', ').html_safe %>");
+
+<% else %>
+  $('#attachmenable-attachments').DataTable().draw();
+  toastr['success']("<%= @attachment.name_if_folder %>" + '<br>...został utworzony');
+<% end %>
