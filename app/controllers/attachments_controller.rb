@@ -3,14 +3,21 @@ class AttachmentsController < ApplicationController
   after_action :verify_authorized, only: [:show, :edit, :update, :create, :destroy, :move_to_correspondence]
 
   def datatables_index
+#    attachment_parent_filter = params[:attachment_parent_id].present? ? params[:attachment_parent_id] : nil
     respond_to do |format|
-      format.json{ render json: AttachmentDatatable.new(params, view_context: view_context, attachmenable_id: params[:attachmenable_id], attachmenable_type: params[:attachmenable_type] ) }
+      format.json{ render json: AttachmentDatatable.new(params, view_context: view_context, 
+        attachmenable_id: params[:attachmenable_id], 
+        attachmenable_type: params[:attachmenable_type],
+        attachment_parent_filter: params[:attachment_parent_id] ) }
     end
   end
 
   def datatables_index_through_events
     respond_to do |format|
-      format.json{ render json: ThroughEventsAttachmentDatatable.new(params, view_context: view_context, for_parent_id: params[:for_parent_id], for_parent_type: params[:for_parent_type] ) }
+      format.json{ render json: ThroughEventsAttachmentDatatable.new(params, view_context: view_context, 
+        for_parent_id: params[:for_parent_id], 
+        for_parent_type: params[:for_parent_type],
+        attachment_parent_filter: params[:attachment_parent_id] ) }
     end
   end
 
@@ -52,6 +59,16 @@ class AttachmentsController < ApplicationController
     attachment_authorize(@attachment, "create", params[:controller].classify.deconstantize.singularize.downcase)
 
     @attachment = @attachmenable.attachments.create(attachment_params)
+  end
+
+  def create_folder
+    @attachment = params[:attachment].present? ? @attachmenable.attachments.new(attachment_params_for_folder) : @attachmenable.attachments.new()
+    attachment_authorize(@attachment, "create", params[:controller].classify.deconstantize.singularize.downcase)
+
+    @attachment = @attachmenable.attachments.create(attachment_params_for_folder)
+    respond_to do |format|
+      format.js  { render status: :created, layout: false, file: 'attachments/create_folder.js.erb' }
+    end
   end
 
   # PATCH/PUT /attachments/1
@@ -191,9 +208,13 @@ class AttachmentsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def attachment_params
       defaults = { user_id: "#{current_user.id}" }
-      params.require(:attachment).permit(:attachmenable_id, :attachmenable_type, :attached_file, :note, :user_id ).reverse_merge(defaults)
+      params.require(:attachment).permit(:attachmenable_id, :attachmenable_type, :attached_file, :note, :user_id, :parent_id ).reverse_merge(defaults)
+    end
+    def attachment_params_for_folder
+      defaults = { user_id: "#{current_user.id}" }
+      params.require(:attachment).permit(:attachmenable_id, :attachmenable_type, :name_if_folder, :note, :user_id, :parent_id ).reverse_merge(defaults)
     end
     def attachment_update_params
-      params.require(:attachment).permit(:note, :user_id)
+      params.require(:attachment).permit(:note, :user_id, :parent_id)
     end
 end

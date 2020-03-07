@@ -76,8 +76,8 @@ gem 'redis-rails'
 gem "hiredis"
 gem "redis", "~> 4.0"
 
-gem 'jquery-datatables', '= 1.10.19.1' #'=1.10.16 bo' z .19 jest jakis problem z wyswietlaniem strzalek sortowania
-#gem 'jquery-datatables' #1.10.16 bo z .19 jest jakis problem z wyswietlaniem strzalek sortowania
+#gem 'jquery-datatables', '~> 1.10.20' 
+gem 'jquery-datatables', '= 1.10.19.1' #'=1.10.20 bo' z .19 jest jakis problem z wyswietlaniem kolumn wyboru
 gem 'ajax-datatables-rails' #, '= 0.4.0' jeżeli wywala się na custom_filter
 gem 'kaminari'
 
@@ -111,3 +111,4 @@ gem 'daemons'
 gem 'trix-rails', require: 'trix'
 
 gem 'mini_exiftool'
+gem 'closure_tree'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_21_220621) do
+ActiveRecord::Schema.define(version: 2020_03_03_220609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -29,6 +29,14 @@ ActiveRecord::Schema.define(version: 2020_02_21_220621) do
     t.index ["user_id"], name: "index_accessorizations_on_user_id"
   end
 
+  create_table "attachment_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id", null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations", null: false
+    t.index ["ancestor_id", "descendant_id", "generations"], name: "attachment_anc_desc_idx", unique: true
+    t.index ["descendant_id"], name: "attachment_desc_idx"
+  end
+
   create_table "attachments", force: :cascade do |t|
     t.string "attachmenable_type"
     t.bigint "attachmenable_id"
@@ -39,6 +47,9 @@ ActiveRecord::Schema.define(version: 2020_02_21_220621) do
     t.datetime "updated_at", null: false
     t.text "note", default: ""
     t.bigint "user_id"
+    t.integer "parent_id"
+    t.string "name_if_folder"
+    t.string "name"
     t.index ["attachmenable_type", "attachmenable_id"], name: "index_attachments_on_attachmenable_type_and_attachmenable_id"
     t.index ["user_id"], name: "index_attachments_on_user_id"
   end

@@ -167,14 +167,16 @@ pl:
         flat_assigned_projects: 'Powiązane projekty'
       attachment:
         attachmenable: 'Załączony do'
-        attached_file: 'Plik'
-        attached_file_identifier: 'Plik'
+        attached_file: 'Plik/Katalog'
+        attached_file_identifier: 'Załącznik'
         file_content_type: 'Typ'
         file_size: 'Rozmiar'
         created_at: 'Utworzony'
         updated_at: 'Aktualizacja'
         user_id: 'Autor'
         note: 'Uwagi'
+        name_if_folder: 'Katalog'
+        name: 'Nazwa'
       statement:
         statemenable: 'Załączony do'
         attached_file: 'Plik'
@@ -528,6 +530,8 @@ pl:
       edit:
         title: 'Edycja -> Wnioskodawca'
     attachment:
+      attachments_tab:
+        folder_submit: 'Utwórz'
       through_events_index:
         title: 'Załączniki (Z)-adań'
       index:

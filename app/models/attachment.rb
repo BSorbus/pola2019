@@ -6,14 +6,45 @@ class Attachment < ApplicationRecord
   belongs_to :attachmenable, polymorphic: true, counter_cache: true
 
   # validates
-  validates :attached_file, presence: true, file_size: { in: 1.byte..500.megabyte }
+  validates :name, presence: true,
+                   length: { in: 1..100 },
+                   uniqueness: { case_sensitive: false, scope: [:attachmenable_id, :attachmenable_type, :parent_id], message: " - istnieje objekt o takiej nazwie" }, allow_blank: true
+
+  # validate unique name file 
+  # validates :attached_file, presence: true,
+  #                  length: { in: 1..100 },
+  #                  uniqueness: { case_sensitive: false, scope: [:attachmenable_id, :attachmenable_type, :parent_id], message: " - istnieje plik o takiej nazwie" }, allow_blank: true
+
+  # # ... or folder
+  # validates :name_if_folder, presence: true,
+  #                  length: { in: 1..100 },
+  #                  uniqueness: { case_sensitive: false, scope: [:attachmenable_id, :attachmenable_type, :parent_id], message: " - istnieje katalog o takiej nazwie" }, allow_blank: true
+
+
+  validates :attached_file, presence: true, file_size: { in: 1.byte..500.megabyte }, unless: -> { name_if_folder.present? }
 
   # callbacks
+  before_validation do
+    if name_if_folder.present?
+      self.name = name_if_folder
+    else 
+      self.name = attached_file.present? ? attached_file.file.filename : nil
+    end
+  end
+
   after_create_commit { self.log_work('upload_attachment') }
   after_update_commit { self.log_work('update') }
   after_commit :send_notification_to_model
 
+  # carrierwave uploader
   mount_uploader :attached_file, AbleUploader
+
+  has_closure_tree dependent: :destroy
+  
+
+  def self.only_for_parent(parent_id)
+    where(parent_id: parent_id)
+  end
 
   def log_work(action = '', action_user_id = nil)
     trackable_url = url_helpers(only_path: true, controller: self.attachmenable.class.to_s.pluralize.downcase, action: 'show', id: self.attachmenable.id)
@@ -168,7 +199,8 @@ class Attachment < ApplicationRecord
   # end
 
   def fullname
-    "#{self.attached_file_identifier}"
+    #{}"#{self.attached_file_identifier}"
+    "#{self.name}"
   end
 
   private

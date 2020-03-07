@@ -1,7 +1,7 @@
 class AttachmentDatatable < AjaxDatatablesRails::ActiveRecord
   extend Forwardable
 
-  def_delegators :@view, :link_to, :truncate, :attachment_path, :download_attachment_path, :edit_attachment_path, :t
+  def_delegators :@view, :link_to, :truncate, :attachment_path, :download_attachment_path, :edit_attachment_path, :t, :fa_icon
 
   def initialize(params, opts = {})
     @view = opts[:view_context]
@@ -11,7 +11,7 @@ class AttachmentDatatable < AjaxDatatablesRails::ActiveRecord
   def view_columns
     @view_columns ||= {
       id:             { source: "Attachment.id", cond: :eq, searchable: false, orderable: false },
-      attached_file:  { source: "Attachment.attached_file", cond: :like, searchable: true, orderable: true },
+      name:           { source: "Attachment.name", cond: :like, searchable: true, orderable: true },
       note:           { source: "Attachment.note",  cond: :like, searchable: true, orderable: true },
       user:           { source: "User.name",  cond: :like, searchable: true, orderable: true },
       updated_at:     { source: "Attachment.updated_at",  cond: :like, searchable: true, orderable: true },
@@ -24,8 +24,7 @@ class AttachmentDatatable < AjaxDatatablesRails::ActiveRecord
     records.map do |record|
       {
         id:             record.id,
-        attached_file:  link_to(truncate(record.attached_file_identifier, length: 100), download_attachment_path(record.id), title: t('tooltip.download'), rel: 'tooltip') + '  ' +  
-                          link_to(' ', @view.attachment_path(record.id), remote: true, class: 'fa fa-eye pull-right', title: "Podgląd", rel: 'tooltip'),
+        name:           link_attached_file_or_folder(record),
         note:           truncate(record.note, length: 50) + '  ' +  
                           link_to(' ', @view.edit_attachment_path(record.id), class: 'fa fa-edit pull-right', title: "Edycja", rel: 'tooltip'),
         file_size:      record.try(:file_size),
@@ -36,14 +35,47 @@ class AttachmentDatatable < AjaxDatatablesRails::ActiveRecord
     end
   end
 
-
   private
+
+  # def get_raw_records
+  #   if (options[:attachmenable_id]).present? && (options[:attachmenable_type]).present?
+  #     folders = Attachment.joins(:user).where(attachmenable_id: options[:attachmenable_id], attachmenable_type: options[:attachmenable_type]).folders_only.order_folders_files.all
+  #     files   = Attachment.joins(:user).where(attachmenable_id: options[:attachmenable_id], attachmenable_type: options[:attachmenable_type]).files_only.order_folders_files.all
+  #   else
+  #     folders = Attachment.joins(:user).folders_only.order_folders_files.all
+  #     files   = Attachment.joins(:user).files_only.order_folders_files.all
+  #   end
+  #   all_data = folders.or(files)
+  # end
 
   def get_raw_records
     if (options[:attachmenable_id]).present? && (options[:attachmenable_type]).present?
-      Attachment.joins(:user).where(attachmenable_id: options[:attachmenable_id], attachmenable_type: options[:attachmenable_type]).all
+      #data = Attachment.joins(:user).where(attachmenable_id: options[:attachmenable_id], attachmenable_type: options[:attachmenable_type]).order(:name_if_folder)
+      data = Attachment.joins(:user).where(attachmenable_id: options[:attachmenable_id], attachmenable_type: options[:attachmenable_type]).order('attachments.name_if_folder')
     else
-      Attachment.joins(:user).all
+      data = Attachment.joins(:user)
+    end
+
+    if options[:attachment_parent_filter].present? 
+      data.only_for_parent(options[:attachment_parent_filter]).with_ancestor 
+    else
+      data.with_ancestor.roots
+    end
+
+  end
+
+  def link_attached_file_or_folder(rec)
+    if rec.attached_file.present?
+      # rec.attached_file_identifier == rec.name  
+      link_to(truncate(rec.name, length: 100), download_attachment_path(rec.id), title: t('tooltip.download'), rel: 'tooltip') + '  ' +  
+                              link_to(' ', @view.attachment_path(rec.id), remote: true, class: 'fa fa-eye pull-right', title: "Podgląd", rel: 'tooltip')
+    else
+      #rec.name_if_folder == rec.name
+      breadcrumb_data = JSON.generate( {parent_id: rec.id, 
+                                        ancestry_path: rec.ancestry_path,
+                                        ancestor_ids: rec.ancestor_ids } )
+
+      link_to fa_icon("folder", text: rec.name ), "javascript:linkToAttachmentBreadcrumb( #{breadcrumb_data} )"
     end
   end
 
@@ -55,6 +87,17 @@ class AttachmentDatatable < AjaxDatatablesRails::ActiveRecord
 
 
   # ==== These methods represent the basic operations to perform on records
+
+
+  # def sort_records(records)
+  #   sort_by = datatable.orders.inject([]) do |queries, order|
+  #     column = order.column
+  #     queries << order.query(column.sort_query) if column && column.orderable?
+  #     queries
+  #   end
+  #   records.order(Arel.sql(sort_by.join(', ')))
+  # end
+
   # and feel free to override them
 
   # def filter_records(records)

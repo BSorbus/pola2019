@@ -15,13 +15,17 @@ Rails.application.routes.draw do
     patch 'account_off', on: :member
     patch 'account_on', on: :member
     patch 'set_activity_at', on: :member
-    resources :attachments, module: :users, only: [:create]
+    resources :attachments, module: :users, only: [:create] do
+      post 'create_folder', on: :collection
+    end
   end
   
   resources :customers do
     get 'select2_index', on: :collection
     get 'datatables_index', on: :collection
-    resources :attachments, module: :customers, only: [:create]
+    resources :attachments, module: :customers, only: [:create] do
+      post 'create_folder', on: :collection
+    end
   end
 
   resources :projects do
@@ -30,7 +34,9 @@ Rails.application.routes.draw do
     get 'select2_index', on: :collection
     get 'datatables_index', on: :collection
     get 'datatables_index_customer', on: :collection # Displays projects for showed customer
-    resources :attachments, module: :projects, only: [:create]
+    resources :attachments, module: :projects, only: [:create] do
+      post 'create_folder', on: :collection
+    end
     resources :original_documentations, module: :projects, only: [:create]
     resources :final_documentations, module: :projects, only: [:create]
     resources :point_files, module: :projects, except: [:index] do
@@ -44,7 +50,9 @@ Rails.application.routes.draw do
   end
 
   resources :enrollments do
-    resources :attachments, module: :enrollments, only: [:create]
+    resources :attachments, module: :enrollments, only: [:create] do
+      post 'create_folder', on: :collection
+    end
     resources :correspondences, module: :enrollments, only: [:create]
   end
 
@@ -64,7 +72,9 @@ Rails.application.routes.draw do
     get 'show_charts', on: :collection
     get 'send_status', on: :member 
     post 'datatables_index', on: :collection
-    resources :attachments, module: :events, only: [:create]
+    resources :attachments, module: :events, only: [:create] do
+      post 'create_folder', on: :collection
+    end
     resources :statements, module: :events, only: [:create]
     resources :correspondences, module: :events, only: [:create]
     resources :opinions, module: :events, only: [:create]
@@ -80,7 +90,9 @@ Rails.application.routes.draw do
     get 'show_charts', on: :collection
     get 'select2_index', on: :collection
     get 'datatables_index', on: :collection
-    resources :attachments, module: :errands, only: [:create]
+    resources :attachments, module: :errands, only: [:create] do
+      post 'create_folder', on: :collection
+    end
     resources :correspondences, module: :errands, only: [:create]
   end
 
