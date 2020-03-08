@@ -447,10 +447,10 @@ $(document).ready(function() {
       type: "GET",
       data: function(d){
         //d.attachment_parent_id = 8501;
-        if (localStorage.getItem("attachment_breadcrumb") === null) {
+        if (localStorage.getItem("ls_attachment_breadcrumb") === null) {
           d.attachment_parent_id = null
         } else {
-          d.attachment_parent_id = JSON.parse(localStorage.getItem('attachment_breadcrumb')).parent_id;
+          d.attachment_parent_id = JSON.parse(localStorage.getItem('ls_attachment_breadcrumb')).parent_id;
         }
       },
       error: function (jqXHR, exception) {
@@ -479,7 +479,7 @@ $(document).ready(function() {
         "visible": false,
         "searchable": false,
         "sortable": false }, 
-      { "data": "name", "width": "30%" }, 
+      { "data": "name" }, 
       { "data": "note" }, 
       { "data": "user" },
       { "data": "updated_at" },
@@ -496,10 +496,7 @@ $(document).ready(function() {
         return false;
       }
     },
-    // initComplete: function( settings, json ) {
-    //   localStorage.removeItem('attachment_breadcrumb');
-    // },
-    order: [[ 4, "desc" ]],
+    order: [[ 2, "asc" ]],
     language: {
       url: '<%= asset_path("pl.json.erb") %>'
     }
@@ -516,7 +513,7 @@ $(document).ready(function() {
   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var target = $(e.target).attr("href") // activated tab
     if (target == '#attachments') {
-      localStorage.removeItem('attachment_breadcrumb'); //????
+      localStorage.removeItem('ls_attachment_breadcrumb'); //????
       oAttachmentableAttachmentsTable.draw();
     };
   });

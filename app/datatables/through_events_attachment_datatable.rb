@@ -1,7 +1,7 @@
 class ThroughEventsAttachmentDatatable < AjaxDatatablesRails::ActiveRecord
   extend Forwardable
 
-  def_delegators :@view, :link_to, :truncate, :attachment_path, :download_attachment_path, :edit_attachment_path, :t
+  def_delegators :@view, :link_to, :truncate, :attachment_path, :download_attachment_path, :edit_attachment_path, :t, :fa_icon
 
   def initialize(params, opts = {})
     @view = opts[:view_context]
@@ -11,7 +11,7 @@ class ThroughEventsAttachmentDatatable < AjaxDatatablesRails::ActiveRecord
   def view_columns
     @view_columns ||= {
       id:             { source: "Attachment.id", cond: :eq, searchable: false, orderable: false },
-      attached_file:  { source: "Attachment.attached_file", cond: :like, searchable: true, orderable: true },
+      name:           { source: "Attachment.name", cond: :like, searchable: true, orderable: true },
       attachmenable:  { source: "Event.title", cond: :like, searchable: true, orderable: true },
       note:           { source: "Attachment.note",  cond: :like, searchable: true, orderable: true },
       user:           { source: "User.name",  cond: :like, searchable: true, orderable: true },
@@ -25,8 +25,7 @@ class ThroughEventsAttachmentDatatable < AjaxDatatablesRails::ActiveRecord
     records.map do |record|
       {
         id:             record.id,
-        attached_file:  link_to(truncate(record.attached_file_identifier, length: 100), download_attachment_path(record.id), title: t('tooltip.download'), rel: 'tooltip') + '  ' +  
-                          link_to(' ', @view.attachment_path(record.id), remote: true, class: 'fa fa-eye pull-right', title: "Podgląd", rel: 'tooltip'),
+        name:           link_attached_file_or_folder(record),
         attachmenable:  record.attachmenable.title_as_link,
         note:           truncate(record.note, length: 50) + '  ' +  
                           link_to(' ', @view.edit_attachment_path(record.id), class: 'fa fa-edit pull-right', title: "Edycja", rel: 'tooltip'),
@@ -43,12 +42,33 @@ class ThroughEventsAttachmentDatatable < AjaxDatatablesRails::ActiveRecord
 
   def get_raw_records
     if (options[:for_parent_id]).present? && (options[:for_parent_type]).present?
-      if options[:for_parent_type] == 'Project'
-        parent_attachmenable = Project.find(options[:for_parent_id])
-        parent_attachmenable.events_attachments.joins(:user).all
-      end
+      parent_attachmenable = Project.find(options[:for_parent_id]) if options[:for_parent_type] == 'Project'
+
+      data = parent_attachmenable.events_attachments.joins(:user).order('attachments.name_if_folder')
+    end
+
+    if options[:attachment_parent_filter].present? 
+      data.only_for_parent(options[:attachment_parent_filter]).with_ancestor 
+    else
+      data.with_ancestor.roots
     end
   end
+
+  def link_attached_file_or_folder(rec)
+    if rec.attached_file.present?
+      # rec.attached_file_identifier == rec.name  
+      link_to(truncate("[#{truncate(rec.attachmenable.title, length: 15)}]/#{rec.name}", length: 100), download_attachment_path(rec.id), title: t('tooltip.download'), rel: 'tooltip') + '  ' +  
+                              link_to(' ', @view.attachment_path(rec.id), remote: true, class: 'fa fa-eye pull-right', title: "Podgląd", rel: 'tooltip')
+    else
+      #rec.name_if_folder == rec.name
+      breadcrumb_data = JSON.generate( {parent_id: rec.id, 
+                                        ancestry_path: rec.ancestry_path,
+                                        ancestor_ids: rec.ancestor_ids } )
+
+      link_to fa_icon("folder", text: "[#{truncate(rec.attachmenable.title, length: 15)}]/#{rec.name}" ), "javascript:linkToThroughEventsAttachmentBreadcrumb( #{breadcrumb_data} )"
+    end
+  end
+
 
   def action_links(rec)
     "<div style='text-align: center'>

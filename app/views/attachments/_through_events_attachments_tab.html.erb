@@ -4,14 +4,17 @@
 
     <div class="row">
 
+      <div id="id_through_events_attachment_breadcrumb" class="col-sm-9"></div>
+
       <div class="col-sm-12">
         <table id="through-events-attachmenable-attachments" class="hover cell-border compact" width="100%" 
           data-source="<%= datatables_index_through_events_attachments_path(for_parent_type: for_parent.class.to_s, for_parent_id: for_parent.id.to_s, format: :json) %>"
           data-attachmenable_type="<%= for_parent.class.to_s %>">
           <thead>
             <tr>
-              <th>0 ID </th>
-              <th><%= Attachment.human_attribute_name(:attached_file) %></th>
+              <th> </th>
+              <th> ID </th>
+              <th><%= Attachment.human_attribute_name(:name) %></th>
               <th><%= Attachment.human_attribute_name(:attachmenable) %></th>
               <th><%= Attachment.human_attribute_name(:note) %></th>
               <th><%= Attachment.human_attribute_name(:user_id) %></th>
@@ -31,3 +34,25 @@
   </fieldset>
 </div>
 
+
+<script type="text/javascript">
+
+  function linkToThroughEventsAttachmentBreadcrumb(breadcrumb_ancestry_json={parent_id: null, ancestry_path: [], ancestor_ids: []}){
+    // Store the latest `attachment_breadcrumb_path` object for next reload
+    localStorage.setItem( 'ls_through_events_attachment_breadcrumb', JSON.stringify(breadcrumb_ancestry_json) );
+    // redraw for new ajax data: d.attachment_parent_id 
+    $('#through-events-attachmenable-attachments').DataTable().draw();
+    buildAttachmentBreadcrumb("id_through_events_attachment_breadcrumb", 
+                              [],
+                              "linkToThroughEventsAttachmentBreadcrumb", 
+                              breadcrumb_ancestry_json);
+  };    
+
+  $(document).ready(function() {
+    buildAttachmentBreadcrumb("id_through_events_attachment_breadcrumb", 
+                              [],
+                              "linkToThroughEventsAttachmentBreadcrumb", 
+                              breadcrumb_ancestry_json={parent_id: null, ancestry_path: [], ancestor_ids: []});
+  });
+
+</script>

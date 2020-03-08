@@ -4,7 +4,7 @@
 
     <div class="row">
 
-      <div id="id_breadcrumb" class="col-sm-9"></div>
+      <div id="id_attachment_breadcrumb" class="col-sm-9"></div>
 
       <div class="col-sm-3">
         <%= form_for [attachmenable, Attachment.new], url: polymorphic_url([attachmenable, Attachment.new], action: "create_folder"), remote: true, html: { id: "new_attachment_folder", class: "form form-inline" } do |ff| %>
@@ -92,17 +92,17 @@
 
   function linkToAttachmentBreadcrumb(breadcrumb_ancestry_json={parent_id: null, ancestry_path: [], ancestor_ids: []}){
     // Store the latest `attachment_breadcrumb_path` object for next reload
-    localStorage.setItem( 'attachment_breadcrumb', JSON.stringify(breadcrumb_ancestry_json) );
+    localStorage.setItem( 'ls_attachment_breadcrumb', JSON.stringify(breadcrumb_ancestry_json) );
     // redraw for new ajax data: d.attachment_parent_id 
     $('#attachmenable-attachments').DataTable().draw();
-    buildAttachmentBreadcrumb("id_breadcrumb", 
+    buildAttachmentBreadcrumb("id_attachment_breadcrumb", 
                               ["attachment_parent_id_for_folder","attachment_parent_id"],
                               "linkToAttachmentBreadcrumb", 
                               breadcrumb_ancestry_json);
   };    
 
   $(document).ready(function() {
-    buildAttachmentBreadcrumb("id_breadcrumb", 
+    buildAttachmentBreadcrumb("id_attachment_breadcrumb", 
                               ["attachment_parent_id_for_folder","attachment_parent_id"],
                               "linkToAttachmentBreadcrumb", 
                               breadcrumb_ancestry_json={parent_id: null, ancestry_path: [], ancestor_ids: []});
