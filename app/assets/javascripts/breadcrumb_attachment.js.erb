@@ -1,0 +1,70 @@
+function buildAttachmentBreadcrumb(nameIdBreadcrumb, arrayIdParentInput, nameLinkToFunction, ancestry_json){
+
+  // set parent_id for upload or create folder
+  arrayIdParentInput.forEach (function(element) {
+    document.getElementById(element).value = ancestry_json.parent_id;
+  });
+
+  // clear htm -d_breadcrumb
+  document.getElementById(nameIdBreadcrumb).innerHTML = "";
+
+  var olNode = document.createElement("OL"); 
+  olNode.className = "breadcrumb";
+  // add breadcrumb root 
+  olNode.appendChild( addNavItemToBreadcrumb('javascript:'+ nameLinkToFunction +'( { parent_id: null, ancestry_path: [], ancestor_ids: [] } )', 'Katalog główny', false ) );
+
+  var reverseAncestryIds,
+      anchoredElText,
+      anchoredElHref,
+      anchoredElActive,
+      tmpAncestryPath,
+      tmpAncestryPathString,
+      tmpAncestorIds,
+      tmpAncestorIdsReverse;
+
+  reverseAncestryIds = ancestry_json.ancestor_ids.reverse();
+  reverseAncestryIds[(ancestry_json.ancestry_path.length - 1)] = null;
+  tmpAncestryPath = [];
+  tmpAncestorIds = []
+
+  // build breadcrumb lists
+  ancestry_json.ancestry_path.forEach (function(element, index) {
+
+    tmpAncestryPath.push(ancestry_json.ancestry_path[index]);
+    tmpAncestryPathString = '[' + tmpAncestryPath.map(x => "'" + x + "'").toString() +']';
+
+    tmpAncestorIds.push(reverseAncestryIds[index]);
+    // remove null, revert to original, remove first element
+    tmpAncestorIdsReverse = tmpAncestorIds.filter(e => e != null).reverse()
+    if (tmpAncestorIdsReverse.length > 0) {
+      tmpAncestorIdsReverse.shift();
+    }
+
+    anchoredElText = ancestry_json.ancestry_path[index];
+    // if last position set breadcrumb without <a></a>
+    anchoredElActive = (reverseAncestryIds[index] === null); 
+    anchoredElHref = anchoredElHref = 'javascript:'+ nameLinkToFunction +'( { parent_id:'+ reverseAncestryIds[index] +', ancestry_path: '+ tmpAncestryPathString +', ancestor_ids: ['+ tmpAncestorIdsReverse +'] } )' 
+    // build breadcrumb pice for current position
+    olNode.appendChild( addNavItemToBreadcrumb( anchoredElHref, anchoredElText, anchoredElActive ) );
+  }); 
+  // Add all html to id_breadcrumb
+  document.getElementById(nameIdBreadcrumb).appendChild(olNode);
+};
+
+
+function addNavItemToBreadcrumb(href, text, active) {
+    var listItem = document.createElement('LI'),
+        anchorItem = document.createElement('A'),
+        textNode = document.createTextNode(text);
+
+    if (active === true) {
+      listItem.className = 'active';
+      listItem.appendChild(textNode)
+    } else {
+      anchorItem.href = href;        
+      listItem.appendChild(anchorItem);
+      anchorItem.appendChild(textNode);
+    };
+
+    return listItem
+};

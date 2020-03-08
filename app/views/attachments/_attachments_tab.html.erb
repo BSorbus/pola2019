@@ -41,7 +41,7 @@
             <tr>
               <th> </th>
               <th> ID </th>
-              <th><%= Attachment.human_attribute_name(:attached_file) %></th>
+              <th><%= Attachment.human_attribute_name(:name) %></th>
               <th><%= Attachment.human_attribute_name(:note) %></th>
               <th><%= Attachment.human_attribute_name(:user_id) %></th>
               <th><%= Attachment.human_attribute_name(:updated_at) %></th>
@@ -90,87 +90,22 @@
 
 <script type="text/javascript">
 
-
-  function buildBreadcrumb(ancestry_json){
-
-    // set parent_id for upload
-    document.getElementById("attachment_parent_id_for_folder").value = ancestry_json.parent_id;
-    document.getElementById("attachment_parent_id").value = ancestry_json.parent_id;
-    $('#id_breadcrumb').html('');
-    var olNode = document.createElement("OL"); 
-    olNode.className = "breadcrumb";
-    // add breadcrumb root 
-    olNode.appendChild( addNavItem('javascript:linkToAttachmentBreadcrumb( { parent_id: null, ancestry_path: [], ancestor_ids: [] } )', 'Katalog główny', false ) );
-
-    var reverseAncestryIds,
-        anchoredElText,
-        anchoredElHref,
-        anchoredElActive,
-        tmpParentId,
-        tmpAncestryPath,
-        tmpAncestryPathString,
-        tmpAncestorIds,
-        tmpAncestorIdsReverse;
-
-    reverseAncestryIds = ancestry_json.ancestor_ids.reverse();
-    reverseAncestryIds[(ancestry_json.ancestry_path.length - 1)] = null;
-    tmpAncestryPath = [];
-    tmpAncestorIds = []
-
-    // build breadcrumb lists
-    ancestry_json.ancestry_path.forEach (function(element, index) {
-
-      tmpAncestryPath.push(ancestry_json.ancestry_path[index]);
-      tmpAncestryPathString = '[' + tmpAncestryPath.map(x => "'" + x + "'").toString() +']';
-
-      tmpAncestorIds.push(reverseAncestryIds[index]);
-      // remove null, revert to original, remove first element
-      tmpAncestorIdsReverse = tmpAncestorIds.filter(e => e != null).reverse()
-      if (tmpAncestorIdsReverse.length > 0) {
-        tmpAncestorIdsReverse.shift();
-      }
-
-      anchoredElText = ancestry_json.ancestry_path[index];
-      // if last position set breadcrumb without <a></a>
-      anchoredElActive = (reverseAncestryIds[index] === null); 
-      anchoredElHref = anchoredElHref = 'javascript:linkToAttachmentBreadcrumb( { parent_id:'+ reverseAncestryIds[index] +', ancestry_path: '+ tmpAncestryPathString +', ancestor_ids: ['+ tmpAncestorIdsReverse +'] } )' 
-      // build breadcrumb pice for current position
-      olNode.appendChild( addNavItem( anchoredElHref, anchoredElText, anchoredElActive ) );
-    }); 
-    // Add all html to id_breadcrumb
-    document.getElementById("id_breadcrumb").appendChild(olNode);
-  };
-  
-
-  function addNavItem(href, text, active) {
-      var listItem = document.createElement('LI'),
-          anchorItem = document.createElement('A'),
-          textNode = document.createTextNode(text);
-
-      if (active === true) {
-        listItem.className = 'active';
-        listItem.appendChild(textNode)
-      } else {
-        anchorItem.href = href;        
-        listItem.appendChild(anchorItem);
-        anchorItem.appendChild(textNode);
-      };
-
-      return listItem
-  };
-
   function linkToAttachmentBreadcrumb(breadcrumb_ancestry_json={parent_id: null, ancestry_path: [], ancestor_ids: []}){
-
     // Store the latest `attachment_breadcrumb_path` object for next reload
     localStorage.setItem( 'attachment_breadcrumb', JSON.stringify(breadcrumb_ancestry_json) );
     // redraw for new ajax data: d.attachment_parent_id 
     $('#attachmenable-attachments').DataTable().draw();
-
-    buildBreadcrumb(breadcrumb_ancestry_json);
+    buildAttachmentBreadcrumb("id_breadcrumb", 
+                              ["attachment_parent_id_for_folder","attachment_parent_id"],
+                              "linkToAttachmentBreadcrumb", 
+                              breadcrumb_ancestry_json);
   };    
 
   $(document).ready(function() {
-    buildBreadcrumb(breadcrumb_ancestry_json={parent_id: null, ancestry_path: [], ancestor_ids: []});
+    buildAttachmentBreadcrumb("id_breadcrumb", 
+                              ["attachment_parent_id_for_folder","attachment_parent_id"],
+                              "linkToAttachmentBreadcrumb", 
+                              breadcrumb_ancestry_json={parent_id: null, ancestry_path: [], ancestor_ids: []});
   });
 
 </script>
