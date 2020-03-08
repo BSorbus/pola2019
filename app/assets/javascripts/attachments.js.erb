@@ -38,92 +38,6 @@ $(document).ready(function() {
     }  
   };
 
-  $.fn.dataTable.ext.buttons.attachment_move_to_original_documentation = {
-    text: '<span class="fa fa-file-export"></span><br><span>Dokumentacja Pierwotna</span>',
-    titleAttr: 'Przenieś zaznaczone wiersze do "Dokumentacja Pierwotna"',
-    className: 'btn btn-xs btn-default',
-    available: function ( dt, config ) {
-      // var availableFor = ["Event"];
-      // return ( (availableFor.indexOf( $('#attachmenable-attachments').data('attachmenable_type') ) > -1) );
-      return (  $('#attachmenable-attachments').data('move_original_documentation_access') );
-    },
-    init: function ( dt, node, config ) {
-      var that = this;
-      dt.on( 'select.dt.DT deselect.dt.DT', function () {
-        that.enable( dt.rows( { selected: true } ).any() );
-      });
-      this.disable();
-    },
-    action: function ( e, dt, button, config ) {
-      if (confirm('Czy na pewno chcesz przenieść plik(-i) do "Dokumentacja Pierwotna"?')) {
-        $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
-
-          $.ajax({
-            url: '/attachments/' + item.id + '/move_to_original_documentation',
-            type: 'POST',
-            async: true,
-            success: function (response) {
-              oAttachmentableAttachmentsTable.draw();
-              toastr['success']('"' + item.attached_file + '" został przeniesiony do "Dokumentacja Pierwotna"');
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-              console.log(xhr);
-              if (xhr.status == 401) {
-                window.location.reload();
-              } else {
-                getErrorMessage(xhr, thrownError);
-              }
-            }
-          });
-
-        });
-      };
-    }  
-  };
-
-  $.fn.dataTable.ext.buttons.attachment_move_to_final_documentation = {
-    text: '<span class="fa fa-file-export"></span><br><span>Dokumentacja Ostateczna</span>',
-    titleAttr: 'Przenieś zaznaczone wiersze do "Dokumentacja Ostateczna"',
-    className: 'btn btn-xs btn-default',
-    available: function ( dt, config ) {
-      // var availableFor = ["Event"];
-      // return ( (availableFor.indexOf( $('#attachmenable-attachments').data('attachmenable_type') ) > -1) );
-      return (  $('#attachmenable-attachments').data('move_final_documentation_access') );
-    },
-    init: function ( dt, node, config ) {
-      var that = this;
-      dt.on( 'select.dt.DT deselect.dt.DT', function () {
-        that.enable( dt.rows( { selected: true } ).any() );
-      });
-      this.disable();
-    },
-    action: function ( e, dt, button, config ) {
-      if (confirm('Czy na pewno chcesz przenieść plik(-i) do "Dokumentacja Ostateczna"?')) {
-        $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
-
-          $.ajax({
-            url: '/attachments/' + item.id + '/move_to_final_documentation',
-            type: 'POST',
-            async: true,
-            success: function (response) {
-              oAttachmentableAttachmentsTable.draw();
-              toastr['success']('"' + item.attached_file + '" został przeniesiony do "Dokumentacja Ostateczna"');
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-              console.log(xhr);
-              if (xhr.status == 401) {
-                window.location.reload();
-              } else {
-                getErrorMessage(xhr, thrownError);
-              }
-            }
-          });
-
-        });
-      };
-    }  
-  };
-
   $.fn.dataTable.ext.buttons.attachment_move_to_statement = {
     text: '<span class="fa fa-file-export"></span><br><span>Oświadczenia</span>',
     titleAttr: 'Przenieś zaznaczone wiersze do "Oświadczenia/Upoważnienia"',
@@ -508,8 +422,6 @@ $(document).ready(function() {
     dom: '<"top" <"row" <"col-sm-9" <"pull-left"l><"pull-left"B> > <"col-sm-3 pull-right"f> > > rt <"bottom"ip><"clear">',
     buttons: [
       'attachment_delete_selected',
-      'attachment_move_to_original_documentation',
-      'attachment_move_to_final_documentation',
       'attachment_move_to_statement', 
       'attachment_move_to_correspondence',
       'attachment_move_to_opinion',

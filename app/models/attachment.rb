@@ -62,29 +62,6 @@ class Attachment < ApplicationRecord
     return destroyed_return
   end
 
-
-  def move_to_original_documentation_and_log_work(current_user_id)
-    ApplicationRecord.transaction do
-      original_documentation = OriginalDocumentation.create(original_documentionable_type: self.attachmenable_type, original_documentionable_id: self.attachmenable_id, user_id: current_user_id)
-      original_documentation.attached_file = File.new(File.join(Rails.root, '/public' + only_file_path(self.attached_file.url) + self.attached_file.file.filename))
-      original_documentation.save!
-      original_documentation.attached_file.recreate_versions!(:thumb)
-
-      self.destroy_and_log_work(current_user_id)
-    end
-  end
-
-  def move_to_final_documentation_and_log_work(current_user_id)
-    ApplicationRecord.transaction do
-      final_documentation = FinalDocumentation.create(final_documentionable_type: self.attachmenable_type, final_documentionable_id: self.attachmenable_id, user_id: current_user_id)
-      final_documentation.attached_file = File.new(File.join(Rails.root, '/public' + only_file_path(self.attached_file.url) + self.attached_file.file.filename))
-      final_documentation.save!
-      final_documentation.attached_file.recreate_versions!(:thumb)
-
-      self.destroy_and_log_work(current_user_id)
-    end
-  end
-
   def move_to_statement_and_log_work(current_user_id)
     ApplicationRecord.transaction do
       statement = Statement.create(statemenable_type: self.attachmenable_type, statemenable_id: self.attachmenable_id, user_id: current_user_id)

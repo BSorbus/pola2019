@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_07_202805) do
+ActiveRecord::Schema.define(version: 2020_03_08_004302) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -254,20 +254,6 @@ ActiveRecord::Schema.define(version: 2020_03_07_202805) do
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
-  create_table "final_documentations", force: :cascade do |t|
-    t.string "final_documentionable_type"
-    t.bigint "final_documentionable_id"
-    t.string "attached_file"
-    t.string "file_content_type"
-    t.string "file_size"
-    t.text "note", default: ""
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["final_documentionable_type", "final_documentionable_id"], name: "index_final_documentations_on_type_and_id"
-    t.index ["user_id"], name: "index_final_documentations_on_user_id"
-  end
-
   create_table "flows", force: :cascade do |t|
     t.bigint "business_trip_id"
     t.bigint "business_trip_status_id"
@@ -344,20 +330,6 @@ ActiveRecord::Schema.define(version: 2020_03_07_202805) do
     t.datetime "updated_at", null: false
     t.index ["opinionable_type", "opinionable_id"], name: "index_opinions_on_opinionable_type_and_opinionable_id"
     t.index ["user_id"], name: "index_opinions_on_user_id"
-  end
-
-  create_table "original_documentations", force: :cascade do |t|
-    t.string "original_documentionable_type"
-    t.bigint "original_documentionable_id"
-    t.string "attached_file"
-    t.string "file_content_type"
-    t.string "file_size"
-    t.text "note", default: ""
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["original_documentionable_type", "original_documentionable_id"], name: "index_original_documentations_on_type_and_id"
-    t.index ["user_id"], name: "index_original_documentations_on_user_id"
   end
 
   create_table "photos", force: :cascade do |t|
@@ -790,7 +762,6 @@ ActiveRecord::Schema.define(version: 2020_03_07_202805) do
   add_foreign_key "events", "event_statuses"
   add_foreign_key "events", "event_types"
   add_foreign_key "events", "users"
-  add_foreign_key "final_documentations", "users"
   add_foreign_key "flows", "business_trip_statuses"
   add_foreign_key "flows", "business_trips"
   add_foreign_key "flows", "users", column: "business_trip_status_updated_user_id"
@@ -798,7 +769,6 @@ ActiveRecord::Schema.define(version: 2020_03_07_202805) do
   add_foreign_key "inspection_protocols", "users"
   add_foreign_key "measurements", "users"
   add_foreign_key "opinions", "users"
-  add_foreign_key "original_documentations", "users"
   add_foreign_key "photos", "users"
   add_foreign_key "point_files", "projects"
   add_foreign_key "projects", "customers"

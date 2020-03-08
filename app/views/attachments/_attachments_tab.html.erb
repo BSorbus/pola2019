@@ -28,8 +28,6 @@
       <div class="col-sm-12">
         <table id="attachmenable-attachments" class="hover cell-border compact" width="100%" 
           data-source="<%= datatables_index_attachments_path(attachmenable_type: attachmenable.class.to_s, attachmenable_id: attachmenable.id.to_s, format: :json) %>"
-          data-move_original_documentation_access="<%= move_original_documentation_access ||= false %>"
-          data-move_final_documentation_access="<%= move_final_documentation_access ||= false %>"
           data-move_statement_access="<%= move_statement_access ||= false %>"
           data-move_correspondence_access="<%= move_correspondence_access ||= false %>"
           data-move_opinion_access="<%= move_opinion_access ||= false %>"

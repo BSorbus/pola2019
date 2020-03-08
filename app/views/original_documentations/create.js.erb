@@ -1,6 +1,0 @@
-<% if @original_documentation.new_record? %>
-  alert("Failed to upload original_documentation: <%= j @original_documentation.errors.full_messages.join(', ').html_safe %>");
-<% else %>
-  $('#original_documentionable-original_documentations').DataTable().draw();
-  toastr['success']("<%= @original_documentation.attached_file.file.filename %>" + '<br>...pobieranie zakończone');
-<% end %>
