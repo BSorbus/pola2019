@@ -17,7 +17,7 @@ class CreateAttachmentHierarchies < ActiveRecord::Migration[5.2]
     reversible do |dir|
       dir.up   { 
 
-        Attachment.where(attached_file: nil, name_if_folder: nil).destroy_all
+        Attachment.where(attached_file: nil).destroy_all
 
         Attachment.where.not(attached_file: nil).each do |rec|
           rec.update_columns(name: rec.attached_file_identifier)
