@@ -46,8 +46,11 @@ $(document).ready(function() {
     ],
     select: {
       style: 'os',
-      //style: 'multi',
       selector: 'td:first-child'
+    },
+    rowReorder: {
+      dataSrc: 'id',
+      selector: 'td:nth-child(2)'
     },
     responsive: true,
     processing: true,
@@ -83,9 +86,8 @@ $(document).ready(function() {
         "defaultContent": '',
         "sortable": false,
         "searchable": false,
-        "orderable": false,
         "className": 'select-checkbox',
-        "targets":   0
+        "orderable": false,
       },
       { "data": "id",
         "visible": false,

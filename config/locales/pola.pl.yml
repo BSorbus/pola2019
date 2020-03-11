@@ -169,6 +169,7 @@ pl:
         attached_file_identifier: 'Załącznik'
         file_content_type: 'Typ'
         file_size: 'Rozmiar'
+        file_size_or_badge: 'Info'
         created_at: 'Utworzony'
         updated_at: 'Aktualizacja'
         user_id: 'Autor'

@@ -24,11 +24,12 @@ class AttachmentDatatable < AjaxDatatablesRails::ActiveRecord
     records.map do |record|
       {
         id:             record.id,
-        name:           link_attached_file_or_folder(record),
+        name:           link_attached_file_or_folder(record).html_safe,
         note:           truncate(record.note, length: 50) + '  ' +  
                           link_to(' ', @view.edit_attachment_path(record.id), class: 'fa fa-edit pull-right', title: "Edycja", rel: 'tooltip'),
-        file_size:      record.try(:file_size),
-        user:           record.user.try(:name),
+        file_size:      file_size_or_badge(record),
+        user:           record.user.name_as_link,
+#        user:           record.user.try(:name),
         updated_at:     record.updated_at.strftime("%Y-%m-%d %H:%M:%S"),
         action:         action_links(record).html_safe
       }
@@ -75,8 +76,27 @@ class AttachmentDatatable < AjaxDatatablesRails::ActiveRecord
                                         ancestry_path: rec.ancestry_path,
                                         ancestor_ids: rec.ancestor_ids } )
 
-      link_to fa_icon("folder", text: rec.name ), "javascript:linkToAttachmentBreadcrumb( #{breadcrumb_data} )"
+#       link_to( rec.name, '#', onclick: "linkToAttachmentBreadcrumb( #{breadcrumb_data} )", remote: true, class: 'fa fa-folder', title: "Podgląd", rel: 'tooltip')
+      fa_icon("folder" ) + link_to( ' ' + rec.name, '#', onclick: "linkToAttachmentBreadcrumb( #{breadcrumb_data} )", remote: true)
+
+
+#      link_to "#{'<strong>'+rec.name+'</strong>'}", "#", onclick: "linkToAttachmentBreadcrumb( #{breadcrumb_data} )", remote: true
+
+#      link_to fa_icon("folder", text: rec.name ), "javascript:linkToAttachmentBreadcrumb( #{breadcrumb_data} );return false;"
     end
+  end
+
+  def file_size_or_badge(rec)
+    if rec.attached_file.present?
+      rec.try(:file_size)
+    else
+      badge(rec).html_safe
+    end
+  end
+
+  def badge(rec)
+    count = rec.leaves.where(name_if_folder: nil).size
+    "<div style='text-align: center'><span class='badge alert-info'>" + "#{count}" + "</span></div>"
   end
 
   def action_links(rec)

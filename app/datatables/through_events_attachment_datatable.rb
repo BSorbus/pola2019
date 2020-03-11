@@ -29,8 +29,8 @@ class ThroughEventsAttachmentDatatable < AjaxDatatablesRails::ActiveRecord
         attachmenable:  record.attachmenable.title_as_link,
         note:           truncate(record.note, length: 50) + '  ' +  
                           link_to(' ', @view.edit_attachment_path(record.id), class: 'fa fa-edit pull-right', title: "Edycja", rel: 'tooltip'),
-        file_size:      record.try(:file_size),
-        user:           record.user.try(:name),
+        file_size:      file_size_or_badge(record),
+        user:           record.user.name_as_link,
         updated_at:     record.updated_at.strftime("%Y-%m-%d %H:%M:%S"),
         action:         action_links(record).html_safe
       }
@@ -65,10 +65,25 @@ class ThroughEventsAttachmentDatatable < AjaxDatatablesRails::ActiveRecord
                                         ancestry_path: rec.ancestry_path,
                                         ancestor_ids: rec.ancestor_ids } )
 
-      link_to fa_icon("folder", text: "[#{truncate(rec.attachmenable.title, length: 15)}]/#{rec.name}" ), "javascript:linkToThroughEventsAttachmentBreadcrumb( #{breadcrumb_data} )"
+      fa_icon("folder" ) + link_to( ' ' + "[#{truncate(rec.attachmenable.title, length: 20)}]/#{rec.name}", '#', onclick: "linkToThroughEventsAttachmentBreadcrumb( #{breadcrumb_data} )", remote: true)
+
+#      link_to fa_icon("folder", text: "[#{truncate(rec.attachmenable.title, length: 20)}]/#{rec.name}" ), "#", onclik: "linkToThroughEventsAttachmentBreadcrumb( #{breadcrumb_data} );return false;"
+#      link_to fa_icon("folder", text: "[#{truncate(rec.attachmenable.title, length: 20)}]/#{rec.name}" ), "javascript:linkToThroughEventsAttachmentBreadcrumb( #{breadcrumb_data} )"
     end
   end
 
+  def file_size_or_badge(rec)
+    if rec.attached_file.present?
+      rec.try(:file_size)
+    else
+      badge(rec).html_safe
+    end
+  end
+
+  def badge(rec)
+    count = rec.leaves.where(name_if_folder: nil).size
+    "<div style='text-align: center'><span class='badge alert-info'>" + "#{count}" + "</span></div>"
+  end
 
   def action_links(rec)
     "<div style='text-align: center'>

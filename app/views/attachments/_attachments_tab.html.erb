@@ -4,6 +4,7 @@
 
     <div class="row">
 
+      <div id="id_row_reorder_result" class="col-sm-12"></div>
       <div id="id_attachment_breadcrumb" class="col-sm-9"></div>
 
       <div class="col-sm-3">
@@ -45,7 +46,7 @@
               <th><%= Attachment.human_attribute_name(:note) %></th>
               <th><%= Attachment.human_attribute_name(:user_id) %></th>
               <th><%= Attachment.human_attribute_name(:updated_at) %></th>
-              <th><%= Attachment.human_attribute_name(:file_size) %></th>
+              <th><%= Attachment.human_attribute_name(:file_size_or_badge) %></th>
               <th></th>
             </tr>
           </thead>

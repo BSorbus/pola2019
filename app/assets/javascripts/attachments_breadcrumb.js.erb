@@ -11,7 +11,7 @@ function buildAttachmentBreadcrumb(nameIdBreadcrumb, arrayIdParentInput, nameLin
   var olNode = document.createElement("OL"); 
   olNode.className = "breadcrumb";
   // add breadcrumb root 
-  olNode.appendChild( addNavItemToBreadcrumb('javascript:'+ nameLinkToFunction +'( { parent_id: null, ancestry_path: [], ancestor_ids: [] } )', 'Katalog główny', false ) );
+  olNode.appendChild( addNavItemToBreadcrumb(nameLinkToFunction +'( { parent_id: null, ancestry_path: [], ancestor_ids: [] } );return false;', 'Katalog główny', false ) );
 
   var reverseAncestryIds,
       anchoredElText,
@@ -43,7 +43,7 @@ function buildAttachmentBreadcrumb(nameIdBreadcrumb, arrayIdParentInput, nameLin
     anchoredElText = ancestry_json.ancestry_path[index];
     // if last position set breadcrumb without <a></a>
     anchoredElActive = (reverseAncestryIds[index] === null); 
-    anchoredElHref = anchoredElHref = 'javascript:'+ nameLinkToFunction +'( { parent_id:'+ reverseAncestryIds[index] +', ancestry_path: '+ tmpAncestryPathString +', ancestor_ids: ['+ tmpAncestorIdsReverse +'] } )' 
+    anchoredElHref = nameLinkToFunction +'( { parent_id:'+ reverseAncestryIds[index] +', ancestry_path: '+ tmpAncestryPathString +', ancestor_ids: ['+ tmpAncestorIdsReverse +'] } );return false;' 
     // build breadcrumb pice for current position
     olNode.appendChild( addNavItemToBreadcrumb( anchoredElHref, anchoredElText, anchoredElActive ) );
   }); 
@@ -61,7 +61,9 @@ function addNavItemToBreadcrumb(href, text, active) {
       listItem.className = 'active';
       listItem.appendChild(textNode)
     } else {
-      anchorItem.href = href;        
+      // anchorItem.href = href;      
+      anchorItem.href = '#';
+      anchorItem.setAttribute('onclick', href+';');
       listItem.appendChild(anchorItem);
       anchorItem.appendChild(textNode);
     };

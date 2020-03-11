@@ -437,6 +437,11 @@ $(document).ready(function() {
       //style: 'multi',
       selector: 'td:first-child'
     },
+//    rowReorder: true,
+    rowReorder: {
+      dataSrc: 'id',
+      selector: 'td:nth-child(2)'
+    },
     responsive: true,
     processing: true,
     serverSide: true,
@@ -471,18 +476,18 @@ $(document).ready(function() {
         "defaultContent": '',
         "sortable": false,
         "searchable": false,
-        "orderable": false,
         "className": 'select-checkbox',
-        "targets":   0
+        "orderable": false,
       },
       { "data": "id",
         "visible": false,
-        "searchable": false,
-        "sortable": false }, 
-      { "data": "name" }, 
+        "sortable": false,
+        "searchable": false
+      },
+      { "data": "name" },
       { "data": "note" }, 
-      { "data": "user" },
-      { "data": "updated_at" },
+      { "data": "user" }, 
+      { "data": "updated_at" }, 
       { "data": "file_size",
         "searchable": false,
         "sortable": false },
@@ -507,6 +512,54 @@ $(document).ready(function() {
   .on( 'draw', function () {
     oAttachmentableAttachmentsTable.rows().deselect();
   });
+
+
+  oAttachmentableAttachmentsTable
+  .on( 'row-reorder', function ( e, diff, edit ) {
+
+    e.preventDefault();
+    console.log( 'data.id:' );
+    console.log( edit.triggerRow.data().id );
+//    alert( edit.triggerRow.data() );
+
+    console.log( 'e:' );
+    console.log( e );
+    console.log( 'diff:' );
+    console.log( diff );
+
+    var result = 'Reorder started on row: '+ edit.triggerRow.data()[1] + '<br>';
+ 
+      for ( var i=0, ien=diff.length ; i<ien ; i++ ) {
+
+          var rowData = oAttachmentableAttachmentsTable.row( diff[i].node ).data();
+
+          result += rowData[1]+' updated to be in position '+
+              diff[i].newData+' (was '+diff[i].oldData+')<br>';
+      }
+
+      $('#result').html( 'Event result:<br>'+result );
+  });
+
+
+
+  oAttachmentableAttachmentsTable
+  .on( 'pre-row-reorder', function ( e, node, index ) {
+      console.log( 'Row reorder started: ', node, index );
+  } );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   // jezeli nastepuje wyswietlenie tab, to zaladuj dane
