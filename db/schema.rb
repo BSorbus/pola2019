@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(version: 2020_03_08_004302) do
     t.string "rpt"
     t.bigint "user_id"
     t.integer "attachments_count", default: 0, null: false
+    t.integer "attachments_file_size_sum", default: 0, null: false
     t.index ["name"], name: "index_customers_on_name"
     t.index ["user_id"], name: "index_customers_on_user_id"
   end
@@ -174,6 +175,7 @@ ActiveRecord::Schema.define(version: 2020_03_08_004302) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "attachments_count", default: 0, null: false
+    t.integer "attachments_file_size_sum", default: 0, null: false
     t.index ["user_id"], name: "index_enrollments_on_user_id"
   end
 
@@ -196,6 +198,7 @@ ActiveRecord::Schema.define(version: 2020_03_08_004302) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.integer "attachments_count", default: 0, null: false
+    t.integer "attachments_file_size_sum", default: 0, null: false
     t.index ["adoption_date"], name: "index_errands_on_adoption_date"
     t.index ["end_date"], name: "index_errands_on_end_date"
     t.index ["errand_status_id"], name: "index_errands_on_errand_status_id"
@@ -243,6 +246,7 @@ ActiveRecord::Schema.define(version: 2020_03_08_004302) do
     t.bigint "user_id"
     t.bigint "event_effect_id"
     t.integer "attachments_count", default: 0, null: false
+    t.integer "attachments_file_size_sum", default: 0, null: false
     t.index ["end_date"], name: "index_events_on_end_date"
     t.index ["errand_id"], name: "index_events_on_errand_id"
     t.index ["event_effect_id"], name: "index_events_on_event_effect_id"
@@ -407,6 +411,7 @@ ActiveRecord::Schema.define(version: 2020_03_08_004302) do
     t.integer "attachments_count", default: 0, null: false
     t.string "area_id"
     t.string "area_name"
+    t.integer "attachments_file_size_sum", default: 0, null: false
     t.index ["customer_id"], name: "index_projects_on_customer_id"
     t.index ["enrollment_id"], name: "index_projects_on_enrollment_id"
     t.index ["number"], name: "index_projects_on_number"
@@ -538,6 +543,7 @@ ActiveRecord::Schema.define(version: 2020_03_08_004302) do
     t.datetime "password_changed_at"
     t.integer "attachments_count", default: 0, null: false
     t.boolean "notification_by_email", default: true
+    t.integer "attachments_file_size_sum", default: 0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

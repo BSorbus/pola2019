@@ -4,14 +4,14 @@ class BuildFoldersInEnrollment < ActiveRecord::Migration[5.2]
 
       dir.up   { 
 
-        admin = User.find_by(email: 'pola@uke.gov.pl')
+        # admin = User.find_by(email: 'pola@uke.gov.pl')
 
-        Enrollment.all.each do |rec|
-          korespondencja = rec.attachments.find_or_create_by!(name_if_folder: "Korespondencja") do |att|
-            att.user = admin
-            att.save!
-          end
-        end
+        # Enrollment.all.each do |rec|
+        #   korespondencja = rec.attachments.find_or_create_by!(name_if_folder: "Korespondencja") do |att|
+        #     att.user = admin
+        #     att.save!
+        #   end
+        # end
 
       }
 

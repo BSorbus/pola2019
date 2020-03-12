@@ -11,11 +11,6 @@
             <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
           </li>
         <% end %>
-        <% if policy(:correspondence).enrollment_index? %>
-          <li class="brand-nav brand-nav-level-1">
-            <a href="#correspondences" data-toggle="tab"><%= correspondence_index_legend %></a>
-          </li>
-        <% end %>
         <% if policy(:enrollment).work? %>
           <li class="brand-nav brand-nav-level-1">
             <a href="#works" data-toggle="tab"><%= work_index_legend %></a>
@@ -33,10 +28,6 @@
         <div class="tab-pane" id="attachments">
           <%= render 'attachments/attachments_tab', attachmenable: @enrollment, subtitle: enrollment_info_legend(@enrollment), 
             move_correspondence_access: true %>
-        </div>
-
-        <div class="tab-pane" id="correspondences">
-          <%= render 'correspondences/correspondences_tab', correspondenable: @enrollment, subtitle: enrollment_info_legend(@enrollment) %>
         </div>
 
         <div class="tab-pane" id="works">

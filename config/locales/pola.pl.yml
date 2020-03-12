@@ -306,7 +306,7 @@ pl:
         order_date: 'Data zlecenia'
         adoption_date: 'Data przyjęcia zlecenia'
         start_date: 'Data rozpoczęcia'
-        end_date: 'Data zakończenia'
+        end_date: 'Data zakończenia ze zlecenia'
         note: 'Uwagi'
         attachments_count: 'Załączniki'
       event:
@@ -512,7 +512,7 @@ pl:
       attachments_tab:
         folder_submit: 'Utwórz'
       through_events_index:
-        title: 'Załączniki (Z)-adań'
+        title: 'Załączniki (Zadań)'
       index:
         title: 'Załączniki'
       edit:
@@ -575,7 +575,7 @@ pl:
         title: 'Edycja -> Informacja Pokontrolna'
     photo:
       through_events_index:
-        title: 'Zdjęcia (Z)'
+        title: 'Zdjęcia (Zadań)'
       index:
         title: 'Zdjęcia'
       edit:

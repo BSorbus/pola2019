@@ -42,6 +42,13 @@ $(document).ready(function() {
     // dom: 'lBfrtip',
     dom: '<"top" <"row" <"col-sm-6" <"pull-left"l><"pull-left"B> > <"col-sm-6 pull-right"f> > > rt <"bottom"ip><"clear">',
     buttons: [
+      {
+        extend:    'colvis',
+        text:      '<span class="fa fa-columns"></span>',
+        titleAttr: 'Pokaż/ukryj kolumny',
+        className: 'btn btn-sm btn-default',
+        columns:   ':gt(2)' //exclude first col from list
+      }, 
       'through_events_attachment_delete_selected'
     ],
     select: {
@@ -57,6 +64,8 @@ $(document).ready(function() {
     serverSide: true,
     deferRender: true,
     searchDelay: 500,
+    stateSave: true,
+    stateDuration: 60 * 60 * 24 * 7,
     ajax: { 
       url: $('#through-events-attachmenable-attachments').data('source'),
       type: "GET",
@@ -114,6 +123,12 @@ $(document).ready(function() {
     order: [[ 2, "asc" ]],
     language: {
       url: '<%= asset_path("pl.json.erb") %>'
+    },
+    stateSaveCallback: function(settings,data) {
+      localStorage.setItem( 'DataTables_through-events-attachmenable-attachments_/all', JSON.stringify(data) )
+    },
+    stateLoadCallback: function(settings) {
+      return JSON.parse( localStorage.getItem( 'DataTables_through-events-attachmenable-attachments_/all' ) )
     }
   });
 

@@ -49,7 +49,7 @@ class Project < ApplicationRecord
   # callbacks
   before_destroy :has_important_links, prepend: true
 
-  after_create_commit { self.log_work('create') }
+  after_create_commit :create_additionals
   after_update_commit { self.log_work('update') }
 
 
@@ -69,6 +69,11 @@ class Project < ApplicationRecord
      analize_value = false
     end
     throw :abort unless analize_value 
+  end
+
+  def create_additionals
+    self.log_work('create')
+    self.build_default_attachment_folders
   end
 
   def log_work(action = '', action_user_id = nil)
@@ -138,5 +143,41 @@ class Project < ApplicationRecord
     "(" + %w(projects.number projects.note).map { |column| "#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
   end
 
+  def update_attachments_counter_cache(touch_date)
+    files_count = attachments.where.not(attached_file: nil).count # Whatever condition you need here.
+    files_size_sum = attachments.where.not(attached_file: nil).map { |a| a.attached_file.file.size }.sum
+
+    self.update_columns(attachments_count: files_count, attachments_file_size_sum: files_size_sum, updated_at: touch_date)
+  end
+
+  def build_default_attachment_folders(create_timestamp=nil)
+    build_folder("Dokumentacja pierwotna", create_timestamp)
+    build_folder("Brakowanie", create_timestamp)
+    build_folder("Dokumentacja ostateczna na KOP", create_timestamp).tap do |rec|
+      rec.add_child build_folder("WoD", create_timestamp)
+      (1..13).each do |i|
+        number = "0#{i}".last(2)
+        rec.add_child build_folder("Załącznik nr #{number}", create_timestamp)
+      end
+    end
+    build_folder("Dane GEO", create_timestamp)
+    build_folder("Umowa i aneksy", create_timestamp)
+    build_folder("Dokumentacja budowlana", create_timestamp).tap do |rec|
+      rec.add_child build_folder("Dokumentacja projektowa", create_timestamp)
+      rec.add_child build_folder("Dokumentacja wykonawcza", create_timestamp)
+      rec.add_child build_folder("Dokumentacja powykonawcza", create_timestamp)
+      rec.add_child build_folder("Protokoły odbioru", create_timestamp)
+      rec.add_child build_folder("Zgody", create_timestamp)
+    end
+  end
+
+  def build_folder(folder_name, create_timestamp=nil)
+    attachments.find_or_create_by!(name_if_folder: "#{folder_name}") do |att|
+      att.user = self.user
+      att.created_at = create_timestamp.present? ? create_timestamp : self.created_at
+      att.updated_at = create_timestamp.present? ? create_timestamp : self.updated_at
+      att.save!
+    end
+  end
 
 end

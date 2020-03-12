@@ -11,19 +11,14 @@
             <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
           </li>
         <% end %>
-        <% if policy(:correspondence).errand_index? %>
+        <% if policy(:event).index? %>
           <li class="brand-nav brand-nav-level-1">
-            <a href="#correspondences" data-toggle="tab"><%= correspondence_index_legend %></a>
+            <a href="#accessorizations" data-toggle="tab"><%= fa_icon("calendar", text: t("pages.accessorization.role_show")) %></a>
           </li>
         <% end %>
         <% if policy(:errand).work? %>
           <li class="brand-nav brand-nav-level-1">
             <a href="#works" data-toggle="tab"><%= work_index_legend %></a>
-          </li>
-        <% end %>
-        <% if policy(:event).index? %>
-          <li class="brand-nav brand-nav-level-1">
-            <a href="#accessorizations" data-toggle="tab"><%= fa_icon("calendar", text: t("pages.accessorization.role_show")) %></a>
           </li>
         <% end %>
       </ul>
@@ -40,16 +35,12 @@
             move_correspondence_access: true %>
         </div>
 
-        <div class="tab-pane" id="correspondences">
-          <%= render 'correspondences/correspondences_tab', correspondenable: @errand, subtitle: errand_info_legend(@errand) %>
+        <div class="tab-pane" id="accessorizations">
+          <%= render 'accessorizations', subtitle: errand_info_legend(@errand) %>
         </div>
 
         <div class="tab-pane" id="works">
           <%= render 'works/works_tab', trackable_type: "Errand", trackable_id: @errand.id, subtitle: errand_info_legend(@errand) %>
-        </div>
-
-        <div class="tab-pane" id="accessorizations">
-          <%= render 'accessorizations', subtitle: errand_info_legend(@errand) %>
         </div>
 
       </div>

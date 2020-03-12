@@ -1,5 +1,7 @@
 class EventDatatable < AjaxDatatablesRails::ActiveRecord
 
+  include  ActionView::Helpers::NumberHelper
+
   def view_columns
     @view_columns ||= {
       id:                { source: "Event.id", cond: :eq, searchable: false, orderable: false },
@@ -64,9 +66,7 @@ class EventDatatable < AjaxDatatablesRails::ActiveRecord
   end
 
   def badge(rec)
-    count = rec.try(:attachments_count)
-    count > 0 ? "<div style='text-align: center;'><span class='badge alert-info'>" + "#{count}" + "</span></div>" :
-      "<div style='text-align: center;'><span class='badge'>" + "#{count}" + "</span></div>"
+    rec.attachments_count > 0 ? "<div> #{number_to_human_size(rec.attachments_file_size_sum)} <span class='badge alert-info pull-right'> #{rec.attachments_count} </span></div>" : "<div></div>"
   end
 
   # ==== These methods represent the basic operations to perform on records

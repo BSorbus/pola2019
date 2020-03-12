@@ -112,6 +112,8 @@ $(document).ready(function() {
     serverSide: true,
     deferRender: true,
     searchDelay: 500,
+    stateSave: true,
+    stateDuration: 60 * 60 * 24 * 7,
     ajax: { 
       url: $('#events-table').data('source'),
       type: "POST",

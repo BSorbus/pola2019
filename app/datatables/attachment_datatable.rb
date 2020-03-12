@@ -1,7 +1,7 @@
 class AttachmentDatatable < AjaxDatatablesRails::ActiveRecord
   extend Forwardable
 
-  def_delegators :@view, :link_to, :truncate, :attachment_path, :download_attachment_path, :edit_attachment_path, :t, :fa_icon
+  def_delegators :@view, :link_to, :truncate, :attachment_path, :download_attachment_path, :edit_attachment_path, :t, :fa_icon, :number_to_human_size
 
   def initialize(params, opts = {})
     @view = opts[:view_context]
@@ -27,9 +27,8 @@ class AttachmentDatatable < AjaxDatatablesRails::ActiveRecord
         name:           link_attached_file_or_folder(record).html_safe,
         note:           truncate(record.note, length: 50) + '  ' +  
                           link_to(' ', @view.edit_attachment_path(record.id), class: 'fa fa-edit pull-right', title: "Edycja", rel: 'tooltip'),
-        file_size:      file_size_or_badge(record),
+        file_size:      file_size_or_sum_files_size_and_badge(record).html_safe,
         user:           record.user.name_as_link,
-#        user:           record.user.try(:name),
         updated_at:     record.updated_at.strftime("%Y-%m-%d %H:%M:%S"),
         action:         action_links(record).html_safe
       }
@@ -68,8 +67,8 @@ class AttachmentDatatable < AjaxDatatablesRails::ActiveRecord
   def link_attached_file_or_folder(rec)
     if rec.attached_file.present?
       # rec.attached_file_identifier == rec.name  
-      link_to(truncate(rec.name, length: 100), download_attachment_path(rec.id), title: t('tooltip.download'), rel: 'tooltip') + '  ' +  
-                              link_to(' ', @view.attachment_path(rec.id), remote: true, class: 'fa fa-eye pull-right', title: "Podgląd", rel: 'tooltip')
+      link_to(truncate(rec.name, length: 100), @view.attachment_path(rec.id), remote: true, title: t('tooltip.show'), rel: 'tooltip') + '  ' +  
+          link_to(' ', @view.download_attachment_path(rec.id), class: 'fa fa-download pull-right', title: t('tooltip.download'), rel: 'tooltip')
     else
       #rec.name_if_folder == rec.name
       breadcrumb_data = JSON.generate( {parent_id: rec.id, 
@@ -86,17 +85,18 @@ class AttachmentDatatable < AjaxDatatablesRails::ActiveRecord
     end
   end
 
-  def file_size_or_badge(rec)
-    if rec.attached_file.present?
-      rec.try(:file_size)
+  def file_size_or_sum_files_size_and_badge(rec)
+    if rec.attached_file.present?      
+      "<div>#{rec.file_size}</div>"
     else
-      badge(rec).html_safe
+      badge(rec)
     end
   end
 
   def badge(rec)
-    count = rec.leaves.where(name_if_folder: nil).size
-    "<div style='text-align: center'><span class='badge alert-info'>" + "#{count}" + "</span></div>"
+    count = rec.leaves.where.not(attached_file: nil).size
+    sum_size = rec.leaves.where.not(attached_file: nil).map {|a| a.attached_file.file.size }.sum
+    count > 0 ? "<div> #{number_to_human_size(sum_size)} <span class='badge alert-info pull-right'> #{count} </span></div>" : "<div></div>"
   end
 
   def action_links(rec)

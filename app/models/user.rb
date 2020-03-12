@@ -147,13 +147,15 @@ class User < ApplicationRecord
     !deleted_at ? super : :deleted_account  
   end  
 
+  def update_attachments_counter_cache(touch_date)
+    files_count = attachments.where.not(attached_file: nil).count # Whatever condition you need here.
+    files_size_sum = attachments.where.not(attached_file: nil).map { |a| a.attached_file.file.size }.sum
 
+    self.update_columns(attachments_count: files_count, attachments_file_size_sum: files_size_sum, updated_at: touch_date)
+  end
 
-
-
-
-
-
+  def build_default_attachment_folders
+  end
 
 
   # Integration with ActiveJob

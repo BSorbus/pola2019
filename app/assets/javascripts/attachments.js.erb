@@ -38,6 +38,26 @@ $(document).ready(function() {
     }  
   };
 
+  $.fn.dataTable.ext.buttons.attachment_download_selected = {
+    text: '<span class="text-primary fa fa-download"></span>',
+    titleAttr: 'Pobierz zaznaczone wiersze',
+    className: 'btn btn-sm btn-default',
+    init: function ( dt, node, config ) {
+      var that = this;
+      dt.on( 'select.dt.DT deselect.dt.DT', function () {
+        that.enable( dt.rows( { selected: true } ).any() );
+      });
+      this.disable();
+    },
+    action: function ( e, dt, button, config ) {
+      $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
+
+        null;
+
+      });
+    }  
+  };
+
   $.fn.dataTable.ext.buttons.attachment_move_to_statement = {
     text: '<span class="fa fa-file-export"></span><br><span>Oświadczenia</span>',
     titleAttr: 'Przenieś zaznaczone wiersze do "Oświadczenia/Upoważnienia"',
@@ -421,9 +441,17 @@ $(document).ready(function() {
     // dom: 'lBfrtip',
     dom: '<"top" <"row" <"col-sm-9" <"pull-left"l><"pull-left"B> > <"col-sm-3 pull-right"f> > > rt <"bottom"ip><"clear">',
     buttons: [
+      {
+        extend:    'colvis',
+        text:      '<span class="fa fa-columns"></span>',
+        titleAttr: 'Pokaż/ukryj kolumny',
+        className: 'btn btn-sm btn-default',
+        columns:   ':gt(2)' //exclude first col from list
+      }, 
       'attachment_delete_selected',
+//      'attachment_download_selected',
       'attachment_move_to_statement', 
-      'attachment_move_to_correspondence',
+//      'attachment_move_to_correspondence',
       'attachment_move_to_opinion',
       'attachment_move_to_protocol',
       'attachment_move_to_inspection_protocol',
@@ -447,6 +475,8 @@ $(document).ready(function() {
     serverSide: true,
     deferRender: true,
     searchDelay: 500,
+    stateSave: true,
+    stateDuration: 60 * 60 * 24 * 7,
     ajax: { 
       url: $('#attachmenable-attachments').data('source'),
       type: "GET",
@@ -504,6 +534,12 @@ $(document).ready(function() {
     order: [[ 2, "asc" ]],
     language: {
       url: '<%= asset_path("pl.json.erb") %>'
+    },
+    stateSaveCallback: function(settings,data) {
+      localStorage.setItem( 'DataTables_attachmenable-attachments_/all', JSON.stringify(data) )
+    },
+    stateLoadCallback: function(settings) {
+      return JSON.parse( localStorage.getItem( 'DataTables_attachmenable-attachments_/all' ) )
     }
   });
 

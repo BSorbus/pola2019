@@ -5,11 +5,11 @@
     <div class="row">
 
       <div id="id_row_reorder_result" class="col-sm-12"></div>
-      <div id="id_attachment_breadcrumb" class="col-sm-9"></div>
+      <div id="id_attachment_breadcrumb" class="col-sm-8"></div>
 
-      <div class="col-sm-3">
+      <div class="col-sm-4">
         <%= form_for [attachmenable, Attachment.new], url: polymorphic_url([attachmenable, Attachment.new], action: "create_folder"), remote: true, html: { id: "new_attachment_folder", class: "form form-inline" } do |ff| %>
-          <div class="row">
+          <div class="row pull-right">
             <div class="form-group col-sm-12">
               <%#= ff.label :name_if_folder, class: 'control-label' %>
               <%= ff.text_field :name_if_folder, class: 'form-control input-sm' %>
@@ -47,7 +47,7 @@
               <th><%= Attachment.human_attribute_name(:user_id) %></th>
               <th><%= Attachment.human_attribute_name(:updated_at) %></th>
               <th><%= Attachment.human_attribute_name(:file_size_or_badge) %></th>
-              <th></th>
+              <th> Akcja </th>
             </tr>
           </thead>
           <tbody>                    

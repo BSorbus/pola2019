@@ -40,7 +40,7 @@ class Event < ApplicationRecord
   # callbacks
   before_create { self.title = "#{title} - #{self.project.number}" }
   
-  after_create_commit { self.log_work('create') }
+  after_create_commit :create_additionals
   after_update_commit { self.log_work('update') }
 
 
@@ -50,6 +50,11 @@ class Event < ApplicationRecord
 
   def self.for_user_in_accessorizations(u)
     eager_load(:accessorizations).where(accessorizations: {user_id: [u]})
+  end
+
+  def create_additionals
+    self.log_work('create')
+    self.build_default_attachment_folders
   end
 
   def log_work(action = '', action_user_id = nil)
@@ -118,8 +123,16 @@ class Event < ApplicationRecord
     self.event_type.access_to_statements?
   end
 
+  def access_authorizations?
+    self.event_type.access_to_authorizations?
+  end
+
   def access_correspondences?
     self.event_type.access_to_correspondences?
+  end
+
+  def access_ratings?
+    self.event_type.access_to_ratings?
   end
 
   def access_opinions?
@@ -148,6 +161,36 @@ class Event < ApplicationRecord
 
   def access_photos?
     self.event_type.access_to_photos?
+  end
+
+  def update_attachments_counter_cache(touch_date)
+    files_count = attachments.where.not(attached_file: nil).count # Whatever condition you need here.
+    files_size_sum = attachments.where.not(attached_file: nil).map { |a| a.attached_file.file.size }.sum
+
+    self.update_columns(attachments_count: files_count, attachments_file_size_sum: files_size_sum, updated_at: touch_date)
+  end
+
+  def build_default_attachment_folders(create_timestamp=nil)
+    build_folder("Oświadczenia", create_timestamp)  if access_statements?
+    build_folder("Korespondencja", create_timestamp) if access_correspondences?
+    build_folder("Ocena", create_timestamp) if access_ratings? 
+    build_folder("Opinia zmian", create_timestamp) if access_opinions? 
+    build_folder("Upoważnienia", create_timestamp) if access_authorizations? 
+    build_folder("Protokoły oględzin", create_timestamp) if access_inspection_protocols? 
+    build_folder("Pomiary", create_timestamp).tap do |rec|
+      rec.add_child build_folder("Reflektometryczne", create_timestamp)
+      rec.add_child build_folder("Jakościowe", create_timestamp)
+    end if access_measurements? 
+    build_folder("Informacja pokontrolna", create_timestamp) if access_infos? 
+  end
+
+  def build_folder(folder_name, create_timestamp=nil)
+    attachments.find_or_create_by!(name_if_folder: "#{folder_name}") do |att|
+      att.user = self.user
+      att.created_at = create_timestamp.present? ? create_timestamp : self.created_at
+      att.updated_at = create_timestamp.present? ? create_timestamp : self.updated_at
+      att.save!
+    end
   end
 
   private

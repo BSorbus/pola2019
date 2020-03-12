@@ -32,15 +32,22 @@ class EventType < ApplicationRecord
       EVENT_TYPE_KONTROLA_REALIZACJA, EVENT_TYPE_KONTROLA_ZAKONCZENIE, EVENT_TYPE_KONTROLA_TRWALOSC ].include?(self.id)
   end
 
+  def access_to_authorizations?
+    [ EVENT_TYPE_KONTROLA_REALIZACJA, EVENT_TYPE_KONTROLA_ZAKONCZENIE, EVENT_TYPE_KONTROLA_TRWALOSC ].include?(self.id)
+  end
+
   def access_to_correspondences?
     [ EVENT_TYPE_OCENA_WNIOSKU, EVENT_TYPE_OCENA_PROTEST, 
       EVENT_TYPE_OPINIA_ZMIAN,
       EVENT_TYPE_KONTROLA_REALIZACJA, EVENT_TYPE_KONTROLA_ZAKONCZENIE, EVENT_TYPE_KONTROLA_TRWALOSC ].include?(self.id)
   end
 
+  def access_to_ratings?
+    [ EVENT_TYPE_OCENA_WNIOSKU, EVENT_TYPE_OCENA_PROTEST ].include?(self.id)
+  end
+
   def access_to_opinions?
-    [ EVENT_TYPE_OCENA_WNIOSKU, EVENT_TYPE_OCENA_PROTEST, 
-      EVENT_TYPE_OPINIA_ZMIAN ].include?(self.id)
+    [ EVENT_TYPE_OPINIA_ZMIAN ].include?(self.id)
   end
 
   def access_to_protocols?

@@ -3,7 +3,7 @@ class Attachment < ApplicationRecord
 
   # relations
   belongs_to :user
-  belongs_to :attachmenable, polymorphic: true, counter_cache: true
+  belongs_to :attachmenable, polymorphic: true #, counter_cache: true    2020.03.11
 
   # validates
   validates :name, presence: true,
@@ -31,6 +31,10 @@ class Attachment < ApplicationRecord
       self.name = attached_file.present? ? attached_file.file.filename : nil
     end
   end
+
+  after_save :update_custom_counter_cache
+  after_destroy :update_custom_counter_cache
+
 
   after_create_commit { self.log_work('upload_attachment') }
   after_update_commit { self.log_work('update') }
@@ -186,6 +190,11 @@ class Attachment < ApplicationRecord
       length_path = path_with_file_name.length
       length_filename = path_with_file_name.reverse.index('/')
       path_with_file_name[0, (length_path-length_filename)]
+    end
+
+    def update_custom_counter_cache
+      # disable counter_cache for definition: belongs_to :attachmenable, polymorphic: true #, counter_cache: true
+      attachmenable.update_attachments_counter_cache(updated_at)
     end
 
 end
