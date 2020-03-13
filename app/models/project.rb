@@ -23,14 +23,6 @@ class Project < ApplicationRecord
   has_many :attachments, as: :attachmenable, dependent: :destroy
 
   has_many :events_attachments, through: :events, source: :attachments
-  has_many :events_statements, through: :events, source: :statements
-  has_many :events_correspondences, through: :events, source: :correspondences
-  has_many :events_opinions, through: :events, source: :opinions
-  has_many :events_protocols, through: :events, source: :protocols
-  has_many :events_inspection_protocols, through: :events, source: :inspection_protocols
-  has_many :events_measurements, through: :events, source: :measurements
-  has_many :events_documentations, through: :events, source: :documentations
-  has_many :events_infos, through: :events, source: :infos
   has_many :events_photos, through: :events, source: :photos
 
   has_many :works, as: :trackable

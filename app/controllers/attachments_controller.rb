@@ -1,6 +1,6 @@
 class AttachmentsController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized, only: [:show, :edit, :update, :create, :destroy, :move_to_correspondence]
+  after_action :verify_authorized, only: [:show, :edit, :update, :create, :destroy]
 
   def datatables_index
 #    attachment_parent_filter = params[:attachment_parent_id].present? ? params[:attachment_parent_id] : nil
@@ -106,70 +106,6 @@ class AttachmentsController < ApplicationController
       #flash.now[:success] = t('activerecord.successfull.messages.destroyed', data: @attachment.fullname)
       head :no_content
     end
-  end
-
-  def move_to_statement
-    @attachment = Attachment.find(params[:id])
-    attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
-    if @attachment.move_to_statement_and_log_work(current_user.id)
-      head :no_content
-    end 
-  end
-
-  def move_to_correspondence
-    @attachment = Attachment.find(params[:id])
-    attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
-    if @attachment.move_to_correspondence_and_log_work(current_user.id)
-      head :no_content
-    end 
-  end
-
-  def move_to_opinion
-    @attachment = Attachment.find(params[:id])
-    attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
-    if @attachment.move_to_opinion_and_log_work(current_user.id)
-      head :no_content
-    end 
-  end
-
-  def move_to_protocol
-    @attachment = Attachment.find(params[:id])
-    attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
-    if @attachment.move_to_protocol_and_log_work(current_user.id)
-      head :no_content
-    end 
-  end
-
-  def move_to_inspection_protocol
-    @attachment = Attachment.find(params[:id])
-    attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
-    if @attachment.move_to_inspection_protocol_and_log_work(current_user.id)
-      head :no_content
-    end 
-  end
-
-  def move_to_measurement
-    @attachment = Attachment.find(params[:id])
-    attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
-    if @attachment.move_to_measurement_and_log_work(current_user.id)
-      head :no_content
-    end 
-  end
-
-  def move_to_documentation
-    @attachment = Attachment.find(params[:id])
-    attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
-    if @attachment.move_to_documentation_and_log_work(current_user.id)
-      head :no_content
-    end 
-  end
-
-  def move_to_info
-    @attachment = Attachment.find(params[:id])
-    attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
-    if @attachment.move_to_info_and_log_work(current_user.id)
-      head :no_content
-    end 
   end
 
   def move_to_photo

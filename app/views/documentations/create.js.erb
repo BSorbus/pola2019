@@ -1,6 +1,0 @@
-<% if @documentation.new_record? %>
-  alert("Failed to upload documentation: <%= j @documentation.errors.full_messages.join(', ').html_safe %>");
-<% else %>
-  $('#documentationable-documentations').DataTable().draw();
-  toastr['success']("<%= @documentation.attached_file.file.filename %>" + '<br>...pobieranie zakończone');
-<% end %>

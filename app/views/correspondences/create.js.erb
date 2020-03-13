@@ -1,6 +1,0 @@
-<% if @correspondence.new_record? %>
-  alert("Failed to upload correspondence: <%= j @correspondence.errors.full_messages.join(', ').html_safe %>");
-<% else %>
-  $('#correspondenable-correspondences').DataTable().draw();
-  toastr['success']("<%= @correspondence.attached_file.file.filename %>" + '<br>...pobieranie zakończone');
-<% end %>

@@ -13,14 +13,6 @@ class Event < ApplicationRecord
   has_many :accesses_users, through: :accessorizations, source: :user
 
   has_many :attachments, as: :attachmenable, dependent: :destroy
-  has_many :statements, as: :statemenable, dependent: :destroy
-  has_many :correspondences, as: :correspondenable, dependent: :destroy
-  has_many :opinions, as: :opinionable, dependent: :destroy
-  has_many :protocols, as: :protocolable, dependent: :destroy
-  has_many :inspection_protocols, as: :inspectionable, dependent: :destroy
-  has_many :measurements, as: :measurementable, dependent: :destroy
-  has_many :documentations, as: :documentationable, dependent: :destroy
-  has_many :infos, as: :infoable, dependent: :destroy
   has_many :photos, as: :photoable, dependent: :destroy
   has_many :works, as: :trackable
 

@@ -1,6 +1,0 @@
-<% if @measurement.new_record? %>
-  alert("Failed to upload measurement: <%= j @measurement.errors.full_messages.join(', ').html_safe %>");
-<% else %>
-  $('#measurementable-measurements').DataTable().draw();
-  toastr['success']("<%= @measurement.attached_file.file.filename %>" + '<br>...pobieranie zakończone');
-<% end %>

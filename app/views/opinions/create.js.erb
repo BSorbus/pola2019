@@ -1,6 +1,0 @@
-<% if @opinion.new_record? %>
-  alert("Failed to upload opinion: <%= j @opinion.errors.full_messages.join(', ').html_safe %>");
-<% else %>
-  $('#opinionable-opinions').DataTable().draw();
-  toastr['success']("<%= @opinion.attached_file.file.filename %>" + '<br>...pobieranie zakończone');
-<% end %>

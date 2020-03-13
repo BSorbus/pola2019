@@ -51,7 +51,6 @@ Rails.application.routes.draw do
     resources :attachments, module: :enrollments, only: [:create] do
       post 'create_folder', on: :collection
     end
-    resources :correspondences, module: :enrollments, only: [:create]
   end
 
   resources :roles do
@@ -73,14 +72,6 @@ Rails.application.routes.draw do
     resources :attachments, module: :events, only: [:create] do
       post 'create_folder', on: :collection
     end
-    resources :statements, module: :events, only: [:create]
-    resources :correspondences, module: :events, only: [:create]
-    resources :opinions, module: :events, only: [:create]
-    resources :protocols, module: :events, only: [:create]
-    resources :inspection_protocols, module: :events, only: [:create]
-    resources :measurements, module: :events, only: [:create]
-    resources :documentations, module: :events, only: [:create]
-    resources :infos, module: :events, only: [:create]
     resources :photos, module: :events, only: [:create]
   end
 
@@ -91,7 +82,6 @@ Rails.application.routes.draw do
     resources :attachments, module: :errands, only: [:create] do
       post 'create_folder', on: :collection
     end
-    resources :correspondences, module: :errands, only: [:create]
   end
 
   resources :charts, only: [] do
@@ -117,16 +107,6 @@ Rails.application.routes.draw do
     post 'datatables_index_user', on: :collection # for User
   end
 
-
-  resources :business_trips do
-    get 'datatables_index', on: :collection
-    get 'datatables_index_user', on: :collection # Displays roles for showed user
-    get 'edit_costs', on: :member 
-    patch 'update_costs', on: :member 
-    patch 'approved', on: :member 
-    patch 'payment_approved', on: :member 
-  end
-
   root 'static_pages#home'
   get 'static_pages/home'
   get 'static_pages/help'
@@ -135,63 +115,7 @@ Rails.application.routes.draw do
     get 'datatables_index', on: :collection # for Trackable
     get 'datatables_index_through_events', on: :collection # for Trackable
     get 'download', on: :member
-    post 'move_to_statement', on: :member
-    post 'move_to_correspondence', on: :member
-    post 'move_to_opinion', on: :member
-    post 'move_to_protocol', on: :member
-    post 'move_to_inspection_protocol', on: :member
-    post 'move_to_measurement', on: :member
-    post 'move_to_documentation', on: :member
-    post 'move_to_info', on: :member
     post 'move_to_photo', on: :member
-  end
-
-  resources :statements, only: [:show, :edit, :update, :destroy] do
-    get 'datatables_index', on: :collection # for Trackable
-    get 'datatables_index_through_events', on: :collection # for Trackable
-    get 'download', on: :member
-  end
-
-  resources :correspondences, only: [:show, :edit, :update, :destroy] do
-    get 'datatables_index', on: :collection # for Trackable
-    get 'datatables_index_through_events', on: :collection # for Trackable
-    get 'download', on: :member
-  end
-
-  resources :opinions, only: [:show, :edit, :update, :destroy] do
-    get 'datatables_index', on: :collection # for Trackable
-    get 'datatables_index_through_events', on: :collection # for Trackable
-    get 'download', on: :member
-  end
-
-  resources :protocols, only: [:show, :edit, :update, :destroy] do
-    get 'datatables_index', on: :collection # for Trackable
-    get 'datatables_index_through_events', on: :collection # for Trackable
-    get 'download', on: :member
-  end
-
-  resources :inspection_protocols, only: [:show, :edit, :update, :destroy] do
-    get 'datatables_index', on: :collection # for Trackable
-    get 'datatables_index_through_events', on: :collection # for Trackable
-    get 'download', on: :member
-  end
-
-  resources :measurements, only: [:show, :edit, :update, :destroy] do
-    get 'datatables_index', on: :collection # for Trackable
-    get 'datatables_index_through_events', on: :collection # for Trackable
-    get 'download', on: :member
-  end
-
-  resources :documentations, only: [:show, :edit, :update, :destroy] do
-    get 'datatables_index', on: :collection # for Trackable
-    get 'datatables_index_through_events', on: :collection # for Trackable
-    get 'download', on: :member
-  end
-
-  resources :infos, only: [:show, :edit, :update, :destroy] do
-    get 'datatables_index', on: :collection # for Trackable
-    get 'datatables_index_through_events', on: :collection # for Trackable
-    get 'download', on: :member
   end
 
   resources :photos, only: [:show, :edit, :update, :destroy] do

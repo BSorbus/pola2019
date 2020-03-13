@@ -63,14 +63,6 @@ pl:
       project_status: 'Status Projektu'
       customer: 'Wnioskodawca'
       attachment: 'Załącznik'
-      statement: 'Oświadczenie/Upoważnienie'
-      correspondence: 'Korespondencja'
-      opinion: 'Ocena/Opinia'
-      protocol: 'Protokół Odbioru'
-      inspection_protocol: 'Protokół Oględzin'
-      measurement: 'Pomiar'
-      documentation: 'Dokumentacja bud.'
-      info: 'Informacja Pokontrolna'
       photo: 'Zdjęcie'
       point_file: 'Plik Punktów Adresowych'
       ww_point: 'Punkt Adresowy'
@@ -88,9 +80,6 @@ pl:
       xml_wskaznik_table: 'Miejsce Realizacji'
       xml_wybrana_technologia_table: 'Wybrana Technologia'
       xml_zadanie_table: 'Zadanie'
-      transport: 'Środki Lokomocji'
-      business_trip_status: 'Status Polecenia Wyjazdu'
-      business_trip: 'Polecenie Wyjazdu'
     attributes:
       work:
         created_at: 'Data'
@@ -176,86 +165,6 @@ pl:
         note: 'Uwagi'
         name_if_folder: 'Katalog'
         name: 'Nazwa'
-      statement:
-        statemenable: 'Załączony do'
-        attached_file: 'Plik'
-        attached_file_identifier: 'Plik'
-        file_content_type: 'Typ'
-        file_size: 'Rozmiar'
-        created_at: 'Utworzony'
-        updated_at: 'Aktualizacja'
-        user_id: 'Autor'
-        note: 'Uwagi'
-      correspondence:
-        correspondenable: 'Załączony do'
-        attached_file: 'Plik'
-        attached_file_identifier: 'Plik'
-        file_content_type: 'Typ'
-        file_size: 'Rozmiar'
-        created_at: 'Utworzony'
-        updated_at: 'Aktualizacja'
-        user_id: 'Autor'
-        note: 'Uwagi'
-      opinion:
-        opinionable: 'Załączony do'
-        attached_file: 'Plik'
-        attached_file_identifier: 'Plik'
-        file_content_type: 'Typ'
-        file_size: 'Rozmiar'
-        created_at: 'Utworzony'
-        updated_at: 'Aktualizacja'
-        user_id: 'Autor'
-        note: 'Uwagi'
-      protocol:
-        protocolable: 'Załączony do'
-        attached_file: 'Plik'
-        attached_file_identifier: 'Plik'
-        file_content_type: 'Typ'
-        file_size: 'Rozmiar'
-        created_at: 'Utworzony'
-        updated_at: 'Aktualizacja'
-        user_id: 'Autor'
-        note: 'Uwagi'
-      inspection_protocol:
-        inspectionable: 'Załączony do'
-        attached_file: 'Plik'
-        attached_file_identifier: 'Plik'
-        file_content_type: 'Typ'
-        file_size: 'Rozmiar'
-        created_at: 'Utworzony'
-        updated_at: 'Aktualizacja'
-        user_id: 'Autor'
-        note: 'Uwagi'
-      measurement:
-        measuremenable: 'Załączony do'
-        attached_file: 'Plik'
-        attached_file_identifier: 'Plik'
-        file_content_type: 'Typ'
-        file_size: 'Rozmiar'
-        created_at: 'Utworzony'
-        updated_at: 'Aktualizacja'
-        user_id: 'Autor'
-        note: 'Uwagi'
-      documentation:
-        documentationable: 'Załączony do'
-        attached_file: 'Plik'
-        attached_file_identifier: 'Plik'
-        file_content_type: 'Typ'
-        file_size: 'Rozmiar'
-        created_at: 'Utworzony'
-        updated_at: 'Aktualizacja'
-        user_id: 'Autor'
-        note: 'Uwagi'
-      info:
-        infoable: 'Załączony do'
-        attached_file: 'Plik'
-        attached_file_identifier: 'Plik'
-        file_content_type: 'Typ'
-        file_size: 'Rozmiar'
-        created_at: 'Utworzony'
-        updated_at: 'Aktualizacja'
-        user_id: 'Autor'
-        note: 'Uwagi'
       photo:
         photoable: 'Załączony do'
         attached_file: 'Plik'
@@ -404,35 +313,6 @@ pl:
         planowana_data_zakonczenia: 'Plan. data zakończenia'
         data_punktu_krytycznego: 'Data punktu krytycznego'
         data_punktu_ostatecznego: 'Data punktu ostatecznego'
-      business_trip_status:
-        name: 'Nazwa'
-      business_trip:
-        number: 'Numer'
-        employee: 'Pracownik'
-        employee_id: 'Pracownik'
-        start_date: 'Na czas od'
-        end_date: '...Do'
-        destination: 'Dokąd'
-        purpose: "Cel"
-        trip_confirmation: 'Potwierdzenie'
-        payment_on_account: 'Zaliczka'
-        approved: 'Akceptacja'
-        approved_id: 'Akceptacja'
-        approved_date_time: 'Data akceptacji'
-        payment_on_account_approved: 'Akceptacja zaliczki'
-        payment_on_account_approved_id: 'Akceptacja zaliczki'
-        payment_on_account_approved_date_time: 'Data akceptacji zaliczki'
-        note: 'Uwagi'
-        business_trip_status: 'Status'
-        business_trip_status_id: 'Status'
-        transports: 'Środki Lokomocji'
-      transport_type:
-        name: 'Nazwa'
-      transports:
-        business_trip: 'Polecenie Wyjazdu'
-        business_trip_id: 'Polecenie Wyjazdu'
-        business_trip_status: 'Status'
-        business_trip_status_id: 'Status'
   pages:
     home: 'Główna'
     help: 'Pomoc'
@@ -517,62 +397,6 @@ pl:
         title: 'Załączniki'
       edit:
         title: 'Edycja -> Załącznik'
-    statement:
-      through_events_index:
-        title: 'Oświad./Upow. (Z)'
-      index:
-        title: 'Oświadczenia/Upow.'
-      edit:
-        title: 'Edycja -> Oświadczenie/Upoważnienie'
-    correspondence:
-      through_events_index:
-        title: 'Korespondencja (Z)'
-      index:
-        title: 'Korespondencja'
-      edit:
-        title: 'Edycja -> Korespondencja'
-    opinion:
-      through_events_index:
-        title: 'Oceny/Opinie (Z)'
-      index:
-        title: 'Oceny/Opinie'
-      edit:
-        title: 'Edycja -> Ocena/Opinia'
-    protocol:
-      through_events_index:
-        title: 'Protokoły Odbioru (Z)'
-      index:
-        title: 'Protokoły Odbioru'
-      edit:
-        title: 'Edycja -> Protokół Odbioru'
-    inspection_protocol:
-      through_events_index:
-        title: 'Protokoły Oględzin (Z)'
-      index:
-        title: 'Protokoły Oględzin'
-      edit:
-        title: 'Edycja -> Protokół Oględzin'
-    measurement:
-      through_events_index:
-        title: 'Pomiary (Z)'
-      index:
-        title: 'Pomiary'
-      edit:
-        title: 'Edycja -> Pomiar'
-    documentation:
-      through_events_index:
-        title: 'Dokumentacje bud. (Z)'
-      index:
-        title: 'Dokumentacje bud.'
-      edit:
-        title: 'Edycja -> Dokumentacja budowlana'
-    info:
-      through_events_index:
-        title: 'Informacje Pok. (Z)'
-      index:
-        title: 'Informacje Pok.'
-      edit:
-        title: 'Edycja -> Informacja Pokontrolna'
     photo:
       through_events_index:
         title: 'Zdjęcia (Zadań)'
@@ -671,19 +495,6 @@ pl:
     xml_zadanie_table:
       index:
         title: 'Zadania - kamienie milowe'
-    business_trip:
-      index:
-        title: 'Polecenie Wyjazdu'
-      show:
-        title: 'Polecenie Wyjazdu'
-      new:
-        title: 'Nowe Polecenie Wyjazdu'
-      edit:
-        title: 'Edycja -> Polecenie Wyjazdu'
-      fieldset:
-        payment_title: 'Zaliczka'
-        transports_title: 'Środki lokomocji'
-        roads_title: 'Rachunek kosztów podróży'
   pundit:
     default: ' BRAK UPRAWNIEŃ: Nie można wykonać tej czynności!'
     work_policy:

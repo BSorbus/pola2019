@@ -43,11 +43,6 @@ class User < ApplicationRecord
   has_many :errands, dependent: :nullify
   has_many :events, dependent: :nullify
 
-  has_many :business_trips, dependent: :nullify
-
-  has_many :employee_business_trips, class_name: 'BusinessTrip', :foreign_key => 'employee_id'
-  has_many :approved_business_trips, class_name: 'BusinessTrip', :foreign_key => 'approved_id'
-  has_many :payment_approved_business_trips, class_name: 'BusinessTrip', :foreign_key => 'payment_on_account_approved_id'
 
   validate :password_complexity
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_08_004302) do
+ActiveRecord::Schema.define(version: 2020_03_13_100622) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -54,41 +54,6 @@ ActiveRecord::Schema.define(version: 2020_03_08_004302) do
     t.index ["user_id"], name: "index_attachments_on_user_id"
   end
 
-  create_table "business_trip_statuses", force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "step", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_business_trip_statuses_on_name", unique: true
-    t.index ["step"], name: "index_business_trip_statuses_on_step", unique: true
-  end
-
-  create_table "business_trips", force: :cascade do |t|
-    t.string "number"
-    t.bigint "employee_id"
-    t.date "start_date"
-    t.date "end_date"
-    t.string "destination"
-    t.text "purpose", default: ""
-    t.text "trip_confirmation", default: ""
-    t.decimal "payment_on_account", precision: 8, scale: 2, default: "0.0"
-    t.bigint "payment_on_account_approved_id"
-    t.datetime "payment_on_account_approved_date_time"
-    t.text "note", default: ""
-    t.bigint "business_trip_status_id", default: 1
-    t.bigint "business_trip_status_updated_user_id"
-    t.datetime "business_trip_status_updated_at"
-    t.bigint "user_id"
-    t.integer "hotel"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["business_trip_status_id"], name: "index_business_trips_on_business_trip_status_id"
-    t.index ["business_trip_status_updated_user_id"], name: "index_business_trips_on_business_trip_status_updated_user_id"
-    t.index ["employee_id"], name: "index_business_trips_on_employee_id"
-    t.index ["payment_on_account_approved_id"], name: "index_business_trips_on_payment_on_account_approved_id"
-    t.index ["user_id"], name: "index_business_trips_on_user_id"
-  end
-
   create_table "comments", force: :cascade do |t|
     t.bigint "event_id"
     t.bigint "user_id"
@@ -97,20 +62,6 @@ ActiveRecord::Schema.define(version: 2020_03_08_004302) do
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_comments_on_event_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
-  end
-
-  create_table "correspondences", force: :cascade do |t|
-    t.string "correspondenable_type"
-    t.bigint "correspondenable_id"
-    t.string "attached_file"
-    t.string "file_content_type"
-    t.string "file_size"
-    t.text "note", default: ""
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["correspondenable_type", "correspondenable_id"], name: "index_correspondences_on_correspondenable_type_and_id"
-    t.index ["user_id"], name: "index_correspondences_on_user_id"
   end
 
   create_table "customers", force: :cascade do |t|
@@ -152,20 +103,6 @@ ActiveRecord::Schema.define(version: 2020_03_08_004302) do
     t.integer "reference_id"
     t.string "reference_type"
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
-  end
-
-  create_table "documentations", force: :cascade do |t|
-    t.string "documentationable_type"
-    t.bigint "documentationable_id"
-    t.string "attached_file"
-    t.string "file_content_type"
-    t.string "file_size"
-    t.text "note", default: ""
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["documentationable_type", "documentationable_id"], name: "index_documentations_on_documentationable_type_and_id"
-    t.index ["user_id"], name: "index_documentations_on_user_id"
   end
 
   create_table "enrollments", force: :cascade do |t|
@@ -258,61 +195,6 @@ ActiveRecord::Schema.define(version: 2020_03_08_004302) do
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
-  create_table "flows", force: :cascade do |t|
-    t.bigint "business_trip_id"
-    t.bigint "business_trip_status_id"
-    t.bigint "business_trip_status_updated_user_id"
-    t.datetime "business_trip_status_updated_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["business_trip_id"], name: "index_flows_on_business_trip_id"
-    t.index ["business_trip_status_id"], name: "index_flows_on_business_trip_status_id"
-    t.index ["business_trip_status_updated_at"], name: "index_flows_on_business_trip_status_updated_at"
-    t.index ["business_trip_status_updated_user_id"], name: "index_flows_on_business_trip_status_updated_user_id"
-  end
-
-  create_table "infos", force: :cascade do |t|
-    t.string "infoable_type"
-    t.bigint "infoable_id"
-    t.string "attached_file"
-    t.string "file_content_type"
-    t.string "file_size"
-    t.text "note", default: ""
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["infoable_type", "infoable_id"], name: "index_infos_on_infoable_type_and_infoable_id"
-    t.index ["user_id"], name: "index_infos_on_user_id"
-  end
-
-  create_table "inspection_protocols", force: :cascade do |t|
-    t.string "inspectionable_type"
-    t.bigint "inspectionable_id"
-    t.string "attached_file"
-    t.string "file_content_type"
-    t.string "file_size"
-    t.text "note", default: ""
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["inspectionable_type", "inspectionable_id"], name: "index_inspection_protocols_on_inspectionable_type_and_id"
-    t.index ["user_id"], name: "index_inspection_protocols_on_user_id"
-  end
-
-  create_table "measurements", force: :cascade do |t|
-    t.string "measurementable_type"
-    t.bigint "measurementable_id"
-    t.string "attached_file"
-    t.string "file_content_type"
-    t.string "file_size"
-    t.text "note", default: ""
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["measurementable_type", "measurementable_id"], name: "index_measurements_on_measurementable_type_and_id"
-    t.index ["user_id"], name: "index_measurements_on_user_id"
-  end
-
   create_table "old_passwords", force: :cascade do |t|
     t.string "encrypted_password", null: false
     t.string "password_salt"
@@ -320,20 +202,6 @@ ActiveRecord::Schema.define(version: 2020_03_08_004302) do
     t.integer "password_archivable_id", null: false
     t.datetime "created_at"
     t.index ["password_archivable_type", "password_archivable_id"], name: "index_password_archivable"
-  end
-
-  create_table "opinions", force: :cascade do |t|
-    t.string "opinionable_type"
-    t.bigint "opinionable_id"
-    t.string "attached_file"
-    t.string "file_content_type"
-    t.string "file_size"
-    t.text "note", default: ""
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["opinionable_type", "opinionable_id"], name: "index_opinions_on_opinionable_type_and_opinionable_id"
-    t.index ["user_id"], name: "index_opinions_on_user_id"
   end
 
   create_table "photos", force: :cascade do |t|
@@ -436,34 +304,6 @@ ActiveRecord::Schema.define(version: 2020_03_08_004302) do
     t.index ["status"], name: "index_proposal_files_on_status"
   end
 
-  create_table "protocols", force: :cascade do |t|
-    t.string "protocolable_type"
-    t.bigint "protocolable_id"
-    t.string "attached_file"
-    t.string "file_content_type"
-    t.string "file_size"
-    t.text "note", default: ""
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["protocolable_type", "protocolable_id"], name: "index_protocols_on_protocolable_type_and_protocolable_id"
-    t.index ["user_id"], name: "index_protocols_on_user_id"
-  end
-
-  create_table "roads", force: :cascade do |t|
-    t.bigint "business_trip_id"
-    t.string "from"
-    t.datetime "start_date_time"
-    t.string "to"
-    t.datetime "end_date_time"
-    t.bigint "transport_type_id"
-    t.decimal "cost", precision: 8, scale: 2, default: "0.0"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["business_trip_id"], name: "index_roads_on_business_trip_id"
-    t.index ["transport_type_id"], name: "index_roads_on_transport_type_id"
-  end
-
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.boolean "special", default: false, null: false
@@ -483,35 +323,6 @@ ActiveRecord::Schema.define(version: 2020_03_08_004302) do
     t.index ["role_id"], name: "index_roles_users_on_role_id"
     t.index ["user_id", "role_id"], name: "index_roles_users_on_user_id_and_role_id", unique: true
     t.index ["user_id"], name: "index_roles_users_on_user_id"
-  end
-
-  create_table "statements", force: :cascade do |t|
-    t.string "statemenable_type"
-    t.bigint "statemenable_id"
-    t.string "attached_file"
-    t.string "file_content_type"
-    t.string "file_size"
-    t.text "note", default: ""
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["statemenable_type", "statemenable_id"], name: "index_statements_on_statemenable_type_and_statemenable_id"
-    t.index ["user_id"], name: "index_statements_on_user_id"
-  end
-
-  create_table "transport_types", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "transports", force: :cascade do |t|
-    t.bigint "business_trip_id"
-    t.bigint "transport_type_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["business_trip_id"], name: "index_transports_on_business_trip_id"
-    t.index ["transport_type_id"], name: "index_transports_on_transport_type_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -752,15 +563,9 @@ ActiveRecord::Schema.define(version: 2020_03_08_004302) do
   end
 
   add_foreign_key "attachments", "users"
-  add_foreign_key "business_trips", "business_trip_statuses"
-  add_foreign_key "business_trips", "users"
-  add_foreign_key "business_trips", "users", column: "business_trip_status_updated_user_id"
-  add_foreign_key "business_trips", "users", column: "employee_id"
   add_foreign_key "comments", "events"
   add_foreign_key "comments", "users"
-  add_foreign_key "correspondences", "users"
   add_foreign_key "customers", "users"
-  add_foreign_key "documentations", "users"
   add_foreign_key "enrollments", "users"
   add_foreign_key "errands", "errand_statuses"
   add_foreign_key "errands", "users"
@@ -768,13 +573,6 @@ ActiveRecord::Schema.define(version: 2020_03_08_004302) do
   add_foreign_key "events", "event_statuses"
   add_foreign_key "events", "event_types"
   add_foreign_key "events", "users"
-  add_foreign_key "flows", "business_trip_statuses"
-  add_foreign_key "flows", "business_trips"
-  add_foreign_key "flows", "users", column: "business_trip_status_updated_user_id"
-  add_foreign_key "infos", "users"
-  add_foreign_key "inspection_protocols", "users"
-  add_foreign_key "measurements", "users"
-  add_foreign_key "opinions", "users"
   add_foreign_key "photos", "users"
   add_foreign_key "point_files", "projects"
   add_foreign_key "projects", "customers"
@@ -782,14 +580,8 @@ ActiveRecord::Schema.define(version: 2020_03_08_004302) do
   add_foreign_key "projects", "project_statuses"
   add_foreign_key "projects", "users"
   add_foreign_key "proposal_files", "projects"
-  add_foreign_key "protocols", "users"
-  add_foreign_key "roads", "business_trips"
-  add_foreign_key "roads", "transport_types"
   add_foreign_key "roles_users", "roles"
   add_foreign_key "roles_users", "users"
-  add_foreign_key "statements", "users"
-  add_foreign_key "transports", "business_trips"
-  add_foreign_key "transports", "transport_types"
   add_foreign_key "ww_points", "point_files"
   add_foreign_key "xml_kamien_milowy_tables", "xml_zadanie_tables"
   add_foreign_key "xml_miejsce_realizacji_tables", "xml_partner_tables"
