@@ -1,0 +1,97 @@
+$(document).ready(function() {
+
+	var date = new Date();
+	var d = date.getDate();
+	var m = date.getMonth();
+	var y = date.getFullYear();
+
+	event_calendar = $('#calendar').fullCalendar({
+		header: { 
+			left: 'prevYear,prev,next,nextYear today myCustomButtonOnlyMyData',
+			center: 'title',
+			right: 'listYear,listMonth,month,agendaWeek,agendaDay'
+		},
+		buttonText: {
+    	listYear: 	'lista-rok',
+    	listMonth: 	'lista-miesiąc',
+    	today:    	'dziś',
+    	month:    	'miesiąc',
+    	week:     	'tydzień',
+    	day:      	'dzień',
+    	list:     	'lista-dzień'
+		},
+		defaultView: 'month',
+		locale: 'pl',
+		timezone: 'local',
+		allDayText: 'Cały dzień',
+		weekHeader: 'Tydz',
+		dateFormat: 'dd.mm.yy',
+		monthNames: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
+		monthNamesShort: ['Sty', 'Lu', 'Mar', 'Kw', 'Maj', 'Cze', 'Lip', 'Sie', 'Wrz', 'Pa', 'Lis', 'Gru'],
+		dayNames: ["Niedziela","Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota"],
+		dayNamesShort: ["Nd","Pn","Wt","Śr","Czw","Pt","So"],
+		dayNamesMin: ["N","Pn","Wt","Śr","Cz","Pt","So"],
+		firstDay: 1,
+		editable: false,
+		timeFormat: 'HH:mm',
+		axisFormat: 'HH:mm',
+		slotLabelFormat: 'HH:mm', 
+		timezone: "local",
+  	events: {
+			url: '/events.json',
+			type: 'GET',
+			// url: '/events/only_my_data.json',
+			// type: 'POST',
+			data: function() { 
+				return { eager_filter_for_current_user: sessionStorage.eager_filter_for_current_user || false } 
+			},
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
+        }
+      }
+		},
+		// loading: function(){
+		// 	console.log('loading data.....');
+		// },
+	  customButtons: {
+	  	myCustomButtonOnlyMyData: {
+	      text: 'Wszystkie',
+	      click: function(object) {
+			   	var myDataButton = document.getElementsByClassName("fc-myCustomButtonOnlyMyData-button")[0];
+
+			   	// console.log('myDataButton.classList:');
+			   	// console.log(myDataButton.classList);
+			   	// //$(this).removeClass("fc-button-default");
+
+			   	// console.log('myDataButton.classList.contains("fc-state-active"):');
+			   	// console.log(myDataButton.classList.contains("fc-state-active"));
+
+			   	if (myDataButton.classList.contains("fc-state-active")) {
+			   		// 'Tylko moje" jest aktywny "wcisniety"
+			   		// przestaw sessionStorage i zmien text
+		      	sessionStorage.eager_filter_for_current_user = false
+	        	$(this).text('Wszystkie');
+			   	} else {
+		      	sessionStorage.eager_filter_for_current_user = true
+	        	$(this).text('Tylko moje');
+			   	}
+
+			   	$('.fc-myCustomButtonOnlyMyData-button').toggleClass('fc-state-active');
+	        event_calendar.fullCalendar('refetchEvents');
+	      }
+	    }
+	  },
+    // eventRender: function(event, element) { 
+    //   element.find('.fc-title').append("<br/>" + "<span>Wszystkie</span>"); 
+    // },
+    eventAfterRender: function(event, element) { 
+    	if (event.attachments_count > 0) {
+        element.find('.fc-title').append("&nbsp;&nbsp;<span class='badge alert-info'>" + event.attachments_count.toString() + "</span>");     		
+    	}
+     }
+	});
+});

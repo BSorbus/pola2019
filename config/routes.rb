@@ -69,6 +69,7 @@ Rails.application.routes.draw do
     get 'show_charts', on: :collection
     get 'send_status', on: :member 
     post 'datatables_index', on: :collection
+    post 'only_my_data', on: :collection
     resources :attachments, module: :events, only: [:create] do
       post 'create_folder', on: :collection
     end

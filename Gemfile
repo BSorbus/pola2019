@@ -64,13 +64,14 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'rails-i18n'
 gem 'bootstrap-sass', '3.4.1'
 
+gem 'fullcalendar-rails'
+
 gem 'momentjs-rails'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.14.30'
 
 gem 'jquery-rails'
 gem 'font_awesome5_rails'
 gem 'select2-rails', '3.5.9.3'
-gem 'fullcalendar-rails'
 
 gem 'redis-rails'
 gem "hiredis"

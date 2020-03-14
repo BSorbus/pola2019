@@ -43,6 +43,8 @@ class User < ApplicationRecord
   has_many :errands, dependent: :nullify
   has_many :events, dependent: :nullify
 
+  has_many :accesses_events, through: :accessorizations, source: :event
+
 
   validate :password_complexity
 

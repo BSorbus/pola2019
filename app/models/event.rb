@@ -44,6 +44,15 @@ class Event < ApplicationRecord
     eager_load(:accessorizations).where(accessorizations: {user_id: [u]})
   end
 
+  # @events = Event.where(start_date: params[:start]..params[:end]).or(Event.where(end_date: params[:start]..params[:end]))
+  def self.for_start_dates(for_start, for_end)
+    where(start_date: for_start..for_end)
+  end
+
+  def self.for_end_dates(for_start, for_end)
+    where(end_date: for_start..for_end)
+  end
+
   def create_additionals
     self.log_work('create')
     self.build_default_attachment_folders

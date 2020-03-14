@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized, except: [:index, :datatables_index, :show_charts]
+  after_action :verify_authorized, except: [:index, :datatables_index, :only_my_data, :show_charts]
   before_action :set_event, only: [:show, :edit, :update, :destroy]
 
 
@@ -30,8 +30,43 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
+    # authorize :event, :index?
+    # @events = Event.where(start_date: params[:start]..params[:end]).or(Event.where(end_date: params[:start]..params[:end]))
+
     authorize :event, :index?
-    @events = Event.where(start_date: params[:start]..params[:end]).or(Event.where(end_date: params[:start]..params[:end]))
+    for_user = (params[:eager_filter_for_current_user].blank? || params[:eager_filter_for_current_user] == 'false' ) ? nil : current_user
+
+    if for_user.present?
+      events_for_start  = for_user.accesses_events.for_start_dates(params[:start], params[:end])
+      events_for_end    = for_user.accesses_events.for_end_dates(params[:start], params[:end])
+      @events = events_for_start.or(events_for_end)
+    else
+      events_for_start  = Event.for_start_dates(params[:start], params[:end])
+      events_for_end    = Event.for_end_dates(params[:start], params[:end])
+      @events = events_for_start.or(events_for_end)
+    end      
+  end
+
+  def only_my_data
+    authorize :event, :index?
+    for_user = (params[:eager_filter_for_current_user].blank? || params[:eager_filter_for_current_user] == 'false' ) ? nil : current_user
+
+    puts '------------------------------------------------------------'
+    puts '...params:'
+    puts params
+    puts '...for_user:'
+    puts for_user
+    puts '------------------------------------------------------------'
+
+    if for_user.present?
+      events_for_start  = for_user.accesses_events.for_start_dates(params[:start], params[:end])
+      events_for_end    = for_user.accesses_events.for_end_dates(params[:start], params[:end])
+      @events = events_for_start.or(events_for_end)
+    else
+      events_for_start  = Event.for_start_dates(params[:start], params[:end])
+      events_for_end    = Event.for_end_dates(params[:start], params[:end])
+      @events = events_for_start.or(events_for_end)
+    end      
   end
 
   # GET /events/1
