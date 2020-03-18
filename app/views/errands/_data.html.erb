@@ -57,8 +57,34 @@
               </div>
 
             </div>
+
+            <div class="row">
+
+              <div class="form-group col-sm-6">
+                <p><strong><%= Errand.human_attribute_name(:exercise_date) %></strong></p>
+                <%= @errand.exercise_date.present? ? @errand.exercise_date.strftime("%Y-%m-%d") : '' %>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <p><strong><%= Errand.human_attribute_name(:exercise_date_info_number) %></strong></p>
+                <%= @errand.exercise_date_info_number %>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <p><strong><%= Errand.human_attribute_name(:exercise_date_info_date) %></strong></p>
+                <%= @errand.exercise_date_info_date.present? ? @errand.exercise_date_info_date.strftime("%Y-%m-%d") : '' %>
+              </div>
+
+            </div>
+
           </div> <!--/col-sm-6 -->
 
+        </div>  <!-- /row -->
+
+        <div class="row">
           <div class="col-sm-12">
             <div class="row">
               <div class="form-group col-sm-12">
@@ -69,7 +95,6 @@
           </div> <!--/col-sm-12 -->
 
         </div>  <!-- /row -->
-
 
         <hr class="hr-without-top-margin">
 

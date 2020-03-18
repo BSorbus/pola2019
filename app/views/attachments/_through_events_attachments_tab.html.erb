@@ -38,6 +38,7 @@
 <script type="text/javascript">
 
   function linkToThroughEventsAttachmentBreadcrumb(breadcrumb_ancestry_json={parent_id: null, ancestry_path: [], ancestor_ids: []}){
+
     // Store the latest `attachment_breadcrumb_path` object for next reload
     localStorage.setItem( 'ls_through_events_attachment_breadcrumb', JSON.stringify(breadcrumb_ancestry_json) );
     // redraw for new ajax data: d.attachment_parent_id 
@@ -46,13 +47,17 @@
                               [],
                               "linkToThroughEventsAttachmentBreadcrumb", 
                               breadcrumb_ancestry_json);
+
   };    
 
   $(document).ready(function() {
+
+    localStorage.removeItem('ls_through_events_attachment_breadcrumb');
     buildAttachmentBreadcrumb("id_through_events_attachment_breadcrumb", 
                               [],
                               "linkToThroughEventsAttachmentBreadcrumb", 
                               breadcrumb_ancestry_json={parent_id: null, ancestry_path: [], ancestor_ids: []});
+
   });
 
 </script>

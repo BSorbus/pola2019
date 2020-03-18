@@ -9,10 +9,19 @@ class EventPolicy < ApplicationPolicy
   def permitted_attributes
     # if policy(:accessorization).create_update_delete?
     if AccessorizationPolicy.new(@user, :accessorization).create_update_delete?
-      [:title, :all_day, :start_date, :end_date, :note, :project_id, :event_status_id, :event_type_id, :event_effect_id, :errand_id, :user_id, accessorizations_attributes: [:id, :event_id, :user_id, :role_id, :_destroy]]
+      permitted_array = [:title, :all_day, :start_date, :end_date, :note, :project_id, :event_status_id, :event_type_id, :errand_id, :user_id, accessorizations_attributes: [:id, :event_id, :user_id, :role_id, :_destroy]]
     else
-      [:title, :all_day, :start_date, :end_date, :note, :project_id, :event_status_id, :event_type_id, :event_effect_id, :errand_id, :user_id]
+      permitted_array = [:title, :all_day, :start_date, :end_date, :note, :project_id, :event_status_id, :event_type_id, :errand_id, :user_id]
     end
+    unless @model.class.to_s == 'Symbol'
+      permitted_array << [:opinion_date] if @model.access_opinions?
+      permitted_array << [:rating_date] if @model.access_ratings?
+      permitted_array << [:last_activity_date] if @model.access_controlls?
+      permitted_array << [:post_audit_information_date] if @model.access_controlls?
+      permitted_array << [:event_effect_id] unless @model.new_record?
+      permitted_array << [:exercise_date] unless @model.new_record?
+    end
+    permitted_array
   end
 
   def event_type_activities

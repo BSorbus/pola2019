@@ -16,3 +16,4 @@
 
 //= require datatables/extensions/Select/dataTables.select
 //= require datatables/extensions/RowReorder/dataTables.rowReorder
+//= require datatables/extensions/ColReorder/dataTables.colReorder

@@ -63,10 +63,39 @@
                                   disabled: input_disabled %>
               </div>
 
-
             </div>
+
+            <% unless errand.new_record? %> 
+              <div class="row">
+                <div class="form-group col-sm-6">
+                  <%= f.label :exercise_date, class: 'control-label' %>
+                  <%= f.text_field :exercise_date, class: 'form-control input-sm datepicker', 
+                                    disabled: errand.new_record? %>
+                </div>
+
+              </div>
+
+              <div class="row">
+
+                <div class="form-group col-sm-6">
+                  <%= f.label :exercise_date_info_number, class: 'control-label' %>
+                  <%= f.text_field :exercise_date_info_number, autofocus: true, class: 'form-control input-sm', disabled: errand.new_record? %>
+                </div>
+
+                <div class="form-group col-sm-6">
+                  <%= f.label :exercise_date_info_date, class: 'control-label' %>
+                  <%= f.text_field :exercise_date_info_date, class: 'form-control input-sm datepicker', 
+                                    disabled: errand.new_record? %>
+                </div>
+
+              </div>
+            <% end %>
+
           </div> <!--/col-sm-6 -->
 
+        </div>  <!-- /row -->
+
+        <div class="row">
           <div class="col-sm-12">
             <div class="row">
               <div class="form-group col-sm-12">
@@ -75,8 +104,6 @@
               </div>
             </div>  <!-- /row -->
           </div> <!--/col-sm-12 -->
-
-
         </div>  <!-- /row -->
 
       <% end %>

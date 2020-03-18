@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_13_100622) do
+ActiveRecord::Schema.define(version: 2020_03_18_145237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -136,6 +136,9 @@ ActiveRecord::Schema.define(version: 2020_03_13_100622) do
     t.bigint "user_id"
     t.integer "attachments_count", default: 0, null: false
     t.integer "attachments_file_size_sum", default: 0, null: false
+    t.date "exercise_date"
+    t.string "exercise_date_info_number"
+    t.date "exercise_date_info_date"
     t.index ["adoption_date"], name: "index_errands_on_adoption_date"
     t.index ["end_date"], name: "index_errands_on_end_date"
     t.index ["errand_status_id"], name: "index_errands_on_errand_status_id"
@@ -150,6 +153,8 @@ ActiveRecord::Schema.define(version: 2020_03_13_100622) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "for_event_types", default: [], array: true
+    t.index ["for_event_types"], name: "index_event_effects_on_for_event_types", using: :gin
     t.index ["name"], name: "index_event_effects_on_name"
   end
 
@@ -184,6 +189,11 @@ ActiveRecord::Schema.define(version: 2020_03_13_100622) do
     t.bigint "event_effect_id"
     t.integer "attachments_count", default: 0, null: false
     t.integer "attachments_file_size_sum", default: 0, null: false
+    t.date "opinion_date"
+    t.date "rating_date"
+    t.date "last_activity_date"
+    t.date "post_audit_information_date"
+    t.date "exercise_date"
     t.index ["end_date"], name: "index_events_on_end_date"
     t.index ["errand_id"], name: "index_events_on_errand_id"
     t.index ["event_effect_id"], name: "index_events_on_event_effect_id"

@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized, except: [:index, :datatables_index, :only_my_data, :show_charts]
+  after_action :verify_authorized, except: [:index, :datatables_index, :show_charts]
   before_action :set_event, only: [:show, :edit, :update, :destroy]
 
 
@@ -47,28 +47,6 @@ class EventsController < ApplicationController
     end      
   end
 
-  def only_my_data
-    authorize :event, :index?
-    for_user = (params[:eager_filter_for_current_user].blank? || params[:eager_filter_for_current_user] == 'false' ) ? nil : current_user
-
-    puts '------------------------------------------------------------'
-    puts '...params:'
-    puts params
-    puts '...for_user:'
-    puts for_user
-    puts '------------------------------------------------------------'
-
-    if for_user.present?
-      events_for_start  = for_user.accesses_events.for_start_dates(params[:start], params[:end])
-      events_for_end    = for_user.accesses_events.for_end_dates(params[:start], params[:end])
-      @events = events_for_start.or(events_for_end)
-    else
-      events_for_start  = Event.for_start_dates(params[:start], params[:end])
-      events_for_end    = Event.for_end_dates(params[:start], params[:end])
-      @events = events_for_start.or(events_for_end)
-    end      
-  end
-
   # GET /events/1
   # GET /events/1.json
   def show
@@ -94,7 +72,7 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @event = Event.new(event_params)
+    @event = Event.new(event_params_create)
     @event.user = current_user
     authorize @event, :create?
     respond_to do |format|
@@ -152,6 +130,11 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
+      # params.require(:event).permit(:title, :all_day, :start_date, :end_date, :note, :project_id, :event_status_id, :event_type_id, accessorizations_attributes: [:id, :event_id, :user_id, :role_id, :_destroy])
+#      params.require(:event).permit(policy(:event).permitted_attributes)
+      params.require(:event).permit(policy(@event).permitted_attributes)
+    end
+    def event_params_create
       # params.require(:event).permit(:title, :all_day, :start_date, :end_date, :note, :project_id, :event_status_id, :event_type_id, accessorizations_attributes: [:id, :event_id, :user_id, :role_id, :_destroy])
       params.require(:event).permit(policy(:event).permitted_attributes)
     end

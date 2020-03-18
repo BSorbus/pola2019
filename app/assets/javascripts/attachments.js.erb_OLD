@@ -133,9 +133,20 @@ $(document).ready(function() {
         text:      '<span class="fa fa-columns"></span>',
         titleAttr: 'Pokaż/ukryj kolumny',
         className: 'btn btn-sm btn-default',
-        columns:   ':gt(2)' //exclude cols from list
+        columns:   ':gt(0)' //exclude cols from list
         // postfixButtons: [ 'colvisRestore' ]
       }, 
+      // {
+      //   extend:    'copy',
+      //   text:      '<span class="fa fa-copy"></span>',
+      //   titleAttr: 'Copiuj',
+      //   className: 'btn btn-sm btn-default',
+      //   columns:   ':gt(2)' //exclude cols from list
+      //       // key: {
+      //       //     key: 'c',
+      //       //     altKey: true
+      //       // }
+      // }, 
       'attachment_delete_selected',
       'attachment_download_selected',
       'attachment_move_to_photo'
@@ -149,12 +160,11 @@ $(document).ready(function() {
     colReorder: {
       fixedColumnsLeft: 4
     },
-// //    rowReorder: true,
-//     rowReorder: {
-// //      dataSrc: 'id',
-// //      selector: 'td:nth-child(2)'
-//       selector: 'td:not(:nth-child(1))'
-//     },
+//    rowReorder: true,
+    rowReorder: {
+//      dataSrc: 'id',
+      selector: 'td:nth-child(2)'
+    },
     responsive: true,
     processing: true,
     serverSide: true,
@@ -220,7 +230,7 @@ $(document).ready(function() {
         "sortable": false,
         "width": '50px' }
     ],
-//    columnDefs: [ { orderable: false, targets: [ 0,1,2 ] } ],
+    columnDefs: [ { orderable: false, targets: [ 0,1,2 ] } ],
     preDrawCallback: function( settings ) {
       // jezeli panel nie jest widoczny, to przerwij ładowanie danych
       if ( $( "#tab_attachments" ).is( ":hidden" ) ) {
@@ -258,26 +268,71 @@ $(document).ready(function() {
     e.preventDefault();
      // console.log( 'normalnie, to ten wiersz jest przenoszony: ' );
      // console.log( edit.triggerRow.data().id );
+
     children = [];
     // ...ale my dodajemy do tablicy children wszystkie wiersze zaznaczone
     $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
       children.push(item.id);
     });
+
+    // console.log( "children:" );
+    // console.log( children );
   });
 
 
   oAttachmentableAttachmentsTable
-    .on( 'row-reorder', function ( e, diff, edit ) {
-      // console.log('edit.triggerRow.data().id:');
-         // console.log('edit.triggerRow.data():');
-         // console.log(edit.triggerRow.data());
-    for ( var i=0, ien=diff.length ; i<ien ; i++ ) {
-        console.log( $(diff[i].node) )
+  .on( 'row-reordered', function ( e, diff, edit ) {
+    // ...miejsce docelowe:
+    var parent_id = edit.triggerRow.data().id || null;
+    console.log( "edit.triggerRow.data():" );
+    console.log( edit.triggerRow.data() );
+    console.log( "edit:" );
+    console.log( edit );
+
+    // remove parent_id from children array
+    var index = children.indexOf(parent_id);
+    if (index !== -1) children.splice(index, 1);     
+
+    console.log( "children after splice:" );
+    console.log( children );
+    console.log( 'edit.triggerRow.data().name_if_folder:' );
+    console.log( edit.triggerRow.data().name_if_folder );
+     //if children_ids
+
+    if ( false ) {
+//    if (!isEmpty(  edit.triggerRow.data().name_if_folder )) {
+          $.ajax({
+            url: '/attachments/' + parent_id + '/move_to_parent',
+            type: 'PATCH',
+            async: true,
+            // OK
+            // data: {
+            //   children_ids: "123, 456"
+            // },
+            // OK
+            // data: {
+            //   children_ids: JSON.stringify([1234, 9876])
+            // },
+            data: {
+              children_ids: children
+            },
+            success: function (response) {
+              oAttachmentableAttachmentsTable.draw();
+              toastr['success']('Wybrany(-e) wiersz(-e) został(-y) przeniesiony(-e)');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+              console.log(xhr);
+              if (xhr.status == 401) {
+                window.location.reload();
+              } else {
+                getErrorMessage(xhr, thrownError);
+              }
+            }
+          });
+
     }
 
-    } );
-
-
+  });
 
   oAttachmentableAttachmentsTable
   .on( 'pre-row-reorder', function ( e, node, index ) {

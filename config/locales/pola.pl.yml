@@ -218,6 +218,9 @@ pl:
         end_date: 'Data zakończenia ze zlecenia'
         note: 'Uwagi'
         attachments_count: 'Załączniki'
+        exercise_date: 'Data wykonania'
+        exercise_date_info_number: 'Nr wysyłki'
+        exercise_date_info_date: 'Data wysyłki'
       event:
         title: 'Tytuł'
         all_day: 'Wydarzenie całodniowe'
@@ -237,6 +240,11 @@ pl:
         attachments_count: 'Załączniki'
         flat_assigned_users: 'Użytkownicy realizujący'
         updated_at: 'Aktualizacja'
+        opinion_date: 'Data opinii'
+        rating_date: 'Data oceny'
+        last_activity_date: 'Data ostatniej czynności'
+        post_audit_information_date: 'Data sporządzenia informacji pokontrolnej'
+        exercise_date: 'Data wykonania'
       event/accessorizations:
         event_id: 'Zadanie'
         role_id: 'Rola'

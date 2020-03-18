@@ -40,8 +40,6 @@ $(document).ready(function() {
   	events: {
 			url: '/events.json',
 			type: 'GET',
-			// url: '/events/only_my_data.json',
-			// type: 'POST',
 			data: function() { 
 				return { eager_filter_for_current_user: sessionStorage.eager_filter_for_current_user || false } 
 			},

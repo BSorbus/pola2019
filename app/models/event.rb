@@ -117,51 +117,55 @@ class Event < ApplicationRecord
 
 
   def access_attachments?
-    self.event_type.access_to_attachments?
+    self.event_type.blank? ? false : self.event_type.access_to_attachments?
   end
 
   def access_statements?
-    self.event_type.access_to_statements?
+    self.event_type.blank? ? false : self.event_type.access_to_statements?
   end
 
   def access_authorizations?
-    self.event_type.access_to_authorizations?
+    self.event_type.blank? ? false : self.event_type.access_to_authorizations?
   end
 
   def access_correspondences?
-    self.event_type.access_to_correspondences?
+    self.event_type.blank? ? false : self.event_type.access_to_correspondences?
   end
 
   def access_ratings?
-    self.event_type.access_to_ratings?
+    self.event_type.blank? ? false : self.event_type.access_to_ratings?
   end
 
   def access_opinions?
-    self.event_type.access_to_opinions?
+    self.event_type.blank? ? false : self.event_type.access_to_opinions?
   end
 
   def access_protocols?
-    self.event_type.access_to_protocols?
+    self.event_type.blank? ? false : self.event_type.access_to_protocols?
   end
 
   def access_inspection_protocols?
-    self.event_type.access_to_inspection_protocols?
+    self.event_type.blank? ? false : self.event_type.access_to_inspection_protocols?
   end
 
   def access_measurements?
-    self.event_type.access_to_measurements?
+    self.event_type.blank? ? false : self.event_type.access_to_measurements?
   end
 
   def access_documentations?
-    self.event_type.access_to_documentations?
+    self.event_type.blank? ? false : self.event_type.access_to_documentations?
   end
 
   def access_infos?
-    self.event_type.access_to_infos?
+    self.event_type.blank? ? false : self.event_type.access_to_infos?
   end
 
   def access_photos?
-    self.event_type.access_to_photos?
+    self.event_type.blank? ? false : self.event_type.access_to_photos?
+  end
+
+  def access_controlls?
+    self.event_type.blank? ? false : self.event_type.access_to_controlls?
   end
 
   def update_attachments_counter_cache(touch_date)

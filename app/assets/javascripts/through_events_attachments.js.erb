@@ -1,5 +1,15 @@
 $(document).ready(function() {
 
+  $.fn.dataTable.ext.buttons.through_events_attachment_reset_col_vis_and_reorder = {
+    text: '<span class="text-primary fa fa-retweet"></span>',
+    titleAttr: 'Przywróć domyślne ustawienia column',
+    className: 'btn btn-sm btn-default',
+    action: function ( e, dt, button, config ) {
+      dt.columns(':gt(2)').visible(true);
+      dt.colReorder.reset();
+    }  
+  };
+
   $.fn.dataTable.ext.buttons.through_events_attachment_delete_selected = {
     text: '<span class="text-danger fa fa-trash"></span>',
     titleAttr: 'Usuń zaznaczone wiersze',
@@ -13,14 +23,14 @@ $(document).ready(function() {
     },
     action: function ( e, dt, button, config ) {
       if (confirm('Czy na pewno chcesz usunąć zaznaczone wiersze?')) {
-        $.map(oThroughEventsAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
+        $.map(dt.rows( { selected: true } ).data(), function (item) {
 
           $.ajax({
             url: '/attachments/' + item.id,
             type: 'DELETE',
             async: true,
             success: function (response) {
-              oThroughEventsAttachmentableAttachmentsTable.draw();
+              dt.draw();
               toastr['success'](item.name + '<br>...został trwale usunięty');
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -38,10 +48,32 @@ $(document).ready(function() {
     }  
   };
 
+  $.fn.dataTable.ext.buttons.through_events_attachment_download_selected = {
+    text: '<span class="text-primary fa fa-download"></span>',
+    titleAttr: 'Pobierz zaznaczone wiersze',
+    className: 'btn btn-sm btn-default',
+    init: function ( dt, node, config ) {
+      var that = this;
+      dt.on( 'select.dt.DT deselect.dt.DT', function () {
+        that.enable( dt.rows( { selected: true } ).any() );
+      });
+      this.disable();
+    },
+    action: function ( e, dt, button, config ) {
+      $.map(dt.rows( { selected: true } ).data(), function (item) {
+
+        alert('Cierpliwości! To też kiedyś zrobimy :)');
+
+      });
+    }  
+  };
+
+
   var oThroughEventsAttachmentableAttachmentsTable = $('#through-events-attachmenable-attachments').DataTable({
     // dom: 'lBfrtip',
     dom: '<"top" <"row" <"col-sm-6" <"pull-left"l><"pull-left"B> > <"col-sm-6 pull-right"f> > > rt <"bottom"ip><"clear">',
     buttons: [
+      'through_events_attachment_reset_col_vis_and_reorder',
       {
         extend:    'colvis',
         text:      '<span class="fa fa-columns"></span>',
@@ -49,11 +81,15 @@ $(document).ready(function() {
         className: 'btn btn-sm btn-default',
         columns:   ':gt(2)' //exclude first col from list
       }, 
-      'through_events_attachment_delete_selected'
+      'through_events_attachment_delete_selected',
+      'through_events_attachment_download_selected'
     ],
     select: {
       style: 'os',
       selector: 'td:first-child'
+    },
+    colReorder: {
+      fixedColumnsLeft: 3      
     },
     rowReorder: {
       dataSrc: 'id',
@@ -106,13 +142,16 @@ $(document).ready(function() {
       { "data": "attachmenable" },
       { "data": "note" }, 
       { "data": "user" },
-      { "data": "updated_at" },
+      { "data": "updated_at",
+        "width": "130px" }, 
       { "data": "file_size",
         "searchable": false,
-        "sortable": false },
+        "sortable": false,
+        "width": "100px" },
       { "data": "action",
         "searchable": false,
-        "sortable": false }
+        "sortable": false,
+        "width": '50px' }
     ],
     preDrawCallback: function( settings ) {
       // jezeli panel nie jest widoczny, to przerwij ładowanie danych
@@ -143,7 +182,6 @@ $(document).ready(function() {
   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var target = $(e.target).attr("href") // activated tab
     if (target == '#through_events_attachments') {
-      localStorage.removeItem('ls_through_events_attachment_breadcrumb'); //????
       oThroughEventsAttachmentableAttachmentsTable.draw();
     };
   });

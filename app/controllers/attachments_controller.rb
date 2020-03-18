@@ -1,6 +1,7 @@
 class AttachmentsController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, only: [:show, :edit, :update, :create, :destroy]
+  before_action :set_attachment, only: [:download, :show, :edit, :update, :destroy, :move_to_photo, :move_to_parent]
 
   def datatables_index
 #    attachment_parent_filter = params[:attachment_parent_id].present? ? params[:attachment_parent_id] : nil
@@ -22,7 +23,7 @@ class AttachmentsController < ApplicationController
   end
 
   def download
-    @attachment = Attachment.find(params[:id])
+#    @attachment = Attachment.find(params[:id])
     attachment_authorize(@attachment, "show", @attachment.attachmenable_type.singularize.downcase)
 
     send_file "#{@attachment.attached_file.path}", 
@@ -37,7 +38,7 @@ class AttachmentsController < ApplicationController
   # GET /attachments/1
   # GET /attachments/1.json
   def show
-    @attachment = Attachment.find(params[:id])
+#    @attachment = Attachment.find(params[:id])
     attachment_authorize(@attachment, "show", @attachment.attachmenable_type.singularize.downcase)
 
     respond_to do |format|
@@ -48,7 +49,7 @@ class AttachmentsController < ApplicationController
 
   # GET /attachments/1/edit
   def edit
-    @attachment = Attachment.find(params[:id])
+#    @attachment = Attachment.find(params[:id])
     attachment_authorize(@attachment, "edit", @attachment.attachmenable_type.singularize.downcase) 
   end
 
@@ -74,7 +75,7 @@ class AttachmentsController < ApplicationController
   # PATCH/PUT /attachments/1
   # PATCH/PUT /attachments/1.json
   def update
-    @attachment = Attachment.find(params[:id])
+#    @attachment = Attachment.find(params[:id])
     @attachment.user = current_user
     attachment_authorize(@attachment, "update", @attachment.attachmenable_type.singularize.downcase) 
     respond_to do |format|
@@ -100,7 +101,7 @@ class AttachmentsController < ApplicationController
     #   flash.now[:error] = t('activerecord.errors.messages.destroyed', data: @attachment.fullname)
     #   render :show
     # end      
-    @attachment = Attachment.find(params[:id])
+#    @attachment = Attachment.find(params[:id])
     attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
     if @attachment.destroy_and_log_work(current_user.id)
       #flash.now[:success] = t('activerecord.successfull.messages.destroyed', data: @attachment.fullname)
@@ -109,9 +110,22 @@ class AttachmentsController < ApplicationController
   end
 
   def move_to_photo
-    @attachment = Attachment.find(params[:id])
+#    @attachment = Attachment.find(params[:id])
     attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
     if @attachment.move_to_photo_and_log_work(current_user.id)
+      head :no_content
+    end 
+  end
+
+  def move_to_parent
+    puts '.....................................................................'
+    puts 'params: '
+    puts params
+    puts '.....................................................................'
+
+#    @attachment = Attachment.find(params[:id])
+#    attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
+    if @attachment.move_to_parent_and_log_work(params[:children_ids], current_user.id)
       head :no_content
     end 
   end
@@ -124,7 +138,10 @@ class AttachmentsController < ApplicationController
       authorize model_class,"#{sub_controller}_#{action}?"      
     end
 
-
+    # Use callbacks to share common setup or constraints between actions.
+    def set_attachment
+      @attachment = Attachment.find(params[:id])
+    end
     # Never trust parameters from the scary internet, only allow the white list through.
     def attachment_params
       defaults = { user_id: "#{current_user.id}" }

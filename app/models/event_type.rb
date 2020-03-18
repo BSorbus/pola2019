@@ -74,4 +74,8 @@ class EventType < ApplicationRecord
     [ EVENT_TYPE_KONTROLA_REALIZACJA, EVENT_TYPE_KONTROLA_ZAKONCZENIE, EVENT_TYPE_KONTROLA_TRWALOSC ].include?(self.id)
   end
 
+  def access_to_controlls?
+    [ EVENT_TYPE_KONTROLA_REALIZACJA, EVENT_TYPE_KONTROLA_ZAKONCZENIE, EVENT_TYPE_KONTROLA_TRWALOSC ].include?(self.id)
+  end
+
 end

@@ -69,7 +69,6 @@ Rails.application.routes.draw do
     get 'show_charts', on: :collection
     get 'send_status', on: :member 
     post 'datatables_index', on: :collection
-    post 'only_my_data', on: :collection
     resources :attachments, module: :events, only: [:create] do
       post 'create_folder', on: :collection
     end
@@ -117,6 +116,7 @@ Rails.application.routes.draw do
     get 'datatables_index_through_events', on: :collection # for Trackable
     get 'download', on: :member
     post 'move_to_photo', on: :member
+    patch 'move_to_parent', on: :member
   end
 
   resources :photos, only: [:show, :edit, :update, :destroy] do

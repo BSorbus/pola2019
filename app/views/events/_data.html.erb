@@ -56,10 +56,6 @@
 
           <div class="col-sm-6">
             <div class="row">
-              <div class="form-group col-sm-12">
-                <p><strong><%= Event.human_attribute_name(:note) %></strong></p>
-                <%= @event.note.html_safe %> 
-              </div>
 
               <div class="form-group col-sm-12">
                 <fieldset class="my-fieldset">
@@ -76,15 +72,58 @@
                   </div> <!--/row -->
                 </fieldset>
               </div>
+            </div>  <!-- /row -->
 
+            <div class="row">
               <div class="form-group col-sm-12">
                 <p><strong><%= Event.human_attribute_name(:event_effect_id) %></strong></p>
                 <%= @event.event_effect.try(:name) %>
               </div>
+            </div>  <!-- /row -->
 
+            <div class="row">
+              <% if @event.access_opinions? %> 
+                <div class="form-group col-sm-6">
+                  <p><strong><%= Event.human_attribute_name(:opinion_date) %></strong></p>
+                  <%= @event.opinion_date.present? ? @event.opinion_date.strftime("%Y-%m-%d") : '' %>
+                </div>
+              <% end %>
+
+              <% if @event.access_ratings? %> 
+                <div class="form-group col-sm-6">
+                  <p><strong><%= Event.human_attribute_name(:rating_date) %></strong></p>
+                  <%= @event.rating_date.present? ? @event.rating_date.strftime("%Y-%m-%d") : '' %>
+                </div>
+              <% end %>
+
+              <% if @event.access_controlls? %> 
+                <div class="form-group col-sm-6">
+                  <p><strong><%= Event.human_attribute_name(:last_activity_date) %></strong></p>
+                  <%= @event.last_activity_date.present? ? @event.last_activity_date.strftime("%Y-%m-%d") : '' %>
+                </div>
+
+                <div class="form-group col-sm-6">
+                  <p><strong><%= Event.human_attribute_name(:post_audit_information_date) %></strong></p>
+                  <%= @event.post_audit_information_date.present? ? @event.post_audit_information_date.strftime("%Y-%m-%d") : '' %>
+                </div>
+              <% end %>
+            </div>  <!-- /row -->
+
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <p><strong><%= Event.human_attribute_name(:exercise_date) %></strong></p>
+                <%= @event.exercise_date.present? ? @event.exercise_date.strftime("%Y-%m-%d") : '' %>
+              </div>
             </div>  <!-- /row -->
           </div> <!--/col-sm-6 -->
 
+        </div>  <!-- /row -->
+
+        <div class="row">
+          <div class="form-group col-sm-12">
+            <p><strong><%= Event.human_attribute_name(:note) %></strong></p>
+            <%= @event.note.html_safe %> 
+          </div>
         </div>  <!-- /row -->
 
         <hr class="hr-without-top-margin">

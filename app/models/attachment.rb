@@ -50,6 +50,14 @@ class Attachment < ApplicationRecord
     where(parent_id: parent_id)
   end
 
+  def is_file?
+    !is_folder?
+  end
+
+  def is_folder?
+    name_if_folder.present?     
+  end
+
   def log_work(action = '', action_user_id = nil)
     trackable_url = url_helpers(only_path: true, controller: self.attachmenable.class.to_s.pluralize.downcase, action: 'show', id: self.attachmenable.id)
     worker_id = action_user_id || self.user_id
@@ -75,6 +83,16 @@ class Attachment < ApplicationRecord
 
       self.destroy_and_log_work(current_user_id)
     end
+  end
+
+  def move_to_parent_and_log_work(children, current_user_id)
+    puts '.....................................................................'
+    puts 'move_to_parent_and_log_work(children,current_user_id)'
+    puts 'attachment_id: '
+    puts self.id
+    puts 'children: '
+    puts children
+    puts '.....................................................................'
   end
 
 
