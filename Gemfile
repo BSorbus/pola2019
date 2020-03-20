@@ -113,3 +113,4 @@ gem 'trix-rails', require: 'trix'
 
 gem 'mini_exiftool'
 gem 'closure_tree'
+gem 'rubyzip'
