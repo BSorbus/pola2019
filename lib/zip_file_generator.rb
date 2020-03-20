@@ -15,14 +15,14 @@ require 'fileutils'
 
 class PreparationForZipFileGenerator
 
-  attr_accessor :root_dir_to_zip, :out_zip_file, :attachments_list
+  attr_accessor :root_dir_to_zip, :out_zip_file, :output_file_name, :attachments_list
 
   def set_defaults
     @file_timestamp = Time.now.strftime("%Y%m%d%H%M%6N")
     @root_dir_to_zip = Rails.root.join('tmp', 'zipownia', "#{@file_timestamp}").to_s
     @prefix_output_file_name ||= "file"
-    @output_file_name ||= "/#{@prefix_output_file_name}_#{@file_timestamp}.zip"
-    @out_zip_file ||= Rails.root.join('tmp', 'zipownia').to_s + "#{@output_file_name}"
+    @output_file_name ||= "#{@prefix_output_file_name}_#{@file_timestamp}.zip"
+    @out_zip_file ||= Rails.root.join('tmp', 'zipownia').to_s + "/#{@output_file_name}"
     @attachments_list ||= []
     FileUtils.mkdir_p @root_dir_to_zip unless File.exists?(@root_dir_to_zip)
   end

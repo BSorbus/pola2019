@@ -43,7 +43,7 @@ class AttachmentsController < ApplicationController
     attachment_ids = params[:attachment_ids]
  
     # create directory and copy file
-    pr = PreparationForZipFileGenerator.new('POPC', attachment_ids)
+    pr = PreparationForZipFileGenerator.new('file', attachment_ids)
     pr.copy_attachments_to_tmp
     # ziped directory
     zf = ZipFileGenerator.new(pr.root_dir_to_zip, pr.out_zip_file)
@@ -55,7 +55,7 @@ class AttachmentsController < ApplicationController
     respond_to do |format|
       format.zip {  
                     send_file "#{pr.out_zip_file}", 
-                      filename: "#{pr.out_zip_file}", 
+                      filename: "#{pr.output_file_name}", 
                       dispostion: "inline", 
                       status: 200, 
                       stream: true, 
