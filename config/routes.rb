@@ -115,6 +115,7 @@ Rails.application.routes.draw do
     get 'datatables_index', on: :collection # for Trackable
     get 'datatables_index_through_events', on: :collection # for Trackable
     get 'download', on: :member
+    get 'zip_and_download', on: :collection
     post 'move_to_photo', on: :member
     patch 'move_to_parent', on: :member
   end

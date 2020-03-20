@@ -61,7 +61,7 @@ $(document).ready(function() {
 
   $.fn.dataTable.ext.buttons.attachment_download_selected = {
     text: '<span class="text-primary fa fa-download"></span>',
-    titleAttr: 'Pobierz zaznaczone wiersze',
+    titleAttr: 'Pobierz zaznaczone wiersze jak plik .ZIP',
     className: 'btn btn-sm btn-default',
     init: function ( dt, node, config ) {
       var that = this;
@@ -73,11 +73,43 @@ $(document).ready(function() {
     action: function ( e, dt, button, config ) {
       // $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
       // To powyzej jest OK, ale ponizej bardziej uniwersalne
+      var selectedArray = []
       $.map(dt.rows( { selected: true } ).data(), function (item) {
-
-        alert('Cierpliwości! To też kiedyś zrobimy :)');
-
+        selectedArray.push(item.id)
       });
+
+      toastr['info']('przygotowywanie pliku .ZIP');
+
+      var data = { attachment_ids: selectedArray };
+      window.location.replace( "/attachments/zip_and_download.zip?" + $.param(data) );
+
+      dt.rows().deselect();
+
+      //window.location.assign("https://www.w3schools.com")
+      //window.location = $('#clubs-datatable').data('export_csv_url');
+
+      // $.ajax({
+      //   url: '/attachments/zip_and_download',
+      //   type: 'GET',
+      //   async: true,
+      //   data: {
+      //     attachment_ids: selectedArray
+      //   },
+      //   success: function (response) {
+      //     toastr['success']('plik został pobrany');
+      //     dt.rows().deselect();
+      //   },
+      //   error: function (xhr, ajaxOptions, thrownError) {
+      //     console.log(xhr);
+      //     if (xhr.status == 401) {
+      //       window.location.reload();
+      //     } else {
+      //       getErrorMessage(xhr, thrownError);
+      //     }
+      //   }
+      // });
+
+
     }  
   };
 

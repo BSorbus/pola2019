@@ -1,3 +1,5 @@
+require 'zip_file_generator'
+
 class AttachmentsController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, only: [:show, :edit, :update, :create, :destroy]
@@ -34,6 +36,34 @@ class AttachmentsController < ApplicationController
       stream: true, 
       x_sendfile: true    
   end
+
+  def zip_and_download
+#    attachment_authorize(@attachment, "show", @attachment.attachmenable_type.singularize.downcase)
+
+    attachment_ids = params[:attachment_ids]
+ 
+    # create directory and copy file
+    pr = PreparationForZipFileGenerator.new('POPC', attachment_ids)
+    pr.copy_attachments_to_tmp
+    # ziped directory
+    zf = ZipFileGenerator.new(pr.root_dir_to_zip, pr.out_zip_file)
+    zf.write()
+
+    # remove tmp folder
+    pr.delete_tmp_directory
+
+    respond_to do |format|
+      format.zip {  
+                    send_file "#{pr.out_zip_file}", 
+                      filename: "#{pr.out_zip_file}", 
+                      dispostion: "inline", 
+                      status: 200, 
+                      stream: true, 
+                      x_sendfile: true
+                  }
+    end
+  end
+
 
   # GET /attachments/1
   # GET /attachments/1.json
