@@ -40,7 +40,7 @@ class AttachmentsController < ApplicationController
   def zip_and_download
 #    attachment_authorize(@attachment, "show", @attachment.attachmenable_type.singularize.downcase)
 
-    attachment_ids = params[:attachment_ids]
+    attachment_ids = params[:attachment_ids].present? ? params[:attachment_ids] : []
  
     # create directory and copy file
     pr = PreparationForZipFileGenerator.new('file', attachment_ids)

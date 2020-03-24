@@ -11,14 +11,14 @@
           <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
         </li>
         <% end %>
-        <% if policy(:customer).work? %>
-          <li class="brand-nav brand-nav-level-1">
-            <a href="#works" data-toggle="tab"><%= work_index_legend %></a>
-          </li>
-        <% end %>
         <% if policy(:project).index? %>
           <li class="brand-nav brand-nav-level-1">
             <a href="#projects" data-toggle="tab"><%= project_index_legend %></a>
+          </li>
+        <% end %>
+        <% if policy(:customer).work? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#works" data-toggle="tab"><%= work_index_legend %></a>
           </li>
         <% end %>
       </ul>
@@ -34,12 +34,12 @@
           <%= render 'attachments/attachments_tab', attachmenable: @customer, subtitle: customer_info_legend(@customer) %> 
         </div>
 
-        <div class="tab-pane" id="works">
-          <%= render 'works/works_tab', trackable_type: "Customer", trackable_id: @customer.id, subtitle: customer_info_legend(@customer) %>
-        </div>
-
         <div class="tab-pane" id="projects">
           <%= render 'projects', subtitle: customer_info_legend(@customer) %>
+        </div>
+
+        <div class="tab-pane" id="works">
+          <%= render 'works/works_tab', trackable_type: "Customer", trackable_id: @customer.id, subtitle: customer_info_legend(@customer) %>
         </div>
 
       </div>

@@ -20,8 +20,8 @@ class PreparationForZipFileGenerator
   def set_defaults
     @file_timestamp = Time.now.strftime("%Y%m%d%H%M%6N")
     @root_dir_to_zip = Rails.root.join('tmp', 'zipownia', "#{@file_timestamp}").to_s
-    @prefix_output_file_name ||= "file"
-    @output_file_name ||= "#{@prefix_output_file_name}_#{@file_timestamp}.zip"
+    @prefix_output_file_name ||= "file_"
+    @output_file_name ||= "#{@prefix_output_file_name}#{@file_timestamp}.zip"
     @out_zip_file ||= Rails.root.join('tmp', 'zipownia').to_s + "/#{@output_file_name}"
     @attachments_list ||= []
     FileUtils.mkdir_p @root_dir_to_zip unless File.exists?(@root_dir_to_zip)
@@ -42,14 +42,10 @@ class PreparationForZipFileGenerator
         #puts "copy file for attachment_id: #{attachment.id}"
         source_file_name_with_path = attachment.attached_file.file.file   
         dest_file_name_with_path = "#{dest_path}/#{attachment.name}"
-        #puts "#{attachment.name}"
-        #puts "source file: #{source_file_name_with_path}"
-        #puts "destination file: #{dest_file_name_with_path}"
         FileUtils.cp(source_file_name_with_path, dest_file_name_with_path)  unless File.exists?(dest_file_name_with_path)
       else
         #puts "create directory for attachment_id: #{attachment.id}"
         dest_directory_name_with_path = "#{dest_path}/#{attachment.name}"
-        #puts dest_directory_name_with_path
         FileUtils.mkdir_p dest_directory_name_with_path unless File.exists?(dest_directory_name_with_path)
         copy_attachments_to_tmp(attachment.child_ids)
       end

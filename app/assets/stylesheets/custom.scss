@@ -465,3 +465,31 @@ pre {
     line-height: 1.0;
 }
 
+
+.dragablecolor {
+  background-color: #5bc0de !important;
+}
+
+.over {
+  background-color: #5bc0de !important;
+  //background-color: lighten(#BECC25, 48.5%) !important;
+  //border-color: green !important;
+  //border: 2px solid !important;
+}
+
+
+
+/*
+//$brand-primary:     #428bca;
+//$brand-success:     #5cb85c;
+//$brand-info:        #5bc0de;
+//$brand-warning:     #f0ad4e;
+//$brand-danger:      #d9534f;
+
+$(nTd).css('background-color', '#C2E2B6'); 
+$(nTd).css('background-color', '#DFF0D8'); 
+$(nTd).css('background-color', '#FFFFE0'); //LightYellow
+$(nTd).css('background-color', '#FFFACD'); //LemonChiffon 
+$(nTd).css('background-color', '#FFC04D'); //Orange mix
+$(nTd).css('background-color', '#FF8C8C'); //Red mix
+*/

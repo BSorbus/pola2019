@@ -43,7 +43,7 @@ class Attachment < ApplicationRecord
   # carrierwave uploader
   mount_uploader :attached_file, AbleUploader
 
-  has_closure_tree dependent: :destroy
+  has_closure_tree dependent: :destroy, touch: true
   
 
   def self.only_for_parent(parent_id)
@@ -124,7 +124,7 @@ class Attachment < ApplicationRecord
 
     def update_custom_counter_cache
       # disable counter_cache for definition: belongs_to :attachmenable, polymorphic: true #, counter_cache: true
-      attachmenable.update_attachments_counter_cache(updated_at)
+      attachmenable.update_attachments_counter_cache
     end
 
 end

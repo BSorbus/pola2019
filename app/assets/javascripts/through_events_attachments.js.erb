@@ -2,10 +2,10 @@ $(document).ready(function() {
 
   $.fn.dataTable.ext.buttons.through_events_attachment_reset_col_vis_and_reorder = {
     text: '<span class="text-primary fa fa-retweet"></span>',
-    titleAttr: 'Przywróć domyślne ustawienia column',
+    titleAttr: 'Przywróć domyślne ustawienia kolumn',
     className: 'btn btn-sm btn-default',
     action: function ( e, dt, button, config ) {
-      dt.columns(':gt(2)').visible(true);
+      dt.columns(':gt(3)').visible(true);
       dt.colReorder.reset();
     }  
   };
@@ -50,7 +50,7 @@ $(document).ready(function() {
 
   $.fn.dataTable.ext.buttons.through_events_attachment_download_selected = {
     text: '<span class="text-primary fa fa-download"></span>',
-    titleAttr: 'Pobierz zaznaczone wiersze',
+    titleAttr: 'Pobierz zaznaczone wiersze jako plik .ZIP',
     className: 'btn btn-sm btn-default',
     init: function ( dt, node, config ) {
       var that = this;
@@ -60,11 +60,20 @@ $(document).ready(function() {
       this.disable();
     },
     action: function ( e, dt, button, config ) {
+      // $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
+      // To powyzej jest OK, ale ponizej bardziej uniwersalne
+      var selectedArray = []
       $.map(dt.rows( { selected: true } ).data(), function (item) {
-
-        alert('Cierpliwości! To też kiedyś zrobimy :)');
-
+        selectedArray.push(item.id)
       });
+
+      toastr['info']('przygotowywanie pliku .ZIP');
+
+      var data = { attachment_ids: selectedArray };
+      window.location.replace( "/attachments/zip_and_download.zip?" + $.param(data) );
+
+      dt.rows().deselect();
+
     }  
   };
 
@@ -85,15 +94,11 @@ $(document).ready(function() {
       'through_events_attachment_download_selected'
     ],
     select: {
-      style: 'os',
+      style: 'multi',
       selector: 'td:first-child'
     },
     colReorder: {
-      fixedColumnsLeft: 3      
-    },
-    rowReorder: {
-      dataSrc: 'id',
-      selector: 'td:nth-child(2)'
+      fixedColumnsLeft: 4      
     },
     responsive: true,
     processing: true,
@@ -138,6 +143,11 @@ $(document).ready(function() {
         "visible": false,
         "searchable": false,
         "sortable": false }, 
+      { "data": "name_if_folder",
+        "visible": false,
+        "sortable": false,
+        "searchable": false
+      },
       { "data": "name" }, 
       { "data": "attachmenable" },
       { "data": "note" }, 
@@ -189,25 +199,30 @@ $(document).ready(function() {
 
   // column 'action' delete button
   $('#through-events-attachmenable-attachments tbody').on( 'click', 'button-as-link', function () {
-    if (confirm('Czy na pewno chcesz usunać?')) {
-      $.ajax({
-        url: $(this).attr('ajax-path'),
-        type: $(this).attr('ajax-method'),
-        async: true,
-        success: function (response) {
-          oThroughEventsAttachmentableAttachmentsTable.draw();
-          toastr['success']('wiersz został trwale usunięty');
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-          console.log(xhr);
-          if (xhr.status == 401) {
-            window.location.reload();
-          } else {
-            getErrorMessage(xhr, thrownError);
+    if ( true && $(this).attr('ajax-method') == 'DELETE' ) {
+      if (confirm('Czy na pewno chcesz usunać?')) {
+        $.ajax({
+          url: $(this).attr('ajax-path'),
+          type: $(this).attr('ajax-method'),
+          async: true,
+          success: function (response) {
+            oThroughEventsAttachmentableAttachmentsTable.draw();
+            toastr['success']('wiersz został trwale usunięty');
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr);
+            if (xhr.status == 401) {
+              window.location.reload();
+            } else {
+              getErrorMessage(xhr, thrownError);
+            }
           }
-        }
-      });
+        });
+      };      
+    } else {
+      window.location.replace( $(this).attr('ajax-path') );
     };
+
   });
 
   

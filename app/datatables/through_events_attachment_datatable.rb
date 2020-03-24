@@ -11,6 +11,7 @@ class ThroughEventsAttachmentDatatable < AjaxDatatablesRails::ActiveRecord
   def view_columns
     @view_columns ||= {
       id:             { source: "Attachment.id", cond: :eq, searchable: false, orderable: false },
+      name_if_folder: { source: "Attachment.name_if_folder", cond: :eq, searchable: false, orderable: false },
       name:           { source: "Attachment.name", cond: :like, searchable: true, orderable: true },
       attachmenable:  { source: "Event.title", cond: :like, searchable: true, orderable: true },
       note:           { source: "Attachment.note",  cond: :like, searchable: true, orderable: true },
@@ -25,6 +26,7 @@ class ThroughEventsAttachmentDatatable < AjaxDatatablesRails::ActiveRecord
     records.map do |record|
       {
         id:             record.id,
+        name_if_folder: record.name_if_folder.present? ? record.name_if_folder : '',
         name:           link_attached_file_or_folder(record),
         attachmenable:  record.attachmenable.title_as_link,
         note:           truncate(record.note, length: 50) + '  ' +  
@@ -59,8 +61,7 @@ class ThroughEventsAttachmentDatatable < AjaxDatatablesRails::ActiveRecord
       # rec.attached_file_identifier == rec.name  
       # link_to(truncate("[#{truncate(rec.attachmenable.title, length: 15)}]/#{rec.name}", length: 100), download_attachment_path(rec.id), title: t('tooltip.download'), rel: 'tooltip') + '  ' +  
       #                         link_to(' ', @view.attachment_path(rec.id), remote: true, class: 'fa fa-eye pull-right', title: "Podgląd", rel: 'tooltip')
-      link_to(truncate(rec.name, length: 100), @view.attachment_path(rec.id), remote: true, title: t('tooltip.show'), rel: 'tooltip') + '  ' +  
-          link_to(' ', @view.download_attachment_path(rec.id), class: 'fa fa-download pull-right', title: t('tooltip.download'), rel: 'tooltip')
+      link_to(truncate(rec.name, length: 100), @view.attachment_path(rec.id), remote: true, title: t('tooltip.show'), rel: 'tooltip')
     else
       #rec.name_if_folder == rec.name
       breadcrumb_data = JSON.generate( {parent_id: rec.id, 
@@ -89,9 +90,16 @@ class ThroughEventsAttachmentDatatable < AjaxDatatablesRails::ActiveRecord
   end
 
   def action_links(rec)
-    "<div style='text-align: center'>
-      <button-as-link ajax-path='" + attachment_path(rec.id) + "' ajax-method='DELETE' class='btn btn-xs fa fa-trash text-danger' title='Usuń' rel='tooltip'></button-as-link>
-    </div>"
+    if rec.is_folder?
+      "<div style='text-align: center'>
+        <button-as-link ajax-path='" + attachment_path(rec.id) + "' ajax-method='DELETE' class='btn btn-xs fa fa-trash text-danger' title='Usuń' rel='tooltip'></button-as-link>
+      </div>"
+    else
+      "<div style='text-align: center'>
+        <button-as-link ajax-path='" + download_attachment_path(rec.id) + "' ajax-method='GET' class='btn btn-xs fa fa-download text-primary' title='Pobierz' rel='tooltip'></button-as-link>
+        <button-as-link ajax-path='" + attachment_path(rec.id) + "' ajax-method='DELETE' class='btn btn-xs fa fa-trash text-danger' title='Usuń' rel='tooltip'></button-as-link>
+      </div>"
+    end
   end
 
 

@@ -4,11 +4,84 @@ $(document).ready(function() {
   var selectedRows = null;   // Keep track of selected rows in the source table
   var srcTable = '';  // Global tracking of table being dragged for 'over' class setting
   var rows = [];      // Global rows for #example
+  var rows2 = [];     // Global rows for #example2
 
 
+  var data =  [
+    {
+      id: "1",
+      name_if_folder: "Name if folder 1",
+      name: "Name 1",
+      note: "Note 1",
+      user: "Admin",
+      updated_at: '2017/04/25',
+      file_size: "123456",
+      action: "Akcja"
+    },
+    {
+      id: "2",
+      name_if_folder: "Name if folder 2",
+      name: "Name 2",
+      note: "Note 2",
+      user: "Admin",
+      updated_at: '2018/04/25',
+      file_size: "234567",
+      action: "Akcja"
+    },
+    {
+      id: "3",
+      name_if_folder: "Name if folder 3",
+      name: "Name 3",
+      note: "",
+      user: "Admin",
+      updated_at: '2019/04/25',
+      file_size: "345678",
+      action: "Akcja"
+    },
+    {
+      id: "4",
+      name_if_folder: "Name if folder 4",
+      name: "Name 4",
+      note: "",
+      user: "Admin",
+      updated_at: '2020/04/25',
+      file_size: "456789",
+      action: "Akcja"
+    },
+    {
+      id: "5",
+      name_if_folder: "Name if folder 5",
+      name: "Name 5",
+      note: "Note 5",
+      user: "Admin",
+      updated_at: '2021/04/25',
+      file_size: "567890",
+      action: "Akcja"
+    },
+    {
+      id: "6",
+      name_if_folder: "Name if folder 6",
+      name: "Name 6",
+      note: "Note 6",
+      user: "Admin",
+      updated_at: '2021/04/25',
+      file_size: "567890",
+      action: "Akcja"
+    },
+    {
+      id: "7",
+      name_if_folder: "Name if folder 7",
+      name: "Name 7",
+      note: "Note",
+      user: "Admin",
+      updated_at: '2021/07/25',
+      file_size: "567890",
+      action: "Akcja"
+    }
+];
   $.fn.dataTable.ext.buttons.attachment_reset_col_vis_and_reorder = {
     text: '<span class="text-primary fa fa-retweet"></span>',
-    titleAttr: 'Przywróć domyślne ustawienia kolumn',
+    titleAttr: 'Przywróć domyślne ustawienia column',
     className: 'btn btn-sm btn-default',
     action: function ( e, dt, button, config ) {
       // revert colVis  // dt.columns(config.show).visible(true);
@@ -79,15 +152,17 @@ $(document).ready(function() {
     action: function ( e, dt, button, config ) {
       // $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
       // To powyzej jest OK, ale ponizej bardziej uniwersalne
-      var selectedArray = []
+
+      toastr["info"]('Przygotowuję plik .ZIP');
+      toastr["success"]('Przygotowuję plik .ZIP');
+
+      var selectedArray = [];
       $.map(dt.rows( { selected: true } ).data(), function (item) {
         selectedArray.push(item.id)
       });
 
-      toastr['info']('przygotowywanie pliku .ZIP');
-
       var data = { attachment_ids: selectedArray };
-      window.location.replace( "/attachments/zip_and_download.zip?" + $.param(data) );
+      window.location = "/attachments/zip_and_download.zip?" + $.param(data) ;
 
       dt.rows().deselect();
 
@@ -154,7 +229,7 @@ $(document).ready(function() {
       'attachment_move_to_photo'
     ],
     select: {
-      //style: 'os',
+      // style: 'os',
       style: 'multi',
       selector: 'td:first-child'
     },
@@ -169,32 +244,30 @@ $(document).ready(function() {
 //       selector: 'td:not(:nth-child(1))'
 //     },
     responsive: true,
-    processing: true,
-    serverSide: true,
-    deferRender: true,
     searchDelay: 500,
     stateSave: true,
     stateDuration: 60 * 60 * 24 * 7,
-    ajax: { 
-      url: $('#attachmenable-attachments').data('source'),
-      type: "GET",
-      data: function(d){
-        //d.attachment_parent_id = 8501;
-        if (localStorage.getItem("ls_attachment_breadcrumb") === null) {
-          d.attachment_parent_id = null
-        } else {
-          d.attachment_parent_id = JSON.parse(localStorage.getItem('ls_attachment_breadcrumb')).parent_id;
-        }
-      },
-      error: function (jqXHR, exception) {
-        console.log(jqXHR);
-        if (jqXHR.status == 401) {
-          window.location.reload();
-        } else {
-          getErrorMessage(jqXHR, exception);
-        }
-      }
-    },
+    // ajax: { 
+    //   url: $('#attachmenable-attachments').data('source'),
+    //   type: "GET",
+    //   data: function(d){
+    //     //d.attachment_parent_id = 8501;
+    //     if (localStorage.getItem("ls_attachment_breadcrumb") === null) {
+    //       d.attachment_parent_id = null
+    //     } else {
+    //       d.attachment_parent_id = JSON.parse(localStorage.getItem('ls_attachment_breadcrumb')).parent_id;
+    //     }
+    //   },
+    //   error: function (jqXHR, exception) {
+    //     console.log(jqXHR);
+    //     if (jqXHR.status == 401) {
+    //       window.location.reload();
+    //     } else {
+    //       getErrorMessage(jqXHR, exception);
+    //     }
+    //   }
+    // },
+    data: data,
     // pagingType: "full_numbers",
     scrollY: 300,
     paging: false,
@@ -231,16 +304,10 @@ $(document).ready(function() {
       { "data": "action",
         "searchable": false,
         "sortable": false,
-        "width": '50px',
-        className: 'datatable-action-column' }
+        "width": '50px' }
     ],
 //    columnDefs: [ { orderable: false, targets: [ 0,1,2 ] } ],
-    preDrawCallback: function( settings ) {
-      // jezeli panel nie jest widoczny, to przerwij ładowanie danych
-      if ( $( "#tab_attachments" ).is( ":hidden" ) ) {
-        return false;
-      }
-    },
+    // Add HTML5 draggable class to each row
     createdRow: function ( row, data, dataIndex, cells ) {
       $(row).attr('id', 'row-' + dataIndex);
       $(row).attr('draggable', 'true');
@@ -257,6 +324,12 @@ $(document).ready(function() {
           row.addEventListener('dragend', handleDragEnd, false);
         });
     },
+    preDrawCallback: function( settings ) {
+      // jezeli panel nie jest widoczny, to przerwij ładowanie danych
+      if ( $( "#tab_attachments" ).is( ":hidden" ) ) {
+        return false;
+      }
+    },
     order: [[ 3, "asc" ]],
     language: {
       url: '<%= asset_path("pl.json.erb") %>'
@@ -270,53 +343,20 @@ $(document).ready(function() {
   });
 
 
-  oAttachmentableAttachmentsTable
-  .on( 'draw', function () {
-    oAttachmentableAttachmentsTable.rows().deselect();
-  });
-
-
-  // jezeli nastepuje wyswietlenie tab, to zaladuj dane
-  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-    var target = $(e.target).attr("href") // activated tab
-    if (target == '#attachments') {
-      oAttachmentableAttachmentsTable.draw();
-    };
-  });
-
-
-  // column 'action' delete button
-  $('#attachmenable-attachments tbody').on( 'click', 'button-as-link', function () {
-    if ( true && $(this).attr('ajax-method') == 'DELETE' ) {
-      if (confirm('Czy na pewno chcesz usunać?')) {
-        $.ajax({
-          url: $(this).attr('ajax-path'),
-          type: $(this).attr('ajax-method'),
-          async: true,
-          success: function (response) {
-            oAttachmentableAttachmentsTable.draw();
-            toastr['success']('wiersz został trwale usunięty');
-          },
-          error: function (xhr, ajaxOptions, thrownError) {
-            console.log(xhr);
-            if (xhr.status == 401) {
-              window.location.reload();
-            } else {
-              getErrorMessage(xhr, thrownError);
-            }
-          }
-        });
-      };      
-    } else {
-      window.location.replace( $(this).attr('ajax-path') );
-    };
-
-  });
 
 
 
-// -----------------------------------------------------------------------------
-// drag and drop
+
+
+
+
+
+
+
+
+
+
+
 function handleDragStart(e) {
   console.log("handleDragStart(e)");
   // this / e.target is the source node.
@@ -393,9 +433,6 @@ function handleDrop(e) {
   console.log("handleDrop(e)");
   // this / e.target is current target element.
 
-  // BJ
-  e.preventDefault();
-
   if (e.stopPropagation) {
     e.stopPropagation(); // stops the browser from redirecting.
   }
@@ -417,7 +454,7 @@ function handleDrop(e) {
 //      $('#' + dstTable).DataTable().rows.add(selectedRows.data()).draw();
 
       // Remove row from source Datatable
-      //$('#' + srcTable).DataTable().rows(selectedRows.indexes()).remove().draw();
+      $('#' + srcTable).DataTable().rows(selectedRows.indexes()).remove().draw();
       
     } else {  // Otherwise move dragged row
       console.log("(selectedRows.count() > 0 && $(dragSrcRow).hasClass('selected')) = false");
@@ -427,9 +464,8 @@ function handleDrop(e) {
       // console.log("srcData: ", srcData );
       // console.log("dragSrcRow: ", dragSrcRow );
       // console.log("dstTable: ", dstTable );
-      // console.log("handleDrop(e) -> e", e);
-      // console.log("this", this);
-      console.log("DESTINATION:");
+      console.log("handleDrop(e) -> e", e);
+      console.log("this", this);
       console.log($('#' + dstTable).DataTable().row(this).data());
 
       // Add row to destination Datatable
@@ -437,10 +473,11 @@ function handleDrop(e) {
       // $('#' + dstTable).DataTable().row.add($(srcData)).draw();
 
       // Remove row from source Datatable
-      //$('#' + srcTable).DataTable().row(dragSrcRow).remove().draw();
+      $('#' + srcTable).DataTable().row(dragSrcRow).remove().draw();
     }
 
   }
+e.preventDefault();
   return false;
 }
 
@@ -463,6 +500,143 @@ function handleDragEnd(e) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  oAttachmentableAttachmentsTable
+  .on( 'draw', function () {
+    oAttachmentableAttachmentsTable.rows().deselect();
+  });
+
+
+
+
+
+
+  // Przesuwanie do folderow
+  var children = []
+
+  oAttachmentableAttachmentsTable
+  .on( 'row-reorder', function ( e, diff, edit ) {
+    e.preventDefault();
+     console.log( 'normalnie, to ten wiersz jest przenoszony: ' );
+     // console.log( edit.triggerRow.data().id );
+    children = [];
+    // ...ale my dodajemy do tablicy children wszystkie wiersze zaznaczone
+    $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
+      children.push(item.id);
+    });
+  });
+
+
+  oAttachmentableAttachmentsTable
+    .on( 'row-reorder', function ( e, diff, edit ) {
+      console.log('edit.triggerRow.data().id:');
+         // console.log('edit.triggerRow.data():');
+         // console.log(edit.triggerRow.data());
+    // for ( var i=0, ien=diff.length ; i<ien ; i++ ) {
+    //     console.log( $(diff[i].node) )
+    // }
+
+    } );
+
+
+
+  oAttachmentableAttachmentsTable
+  .on( 'pre-row-reorder', function ( e, node, index ) {
+      console.log( ".on( 'pre-row-reorder', function ( e, node, index )" );
+      //console.log( 'node:', node );
+      //console.log( 'node.index:', node.index );
+      //oAttachmentableAttachmentsTable.row(':eq(2)', { page: 'current' }).select();
+      //oAttachmentableAttachmentsTable.row(node.index, { page: 'current' }).select();
+
+      //oAttachmentableAttachmentsTable.fnSelect(node);
+      //$(this).toggleClass('selected');
+  } );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // jezeli nastepuje wyswietlenie tab, to zaladuj dane
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    var target = $(e.target).attr("href") // activated tab
+    if (target == '#attachments') {
+      oAttachmentableAttachmentsTable.draw();
+    };
+  });
+
+
+  // column 'action' delete button
+  $('#attachmenable-attachments tbody').on( 'click', 'button-as-link', function () {
+    if (confirm('Czy na pewno chcesz usunać?')) {
+      $.ajax({
+        url: $(this).attr('ajax-path'),
+        type: $(this).attr('ajax-method'),
+        async: true,
+        success: function (response) {
+          oAttachmentableAttachmentsTable.draw();
+          toastr['success']('wiersz został trwale usunięty');
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          console.log(xhr);
+          if (xhr.status == 401) {
+            window.location.reload();
+          } else {
+            getErrorMessage(xhr, thrownError);
+          }
+        }
+      });
+    };
+  });
 
 
 });
