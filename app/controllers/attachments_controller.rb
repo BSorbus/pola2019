@@ -182,6 +182,7 @@ class AttachmentsController < ApplicationController
       params.require(:attachment).permit(:attachmenable_id, :attachmenable_type, :name_if_folder, :note, :user_id, :parent_id ).reverse_merge(defaults)
     end
     def attachment_update_params
-      params.require(:attachment).permit(:note, :user_id, :parent_id)
+      defaults = { user_id: "#{current_user.id}" }
+      params.require(:attachment).permit(:name_if_folder, :note, :user_id, :parent_id).reverse_merge(defaults)
     end
 end
