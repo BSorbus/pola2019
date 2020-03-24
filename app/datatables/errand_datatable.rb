@@ -12,6 +12,9 @@ class ErrandDatatable < AjaxDatatablesRails::ActiveRecord
       start_date:        { source: "Errand.start_date", cond: :like, searchable: true, orderable: true },
       end_date:          { source: "Errand.end_date", cond: :like, searchable: true, orderable: true },
       status:            { source: "ErrandStatus.name", cond: :like, searchable: true, orderable: true },
+      exercise_date:     { source: "Errand.exercise_date", cond: :like, searchable: true, orderable: true },
+      exercise_date_info_number: { source: "Errand.exercise_date_info_number", cond: :like, searchable: true, orderable: true },
+      exercise_date_info_date:   { source: "Errand.exercise_date_info_date", cond: :like, searchable: true, orderable: true },
       attachments_count: { source: "Errand.attachments_count", cond: :like, searchable: true, orderable: true }
     }
   end
@@ -27,6 +30,9 @@ class ErrandDatatable < AjaxDatatablesRails::ActiveRecord
         start_date:     record.start_date.present? ? record.start_date.strftime("%Y-%m-%d") : '' ,
         end_date:       record.end_date.present? ? record.end_date.strftime("%Y-%m-%d") : '' ,
         status:         record.errand_status.try(:name),
+        exercise_date:  record.exercise_date.present? ? record.exercise_date.strftime("%Y-%m-%d") : '' ,
+        exercise_date_info_number:  record.exercise_date_info_number,
+        exercise_date_info_date:    record.exercise_date_info_date.present? ? record.exercise_date_info_date.strftime("%Y-%m-%d") : '' ,
         attachments_count: badge(record).html_safe
       }
     end
