@@ -72,7 +72,7 @@ class AttachmentsController < ApplicationController
     attachment_authorize(@attachment, "show", @attachment.attachmenable_type.singularize.downcase)
 
     respond_to do |format|
-      format.html
+      format.html {redirect_to @attachment.attachmenable }
       format.js
     end
   end
