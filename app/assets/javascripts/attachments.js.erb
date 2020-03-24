@@ -95,7 +95,7 @@ $(document).ready(function() {
   };
 
   $.fn.dataTable.ext.buttons.attachment_move_to_photo = {
-    text: '<span class="fa fa-file-export"></span><br><span>Zdjęcia</span>',
+    text: '<span class="text-primary fa fa-file-export"></span><br><span>Zdjęcia</span>',
     titleAttr: 'Przenieś zaznaczone wiersze do "Zdjęcia"',
     className: 'btn btn-xs btn-default',
     available: function ( dt, config ) {
@@ -143,11 +143,23 @@ $(document).ready(function() {
       'attachment_reset_col_vis_and_reorder',
       {
         extend:    'colvis',
-        text:      '<span class="fa fa-columns"></span>',
+        text:      '<span class="text-primary fa fa-columns"></span>',
         titleAttr: 'Pokaż/ukryj kolumny',
         className: 'btn btn-sm btn-default',
         columns:   ':gt(2)' //exclude cols from list
         // postfixButtons: [ 'colvisRestore' ]
+      }, 
+      {
+        extend:    'selectAll',
+        text:      '<span class="text-primary fa fa-check-square"></span>',
+        titleAttr: 'Zaznacz wszystko',
+        className: 'btn btn-sm btn-default'
+      }, 
+      {
+        extend:    'selectNone',
+        text:      '<span class="text-primary fa fa-square"></span>',
+        titleAttr: 'Odznacz wszystko',
+        className: 'btn btn-sm btn-default'
       }, 
       'attachment_delete_selected',
       'attachment_download_selected',
@@ -160,7 +172,7 @@ $(document).ready(function() {
     },
 //     colReorder: true,
     colReorder: {
-      fixedColumnsLeft: 4
+      fixedColumnsLeft: 3
     },
 // //    rowReorder: true,
 //     rowReorder: {

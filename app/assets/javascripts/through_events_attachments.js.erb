@@ -85,10 +85,23 @@ $(document).ready(function() {
       'through_events_attachment_reset_col_vis_and_reorder',
       {
         extend:    'colvis',
-        text:      '<span class="fa fa-columns"></span>',
+        text:      '<span class="text-primary fa fa-columns"></span>',
         titleAttr: 'Pokaż/ukryj kolumny',
         className: 'btn btn-sm btn-default',
-        columns:   ':gt(2)' //exclude first col from list
+        columns:   ':gt(2)' //exclude cols from list
+        // postfixButtons: [ 'colvisRestore' ]
+      }, 
+      {
+        extend:    'selectAll',
+        text:      '<span class="text-primary fa fa-check-square"></span>',
+        titleAttr: 'Zaznacz wszystko',
+        className: 'btn btn-sm btn-default'
+      }, 
+      {
+        extend:    'selectNone',
+        text:      '<span class="text-primary fa fa-square"></span>',
+        titleAttr: 'Odznacz wszystko',
+        className: 'btn btn-sm btn-default'
       }, 
       'through_events_attachment_delete_selected',
       'through_events_attachment_download_selected'
@@ -98,7 +111,7 @@ $(document).ready(function() {
       selector: 'td:first-child'
     },
     colReorder: {
-      fixedColumnsLeft: 4      
+      fixedColumnsLeft: 3     
     },
     responsive: true,
     processing: true,
