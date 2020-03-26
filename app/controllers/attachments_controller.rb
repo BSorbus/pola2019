@@ -148,15 +148,49 @@ class AttachmentsController < ApplicationController
   end
 
   def move_to_parent
-    puts '.....................................................................'
-    puts 'params: '
-    puts params
-    puts '.....................................................................'
+    # puts '.....................................................................'
+    # puts 'params: '
+    # puts params
+    # puts '.....................................................................'
+
+    children_ids = params[:children_ids].present? ? params[:children_ids] : []
 
 #    @attachment = Attachment.find(params[:id])
-#    attachment_authorize(@attachment, "destroy", @attachment.attachmenable_type.singularize.downcase)
-    if @attachment.move_to_parent_and_log_work(params[:children_ids], current_user.id)
-      head :no_content
+    attachment_authorize(@attachment, "update", @attachment.attachmenable_type.singularize.downcase)
+    errors = @attachment.move_to_parent_and_log_work(children_ids, current_user.id)
+
+    if errors.blank?
+      head :ok
+    else
+      errors_msgs = ""    
+
+      errors.each do |msg|
+        errors_msgs += msg.full_messages.join(', ').force_encoding("UTF-8")
+      end
+
+      render status: :conflict, json: { "errors": "#{errors_msgs}" }
+
+      # respond_to do |format|
+      #   # that will mean to send a javascript code to client-side;
+      #   format.js { render             
+      #       # raw javascript to be executed on client-side
+      #       "alert('Hello Rails');", 
+      #       # send HTTP response code on header
+      #       :status => 404, # page not found
+      #       # load /app/views/your-controller/different_action.js.erb
+      #       :action => "different_action",
+      #       # send json file with @line_item variable as json
+      #       :json => { errors: "#{errors_msgs}" },
+      #       :file => filename,
+      #       :text => "#{errors_msgs}",
+      #       # the :location option to set the HTTP Location header
+      #       :location => path_to_controller_method_url(argument)
+      #     }
+
+      # end
+
+
+
     end 
   end
 

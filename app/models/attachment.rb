@@ -8,7 +8,7 @@ class Attachment < ApplicationRecord
   # validates
   validates :name, presence: true,
                    length: { in: 1..100 },
-                   uniqueness: { case_sensitive: false, scope: [:attachmenable_id, :attachmenable_type, :parent_id], message: " - istnieje objekt o takiej nazwie" }, allow_blank: true
+                   uniqueness: { case_sensitive: false, scope: [:attachmenable_id, :attachmenable_type, :parent_id], message: " - istnieje objekt o takiej nazwie (%{value})" }, allow_blank: true
 
   # validate unique name file 
   # validates :attached_file, presence: true,
@@ -86,13 +86,19 @@ class Attachment < ApplicationRecord
   end
 
   def move_to_parent_and_log_work(children, current_user_id)
-    puts '.....................................................................'
-    puts 'move_to_parent_and_log_work(children,current_user_id)'
-    puts 'attachment_id: '
-    puts self.id
-    puts 'children: '
-    puts children
-    puts '.....................................................................'
+    errors_array = []
+
+    ApplicationRecord.transaction do
+      children.each do |child_id|
+        child = Attachment.find(child_id)
+        update_ok = child.update(parent_id: self.id)
+        unless update_ok
+          errors_array << child.errors
+        end 
+      end
+    end
+
+    return errors_array
   end
 
 

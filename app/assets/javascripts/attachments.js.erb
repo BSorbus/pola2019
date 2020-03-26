@@ -212,6 +212,7 @@ $(document).ready(function() {
     paging: false,
     lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
     iDisplayLength: -1,
+    rowId: 'id',
     columns: [
       {   
         "data": null, 
@@ -327,10 +328,12 @@ $(document).ready(function() {
 
 
 
+
+
 // -----------------------------------------------------------------------------
 // drag and drop
 function handleDragStart(e) {
-  console.log("handleDragStart(e)");
+  // console.log("handleDragStart(e)");
   // this / e.target is the source node.
   
   // Set the source row opacity
@@ -340,73 +343,126 @@ function handleDragStart(e) {
   dragSrcRow = this;
   srcTable = this.parentNode.parentNode.id
 
-//  console.log('!!!!!!!!!!!! this ):', $('#' + srcTable).DataTable().row(dragSrcRow).data() );
-
-//BJ  $(this).addClass('selected');
-//  $(this).style.highlight = true;
-//  $(this).addClass('selected');
-
-  $(this).addClass('dragablecolor');
-
-//end BJ
-
   // Keep track globally of selected rows
   selectedRows = $('#' + srcTable).DataTable().rows( { selected: true } );
 
   // Allow moves
   e.dataTransfer.effectAllowed = 'move';
-  
+
   // Save the source row html as text
   e.dataTransfer.setData('text/plain', e.target.outerHTML);
+//  e.dataTransfer.setData('Data', JSON.stringify(dragSrcRow));
+
   //e.dataTransfer.setData('text/plain', JSON.stringify($('#' + srcTable).DataTable().row(dragSrcRow).data()) );
   //e.dataTransfer.setData('text/plain', JSON.stringify(e.target) );
 }
   
-function handleDragOver(e) {
-  console.log("handleDragOver(e)");
-  if (e.preventDefault) {
-    e.preventDefault(); // Necessary. Allows us to drop.
-  }
-
-  //
-
-  // Allow moves
-  e.dataTransfer.dropEffect = 'move'; 
-
-// nie widzę roznicy gdy ustawiam return true;
-  return false;
-}
-
 function handleDragEnter(e) {
-  console.log("handleDragEnter(e)");
+  // console.log("handleDragEnter(e)");
   // this / e.target is the current hover target.  
+  // console.log("e: ", e);
+  // console.log("dragSrcRow: ", dragSrcRow);
+  // console.log("e.target.parentNode: ", e.target.parentNode);
   
   // Get current table id
   var currentTable = this.parentNode.parentNode.id  
 
+  if (e.target.parentNode.id) {
+    // console.log("-----------(e.target.parentNode.id) TRUE ...............");
+    var overRow = e.target.parentNode;
+    // console.log(overRow);
+  } else {
+    // console.log("-----------(e.target.parentNode.id) FALSE ...............");
+    var overRow = this;
+    // console.log(overRow);
+  }
+
+  // console.log("-----------dragSrcRow ...............");
+  // console.log(dragSrcRow);
+  // console.log("-----------overRow ...............");
+  // console.log(overRow);
+
+
   // Don't show drop zone if in source table
 //  if (currentTable !== srcTable) {
-    this.classList.add('over');
+  if ( (overRow.id != dragSrcRow.id) && ($('#' + currentTable).DataTable().row(this).data().name_if_folder) ) {
+      // console.log("-----------dodałem clasę 'over' ...............");
+      this.classList.add('over');
+  } else {
+    e.dataTransfer.dropEffect = 'none'; 
+  }
 
 //  }
 }
 
-function handleDragLeave(e) {
-  console.log("handleDragLeave(e)");
-  // this / e.target is previous target element.
- 
-  console.log("handleDragLeave(e) -> e", e);
+function handleDragOver(e) {
+  //console.log("handleDragOver(e)");
+  //console.log("----Jestem nad celem upuszczania");
 
+  // console.log("---------e.dataTransfer.getData('Data'): ----------------");
+  // console.log(e.dataTransfer.getData('Data'));
+
+
+
+  // console.log("---------JSON.parse(e.dataTransfer.getData('Data')): ----------------");
+  // console.log(JSON.parse(e.dataTransfer.getData('Data')));
+
+  // console.log("---------$('#' + currentTable).DataTable().row(JSON.parse(e.dataTransfer.getData('Data'))): ----------------");
+  // console.log($('#' + srcTable).DataTable().row(JSON.parse(e.dataTransfer.getData('Data'))) );
+
+  // console.log("---------e.target.parentNode: ----------------");
+  // console.log(e.target.parentNode);
+
+
+  // console.log("---------e.target.parentNode.id: ----------------");
+  // console.log(e.target.parentNode.id);
+
+  if (e.target.parentNode.id) {
+    var overRow = e.target.parentNode;
+  } else {
+    var overRow = e.target.parentNode.parentNode;
+  }
+
+  // console.log("---------dragSrcRow: ----------------");
+  // console.log(dragSrcRow);
+  // console.log("---------overRow: ----------------");
+  // console.log(overRow);
+
+  // console.log("---------dragSrcRow.id: ----------------");
+  // console.log(dragSrcRow.id);
+  // console.log("---------overRow.id: ----------------");
+  // console.log(overRow.id);
+
+  if (e.preventDefault) {
+    e.preventDefault(); // Necessary. Allows us to drop.
+  }
+
+  if (dragSrcRow.id == overRow.id) {
+    // console.log("dragSrcRow.id == overRow.id is TRUE");
+    e.dataTransfer.dropEffect = 'none'; 
+    return false;
+  } else {
+    e.dataTransfer.dropEffect = 'move'; 
+    // console.log("dragSrcRow.id == overRow.id is FALSE");
+    return true;
+  }
+}
+
+function handleDragLeave(e) {
+  // this / e.target is previous target element.
   // Remove the drop zone when leaving element
+  //console.log("----Jestem poza celem upuszczania");
   this.classList.remove('over');  
 }
   
 function handleDrop(e) {
-  console.log("handleDrop(e)");
+  // console.log("handleDrop(e)");
   // this / e.target is current target element.
 
   // BJ
-  e.preventDefault();
+  if (e.preventDefault) {
+    e.preventDefault(); // Necessary. Allows us to drop.
+  }
 
   if (e.stopPropagation) {
     e.stopPropagation(); // stops the browser from redirecting.
@@ -417,12 +473,19 @@ function handleDrop(e) {
   // dstTable  = attachmenable-attachments
 
   // // No need to process if src and dst table are the same
-   if (true) {
+   if ( $('#' + dstTable).DataTable().row(this).data().name_if_folder ) {
   // if (srcTable !== dstTable) {
     
+    var parentId = $('#' + dstTable).DataTable().row(this).data().id;
+    var children = [];
+
     // If selected rows and dragged item is selected then move selected rows
     if (selectedRows.count() > 0 && $(dragSrcRow).hasClass('selected')) {
-      console.log("(selectedRows.count() > 0 && $(dragSrcRow).hasClass('selected')) = true");
+      // console.log("(selectedRows.count() > 0 && $(dragSrcRow).hasClass('selected')) = TRUE");
+
+      children = $('#' + dstTable).DataTable().rows( { selected: true } ).ids().toArray();
+ 
+      // console.log(children);
 
       // Add row to destination Datatable
       // Tutaj dodaj do tabeli lub wrzuć do folderu
@@ -432,38 +495,68 @@ function handleDrop(e) {
       //$('#' + srcTable).DataTable().rows(selectedRows.indexes()).remove().draw();
       
     } else {  // Otherwise move dragged row
-      console.log("(selectedRows.count() > 0 && $(dragSrcRow).hasClass('selected')) = false");
+      // console.log("(selectedRows.count() > 0 && $(dragSrcRow).hasClass('selected')) = FALSE");
 
       // Get source transfer data
-      var srcData = e.dataTransfer.getData('text/plain');
+      // var srcData = e.dataTransfer.getData('text/plain');
+
       // console.log("srcData: ", srcData );
       // console.log("dragSrcRow: ", dragSrcRow );
+
+      // console.log("SOURCE:");
+      // console.log($('#' + srcTable).DataTable().row(dragSrcRow).data());
+    
       // console.log("dstTable: ", dstTable );
       // console.log("handleDrop(e) -> e", e);
       // console.log("this", this);
-      console.log("DESTINATION:");
-      console.log($('#' + dstTable).DataTable().row(this).data());
+
+      // console.log("DESTINATION:");
+      // console.log($('#' + dstTable).DataTable().row(this).data());
+
+      children.push($('#' + srcTable).DataTable().row(dragSrcRow).data().id);
+
+      // console.log(children);
 
       // Add row to destination Datatable
-      // Tutaj dodaj do tabeli lub wrzuć do folderu
       // $('#' + dstTable).DataTable().row.add($(srcData)).draw();
 
       // Remove row from source Datatable
       //$('#' + srcTable).DataTable().row(dragSrcRow).remove().draw();
-    }
+    };
+
+    $.ajax({
+      url: '/attachments/'+ parentId + '/move_to_parent',
+      type: 'PATCH',
+      async: true,
+      data: {
+        children_ids: children
+      },
+      success: function (response) {
+        // oAttachmentableAttachmentsTable.draw();
+        // To powyzej jest OK, ale ponizej bardziej uniwersalne
+        $('#' + dstTable).DataTable().draw();
+        toastr['success']('wiersz został pomyślnie przeniesiony');
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        console.log(xhr);
+        if (xhr.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(xhr, thrownError);
+        }
+      }
+    });
 
   }
   return false;
 }
 
 function handleDragEnd(e) {
-  console.log("handleDragEnd(e)");
+  // console.log("handleDragEnd(e)");
   // this/e.target is the source node.
   
   // Reset the opacity of the source row
   this.style.opacity = '1.0';
-  $(this).removeClass('dragablecolor');
-//  $(this).removeClass('selected');
 
   // Clear 'over' class from both tables
   // and reset opacity

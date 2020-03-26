@@ -12,6 +12,8 @@ function getErrorMessage(jqXHR, exception) {
   } else if (jqXHR.status == 404) {
     //msg = 'Requested page not found. [404]';
     msg = '[404] - Nie znalazłem takiej strony.';
+  } else if (jqXHR.status == 409) {
+    msg = '[409] - Konflikt. Żądanie nie może być zrealizowane.';
   } else if (jqXHR.status == 500) {
     msg = '[500] - Internal Server Error [500].';
   } else if (exception === 'parsererror') {
@@ -24,26 +26,12 @@ function getErrorMessage(jqXHR, exception) {
     msg = 'Uncaught Error.\n' + jqXHR.responseText;
   };
 
-
-  toastr.options = {
-    "closeButton": false,
-    "debug": true,
-    "newestOnTop": false,
-    "progressBar": false,
-    "positionClass": "toast-top-right",
-    "preventDuplicates": false,
-    "onclick": null,
-    "showDuration": "100",
-    "hideDuration": "1000",
-    "timeOut": "5000",
-    "extendedTimeOut": "1000",
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
+  if (jqXHR.responseText) {
+    msg += '<br>' + jqXHR.responseText;
   };
 
-  toastr['error'](msg);
+
+  toastr['error'](msg, 'Error', {timeOut: 15000});
 
   //alert(msg)
 };
