@@ -28,6 +28,8 @@ class AttachmentsController < ApplicationController
 #    @attachment = Attachment.find(params[:id])
     attachment_authorize(@attachment, "show", @attachment.attachmenable_type.singularize.downcase)
 
+    @attachment.log_work('download_attachment', current_user.id)
+
     send_file "#{@attachment.attached_file.path}", 
       type: "#{@attachment.file_content_type}",
       filename: @attachment.attached_file.file.filename, 
@@ -51,6 +53,11 @@ class AttachmentsController < ApplicationController
 
     # remove tmp folder
     pr.delete_tmp_directory
+
+    attachment_ids.each do |id|
+      attachment = Attachment.find(id)
+      attachment.log_work('download_attachment', current_user.id)
+    end
 
     respond_to do |format|
       format.zip {  
@@ -90,6 +97,8 @@ class AttachmentsController < ApplicationController
     attachment_authorize(@attachment, "create", params[:controller].classify.deconstantize.singularize.downcase)
 
     @attachment = @attachmenable.attachments.create(attachment_params)
+    @attachment.log_work('upload_attachment', current_user.id)
+
   end
 
   def create_folder
@@ -97,6 +106,8 @@ class AttachmentsController < ApplicationController
     attachment_authorize(@attachment, "create", params[:controller].classify.deconstantize.singularize.downcase)
 
     @attachment = @attachmenable.attachments.create(attachment_params_for_folder)
+    @attachment.log_work('create_directory', current_user.id)
+
     respond_to do |format|
       format.js  { render status: :created, layout: false, file: 'attachments/create_folder.js.erb' }
     end
@@ -111,6 +122,7 @@ class AttachmentsController < ApplicationController
     respond_to do |format|
       if @attachment.update(attachment_update_params)
         flash[:success] = t('activerecord.successfull.messages.updated', data: @attachment.fullname)
+        @attachment.log_work('update_attachment', current_user.id)
         format.html { redirect_to url_for(only_path: true, controller: @attachment.attachmenable_type.pluralize.downcase, action: 'show', id: @attachment.attachmenable.id) }
       else
         format.html { render :edit }
@@ -148,14 +160,8 @@ class AttachmentsController < ApplicationController
   end
 
   def move_to_parent
-    # puts '.....................................................................'
-    # puts 'params: '
-    # puts params
-    # puts '.....................................................................'
-
     children_ids = params[:children_ids].present? ? params[:children_ids] : []
 
-#    @attachment = Attachment.find(params[:id])
     attachment_authorize(@attachment, "update", @attachment.attachmenable_type.singularize.downcase)
     errors = @attachment.move_to_parent_and_log_work(children_ids, current_user.id)
 

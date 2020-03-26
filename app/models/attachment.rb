@@ -36,8 +36,8 @@ class Attachment < ApplicationRecord
   after_destroy :update_custom_counter_cache
 
 
-  after_create_commit { self.log_work('upload_attachment') }
-  after_update_commit { self.log_work('update') }
+#  after_create_commit { self.log_work('upload_attachment') }
+#  after_update_commit { self.log_work('update') }
   after_commit :send_notification_to_model
 
   # carrierwave uploader
@@ -59,8 +59,10 @@ class Attachment < ApplicationRecord
   end
 
   def log_work(action = '', action_user_id = nil)
-    trackable_url = url_helpers(only_path: true, controller: self.attachmenable.class.to_s.pluralize.downcase, action: 'show', id: self.attachmenable.id)
+    url_show_path = "#{self.attachmenable.class.to_s.downcase}_path"
+    trackable_url = eval( "Rails.application.routes.url_helpers.#{url_show_path}(only_path: true, controller: '#{self.attachmenable.class.to_s.pluralize.downcase}', action: 'show', id: #{self.attachmenable.id})")
     worker_id = action_user_id || self.user_id
+
     Work.create!(trackable_type: "#{self.attachmenable.class.to_s}", trackable_id: self.attachmenable.id, trackable_url: trackable_url, action: "#{action}", user_id: worker_id, 
       parameters: self.to_json(except: [:user_id], include: {user: {only: [:id, :name, :email]}}))
   end
@@ -91,9 +93,11 @@ class Attachment < ApplicationRecord
     ApplicationRecord.transaction do
       children.each do |child_id|
         child = Attachment.find(child_id)
-        update_ok = child.update(parent_id: self.id)
-        unless update_ok
-          errors_array << child.errors
+        update_ok = child.update(parent_id: self.id, user_id: current_user_id)
+        if update_ok
+          child.log_work('move_attachment', current_user_id)
+        else
+          errors_array << child.errors 
         end 
       end
     end
@@ -103,7 +107,7 @@ class Attachment < ApplicationRecord
 
 
   def send_notification_to_model
-    attachmenable.send_notification_to_pool if (['Errand', 'Event', 'Project']).include? self.attachmenable.class.to_s     
+#    attachmenable.send_notification_to_pool if (['Errand', 'Event', 'Project']).include? self.attachmenable.class.to_s     
   end
 
   # validate :attached_file_size_validation
