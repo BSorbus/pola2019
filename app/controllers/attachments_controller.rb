@@ -3,7 +3,7 @@ require 'zip_file_generator'
 class AttachmentsController < ApplicationController
   before_action :authenticate_user!
   after_action :verify_authorized, only: [:show, :edit, :update, :create, :destroy]
-  before_action :set_attachment, only: [:download, :show, :edit, :update, :destroy, :move_to_photo, :move_to_parent]
+  before_action :set_attachment, only: [:download, :show, :edit, :update, :destroy, :move_to_photo]
 
   def datatables_index
 #    attachment_parent_filter = params[:attachment_parent_id].present? ? params[:attachment_parent_id] : nil
@@ -160,10 +160,8 @@ class AttachmentsController < ApplicationController
   end
 
   def move_to_parent
-    children_ids = params[:children_ids].present? ? params[:children_ids] : []
-
-    attachment_authorize(@attachment, "update", @attachment.attachmenable_type.singularize.downcase)
-    errors = @attachment.move_to_parent_and_log_work(children_ids, current_user.id)
+#    attachment_authorize(@attachment, "update", @attachment.attachmenable_type.singularize.downcase)
+    errors = Attachment::move_to_parent_and_log_work(params[:parent_id], params[:children_ids], current_user.id)
 
     if errors.blank?
       head :ok

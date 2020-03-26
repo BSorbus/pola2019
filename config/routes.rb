@@ -117,7 +117,7 @@ Rails.application.routes.draw do
     get 'download', on: :member
     get 'zip_and_download', on: :collection
     post 'move_to_photo', on: :member
-    patch 'move_to_parent', on: :member
+    patch 'move_to_parent', on: :collection
   end
 
   resources :photos, only: [:show, :edit, :update, :destroy] do

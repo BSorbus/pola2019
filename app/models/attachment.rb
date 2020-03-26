@@ -87,24 +87,26 @@ class Attachment < ApplicationRecord
     end
   end
 
-  def move_to_parent_and_log_work(children, current_user_id)
+  def self.move_to_parent_and_log_work(parent, children, current_user_id)
     errors_array = []
+    parent = nil if ( parent.blank? || parent == 'null' || parent == '' || parent == 0 )
 
     ApplicationRecord.transaction do
       children.each do |child_id|
         child = Attachment.find(child_id)
-        update_ok = child.update(parent_id: self.id, user_id: current_user_id)
-        if update_ok
-          child.log_work('move_attachment', current_user_id)
-        else
-          errors_array << child.errors 
-        end 
+        if child.parent_id != parent 
+          update_ok = child.update(parent_id: parent, user_id: current_user_id)
+          if update_ok
+            child.log_work('move_attachment', current_user_id)
+          else
+            errors_array << child.errors 
+          end
+        end
       end
     end
 
     return errors_array
   end
-
 
   def send_notification_to_model
 #    attachmenable.send_notification_to_pool if (['Errand', 'Event', 'Project']).include? self.attachmenable.class.to_s     

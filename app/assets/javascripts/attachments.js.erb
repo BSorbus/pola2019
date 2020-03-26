@@ -345,13 +345,17 @@ function handleDragStart(e) {
 
   // Keep track globally of selected rows
   selectedRows = $('#' + srcTable).DataTable().rows( { selected: true } );
-
+  selectedRowsIds = selectedRows.ids().toArray();
+ 
   // Allow moves
   e.dataTransfer.effectAllowed = 'move';
 
   // Save the source row html as text
-  e.dataTransfer.setData('text/plain', e.target.outerHTML);
-//  e.dataTransfer.setData('Data', JSON.stringify(dragSrcRow));
+  // e.dataTransfer.setData('text/plain', e.target.outerHTML);
+  var transferObj = { srcTable: srcTable, 
+                      dragSrcRowId: $('#' + srcTable).DataTable().row(dragSrcRow).id(),
+                      srcSelectedRowIds: selectedRowsIds };
+  e.dataTransfer.setData('text/plain', JSON.stringify(transferObj));
 
   //e.dataTransfer.setData('text/plain', JSON.stringify($('#' + srcTable).DataTable().row(dragSrcRow).data()) );
   //e.dataTransfer.setData('text/plain', JSON.stringify(e.target) );
@@ -425,8 +429,6 @@ function handleDragOver(e) {
 
   // console.log("---------dragSrcRow: ----------------");
   // console.log(dragSrcRow);
-  // console.log("---------overRow: ----------------");
-  // console.log(overRow);
 
   // console.log("---------dragSrcRow.id: ----------------");
   // console.log(dragSrcRow.id);
@@ -525,17 +527,18 @@ function handleDrop(e) {
     };
 
     $.ajax({
-      url: '/attachments/'+ parentId + '/move_to_parent',
+      url: '/attachments/move_to_parent',
       type: 'PATCH',
       async: true,
       data: {
+        parent_id: parentId,
         children_ids: children
       },
       success: function (response) {
         // oAttachmentableAttachmentsTable.draw();
         // To powyzej jest OK, ale ponizej bardziej uniwersalne
         $('#' + dstTable).DataTable().draw();
-        toastr['success']('wiersz został pomyślnie przeniesiony');
+        toastr['success']('wiersz(-e) został(-y) pomyślnie przeniesiony(-e)');
       },
       error: function (xhr, ajaxOptions, thrownError) {
         console.log(xhr);
