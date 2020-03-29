@@ -20,6 +20,15 @@
           </li>
         <% end %>
 
+        <% if policy(:group).index? %>
+          <li><%= link_to groups_path do %>
+            <span><%= group_index_legend %></span>
+            <% end %>
+          </li>
+        <% end %>
+
+        <li class="divider"></li>
+
         <% if policy(:work).index? %>
           <li><%= link_to works_path do %>
             <span><%= work_index_legend %></span>

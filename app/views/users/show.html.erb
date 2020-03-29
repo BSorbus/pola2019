@@ -11,9 +11,14 @@
           <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
         </li>
         <% end %>
-          <% if policy(:role).index? %>
+        <% if policy(:role).index? %>
           <li class="brand-nav brand-nav-level-1">
             <a href="#roles" data-toggle="tab"><%= fa_icon("user-tag", text: t("pages.role.index.title_special")) %></a>
+          </li>
+        <% end %>
+        <% if policy(:group).index? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#groups" data-toggle="tab"><%= fa_icon("user-friends", text: t("pages.group.index.title")) %></a>
           </li>
         <% end %>
         <% if policy(:accessorization).index? %>
@@ -36,6 +41,10 @@
 
         <div class="tab-pane" id="roles">
           <%= render 'roles', trackable_type: "User", trackable_id: @user.id, subtitle: user_info_legend(@user) %>
+        </div>
+
+        <div class="tab-pane" id="groups">
+          <%= render 'groups', trackable_type: "User", trackable_id: @user.id, subtitle: user_info_legend(@user) %>
         </div>
 
         <div class="tab-pane" id="accessorizations">

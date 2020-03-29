@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     get 'select2_index', on: :collection
     get 'datatables_index', on: :collection
     get 'datatables_index_role', on: :collection # Displays users for showed role
+    get 'datatables_index_group', on: :collection # Displays users for showed group
     patch 'account_off', on: :member
     patch 'account_on', on: :member
     patch 'set_activity_at', on: :member
@@ -57,6 +58,12 @@ Rails.application.routes.draw do
     get 'datatables_index', on: :collection
     get 'datatables_index_user', on: :collection # Displays roles for showed user
     resources :users, only: [:create, :destroy], controller: 'roles/users'
+  end    
+
+  resources :groups do
+    get 'datatables_index', on: :collection
+    get 'datatables_index_user', on: :collection # Displays groups for showed user
+    resources :users, only: [:create, :destroy], controller: 'groups/users'
   end    
 
   resources :accessorizations do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_18_145237) do
+ActiveRecord::Schema.define(version: 2020_03_29_121022) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -203,6 +203,24 @@ ActiveRecord::Schema.define(version: 2020_03_18_145237) do
     t.index ["start_date"], name: "index_events_on_start_date"
     t.index ["title"], name: "index_events_on_title"
     t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "name"
+    t.text "note", default: ""
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "groups_users", id: false, force: :cascade do |t|
+    t.bigint "group_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id", "user_id"], name: "index_groups_users_on_group_id_and_user_id", unique: true
+    t.index ["group_id"], name: "index_groups_users_on_group_id"
+    t.index ["user_id", "group_id"], name: "index_groups_users_on_user_id_and_group_id", unique: true
+    t.index ["user_id"], name: "index_groups_users_on_user_id"
   end
 
   create_table "old_passwords", force: :cascade do |t|
@@ -583,6 +601,8 @@ ActiveRecord::Schema.define(version: 2020_03_18_145237) do
   add_foreign_key "events", "event_statuses"
   add_foreign_key "events", "event_types"
   add_foreign_key "events", "users"
+  add_foreign_key "groups_users", "groups"
+  add_foreign_key "groups_users", "users"
   add_foreign_key "photos", "users"
   add_foreign_key "point_files", "projects"
   add_foreign_key "projects", "customers"

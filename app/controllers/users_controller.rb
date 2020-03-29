@@ -1,12 +1,18 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized, except: [:index, :datatables_index_role, :datatables_index]
+  after_action :verify_authorized, except: [:index, :datatables_index_role, :datatables_index_group, :datatables_index]
   before_action :set_user, only: [:show, :edit, :update, :destroy, :account_off, :account_on, :set_activity_at]
 
 
   def datatables_index_role
     respond_to do |format|
       format.json{ render json: RoleUsersDatatable.new(params, view_context: view_context, only_for_current_role_id: params[:role_id]) }
+    end
+  end
+
+  def datatables_index_group
+    respond_to do |format|
+      format.json{ render json: GroupUsersDatatable.new(params, view_context: view_context, only_for_current_group_id: params[:group_id]) }
     end
   end
 

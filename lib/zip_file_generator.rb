@@ -38,6 +38,7 @@ class PreparationForZipFileGenerator
       attachment = Attachment.find(attachment_id)
       attachment_ancestors_names = attachment.ancestors.map(&:name)
       dest_path = attachment_ancestors_names.blank? ? "#{@root_dir_to_zip}" : "#{@root_dir_to_zip}/#{attachment_ancestors_names.reverse.join('/')}"
+      FileUtils.mkdir_p dest_path unless File.exists?(dest_path)
       if attachment.is_file?
         #puts "copy file for attachment_id: #{attachment.id}"
         source_file_name_with_path = attachment.attached_file.file.file   

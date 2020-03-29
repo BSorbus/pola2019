@@ -57,6 +57,7 @@ pl:
       work: 'Dziennik operacji'
       user: 'Użytkownik'
       role: 'Rola'
+      group: 'Grupa'
       accessorization: 'Uprawnienia'
       enrollment: 'Nabór'
       project: 'Projekt'
@@ -110,6 +111,9 @@ pl:
         name: 'Nazwa'
         activities: 'Uprawnienia'
         special: 'Systemowa?'
+        note: 'Uwagi'
+      group:
+        name: 'Nazwa'
         note: 'Uwagi'
       accessorization:
         event_id: 'Zadanie'
@@ -360,6 +364,15 @@ pl:
         title: 'Nowa Rola'
       edit:
         title: 'Edycja -> Rola'
+    group:
+      index:
+        title: 'Grupy'
+      show:
+        title: 'Grupa'
+      new:
+        title: 'Nowa Grupa'
+      edit:
+        title: 'Edycja -> Grupa'
     enrollment:
       index:
         title: 'Nabory'
@@ -521,6 +534,13 @@ pl:
       create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć użytkowników!'
       destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać użytkowników!'
       add_remove_role_user?: ' BRAK UPRAWNIEŃ: Nie możesz użytkownikom dodawać ani usuwać ról!'
+    group_policy:
+      index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy grup!'
+      show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów grupy!'
+      update?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych grup!'
+      create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć grup!'
+      destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać ról!'
+      add_remove_role_user?: ' BRAK UPRAWNIEŃ: Nie możesz do ról dowawać ani usuwać użytkowników!'
     project_policy:
       index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy projektów!'
       show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów tego projektu!'

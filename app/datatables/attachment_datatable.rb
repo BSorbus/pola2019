@@ -27,6 +27,7 @@ class AttachmentDatatable < AjaxDatatablesRails::ActiveRecord
         id:             record.id,
         name_if_folder: record.name_if_folder.present? ? record.name_if_folder : '',
         name:           link_attached_file_or_folder(record).html_safe,
+#        name:           fa_icon("folder", text: record.name).html_safe ,
         note:           truncate(record.note, length: 50) + '  ' +  
                           link_to(' ', @view.edit_attachment_path(record.id), class: 'fa fa-edit pull-right', title: "Edycja", rel: 'tooltip'),
         file_size:      file_size_or_sum_files_size_and_badge(record).html_safe,

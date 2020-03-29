@@ -232,7 +232,13 @@ $(document).ready(function() {
         "sortable": false,
         "searchable": false
       },
-      { "data": "name" },
+      { "data": "name"
+        // "className": "columnAslinkTo",
+        // render: function ( data, type, row, meta ) {
+        //   // return '<a href="'+data+'">Download</a>';
+        //   console.log(row.name_if_folder);
+        //   return data; }
+      },
       { "data": "note" }, 
       { "data": "user" }, 
       { "data": "updated_at",
@@ -295,6 +301,16 @@ $(document).ready(function() {
     if (target == '#attachments') {
       oAttachmentableAttachmentsTable.draw();
     };
+  });
+
+
+  $('#attachmenable-attachments tbody').on( 'click', 'td.columnAslinkTo', function () {
+
+    var tr = $(this).closest('tr');
+    var row = oAttachmentableAttachmentsTable.row( tr );
+
+    alert(row.data().name);
+
   });
 
 
@@ -385,7 +401,6 @@ function handleDragEnter(e) {
   // console.log(dragSrcRow);
   // console.log("-----------overRow ...............");
   // console.log(overRow);
-
 
   // Don't show drop zone if in source table
 //  if (currentTable !== srcTable) {

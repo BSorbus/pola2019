@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  var oRoletable = $('#roles-table').DataTable({
+  var oGrouptable = $('#groups-table').DataTable({
     // dom: 'lBfrtip',
     dom: '<"top" <"row" <"col-sm-6" <"pull-left"l><"pull-left"B> > <"col-sm-6 pull-right"f> > > rt <"bottom"ip><"clear">',
     buttons: [
@@ -31,7 +31,7 @@ $(document).ready(function() {
     stateSave: true,
     stateDuration: 60 * 60 * 24 * 7,
     ajax: { 
-      url: $('#roles-table').data('source'),
+      url: $('#groups-table').data('source'),
       type: "GET",
       error: function (jqXHR, exception) {
         console.log(jqXHR);
@@ -48,10 +48,7 @@ $(document).ready(function() {
       { "data": "id",
         "visible": false }, 
       { "data": "name" }, 
-      { "data": "special",
-        "searchable": false },
-      { "data": "note" },
-      { "data": "activities" }
+      { "data": "note" }
     ],
     order: [[ 1, "asc" ]],
     language: {
