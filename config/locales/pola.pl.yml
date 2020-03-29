@@ -58,6 +58,7 @@ pl:
       user: 'Użytkownik'
       role: 'Rola'
       group: 'Grupa'
+      archive: 'Składnica'
       accessorization: 'Uprawnienia'
       enrollment: 'Nabór'
       project: 'Projekt'
@@ -113,6 +114,9 @@ pl:
         special: 'Systemowa?'
         note: 'Uwagi'
       group:
+        name: 'Nazwa'
+        note: 'Uwagi'
+      archive:
         name: 'Nazwa'
         note: 'Uwagi'
       accessorization:
@@ -373,6 +377,15 @@ pl:
         title: 'Nowa Grupa'
       edit:
         title: 'Edycja -> Grupa'
+    archive:
+      index:
+        title: 'Składnica'
+      show:
+        title: 'Składnica'
+      new:
+        title: 'Nowa Składnica'
+      edit:
+        title: 'Edycja -> Składnica'
     enrollment:
       index:
         title: 'Nabory'
@@ -540,7 +553,13 @@ pl:
       update?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych grup!'
       create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć grup!'
       destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać ról!'
-      add_remove_role_user?: ' BRAK UPRAWNIEŃ: Nie możesz do ról dowawać ani usuwać użytkowników!'
+      add_remove_group_user?: ' BRAK UPRAWNIEŃ: Nie możesz do grup dowawać ani usuwać użytkowników!'
+    archive_policy:
+      index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy składnic!'
+      show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów składnicy!'
+      update?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych składnicy!'
+      create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć składnic!'
+      destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać skłdnic!'
     project_policy:
       index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy projektów!'
       show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów tego projektu!'

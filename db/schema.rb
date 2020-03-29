@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_29_121022) do
+ActiveRecord::Schema.define(version: 2020_03_29_201438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -27,6 +27,15 @@ ActiveRecord::Schema.define(version: 2020_03_29_121022) do
     t.index ["role_id"], name: "index_accessorizations_on_role_id"
     t.index ["user_id", "event_id"], name: "index_accessorizations_on_user_id_and_event_id", unique: true
     t.index ["user_id"], name: "index_accessorizations_on_user_id"
+  end
+
+  create_table "archives", force: :cascade do |t|
+    t.string "name"
+    t.text "note", default: ""
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_archives_on_user_id"
   end
 
   create_table "attachment_hierarchies", id: false, force: :cascade do |t|
@@ -590,6 +599,7 @@ ActiveRecord::Schema.define(version: 2020_03_29_121022) do
     t.index ["zs_9"], name: "index_zs_points_on_zs_9"
   end
 
+  add_foreign_key "archives", "users"
   add_foreign_key "attachments", "users"
   add_foreign_key "comments", "events"
   add_foreign_key "comments", "users"

@@ -62,6 +62,24 @@ class CreateRoleService
     end
   end
 
+  # archives
+  def archive_admin
+    role = Role.find_or_create_by!(name: "Administrator Archiwum") do |role|
+      role.special = true
+      role.activities += %w(archive:index archive:show archive:create archive:update archive:delete archive:work archive:add_remove_archive_user)
+      role.note = "<div>Rola służy do tworzenia, modyfikowania i usuwania Archiwów.<br>(Przypisz tylko zaawansowanym Administratorom systemu)</div>"
+      role.save!
+    end
+  end 
+  def archive_observer
+    role = Role.find_or_create_by!(name: "Obserwator Archiwum") do |role|
+      role.special = true
+      role.activities += %w(archive:index archive:show)
+      role.note = "Rola służy do wyświetlania informacji o Archiwach."
+      role.save!
+    end
+  end
+
   # user_attachments
   def user_attachment_admin
     role = Role.find_or_create_by!(name: "Administrator Załączników Użytkownika") do |role|

@@ -29,7 +29,7 @@
     </li>
   <% end %>
 
-  <% if policy(:enrollment).index? || policy(:errand).index? || policy(:event).index? || policy(:project).index? || policy(:customer).index? %>
+  <% if policy(:enrollment).index? || policy(:errand).index? || policy(:event).index? || policy(:project).index? || policy(:customer).index? || policy(:archive).index? %>
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-database"></span>&nbsp;<%=t "pages.data" %> <span class="caret"></span></a>
 
@@ -65,6 +65,15 @@
         <% if policy(:customer).index? %>
           <li><%= link_to customers_path do %>
             <span><%= customer_index_legend %></span>
+            <% end %>
+          </li>
+        <% end %>
+
+        <% if policy(:archive).index? %>
+          <li class="divider"></li>
+
+          <li><%= link_to archives_path do %>
+            <span><%= archive_index_legend %></span>
             <% end %>
           </li>
         <% end %>
