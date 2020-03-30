@@ -26,8 +26,8 @@ class ArchivesController < ApplicationController
 
   # GET /archives/new
   def new
-    authorize @archive, :new?
     @archive = Archive.new
+    authorize @archive, :new?
   end
 
   # GET /archives/1/edit
