@@ -10,6 +10,18 @@ class GroupsController < ApplicationController
     end
   end
 
+  def select2_index
+    authorize :group, :index?
+    params[:q] = params[:q]
+    @groups = Group.order(:name).finder_group(params[:q])
+    @groups_on_page = @groups.page(params[:page]).per(params[:page_limit])
+    
+    render json: { 
+      groups: @groups_on_page.as_json(methods: :fullname, only: [:id, :fullname]),
+      meta: { total_count: @groups.count }  
+    } 
+  end
+
   def datatables_index
     respond_to do |format|
       format.json{ render json: GroupDatatable.new(params) }

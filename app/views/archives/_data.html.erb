@@ -1,0 +1,95 @@
+<div id="tab_data">
+  <fieldset class="my-fieldset">
+    <legend class="my-fieldset colored-title"><%= subtitle %></legend>
+    <div class="row">
+
+      <div class="col-sm-12">
+        <% input_disabled ||= false  
+           #if input_disabled is not passed to the partial it doesn't crash. 
+           # We default it to false 
+        %>
+
+        <%= form_errors_for @archive %>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="row">
+
+              <div class="form-group col-sm-12">
+                <p><strong><%= Archive.human_attribute_name(:name) %></strong></p>
+                <%= @archive.name %>
+              </div>
+
+              <div class="form-group col-sm-12">
+                <p><strong><%= Archive.human_attribute_name(:note) %></strong></p>
+                <%= @archive.note.html_safe %>
+              </div>
+
+            </div>  <!-- /row -->
+          </div>  <!-- /col-sm-6 -->
+
+          <div class="col-sm-6">
+            <div class="row">
+
+              <div class="form-group col-sm-12">
+                <fieldset class="my-fieldset">
+                  <legend class="my-fieldset"><%= t('pages.archive.fieldset.archivizations_title') %></legend>
+
+                  <div class="row">
+                    <div class="form-group col-sm-12">
+
+                      <% Archivization.includes(:group, :archive).where(archive: @archive).order('groups.name').each do |archivization| %>
+                        <p><%= archivization.group.try(:name_as_link) %><span class="pull-right">[<%= archivization.archivization_type.try(:name) %>]</span></p>
+                      <% end %>
+
+                    </div>
+                  </div> <!--/row -->
+                </fieldset>
+              </div>
+            </div>  <!-- /row -->
+          </div> <!--/col-sm-6 -->
+
+
+
+        </div>  <!-- /row -->
+
+        <hr class="hr-without-top-margin">
+
+        <% if input_disabled %>
+          <!-- for "Show" -->
+          <div class="row">
+            <div class="col-sm-12">
+
+              <%= link_to archives_path, class: "btn btn-default" do %>
+                <span class="fa fa-list"></span>
+                <%= t("helpers.links.index") %>
+              <% end %>
+
+              <% if policy(@archive).destroy? %>
+                <%= link_to archive_path(@archive),
+                                    method: :delete,
+                                    data: { confirm: t('helpers.links.confirm_destroy', data: @archive.name) }, 
+                                    class: "btn btn-danger" do %>
+                  <span class="fa fa-trash"></span>
+                  <%= t("helpers.links.destroy") %>
+                <% end %>
+              <% end %>
+
+              <% if policy(@archive).edit? %>
+                <%= link_to edit_archive_path(@archive), class: "btn btn-primary" do %>
+                  <span class="fa fa-edit"></span>
+                  <%= t("helpers.links.edit") %>
+                <% end %>
+              <% end %>
+
+            </div> <!--/col-sm-12 -->
+          </div> <!-- /row -->
+        <% else %>
+          <!-- form "New"/"Edit" -->
+        <% end %>
+
+      </div> <!--/col-sm-12-->  
+
+    </div>
+  </fieldset>
+</div>

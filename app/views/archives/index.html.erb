@@ -5,3 +5,38 @@
     </div> <!--/col-sm-12 -->
   </div> <!--/row -->
 </div> <!--/container -->
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <table id="archives-table" class="hover cell-border" cellspacing="0" width="100%" 
+        data-source="<%= datatables_index_archives_path(format: :json) %>">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th class='col-sm-4'><%= Archive.human_attribute_name(:name) %></th>
+            <th class='col-sm-8'><%= Archive.human_attribute_name(:note) %></th>
+          </tr>
+        </thead>
+
+        <tbody>
+           <!--data from JSON -->
+        </tbody>
+      </table>
+    </div> <!--/col-sm-12 -->
+  </div> <!--/row -->
+  <br>
+  <div class="row">
+    <div class="col-sm-12">
+      <% if policy(:archive).new? %>
+        <%= link_to new_archive_path, class: "btn btn-primary pull-right" do %>
+          <span class="fa fa-plus"></span>
+          <%= t("helpers.links.new") %>
+        <% end %>
+      <% end %>
+    </div> <!--/col-sm-12 -->
+  </div>
+
+
+</div> <!--/container -->
+

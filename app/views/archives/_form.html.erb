@@ -1,27 +1,103 @@
-<%= form_with(model: archive, local: true) do |form| %>
-  <% if archive.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(archive.errors.count, "error") %> prohibited this archive from being saved:</h2>
+<div class="row">
+  <div class="col-sm-12">
+    <%= form_with(model: archive, local: true) do |f| %>
 
-      <ul>
-      <% archive.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+      <% input_disabled ||= false  
+         #if input_disabled is not passed to the partial it doesn't crash. 
+         # We default it to false 
+      %>
+
+      <%= form_errors_for archive %>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="row">
+
+            <div class="form-group required col-sm-12">
+              <%= f.label :name, class: 'control-label' %>
+              <%= f.text_field :name, autofocus: true, class: 'form-control input-sm', disabled: input_disabled %>
+            </div>
+
+            <div class="form-group col-sm-12">
+              <%= f.label :note, class: 'control-label' %>
+              <%= f.trix_editor :note %>
+            </div>
+
+          </div>  <!-- /row -->
+        </div>  <!-- /col-sm-6 -->
+
+
+        <div class="col-sm-6">
+
+            <div class="row">
+
+              <%# if policy(:archivization).create_update_delete? %>
+                <div class="col-sm-12">
+                  <fieldset class="my-fieldset">
+                    <legend class="my-fieldset"><%= t('pages.event.fieldset.archivizations_title') %></legend>
+
+                    <div class="row">
+                      <div class="form-group col-sm-12">
+
+                        <div class='archivizations clearfix'>
+
+                          <div class="row">
+                            <div class="form-group required col-sm-7">
+                              <%= f.label Archivization.human_attribute_name(:group_id), class: 'control-label' %>
+                            </div>
+                            <div class="form-group required col-sm-4">
+                              <%= f.label Archivization.human_attribute_name(:archivization_type_id), class: 'control-label' %>
+                            </div>
+                          </div>  <!-- /row -->
+
+                          <div class='archivizations-sub-form'>
+                            <%= f.fields_for :archivizations do |archivization_form|  %>
+                              <%= render 'archivization_fields', f: archivization_form %> 
+                            <% end %>
+                          </div>
+                          <%= link_to_add_fields( t("helpers.links.link_to_add_fields_nested"), f, :archivizations) %>
+                        </div>
+
+                      </div>
+                    </div> <!--/row -->
+                  </fieldset>
+                </div>
+
+              <%# end %>
+
+            </div>  <!-- /row -->
+
+
+
+        </div> <!--/col-sm-6 -->
+
+      </div>  <!-- /row -->
+
+
+      <hr class="hr-without-top-margin">
+
+      <% if input_disabled %>
+        <!-- for "Show" -->
+      <% else %>
+        <!-- form "New"/"Edit" -->
+        <div class="row">
+          <div class="col-sm-12">
+
+            <%= link_to archives_path, class: "btn btn-default" do %>
+              <span class="fa fa-list"></span>
+              <%= t("helpers.links.index") %>
+            <% end %>
+            <%= link_to :back, class: "btn btn-default" do %>
+              <span class="glyphicon glyphicon-arrow-left"></span>
+              <%= t("helpers.links.back") %>
+            <% end %>
+            <%= f.submit nil, class: 'btn btn-success' %>
+
+          </div> <!--/col-sm-12 -->
+        </div> <!-- /row -->
       <% end %>
-      </ul>
-    </div>
-  <% end %>
+      
+    <% end %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :note %>
-    <%= form.text_area :note %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+  </div> <!--/col-sm-12-->
+</div>

@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :archives
   devise_for :users, controllers: {
     confirmations: 'users/confirmations',
     passwords: 'users/passwords',
@@ -62,6 +61,7 @@ Rails.application.routes.draw do
   end    
 
   resources :groups do
+    get 'select2_index', on: :collection
     get 'datatables_index', on: :collection
     get 'datatables_index_user', on: :collection # Displays groups for showed user
     resources :users, only: [:create, :destroy], controller: 'groups/users'
@@ -81,6 +81,10 @@ Rails.application.routes.draw do
       post 'create_folder', on: :collection
     end
     resources :photos, module: :events, only: [:create]
+  end
+
+  resources :archives do
+    post 'datatables_index', on: :collection
   end
 
   resources :errands do

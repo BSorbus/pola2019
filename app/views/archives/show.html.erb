@@ -1,14 +1,55 @@
-<p id="notice"><%= notice %></p>
+<br>
+<div class="container-fluid"> 
+  <div class="row">
+    <div class="col-sm-2">
+      <ul  class="nav nav-pills brand-pills nav-stacked">
+        <li class="brand-nav active">
+          <a href="#archive_show" data-toggle="tab"><%= archive_show_legend %></a>
+        </li>
+<!-- 
+        <%# if @archive.access_attachments? %>
+          <%# if policy(:attachment).archive_index? %>
+            <li class="brand-nav brand-nav-level-1">
+              <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
+            </li>
+          <%# end %>
+        <%# end %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @archive.name %>
-</p>
+ -->
+        <% if policy(:archive).work? %>
+          <li class="brand-nav brand-nav-level-1">
+            <a href="#works" data-toggle="tab"><%= work_index_legend %></a>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="col-sm-10">
+      <div class="tab-content clearfix">
 
-<p>
-  <strong>Note:</strong>
-  <%= @archive.note %>
-</p>
+        <div class="tab-pane active" id="archive_show">
+          <%= render 'data', input_disabled: true, subtitle: archive_info_legend(@archive) %>
+        </div>
+<!-- 
+        <%# if @archive.access_attachments? %>
+          <div class="tab-pane" id="attachments">
+            <%#= render 'attachments/attachments_tab', attachmenable: @archive, subtitle: archive_info_legend(@archive),
+              move_photo_access: @archive.access_photos? %>
+          </div>
+        <%# end %>
+ -->
+        <div class="tab-pane" id="works">
+          <%= render 'works/works_tab', trackable_type: "Archive", trackable_id: @archive.id, subtitle: archive_info_legend(@archive) %>
+        </div>
 
-<%= link_to 'Edit', edit_archive_path(@archive) %> |
-<%= link_to 'Back', archives_path %>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>

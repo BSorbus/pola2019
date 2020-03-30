@@ -32,7 +32,7 @@ module Pola2019
 
     config.time_zone = 'Warsaw'
     config.i18n.default_locale = :pl
-    config.i18n.available_locales = [:pl]
+    config.i18n.available_locales = [:pl, :en]
 
     config.middleware.use Rack::Attack
 

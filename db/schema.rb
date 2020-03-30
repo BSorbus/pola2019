@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_29_201438) do
+ActiveRecord::Schema.define(version: 2020_03_29_201440) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -36,6 +36,27 @@ ActiveRecord::Schema.define(version: 2020_03_29_201438) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_archives_on_user_id"
+  end
+
+  create_table "archivization_types", force: :cascade do |t|
+    t.string "name"
+    t.string "activities", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_archivization_types_on_name"
+  end
+
+  create_table "archivizations", force: :cascade do |t|
+    t.integer "archive_id"
+    t.integer "group_id"
+    t.integer "archivization_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["archive_id", "group_id"], name: "index_archivizations_on_archive_id_and_group_id", unique: true
+    t.index ["archive_id"], name: "index_archivizations_on_archive_id"
+    t.index ["archivization_type_id"], name: "index_archivizations_on_archivization_type_id"
+    t.index ["group_id", "archive_id"], name: "index_archivizations_on_group_id_and_archive_id", unique: true
+    t.index ["group_id"], name: "index_archivizations_on_group_id"
   end
 
   create_table "attachment_hierarchies", id: false, force: :cascade do |t|

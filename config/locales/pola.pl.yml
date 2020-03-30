@@ -123,6 +123,10 @@ pl:
         event_id: 'Zadanie'
         user_id: 'Użytkownik'
         role_id: 'Rola'
+      archivization:
+        archive_id: 'Składnica'
+        group_id: 'Grupa'
+        archivization_type_id: 'Uprawnienia'
       enrollment:
         name: 'Nazwa'
         note: 'Uwagi'
@@ -386,6 +390,8 @@ pl:
         title: 'Nowa Składnica'
       edit:
         title: 'Edycja -> Składnica'
+      fieldset:
+        archivizations_title: 'Uprawnienia Grup'
     enrollment:
       index:
         title: 'Nabory'
@@ -654,6 +660,7 @@ pl:
     select2user: 'Wybierz Użytkownika'
     select2customer: 'Wybierz Wnioskodawcę'
     select2errand: 'Wybierz Zlecenie'
+    select2group: 'Wybierz Grupę'
   charts:
     errands_by_status:
       title: 'Aktualna liczba zleceń'

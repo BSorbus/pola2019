@@ -1,6 +1,16 @@
-<h1>Editing Archive</h1>
+<br>
+<div class="container-fluid"> 
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="center colored-title"><%= fa_icon("edit", size: '3x') %></div>
+    </div>
+    <div class="col-sm-10">
+      <fieldset class="my-fieldset">
+        <legend class="my-fieldset colored-title"><%= archive_edit_legend(@archive) %></legend>
+        <%= render 'form', archive: @archive %>
+      </fieldset>
+    </div>
 
-<%= render 'form', archive: @archive %>
+  </div>
 
-<%= link_to 'Show', @archive %> |
-<%= link_to 'Back', archives_path %>
+</div>
