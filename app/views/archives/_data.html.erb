@@ -36,7 +36,7 @@
                   <legend class="my-fieldset"><%= t('pages.archive.fieldset.archivizations_title') %></legend>
 
                   <div class="row">
-                    <div class="form-group col-sm-12">
+                    <div class="form-group col-sm-11">
 
                       <% Archivization.includes(:group, :archive).where(archive: @archive).order('groups.name').each do |archivization| %>
                         <p><%= archivization.group.try(:name_as_link) %><span class="pull-right">[<%= archivization.archivization_type.try(:name) %>]</span></p>

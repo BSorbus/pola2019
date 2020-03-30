@@ -119,6 +119,13 @@ pl:
       archive:
         name: 'Nazwa'
         note: 'Uwagi'
+      archive/archivizations:
+        archive_id: 'Składnica'
+        group_id: 'Grupa'
+        archivization_type_id: 'Uprawnienia'
+        archive: 'Składnica'
+        group: 'Grupa'
+        archivization_type: 'Uprawnienia'
       accessorization:
         event_id: 'Zadanie'
         user_id: 'Użytkownik'
