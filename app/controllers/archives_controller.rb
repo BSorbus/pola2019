@@ -27,6 +27,7 @@ class ArchivesController < ApplicationController
   # GET /archives/new
   def new
     @archive = Archive.new
+    @archive.author = current_user
     authorize @archive, :new?
   end
 
@@ -38,9 +39,8 @@ class ArchivesController < ApplicationController
   # POST /archives
   # POST /archives.json
   def create
-#    @event = Event.new(event_params_create)
-    @archive = Archive.new(archive_params)
-    @archive.user = current_user
+    @archive = Archive.new(archive_params_create)
+    @archive.author = current_user
     authorize @archive, :create?
     respond_to do |format|
       if @archive.save
@@ -57,7 +57,7 @@ class ArchivesController < ApplicationController
   # PATCH/PUT /archives/1
   # PATCH/PUT /archives/1.json
   def update
-    @archive.user = current_user
+    @archive.author = current_user
     authorize @archive, :update?
     respond_to do |format|
       if @archive.update(archive_params)
@@ -77,7 +77,7 @@ class ArchivesController < ApplicationController
     authorize @archive, :destroy?
     if @archive.destroy
       flash[:success] = t('activerecord.successfull.messages.destroyed', data: @archive.fullname)
-      #@archive.log_work('destroy', current_user.id)
+      @archive.log_work('destroy', current_user.id)
       redirect_to archives_url
     else 
       flash.now[:error] = t('activerecord.errors.messages.destroyed', data: @archive.fullname)
@@ -93,18 +93,15 @@ class ArchivesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def archive_params
-#      params.require(:archive).permit(:name, :note)
-
-#      params.require(:archive).permit(policy(@archive).permitted_attributes)      
-      params.require(:archive).permit(:name, :note, archivizations_attributes: [:id, :archives_id, :group_id, :archivization_type_id, :_destroy])
+      # params.require(:archive).permit(:name, :note)
+      params.require(:archive).permit(policy(@archive).permitted_attributes)      
+      # params.require(:archive).permit(:name, :note, archivizations_attributes: [:id, :archives_id, :group_id, :archivization_type_id, :_destroy])
     end
 
-#TODO
-    def event_params
-      #params.require(:event).permit(policy(@event).permitted_attributes)
+    def archive_params_create
+      # params.require(:archive).permit(:name, :note)
+      params.require(:archive).permit(policy(:archive).permitted_attributes)      
+      # params.require(:archive).permit(:name, :note, archivizations_attributes: [:id, :archives_id, :group_id, :archivization_type_id, :_destroy])
     end
 
-    def event_params_create
-      #params.require(:event).permit(policy(:event).permitted_attributes)
-    end    
 end

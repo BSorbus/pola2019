@@ -119,6 +119,15 @@ pl:
       archive:
         name: 'Nazwa'
         note: 'Uwagi'
+        user_id: 'Autor'
+        user: 'Autor'
+      archivization:
+        archive_id: 'Składnica'
+        group_id: 'Grupa'
+        archivization_type_id: 'Uprawnienia'
+        archive: 'Składnica'
+        group: 'Grupa'
+        archivization_type: 'Uprawnienia'
       archive/archivizations:
         archive_id: 'Składnica'
         group_id: 'Grupa'
@@ -130,10 +139,6 @@ pl:
         event_id: 'Zadanie'
         user_id: 'Użytkownik'
         role_id: 'Rola'
-      archivization:
-        archive_id: 'Składnica'
-        group_id: 'Grupa'
-        archivization_type_id: 'Uprawnienia'
       enrollment:
         name: 'Nazwa'
         note: 'Uwagi'
@@ -390,7 +395,7 @@ pl:
         title: 'Edycja -> Grupa'
     archive:
       index:
-        title: 'Składnica'
+        title: 'Składnice'
       show:
         title: 'Składnica'
       new:
@@ -569,10 +574,10 @@ pl:
       add_remove_group_user?: ' BRAK UPRAWNIEŃ: Nie możesz do grup dowawać ani usuwać użytkowników!'
     archive_policy:
       index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy składnic!'
-      show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów składnicy!'
-      update?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych składnicy!'
+      show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów tej składnicy!'
+      update?: ' BRAK UPRAWNIEŃ: Nie możesz edytować danych tej składnicy!'
       create?: ' BRAK UPRAWNIEŃ: Nie możesz tworzyć składnic!'
-      destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać skłdnic!'
+      destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać tej składnicy!'
     project_policy:
       index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy projektów!'
       show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać szczegółów tego projektu!'

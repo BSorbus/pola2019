@@ -7,7 +7,7 @@ class Archivization < ApplicationRecord
 
   # validates
   validates :group_id, presence: true,  
-                      uniqueness: { scope: [:archive_id], message: "jest już przypisana do tej Składnicy" }  
+                      uniqueness: { scope: [:archive_id, :archivization_type], message: " - jest już przypisana do tej Składnicy z takimi upprawnieniami" }  
 
   # callbacks
 

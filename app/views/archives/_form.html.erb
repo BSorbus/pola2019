@@ -18,6 +18,12 @@
               <%= f.text_field :name, autofocus: true, class: 'form-control input-sm', disabled: input_disabled %>
             </div>
 
+          </div>  <!-- /row -->
+        </div>  <!-- /col-sm-6 -->
+
+        <div class="col-sm-6">
+          <div class="row">
+
             <div class="form-group col-sm-12">
               <%= f.label :note, class: 'control-label' %>
               <%= f.trix_editor :note %>
@@ -25,50 +31,44 @@
 
           </div>  <!-- /row -->
         </div>  <!-- /col-sm-6 -->
-
-
-        <div class="col-sm-6">
-
-            <div class="row">
-
-              <%# if policy(:archivization).create_update_delete? %>
-                <div class="col-sm-12">
-                  <fieldset class="my-fieldset">
-                    <legend class="my-fieldset"><%= t('pages.archive.fieldset.archivizations_title') %></legend>
-
-
-                        <div class='archivizations clearfix'>
-
-                          <div class="row">
-                            <div class="form-group required col-sm-6">
-                              <%= f.label Archivization.human_attribute_name(:group_id), class: 'control-label' %>
-                            </div>
-                            <div class="form-group required col-sm-4">
-                              <%= f.label Archivization.human_attribute_name(:archivization_type_id), class: 'control-label' %>
-                            </div>
-                          </div>  <!-- /row -->
-
-                          <div class='archivizations-sub-form'>
-                            <%= f.fields_for :archivizations do |archivization_form|  %>
-                              <%= render 'archivization_fields', f: archivization_form %> 
-                            <% end %>
-                          </div>
-                          <%= link_to_add_fields( t("helpers.links.link_to_add_fields_nested"), f, :archivizations) %>
-                        </div>
-
-
-                  </fieldset>
-                </div>
-
-              <%# end %>
-
-            </div>  <!-- /row -->
-
-
-
-        </div> <!--/col-sm-6 -->
-
       </div>  <!-- /row -->
+
+
+
+
+      <% if policy(archive).add_remove_archive_group? %>
+
+        <div class="row">
+          <div class="col-sm-12">
+
+            <fieldset class="my-fieldset">
+              <legend class="my-fieldset"><%= t('pages.archive.fieldset.archivizations_title') %></legend>
+
+              <div class='archivizations clearfix'>
+
+                <div class="row">
+                  <div class="form-group required col-sm-5">
+                    <%= f.label Archivization.human_attribute_name(:group_id), class: 'control-label' %>
+                  </div>
+                  <div class="form-group required col-sm-5">
+                    <%= f.label Archivization.human_attribute_name(:archivization_type_id), class: 'control-label' %>
+                  </div>
+                </div>  <!-- /row -->
+
+                <div class='archivizations-sub-form'>
+                  <%= f.fields_for :archivizations do |archivization_form|  %>
+                    <%= render 'archivization_fields', f: archivization_form %> 
+                  <% end %>
+                </div>
+                <%= link_to_add_fields( t("helpers.links.link_to_add_fields_nested"), f, :archivizations) %>
+              </div>
+
+            </fieldset>
+
+          </div> <!--/col-sm-12 -->
+        </div>  <!-- /row -->
+
+      <% end %>
 
 
       <hr class="hr-without-top-margin">

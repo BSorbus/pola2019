@@ -1,13 +1,13 @@
 <div class="fields">
   <div class='row' >
-    <div class="form-group required col-sm-6">
+    <div class="form-group required col-sm-5">
       <%= f.hidden_field :group_id, 
                         class: "form-control input-sm select2group", 
                         placeholder: t('placeholder.select2group'),
                         style: "width:100%" %>
     </div>
 
-    <div class="form-group required col-sm-4">
+    <div class="form-group required col-sm-5">
       <%= f.select :archivization_type_id, 
             ArchivizationType.all.order(:name).collect {|v| [ "#{v[:name]}", v[:id] ] },
             { include_blank: true }, 

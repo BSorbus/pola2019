@@ -4,7 +4,11 @@ class Group < ApplicationRecord
   delegate :url_helpers, to: 'Rails.application.routes'
 
   # relations
-  has_and_belongs_to_many :users
+  has_many :members #, dependent: :destroy
+  has_many :users, through: :members
+
+#  belongs_to :writer, class_name: 'Author', foreign_key: 'author_id'
+
 
   has_many :archivizations, dependent: :destroy
   has_many :accesses_archives, through: :archivizations, source: :archive

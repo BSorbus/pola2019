@@ -7,7 +7,7 @@ class CreateArchivizations < ActiveRecord::Migration[5.2]
 
       t.timestamps      
     end
-    add_index :archivizations, [:archive_id, :group_id],     unique: true
-    add_index :archivizations, [:group_id, :archive_id],     unique: true
+    # add_index :archivizations, [:archive_id, :group_id],     unique: true
+    # add_index :archivizations, [:group_id, :archive_id],     unique: true
   end
 end

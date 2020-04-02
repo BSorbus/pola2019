@@ -14,6 +14,9 @@ class CreateArchives < ActiveRecord::Migration[5.2]
         role = CreateRoleService.new.archive_admin
         puts 'CREATED ROLE: ' << role.name
 
+        role = CreateRoleService.new.archive_creator
+        puts 'CREATED ROLE: ' << role.name
+
         role = CreateRoleService.new.archive_observer
         puts 'CREATED ROLE: ' << role.name
 
@@ -27,10 +30,16 @@ class CreateArchives < ActiveRecord::Migration[5.2]
           puts 'DESTROYED ROLE: ' << role_name
         end
 
-        role2 = CreateRoleService.new.archive_observer
-        role2_name = role2.name
-        if role2.destroy
-          puts 'DESTROYED ROLE: ' << role2_name
+        role = CreateRoleService.new.archive_creator
+        role_name = role.name
+        if role.destroy
+          puts 'DESTROYED ROLE: ' << role_name
+        end
+
+        role = CreateRoleService.new.archive_observer
+        role_name = role.name
+        if role.destroy
+          puts 'DESTROYED ROLE: ' << role_name
         end
 
         drop_table :archives if (table_exists? :archives)

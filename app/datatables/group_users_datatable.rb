@@ -21,6 +21,7 @@ class GroupUsersDatatable < AjaxDatatablesRails::ActiveRecord
   def data
     records.map do |record|
       group_has_user = Group.joins(:users).where(users: {id: record.id}, groups: {id: options[:only_for_current_group_id]}).any?
+#      group_has_user = Group.joins(:members).where(users: {id: record.id}, groups: {id: options[:only_for_current_group_id]}).any?
       {
         id:         record.id,
         name:       record.try(:name_as_link),

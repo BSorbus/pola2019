@@ -52,10 +52,8 @@ ActiveRecord::Schema.define(version: 2020_03_29_201440) do
     t.integer "archivization_type_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["archive_id", "group_id"], name: "index_archivizations_on_archive_id_and_group_id", unique: true
     t.index ["archive_id"], name: "index_archivizations_on_archive_id"
     t.index ["archivization_type_id"], name: "index_archivizations_on_archivization_type_id"
-    t.index ["group_id", "archive_id"], name: "index_archivizations_on_group_id_and_archive_id", unique: true
     t.index ["group_id"], name: "index_archivizations_on_group_id"
   end
 
@@ -242,15 +240,14 @@ ActiveRecord::Schema.define(version: 2020_03_29_201440) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "groups_users", id: false, force: :cascade do |t|
+  create_table "members", force: :cascade do |t|
     t.bigint "group_id"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["group_id", "user_id"], name: "index_groups_users_on_group_id_and_user_id", unique: true
-    t.index ["group_id"], name: "index_groups_users_on_group_id"
-    t.index ["user_id", "group_id"], name: "index_groups_users_on_user_id_and_group_id", unique: true
-    t.index ["user_id"], name: "index_groups_users_on_user_id"
+    t.index ["group_id", "user_id"], name: "index_members_on_group_id_and_user_id", unique: true
+    t.index ["group_id"], name: "index_members_on_group_id"
+    t.index ["user_id"], name: "index_members_on_user_id"
   end
 
   create_table "old_passwords", force: :cascade do |t|
@@ -632,8 +629,8 @@ ActiveRecord::Schema.define(version: 2020_03_29_201440) do
   add_foreign_key "events", "event_statuses"
   add_foreign_key "events", "event_types"
   add_foreign_key "events", "users"
-  add_foreign_key "groups_users", "groups"
-  add_foreign_key "groups_users", "users"
+  add_foreign_key "members", "groups"
+  add_foreign_key "members", "users"
   add_foreign_key "photos", "users"
   add_foreign_key "point_files", "projects"
   add_foreign_key "projects", "customers"

@@ -33,7 +33,11 @@ class User < ApplicationRecord
 
   # relations
   has_and_belongs_to_many :roles
-  has_and_belongs_to_many :groups
+#  has_and_belongs_to_many :groups
+
+  has_many :members #, dependent: :destroy
+  has_many :groups, through: :members
+
 
   has_many :accessorizations, dependent: :nullify, index_errors: true
 
@@ -43,7 +47,6 @@ class User < ApplicationRecord
   has_many :projects, dependent: :nullify
   has_many :errands, dependent: :nullify
   has_many :events, dependent: :nullify
-  has_many :groups, dependent: :nullify
   has_many :archives, dependent: :nullify
 
   has_many :accesses_events, through: :accessorizations, source: :event
@@ -62,7 +65,7 @@ class User < ApplicationRecord
   before_destroy :has_important_links, prepend: true
 
   # scope
-  scope :has_notification_by_email, -> { where(notification_by_email: true) }
+  scope :has_notification_by_email, -> { where(notification_by_email: true, deleted_at: nil) }
 
   def has_important_links
     analize_value = true

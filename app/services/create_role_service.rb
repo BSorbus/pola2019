@@ -64,18 +64,26 @@ class CreateRoleService
 
   # archives
   def archive_admin
-    role = Role.find_or_create_by!(name: "Administrator Archiwum") do |role|
+    role = Role.find_or_create_by!(name: "Administrator Składnic") do |role|
       role.special = true
-      role.activities += %w(archive:index archive:show archive:create archive:update archive:delete archive:work archive:add_remove_archive_user)
-      role.note = "<div>Rola służy do tworzenia, modyfikowania i usuwania Archiwów.<br>(Przypisz tylko zaawansowanym Administratorom systemu)</div>"
+      role.activities += %w(archive:index archive:show archive:create archive:update archive:delete archive:work archive:add_remove_archive_group)
+      role.note = "<div>Rola służy do zarządzania wszystkimi Składnicami.<br>(Przypisz tylko zaawansowanym Administratorom systemu)</div>"
+      role.save!
+    end
+  end 
+  def archive_creator
+    role = Role.find_or_create_by!(name: "Kreator Składnic") do |role|
+      role.special = true
+      role.activities += %w(archive:index archive:create archive:self_show archive:self_update archive:self_delete archive:self_add_remove_archive_group)
+      role.note = "<div>Rola służy do tworzenia Składnic oraz zarządzania własnymi składnicami.<br>(Przypisz osobom, które będą tworzyły składnice)</div>"
       role.save!
     end
   end 
   def archive_observer
-    role = Role.find_or_create_by!(name: "Obserwator Archiwum") do |role|
+    role = Role.find_or_create_by!(name: "Obserwator Składnic") do |role|
       role.special = true
       role.activities += %w(archive:index archive:show)
-      role.note = "Rola służy do wyświetlania informacji o Archiwach."
+      role.note = "Rola służy do wyświetlania informacji o Składnicach."
       role.save!
     end
   end
