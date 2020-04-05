@@ -78,11 +78,5 @@ class Errand < ApplicationRecord
     "(" + %w(errands.number errands.principal to_char(errands.order_date,'YYYY-mm-dd') to_char(errands.adoption_date,'YYYY-mm-dd')).map { |column| "#{column} ilike #{escaped_query_str}" }.join(" OR ") + ")"
   end
 
-  def update_attachments_counter_cache
-    files_count = attachments.where.not(attached_file: nil).count # Whatever condition you need here.
-    files_size_sum = attachments.where.not(attached_file: nil).map { |a| a.attached_file.file.size }.sum
-
-    self.update_columns(attachments_count: files_count, attachments_file_size_sum: files_size_sum)
-  end
 
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_29_201440) do
+ActiveRecord::Schema.define(version: 2020_04_03_192428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2020_03_29_201440) do
   end
 
   create_table "archives", force: :cascade do |t|
+    t.uuid "archive_uuid"
     t.string "name"
     t.text "note", default: ""
     t.bigint "user_id"
@@ -90,6 +91,33 @@ ActiveRecord::Schema.define(version: 2020_03_29_201440) do
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_comments_on_event_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "component_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id", null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations", null: false
+    t.index ["ancestor_id", "descendant_id", "generations"], name: "component_anc_desc_idx", unique: true
+    t.index ["descendant_id"], name: "component_desc_idx"
+  end
+
+  create_table "components", force: :cascade do |t|
+    t.bigint "user_id"
+    t.uuid "component_uuid"
+    t.string "component_file"
+    t.string "file_content_type"
+    t.string "file_size"
+    t.string "name"
+    t.string "name_if_folder"
+    t.bigint "parent_id"
+    t.text "note", default: ""
+    t.string "componentable_type"
+    t.bigint "componentable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["componentable_type", "componentable_id"], name: "index_components_on_componentable_type_and_componentable_id"
+    t.index ["name"], name: "index_components_on_name"
+    t.index ["user_id"], name: "index_components_on_user_id"
   end
 
   create_table "customers", force: :cascade do |t|
@@ -621,6 +649,7 @@ ActiveRecord::Schema.define(version: 2020_03_29_201440) do
   add_foreign_key "attachments", "users"
   add_foreign_key "comments", "events"
   add_foreign_key "comments", "users"
+  add_foreign_key "components", "users"
   add_foreign_key "customers", "users"
   add_foreign_key "enrollments", "users"
   add_foreign_key "errands", "errand_statuses"

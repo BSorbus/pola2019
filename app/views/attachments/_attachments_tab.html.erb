@@ -89,7 +89,7 @@
     localStorage.setItem( 'ls_attachment_breadcrumb', JSON.stringify(breadcrumb_ancestry_json) );
     // redraw for new ajax data: d.attachment_parent_id 
     $('#attachmenable-attachments').DataTable().draw();
-    buildAttachmentBreadcrumb("id_attachment_breadcrumb", 
+    buildDirectoryBreadcrumb("id_attachment_breadcrumb", 
                               ["attachment_parent_id_for_folder","attachment_parent_id"],
                               "linkToAttachmentBreadcrumb", 
                               breadcrumb_ancestry_json);
@@ -99,7 +99,7 @@
   $(document).ready(function() {
 
     localStorage.removeItem('ls_attachment_breadcrumb');
-    buildAttachmentBreadcrumb("id_attachment_breadcrumb", 
+    buildDirectoryBreadcrumb("id_attachment_breadcrumb", 
                               ["attachment_parent_id_for_folder","attachment_parent_id"],
                               "linkToAttachmentBreadcrumb", 
                               breadcrumb_ancestry_json={parent_id: null, ancestry_path: [], ancestor_ids: []});

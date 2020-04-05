@@ -65,6 +65,7 @@ pl:
       project_status: 'Status Projektu'
       customer: 'Wnioskodawca'
       attachment: 'Załącznik'
+      component: 'Załącznik'
       photo: 'Zdjęcie'
       point_file: 'Plik Punktów Adresowych'
       ww_point: 'Punkt Adresowy'
@@ -119,6 +120,9 @@ pl:
       archive:
         name: 'Nazwa'
         note: 'Uwagi'
+        components_folders_count: 'Ilość folderów'
+        components_files_count: 'Ilość plików'
+        components_files_size_sum: 'Suma'
         user_id: 'Autor'
         user: 'Autor'
       archivization:
@@ -180,6 +184,19 @@ pl:
         attachmenable: 'Załączony do'
         attached_file: 'Plik/Katalog'
         attached_file_identifier: 'Załącznik'
+        file_content_type: 'Typ'
+        file_size: 'Rozmiar'
+        file_size_or_badge: 'Info'
+        created_at: 'Utworzony'
+        updated_at: 'Aktualizacja'
+        user_id: 'Autor'
+        note: 'Uwagi'
+        name_if_folder: 'Katalog'
+        name: 'Nazwa'
+      component:
+        componentable: 'Załączony do'
+        component_file: 'Plik/Katalog'
+        component_file_identifier: 'Załącznik'
         file_content_type: 'Typ'
         file_size: 'Rozmiar'
         file_size_or_badge: 'Info'
@@ -445,6 +462,13 @@ pl:
         folder_submit: 'Utwórz'
       through_events_index:
         title: 'Załączniki (Zadań)'
+      index:
+        title: 'Załączniki'
+      edit:
+        title: 'Edycja -> Załącznik'
+    component:
+      components_tab:
+        folder_submit: 'Utwórz'
       index:
         title: 'Załączniki'
       edit:

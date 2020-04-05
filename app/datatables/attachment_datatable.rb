@@ -27,9 +27,7 @@ class AttachmentDatatable < AjaxDatatablesRails::ActiveRecord
         id:             record.id,
         name_if_folder: record.name_if_folder.present? ? record.name_if_folder : '',
         name:           link_attached_file_or_folder(record).html_safe,
-#        name:           fa_icon("folder", text: record.name).html_safe ,
-        note:           truncate(record.note, length: 50) + '  ' +  
-                          link_to(' ', @view.edit_attachment_path(record.id), class: 'fa fa-edit pull-right', title: "Edycja", rel: 'tooltip'),
+        note:           truncate(record.note, length: 50),
         file_size:      file_size_or_sum_files_size_and_badge(record).html_safe,
         user:           record.user.name_as_link,
         updated_at:     record.updated_at.strftime("%Y-%m-%d %H:%M:%S"),
@@ -39,17 +37,6 @@ class AttachmentDatatable < AjaxDatatablesRails::ActiveRecord
   end
 
   private
-
-  # def get_raw_records
-  #   if (options[:attachmenable_id]).present? && (options[:attachmenable_type]).present?
-  #     folders = Attachment.joins(:user).where(attachmenable_id: options[:attachmenable_id], attachmenable_type: options[:attachmenable_type]).folders_only.order_folders_files.all
-  #     files   = Attachment.joins(:user).where(attachmenable_id: options[:attachmenable_id], attachmenable_type: options[:attachmenable_type]).files_only.order_folders_files.all
-  #   else
-  #     folders = Attachment.joins(:user).folders_only.order_folders_files.all
-  #     files   = Attachment.joins(:user).files_only.order_folders_files.all
-  #   end
-  #   all_data = folders.or(files)
-  # end
 
   def get_raw_records
     if (options[:attachmenable_id]).present? && (options[:attachmenable_type]).present?
@@ -84,6 +71,11 @@ class AttachmentDatatable < AjaxDatatablesRails::ActiveRecord
     end
   end
 
+  def link_edit(rec)
+    link_to(' ', @view.edit_attachment_path(rec.id), class: 'fa fa-edit', title: "Edycja", rel: 'tooltip')
+#    link_to(' ', @view.edit_attachment_path(rec.id), class: 'fa fa-edit', remote: true, title: "Edycja", rel: 'tooltip')
+  end
+
   def file_size_or_sum_files_size_and_badge(rec)
     if rec.is_folder?
       badge(rec)
@@ -101,16 +93,20 @@ class AttachmentDatatable < AjaxDatatablesRails::ActiveRecord
   def action_links(rec)
     if rec.is_folder?
       "<div style='text-align: center'>
+        <span>" + link_edit(rec) + "</span>
         <button-as-link ajax-path='" + attachment_path(rec.id) + "' ajax-method='DELETE' class='btn btn-xs fa fa-trash text-danger' title='Usuń' rel='tooltip'></button-as-link>
       </div>"
     else
-      "<div style='text-align: center'>
+     # <button-as-link ajax-path='" + edit_attachment_path(rec.id) + "' ajax-method='POST' class='btn btn-xs fa fa-edit text-primary' title='Edycja' rel='tooltip'></button-as-link>
+     "<div style='text-align: center'>
+        <span>" + link_edit(rec) + "</span>
         <button-as-link ajax-path='" + download_attachment_path(rec.id) + "' ajax-method='GET' class='btn btn-xs fa fa-download text-primary' title='Pobierz' rel='tooltip'></button-as-link>
         <button-as-link ajax-path='" + attachment_path(rec.id) + "' ajax-method='DELETE' class='btn btn-xs fa fa-trash text-danger' title='Usuń' rel='tooltip'></button-as-link>
       </div>"
     end
   end
 
+ 
 
   # ==== These methods represent the basic operations to perform on records
 

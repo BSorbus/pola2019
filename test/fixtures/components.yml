@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  componentable: one
+  componentable_type: Componentable
+  component_file: MyString
+  file_content_type: MyString
+  file_size: MyString
+  user: one
+  name: MyString
+  name_if_folder: MyString
+  parent_id: 1
+  note: MyText
+  file_uuid: 
+
+two:
+  componentable: two
+  componentable_type: Componentable
+  component_file: MyString
+  file_content_type: MyString
+  file_size: MyString
+  user: two
+  name: MyString
+  name_if_folder: MyString
+  parent_id: 1
+  note: MyText
+  file_uuid: 

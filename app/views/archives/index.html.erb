@@ -14,9 +14,12 @@
         <thead>
           <tr>
             <th>id</th>
-            <th class='col-sm-4'><%= Archive.human_attribute_name(:name) %></th>
-            <th class='col-sm-4'><%= Archive.human_attribute_name(:note) %></th>
-            <th class='col-sm-4'><%= Archive.human_attribute_name(:user) %></th>
+            <th><%= Archive.human_attribute_name(:name) %></th>
+            <th><%= Archive.human_attribute_name(:note) %></th>
+            <th class='col-sm-1'><%= Archive.human_attribute_name(:components_folders_count) %></th>
+            <th class='col-sm-1'><%= Archive.human_attribute_name(:components_files_count) %></th>
+            <th class='col-sm-1'><%= Archive.human_attribute_name(:components_files_size_sum) %></th>
+            <th class='col-sm-2'><%= Archive.human_attribute_name(:user) %></th>
           </tr>
         </thead>
 

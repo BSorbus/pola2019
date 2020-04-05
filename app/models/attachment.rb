@@ -21,7 +21,16 @@ class Attachment < ApplicationRecord
   #                  uniqueness: { case_sensitive: false, scope: [:attachmenable_id, :attachmenable_type, :parent_id], message: " - istnieje katalog o takiej nazwie" }, allow_blank: true
 
 
-  validates :attached_file, presence: true, file_size: { in: 1.byte..500.megabyte }, unless: -> { name_if_folder.present? }
+  validates :attached_file, presence: true, 
+                    file_content_type: { exclude: [ 'application/x-msdos-program',
+                                                    'application/cmd',
+                                                    'application/x-ms-dos-executable',
+                                                    'application/x-javascript', 
+                                                    'application/x-msi',
+                                                    'application/x-php',
+                                                    'application/x-python',
+                                                    'application/x-vbs' ] },
+                    file_size: { in: 1.byte..500.megabyte }, unless: -> { name_if_folder.present? }
 
   # callbacks
   before_validation do
@@ -32,9 +41,11 @@ class Attachment < ApplicationRecord
     end
   end
 
-  after_save :update_custom_counter_cache
+  after_create :update_custom_counter_cache
   after_destroy :update_custom_counter_cache
 
+  # after_create_commit :update_custom_counter_cache
+  # after_destroy_commit :update_custom_counter_cache
 
 #  after_create_commit { self.log_work('upload_attachment') }
 #  after_update_commit { self.log_work('update') }
@@ -135,8 +146,12 @@ class Attachment < ApplicationRecord
     end
 
     def update_custom_counter_cache
-      # disable counter_cache for definition: belongs_to :attachmenable, polymorphic: true #, counter_cache: true
-      attachmenable.update_attachments_counter_cache
+      unless is_folder?
+        files_count = attachmenable.attachments.where.not(attached_file: nil).count # Whatever condition you need here.
+        files_size_sum = attachmenable.attachments.where.not(attached_file: nil).map { |a| a.attached_file.file.size }.sum
+
+        attachmenable.update_columns(attachments_count: files_count, attachments_file_size_sum: files_size_sum, updated_at: DateTime.now )
+      end
     end
 
 end

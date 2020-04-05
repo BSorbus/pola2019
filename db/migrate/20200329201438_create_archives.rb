@@ -4,6 +4,7 @@ class CreateArchives < ActiveRecord::Migration[5.2]
 
       dir.up   { 
         create_table :archives do |t|
+          t.uuid :archive_uuid
           t.string :name
           t.text :note, default: ""
           t.references :user, foreign_key: true

@@ -121,6 +121,10 @@ class AbleUploader < CarrierWave::Uploader::Base
   #   %w(jpg jpeg gif png)
   # end
 
+  # def extension_blacklist
+  #   %w(exe dll msi js)
+  # end
+
   # Override the filename of the uploaded files:
   # Avoid using model.id or version_name here, see uploader/store.rb for details.
   # def filename
@@ -135,7 +139,7 @@ class AbleUploader < CarrierWave::Uploader::Base
 
 
   def override_content_type_and_save_info
-    case File.extname(file.file).delete('.').to_sym
+    case File.extname(file.file).delete('.').downcase.to_sym
     when :xlsx
       file.content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     when :docx
@@ -146,6 +150,16 @@ class AbleUploader < CarrierWave::Uploader::Base
       file.content_type = 'application/vnd.rar'
     when :zip
       file.content_type = 'application/zip'
+    when :bat
+      file.content_type = 'application/x-msdos-program'
+    when :cmd
+      file.content_type = 'application/cmd'
+    when :php
+      file.content_type = 'application/x-php'
+    when :py
+      file.content_type = 'application/x-python'
+    when :vbs
+      file.content_type = 'application/x-vbs'
     end
 
     model.file_content_type = file.content_type if file.content_type

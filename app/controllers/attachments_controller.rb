@@ -2,7 +2,7 @@ require 'zip_file_generator'
 
 class AttachmentsController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized, only: [:show, :edit, :update, :create, :destroy]
+  after_action :verify_authorized, only: [:show, :edit, :update, :create, :create_folder, :destroy]
   before_action :set_attachment, only: [:download, :show, :edit, :update, :destroy, :move_to_photo]
 
   def datatables_index
@@ -97,8 +97,7 @@ class AttachmentsController < ApplicationController
     attachment_authorize(@attachment, "create", params[:controller].classify.deconstantize.singularize.downcase)
 
     @attachment = @attachmenable.attachments.create(attachment_params)
-    @attachment.log_work('upload_attachment', current_user.id)
-
+    @attachment.log_work('upload_attachment', current_user.id) if @attachment.errors.empty?
   end
 
   def create_folder
@@ -106,7 +105,7 @@ class AttachmentsController < ApplicationController
     attachment_authorize(@attachment, "create", params[:controller].classify.deconstantize.singularize.downcase)
 
     @attachment = @attachmenable.attachments.create(attachment_params_for_folder)
-    @attachment.log_work('create_directory', current_user.id)
+    @attachment.log_work('create_directory', current_user.id) if @attachment.errors.empty?
 
     respond_to do |format|
       format.js  { render status: :created, layout: false, file: 'attachments/create_folder.js.erb' }

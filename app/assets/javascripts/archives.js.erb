@@ -43,8 +43,8 @@ $(document).ready(function() {
         titleAttr: 'Pokaż/ukryj kolumny',
         className: 'btn btn-sm btn-default',
         columns:   ':gt(0)' //exclude first col from list
-      },
-      'archive_button_only_my_data'
+      }
+      // 'archive_button_only_my_data'
     ],
     responsive: true,
     processing: true,
@@ -56,9 +56,9 @@ $(document).ready(function() {
     ajax: { 
       url: $('#archives-table').data('source'),
       type: "POST",
-      data: function(d){
-        d.eager_filter_for_current_user = $('#archives-table').DataTable().button(3).active();
-      },
+      // data: function(d){
+      //   d.eager_filter_for_current_user = $('#archives-table').DataTable().button(3).active();
+      // },
       error: function (jqXHR, exception) {
         console.log(jqXHR);
         if (jqXHR.status == 401) {
@@ -74,6 +74,9 @@ $(document).ready(function() {
       { "data": "id", "visible": false },
       { "data": "name" }, 
       { "data": "note" },
+      { "data": "components_folders_count" },
+      { "data": "components_files_count" },
+      { "data": "components_files_size_sum" },
       { "data": "user" }
       // { "data": "updated_at" },
       // { "data": "attachments_count" },

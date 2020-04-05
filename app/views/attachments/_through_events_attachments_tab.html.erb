@@ -44,7 +44,7 @@
     localStorage.setItem( 'ls_through_events_attachment_breadcrumb', JSON.stringify(breadcrumb_ancestry_json) );
     // redraw for new ajax data: d.attachment_parent_id 
     $('#through-events-attachmenable-attachments').DataTable().draw();
-    buildAttachmentBreadcrumb("id_through_events_attachment_breadcrumb", 
+    buildDirectoryBreadcrumb("id_through_events_attachment_breadcrumb", 
                               [],
                               "linkToThroughEventsAttachmentBreadcrumb", 
                               breadcrumb_ancestry_json);
@@ -54,7 +54,7 @@
   $(document).ready(function() {
 
     localStorage.removeItem('ls_through_events_attachment_breadcrumb');
-    buildAttachmentBreadcrumb("id_through_events_attachment_breadcrumb", 
+    buildDirectoryBreadcrumb("id_through_events_attachment_breadcrumb", 
                               [],
                               "linkToThroughEventsAttachmentBreadcrumb", 
                               breadcrumb_ancestry_json={parent_id: null, ancestry_path: [], ancestor_ids: []});

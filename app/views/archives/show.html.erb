@@ -6,17 +6,16 @@
         <li class="brand-nav active">
           <a href="#archive_show" data-toggle="tab"><%= archive_show_legend %></a>
         </li>
-<!-- 
-        <%# if @archive.access_attachments? %>
-          <%# if policy(:attachment).archive_index? %>
+
+        <%# if @archive.access_components? %>
+          <%# if policy(:component).archive_index? %>
             <li class="brand-nav brand-nav-level-1">
-              <a href="#attachments" data-toggle="tab"><%= attachment_index_legend %></a>
+              <a href="#components" data-toggle="tab"><%= component_index_legend %></a>
             </li>
           <%# end %>
         <%# end %>
 
- -->
-        <% if policy(:archive).work? %>
+        <% if policy(@archive).work? %>
           <li class="brand-nav brand-nav-level-1">
             <a href="#works" data-toggle="tab"><%= work_index_legend %></a>
           </li>
@@ -29,14 +28,13 @@
         <div class="tab-pane active" id="archive_show">
           <%= render 'data', input_disabled: true, subtitle: archive_info_legend(@archive) %>
         </div>
-<!-- 
-        <%# if @archive.access_attachments? %>
-          <div class="tab-pane" id="attachments">
-            <%#= render 'attachments/attachments_tab', attachmenable: @archive, subtitle: archive_info_legend(@archive),
-              move_photo_access: @archive.access_photos? %>
+
+        <%# if @archive.access_components? %>
+          <div class="tab-pane" id="components">
+            <%= render 'components/components_tab', componentable: @archive, subtitle: archive_info_legend(@archive) %>
           </div>
         <%# end %>
- -->
+
         <div class="tab-pane" id="works">
           <%= render 'works/works_tab', trackable_type: "Archive", trackable_id: @archive.id, subtitle: archive_info_legend(@archive) %>
         </div>

@@ -29,8 +29,7 @@ class ThroughEventsAttachmentDatatable < AjaxDatatablesRails::ActiveRecord
         name_if_folder: record.name_if_folder.present? ? record.name_if_folder : '',
         name:           link_attached_file_or_folder(record),
         attachmenable:  record.attachmenable.title_as_link,
-        note:           truncate(record.note, length: 50) + '  ' +  
-                          link_to(' ', @view.edit_attachment_path(record.id), class: 'fa fa-edit pull-right', title: "Edycja", rel: 'tooltip'),
+        note:           truncate(record.note, length: 50),
         file_size:      file_size_or_sum_files_size_and_badge(record).html_safe,
         user:           record.user.name_as_link,
         updated_at:     record.updated_at.strftime("%Y-%m-%d %H:%M:%S"),
@@ -54,6 +53,11 @@ class ThroughEventsAttachmentDatatable < AjaxDatatablesRails::ActiveRecord
     else
       data.with_ancestor.roots
     end
+  end
+
+  def link_edit(rec)
+    link_to(' ', @view.edit_attachment_path(rec.id), class: 'fa fa-edit', title: "Edycja", rel: 'tooltip')
+#    link_to(' ', @view.edit_attachment_path(rec.id), class: 'fa fa-edit', remote: true, title: "Edycja", rel: 'tooltip')
   end
 
   def link_attached_file_or_folder(rec)
@@ -92,10 +96,12 @@ class ThroughEventsAttachmentDatatable < AjaxDatatablesRails::ActiveRecord
   def action_links(rec)
     if rec.is_folder?
       "<div style='text-align: center'>
+        <span>" + link_edit(rec) + "</span>
         <button-as-link ajax-path='" + attachment_path(rec.id) + "' ajax-method='DELETE' class='btn btn-xs fa fa-trash text-danger' title='Usuń' rel='tooltip'></button-as-link>
       </div>"
     else
       "<div style='text-align: center'>
+        <span>" + link_edit(rec) + "</span>
         <button-as-link ajax-path='" + download_attachment_path(rec.id) + "' ajax-method='GET' class='btn btn-xs fa fa-download text-primary' title='Pobierz' rel='tooltip'></button-as-link>
         <button-as-link ajax-path='" + attachment_path(rec.id) + "' ajax-method='DELETE' class='btn btn-xs fa fa-trash text-danger' title='Usuń' rel='tooltip'></button-as-link>
       </div>"

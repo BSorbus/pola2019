@@ -6,7 +6,7 @@ $(document).ready(function() {
   var rows = [];      // Global rows for #example
 
 
-  $.fn.dataTable.ext.buttons.attachment_reset_col_vis_and_reorder = {
+  $.fn.dataTable.ext.buttons.component_reset_col_vis_and_reorder = {
     text: '<span class="text-primary fa fa-retweet"></span>',
     titleAttr: 'Przywróć domyślne ustawienia kolumn',
     className: 'btn btn-sm btn-default',
@@ -17,13 +17,13 @@ $(document).ready(function() {
 
       // revert colReorder
       // dziala:        // $($.fn.dataTable.tables(true)).DataTable().colReorder.reset();
-      // dziala takze:  // oAttachmentableAttachmentsTable.colReorder.reset();
+      // dziala takze:  // oComponentableComponentsTable.colReorder.reset();
       // i to równiez:
       dt.colReorder.reset();
     }  
   };
 
-  $.fn.dataTable.ext.buttons.attachment_delete_selected = {
+  $.fn.dataTable.ext.buttons.component_delete_selected = {
     text: '<span class="text-danger fa fa-trash"></span>',
     titleAttr: 'Usuń zaznaczone wiersze',
     className: 'btn btn-sm btn-default',
@@ -37,15 +37,15 @@ $(document).ready(function() {
     action: function ( e, dt, button, config ) {
       if (confirm('Czy na pewno chcesz usunąć zaznaczone wiersze?')) {
         // To jest OK, ale ponizej bardziej uniwersalne
-        //$.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
+        //$.map(oComponentableComponentsTable.rows( { selected: true } ).data(), function (item) {
         $.map(dt.rows( { selected: true } ).data(), function (item) {
 
           $.ajax({
-            url: '/attachments/' + item.id,
+            url: '/components/' + item.id,
             type: 'DELETE',
             async: true,
             success: function (response) {
-              // oAttachmentableAttachmentsTable.draw();
+              // oComponentableComponentsTable.draw();
               // To powyzej jest OK, ale ponizej bardziej uniwersalne
               dt.draw();
               toastr['success'](item.name + '<br>...został trwale usunięty');
@@ -65,7 +65,7 @@ $(document).ready(function() {
     }  
   };
 
-  $.fn.dataTable.ext.buttons.attachment_download_selected = {
+  $.fn.dataTable.ext.buttons.component_download_selected = {
     text: '<span class="text-primary fa fa-download"></span>',
     titleAttr: 'Pobierz zaznaczone wiersze jako plik .ZIP',
     className: 'btn btn-sm btn-default',
@@ -77,7 +77,7 @@ $(document).ready(function() {
       this.disable();
     },
     action: function ( e, dt, button, config ) {
-      // $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
+      // $.map(oComponentableComponentsTable.rows( { selected: true } ).data(), function (item) {
       // To powyzej jest OK, ale ponizej bardziej uniwersalne
       var selectedArray = []
       $.map(dt.rows( { selected: true } ).data(), function (item) {
@@ -86,61 +86,20 @@ $(document).ready(function() {
 
       toastr['info']('przygotowywanie pliku .ZIP');
 
-      var data = { attachment_ids: selectedArray };
-      window.location.replace( "/attachments/zip_and_download.zip?" + $.param(data) );
+      var data = { component_ids: selectedArray };
+      window.location.replace( "/components/zip_and_download.zip?" + $.param(data) );
 
       dt.rows().deselect();
 
     }  
   };
 
-  $.fn.dataTable.ext.buttons.attachment_move_to_photo = {
-    text: '<span class="text-primary fa fa-file-export"></span><br><span>Zdjęcia</span>',
-    titleAttr: 'Przenieś zaznaczone wiersze do "Zdjęcia"',
-    className: 'btn btn-xs btn-default',
-    available: function ( dt, config ) {
-      return (  $('#attachmenable-attachments').data('move_photo_access') );
-    },
-    init: function ( dt, node, config ) {
-      var that = this;
-      dt.on( 'select.dt.DT deselect.dt.DT', function () {
-        that.enable( dt.rows( { selected: true } ).any() );
-      });
-      this.disable();
-    },
-    action: function ( e, dt, button, config ) {
-      if (confirm('Czy na pewno chcesz przenieść plik(-i) do "Zdjęcia"?')) {
-        $.map(oAttachmentableAttachmentsTable.rows( { selected: true } ).data(), function (item) {
 
-          $.ajax({
-            url: '/attachments/' + item.id + '/move_to_photo',
-            type: 'POST',
-            async: true,
-            success: function (response) {
-              oAttachmentableAttachmentsTable.draw();
-              toastr['success']('"' + item.attached_file + '" został przeniesiony do "Zdjęcia"');
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-              console.log(xhr);
-              if (xhr.status == 401) {
-                window.location.reload();
-              } else {
-                getErrorMessage(xhr, thrownError);
-              }
-            }
-          });
-
-        });
-      };
-    }  
-  };
-
-
-  var oAttachmentableAttachmentsTable = $('#attachmenable-attachments').DataTable({
+  var oComponentableComponentsTable = $('#componentable-components').DataTable({
     // dom: 'lBfrtip',
     dom: '<"top" <"row" <"col-sm-9" <"pull-left"l><"pull-left"B> > <"col-sm-3 pull-right"f> > > rt <"bottom"ip><"clear">',
     buttons: [
-      'attachment_reset_col_vis_and_reorder',
+      'component_reset_col_vis_and_reorder',
       {
         extend:    'colvis',
         text:      '<span class="text-primary fa fa-columns"></span>',
@@ -161,9 +120,8 @@ $(document).ready(function() {
         titleAttr: 'Odznacz wszystko',
         className: 'btn btn-sm btn-default'
       }, 
-      'attachment_delete_selected',
-      'attachment_download_selected',
-      'attachment_move_to_photo'
+      'component_delete_selected',
+      'component_download_selected'
     ],
     select: {
       //style: 'os',
@@ -188,14 +146,14 @@ $(document).ready(function() {
     stateSave: true,
     stateDuration: 60 * 60 * 24 * 7,
     ajax: { 
-      url: $('#attachmenable-attachments').data('source'),
+      url: $('#componentable-components').data('source'),
       type: "GET",
       data: function(d){
-        //d.attachment_parent_id = 8501;
-        if (localStorage.getItem("ls_attachment_breadcrumb") === null) {
-          d.attachment_parent_id = null
+        //d.component_parent_id = 8501;
+        if (localStorage.getItem("ls_component_breadcrumb") === null) {
+          d.component_parent_id = null
         } else {
-          d.attachment_parent_id = JSON.parse(localStorage.getItem('ls_attachment_breadcrumb')).parent_id;
+          d.component_parent_id = JSON.parse(localStorage.getItem('ls_component_breadcrumb')).parent_id;
         }
       },
       error: function (jqXHR, exception) {
@@ -208,8 +166,8 @@ $(document).ready(function() {
       }
     },
     // pagingType: "full_numbers",
-    // scrollY: "55vh"
-    scrollY: 300,
+    scrollY: "45vh",
+    //scrollY: 300,
     paging: false,
     lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
     iDisplayLength: -1,
@@ -257,7 +215,7 @@ $(document).ready(function() {
 //    columnDefs: [ { orderable: false, targets: [ 0,1,2 ] } ],
     preDrawCallback: function( settings ) {
       // jezeli panel nie jest widoczny, to przerwij ładowanie danych
-      if ( $( "#tab_attachments" ).is( ":hidden" ) ) {
+      if ( $( "#tab_components" ).is( ":hidden" ) ) {
         return false;
       }
     },
@@ -267,7 +225,7 @@ $(document).ready(function() {
     },
     drawCallback: function () {
       // Add HTML5 draggable event listeners to each row
-      rows = document.querySelectorAll('#attachmenable-attachments tbody tr');
+      rows = document.querySelectorAll('#componentable-components tbody tr');
         [].forEach.call(rows, function(row) {
           row.addEventListener('dragstart', handleDragStart, false);
           row.addEventListener('dragenter', handleDragEnter, false)
@@ -282,33 +240,33 @@ $(document).ready(function() {
       url: '<%= asset_path("pl.json.erb") %>'
     },
     stateSaveCallback: function(settings,data) {
-      localStorage.setItem( 'DataTables_attachmenable-attachments_/all', JSON.stringify(data) )
+      localStorage.setItem( 'DataTables_componentable-components_/all', JSON.stringify(data) )
     },
     stateLoadCallback: function(settings) {
-      return JSON.parse( localStorage.getItem( 'DataTables_attachmenable-attachments_/all' ) )
+      return JSON.parse( localStorage.getItem( 'DataTables_componentable-components_/all' ) )
     }
   });
 
 
-  oAttachmentableAttachmentsTable
+  oComponentableComponentsTable
   .on( 'draw', function () {
-    oAttachmentableAttachmentsTable.rows().deselect();
+    oComponentableComponentsTable.rows().deselect();
   });
 
 
   // jezeli nastepuje wyswietlenie tab, to zaladuj dane
   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var target = $(e.target).attr("href") // activated tab
-    if (target == '#attachments') {
-      oAttachmentableAttachmentsTable.draw();
+    if (target == '#components') {
+      oComponentableComponentsTable.draw();
     };
   });
 
 
-  $('#attachmenable-attachments tbody').on( 'click', 'td.columnAslinkTo', function () {
+  $('#componentable-components tbody').on( 'click', 'td.columnAslinkTo', function () {
 
     var tr = $(this).closest('tr');
-    var row = oAttachmentableAttachmentsTable.row( tr );
+    var row = oComponentableComponentsTable.row( tr );
 
     alert(row.data().name);
 
@@ -316,7 +274,7 @@ $(document).ready(function() {
 
 
   // column 'action' delete button
-  $('#attachmenable-attachments tbody').on( 'click', 'button-as-link', function () {
+  $('#componentable-components tbody').on( 'click', 'button-as-link', function () {
     if ( true && $(this).attr('ajax-method') == 'DELETE' ) {
       if (confirm('Czy na pewno chcesz usunać?')) {
         $.ajax({
@@ -324,7 +282,7 @@ $(document).ready(function() {
           type: $(this).attr('ajax-method'),
           async: true,
           success: function (response) {
-            oAttachmentableAttachmentsTable.draw();
+            oComponentableComponentsTable.draw();
             toastr['success']('wiersz został trwale usunięty');
           },
           error: function (xhr, ajaxOptions, thrownError) {
@@ -406,8 +364,8 @@ function handleDragEnter(e) {
   // Don't show drop zone if in source table
 //  if (currentTable !== srcTable) {
   if ( (overRow.id != dragSrcRow.id) && ($('#' + currentTable).DataTable().row(this).data().name_if_folder) ) {
-    // console.log("-----------dodałem clasę 'over' ...............");
-    this.classList.add('over');
+      // console.log("-----------dodałem clasę 'over' ...............");
+      this.classList.add('over');
   } else {
     e.dataTransfer.dropEffect = 'none'; 
   }
@@ -488,7 +446,7 @@ function handleDrop(e) {
 
   // Get destination table id, row
   var dstTable = $(this.closest('table')).attr('id');
-  // dstTable  = attachmenable-attachments
+  // dstTable  = componentable-components
 
   // // No need to process if src and dst table are the same
    if ( $('#' + dstTable).DataTable().row(this).data().name_if_folder ) {
@@ -543,7 +501,7 @@ function handleDrop(e) {
     };
 
     $.ajax({
-      url: '/attachments/move_to_parent',
+      url: '/components/move_to_parent',
       type: 'PATCH',
       async: true,
       data: {
@@ -551,7 +509,7 @@ function handleDrop(e) {
         children_ids: children
       },
       success: function (response) {
-        // oAttachmentableAttachmentsTable.draw();
+        // oComponentableComponentsTable.draw();
         // To powyzej jest OK, ale ponizej bardziej uniwersalne
         $('#' + dstTable).DataTable().draw();
         toastr['success']('wiersz(-e) został(-y) pomyślnie przeniesiony(-e)');

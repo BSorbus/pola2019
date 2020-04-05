@@ -1,4 +1,4 @@
-function buildAttachmentBreadcrumb(nameIdBreadcrumb, arrayIdParentInput, nameLinkToFunction, ancestry_json){
+function buildDirectoryBreadcrumb(nameIdBreadcrumb, arrayIdParentInput, nameLinkToFunction, ancestry_json){
 
   // set parent_id for upload or create folder
   arrayIdParentInput.forEach (function(element) {
@@ -149,11 +149,22 @@ function handleBreadcrumbDrop(e) {
     children.push(transferObjParsed.dragSrcRowId);
   };
 
-  // console.log('------------------- children ----------------------------');
-  // console.log( children );
+  var url_move_path = '';
+  switch(transferObjParsed.srcTable) {
+    case 'attachmenable-attachments':
+      url_move_path = '/attachments/move_to_parent';
+      break;
+    case 'componentable-components':
+      url_move_path = '/components/move_to_parent';
+      break;
+    default:
+      url_move_path = '';
+  };
 
   $.ajax({
-    url: '/attachments/move_to_parent',
+    url: url_move_path,
+//    url: '/components/move_to_parent',
+//    url: '/attachments/move_to_parent',
     type: 'PATCH',
     async: true,
     data: {
