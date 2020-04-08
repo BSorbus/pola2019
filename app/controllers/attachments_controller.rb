@@ -45,8 +45,8 @@ class AttachmentsController < ApplicationController
     attachment_ids = params[:attachment_ids].present? ? params[:attachment_ids] : []
  
     # create directory and copy file
-    pr = PreparationForZipFileGenerator.new('file', attachment_ids)
-    pr.copy_attachments_to_tmp
+    pr = PreparationForZipFileGenerator.new('Attachment', 'attached_file', 'file', attachment_ids)
+    pr.copy_files_to_tmp
     # ziped directory
     zf = ZipFileGenerator.new(pr.root_dir_to_zip, pr.out_zip_file)
     zf.write()

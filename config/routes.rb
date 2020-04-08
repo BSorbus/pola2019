@@ -135,15 +135,16 @@ Rails.application.routes.draw do
     patch 'move_to_parent', on: :collection
   end
 
-  resources :components, only: [:show, :edit, :update, :destroy] do
+  resources :components, only: [:show, :destroy] do
     get 'datatables_index', on: :collection # for Trackable
-    get 'download', on: :member
     get 'zip_and_download', on: :collection
     patch 'move_to_parent', on: :collection
   end
 
   resources :components, only: [], param: :component_uuid do
     get 'show_uuid', on: :member
+    get 'edit_uuid', on: :member
+    patch 'update_uuid', on: :member
     get 'download_uuid', on: :member
     delete 'destroy_uuid', on: :member
   end

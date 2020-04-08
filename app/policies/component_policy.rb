@@ -2,21 +2,36 @@ class ComponentPolicy < ApplicationPolicy
   attr_reader :user, :model
 
   def initialize(user, model)
-  	puts '--------------------------------------------------'
-  	puts 'ComponentPolicy: initialize(user, model)'
-  	puts '--------------------------------------------------'
     @user = user
     @model = model
   end
 
-  def index?
-    true
+  def user_in_group_activities
+    case @model.componentable.class.to_s
+    when 'Archive'
+      # same as in archive_policy
+      at = ArchivizationType.joins(archivizations: {archive: [], group: { members: [:user]}})
+        .where(archivizations: {archive: [@model.componentable], group: {members: {user_id: [@user]}}})
+        .select(:activities).distinct.map(&:activities).flatten
+      puts '########################### at ################################'
+      puts at
+      puts '########################### at ################################'
+      at
+    when 'XXX'
+      []
+    end
   end
 
-  def show?
-    puts '--------------------------------------------------'
-    puts 'ComponentPolicy: show?'
-    puts '--------------------------------------------------'
+  def owner_access
+    if @model.class.to_s == 'Symbol'
+      false
+    else
+      @model.user_id == @user.id || @model.componentable.user_id == @user.id
+    end
+  end
+
+
+  def archive_index?
     true
   end
 
@@ -24,36 +39,43 @@ class ComponentPolicy < ApplicationPolicy
     puts '--------------------------------------------------'
     puts 'ComponentPolicy: archive_show?'
     puts '--------------------------------------------------'
-    true
+    user_activities.include?('archivization:show') || (user_activities.include?('archivization:self_show') && owner_access) || user_in_group_activities.include?('archivization:show')
   end
 
   def archive_show_uuid?
     puts '--------------------------------------------------'
     puts 'ComponentPolicy: archive_show_uuid?'
     puts '--------------------------------------------------'
-    true
+#    user_activities.include?('archivization:show') || (user_activities.include?('archivization:self_show') && owner_access) || user_in_group_activities.include?('archivization:show')
+    archive_show?
   end
 
   def archive_download?
     puts '--------------------------------------------------'
     puts 'ComponentPolicy: archive_download?'
     puts '--------------------------------------------------'
-    true
+#    user_activities.include?('archivization:show') || (user_activities.include?('archivization:self_show') && owner_access) || user_in_group_activities.include?('archivization:show')
+    archive_show?
   end
 
   def archive_download_uuid?
     puts '--------------------------------------------------'
     puts 'ComponentPolicy: archive_download_uuid?'
     puts '--------------------------------------------------'
-    true
+#    user_activities.include?('archivization:show') || (user_activities.include?('archivization:self_show') && owner_access) || user_in_group_activities.include?('archivization:show')
+    archive_show?
   end
 
-  def create?
+  def archive_zip_and_download?
     puts '--------------------------------------------------'
-    puts 'ComponentPolicy: create?'
+    puts 'ComponentPolicy: archive_zip_and_download?'
     puts '--------------------------------------------------'
-    true
+#    user_activities.include?('archivization:show') || (user_activities.include?('archivization:self_show') && owner_access) || user_in_group_activities.include?('archivization:show')
+    archive_show?
   end
+
+
+
 
   def archive_create?
     puts '--------------------------------------------------'
@@ -62,51 +84,40 @@ class ComponentPolicy < ApplicationPolicy
     true
   end
 
-  def edit?
-    update?
-  end
-
   def archive_edit?
     archive_update?
   end
 
-  def update?
-    puts '--------------------------------------------------'
-    puts 'ComponentPolicy: update?'
-    puts '--------------------------------------------------'
-    true
+  def archive_edit_uuid?
+    archive_update_uuid?
   end
 
   def archive_update?
     puts '--------------------------------------------------'
     puts 'ComponentPolicy: archive_update?'
     puts '--------------------------------------------------'
-    true
+    user_activities.include?('archivization:update') || (user_activities.include?('archivization:self_update') && owner_access) || user_in_group_activities.include?('archivization:update')
   end
 
-  def destroy?
-    true
+  def archive_update_uuid?
+    puts '--------------------------------------------------'
+    puts 'ComponentPolicy: archive_update?'
+    puts '--------------------------------------------------'
+    user_activities.include?('archivization:update') || (user_activities.include?('archivization:self_update') && owner_access) || user_in_group_activities.include?('archivization:update')
   end
 
   def archive_destroy?
     puts '--------------------------------------------------'
     puts 'ComponentPolicy: archive_destroy?'
     puts '--------------------------------------------------'
-    true
+    user_activities.include?('archivization:delete') || (user_activities.include?('archivization:self_delete') && owner_access) || user_in_group_activities.include?('archivization:delete')
   end
 
   def archive_destroy_uuid?
     puts '--------------------------------------------------'
     puts 'ComponentPolicy: archive_destroy_uuid?'
     puts '--------------------------------------------------'
-    true
-  end
-
-  def work?
-    puts '--------------------------------------------------'
-    puts 'ComponentPolicy: work?'
-    puts '--------------------------------------------------'
-    true
+    user_activities.include?('archivization:delete') || (user_activities.include?('archivization:self_delete') && owner_access) || user_in_group_activities.include?('archivization:delete')
   end
 
   def archive_work?

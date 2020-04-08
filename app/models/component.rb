@@ -43,11 +43,13 @@ class Component < ApplicationRecord
   end
 
   def is_file?
-    !is_folder?
+#    !is_folder?
+    component_file.present?
   end
 
   def is_folder?
-    name_if_folder.present?     
+#    name_if_folder.present?     
+    !is_file?
   end
 
   def log_work(action = '', action_user_id = nil)
@@ -92,6 +94,16 @@ class Component < ApplicationRecord
   def fullname
     #{}"#{self.attached_file_identifier}"
     "#{self.name}"
+  end
+
+  def my_send_file
+    "send_file #{component_file.path}, 
+      filename: #{component_file.file.filename}, 
+      type: #{file_content_type},
+      dispostion: 'inline', 
+      status: 200, 
+      stream: true, 
+      x_sendfile: true"
   end
 
   private

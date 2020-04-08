@@ -45,7 +45,8 @@ class ArchivePolicy < ApplicationPolicy
   end
 
   def index?
-    user_activities.include? 'archive:index'
+#    user_activities.include? 'archive:index'
+true
   end
 
   def show?

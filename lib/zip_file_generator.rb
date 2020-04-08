@@ -27,28 +27,32 @@ class PreparationForZipFileGenerator
     FileUtils.mkdir_p @root_dir_to_zip unless File.exists?(@root_dir_to_zip)
   end
 
-  def initialize(prefix_output_file_name, attachments_array)
+  def initialize(model_name, model_attribute_name, prefix_output_file_name, attachments_array)
+    @model_name = model_name 
+    @model_attribute_name = model_attribute_name
     @prefix_output_file_name = prefix_output_file_name 
     @attachments_list = attachments_array
     set_defaults
   end
 
-  def copy_attachments_to_tmp(attachments_array=@attachments_list)
-    attachments_array.each do |attachment_id|
-      attachment = Attachment.find(attachment_id)
+  def copy_files_to_tmp(attachments_array=@attachments_list)
+    attachments_array.each do |rec_id|
+      #attachment = Attachment.find(rec_id)
+      attachment = "#{@model_name}".constantize.find(rec_id)
       attachment_ancestors_names = attachment.ancestors.map(&:name)
       dest_path = attachment_ancestors_names.blank? ? "#{@root_dir_to_zip}" : "#{@root_dir_to_zip}/#{attachment_ancestors_names.reverse.join('/')}"
       FileUtils.mkdir_p dest_path unless File.exists?(dest_path)
       if attachment.is_file?
-        #puts "copy file for attachment_id: #{attachment.id}"
-        source_file_name_with_path = attachment.attached_file.file.file   
+        #source_file_name_with_path = attachment.attached_file.file.file   
+        #source_file_name_with_path = attachment.component_file.file.file   
+        source_file_name_with_path = attachment.instance_eval("#{@model_attribute_name}").file.file   
         dest_file_name_with_path = "#{dest_path}/#{attachment.name}"
         FileUtils.cp(source_file_name_with_path, dest_file_name_with_path)  unless File.exists?(dest_file_name_with_path)
       else
-        #puts "create directory for attachment_id: #{attachment.id}"
+        #puts "create directory for rec_id: #{attachment.id}"
         dest_directory_name_with_path = "#{dest_path}/#{attachment.name}"
         FileUtils.mkdir_p dest_directory_name_with_path unless File.exists?(dest_directory_name_with_path)
-        copy_attachments_to_tmp(attachment.child_ids)
+        copy_files_to_tmp(attachment.child_ids)
       end
     end
     

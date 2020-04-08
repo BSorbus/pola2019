@@ -40,9 +40,9 @@ class UserGroupsDatatable < AjaxDatatablesRails::ActiveRecord
   def link_add_remove(rec, has_group)
     if policy(rec).add_remove_group_user?
       if has_group
-        "<div style='text-align: center'><button ajax-path='" + group_user_path(group_id: rec.id, id: options[:only_for_current_user_id]) + "' ajax-method='DELETE' toastr-message='usunięto: " + rec.name + "' class='btn btn-xs btn-danger fa fa-minus'></button></div>"
+        "<div style='text-align: center'><button ajax-path='" + group_user_path(group_id: rec.id, id: options[:only_for_current_user_id]) + "' ajax-method='DELETE' toastr-message='" + rec.name + "<br>...usunięto' class='btn btn-xs btn-danger fa fa-minus'></button></div>"
       else
-        "<div style='text-align: center'><button ajax-path='" + group_users_path(group_id: rec.id, id: options[:only_for_current_user_id]) + "' ajax-method='POST' toastr-message='dodano:" + rec.name + "' class='btn btn-xs btn-success fa fa-plus'></button></div>"
+        "<div style='text-align: center'><button ajax-path='" + group_users_path(group_id: rec.id, id: options[:only_for_current_user_id]) + "' ajax-method='POST' toastr-message='" + rec.name + "<br>...dodano' class='btn btn-xs btn-success fa fa-plus'></button></div>"
       end
     else
       ""

@@ -40,9 +40,9 @@ class UserRolesDatatable < AjaxDatatablesRails::ActiveRecord
   def link_add_remove(rec, has_role)
     if policy(rec).add_remove_role_user?
       if has_role
-        "<div style='text-align: center'><button ajax-path='" + role_user_path(role_id: rec.id, id: options[:only_for_current_user_id]) + "' ajax-method='DELETE' toastr-message='usunięto: " + rec.name + "' class='btn btn-xs btn-danger fa fa-minus'></button></div>"
+        "<div style='text-align: center'><button ajax-path='" + role_user_path(role_id: rec.id, id: options[:only_for_current_user_id]) + "' ajax-method='DELETE' toastr-message='" + rec.name + "<br>...usunięto' class='btn btn-xs btn-danger fa fa-minus'></button></div>"
       else
-        "<div style='text-align: center'><button ajax-path='" + role_users_path(role_id: rec.id, id: options[:only_for_current_user_id]) + "' ajax-method='POST' toastr-message='dodano:" + rec.name + "' class='btn btn-xs btn-success fa fa-plus'></button></div>"
+        "<div style='text-align: center'><button ajax-path='" + role_users_path(role_id: rec.id, id: options[:only_for_current_user_id]) + "' ajax-method='POST' toastr-message='" + rec.name + "<br>...dodano' class='btn btn-xs btn-success fa fa-plus'></button></div>"
       end
     else
       ""

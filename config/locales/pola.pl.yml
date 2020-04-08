@@ -120,9 +120,9 @@ pl:
       archive:
         name: 'Nazwa'
         note: 'Uwagi'
-        components_folders_count: 'Ilość folderów'
-        components_files_count: 'Ilość plików'
-        components_files_size_sum: 'Suma'
+        folders_count: 'Ilość folderów'
+        files_count: 'Ilość plików'
+        files_size_sum: 'Suma'
         user_id: 'Autor'
         user: 'Autor'
       archivization:
@@ -635,6 +635,17 @@ pl:
       enrollment_show?: ' BRAK UPRAWNIEŃ: Nie możesz pobierać załączników do naboru!'
       enrollment_create?: ' BRAK UPRAWNIEŃ: Nie możesz zapisywać załączników do naboru!'
       enrollment_destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać załączników do naboru!'
+    component_policy:
+      archive_index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy załączników!'
+      archive_show?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać załączników!'
+      archive_show_uuid?: ' BRAK UPRAWNIEŃ: Nie możesz oglądać załączników!'
+      archive_edit?: ' BRAK UPRAWNIEŃ: Nie możesz edytować opisu załączników!'
+      archive_edit_uuid?: ' BRAK UPRAWNIEŃ: Nie możesz edytować opisu załączników!'
+      archive_create?: ' BRAK UPRAWNIEŃ: Nie możesz zapisywać załączników!'
+      archive_destroy?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać załączników!'
+      archive_destroy_uuid?: ' BRAK UPRAWNIEŃ: Nie możesz usuwać załączników!'
+      archive_download?: ' BRAK UPRAWNIEŃ: Nie możesz pobierać załączników!'
+      archive_download_uuid?: ' BRAK UPRAWNIEŃ: Nie możesz pobierać załączników!'
     errand_policy:
       index?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać listy zleceń!'
       show?: ' BRAK UPRAWNIEŃ: Nie możesz wyświetlać zlecenia!'

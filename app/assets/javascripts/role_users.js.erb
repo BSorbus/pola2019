@@ -78,39 +78,44 @@ $(document).ready(function() {
   });
 
   $('#role-users-table tbody').on( 'click', 'button', function () {
-      $.ajax({
-        url: $(this).attr('ajax-path'),
-        type: $(this).attr('ajax-method'),
-        async: false,
-        error: function (jqXHR, exception) {
-          console.log(jqXHR);
-          if (jqXHR.status == 401) {
-            window.location.reload();
-          } else {
-            getErrorMessage(jqXHR, exception);
-          }
+
+    var message = $(this).attr('toastr-message');
+
+    $.ajax({
+      url: $(this).attr('ajax-path'),
+      type: $(this).attr('ajax-method'),
+      async: false,
+      success: function (response) {
+        oRoleUserstable.draw();
+        toastr.options = {
+          "closeButton": false,
+          "debug": true,
+          "newestOnTop": false,
+          "progressBar": false,
+          "positionClass": "toast-top-right",
+          "preventDuplicates": false,
+          "onclick": null,
+          "showDuration": "100",
+          "hideDuration": "1000",
+          "timeOut": "5000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        };
+        toastr['success'](message);
+      },
+      error: function (jqXHR, exception) {
+        console.log(jqXHR);
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else {
+          getErrorMessage(jqXHR, exception);
         }
-      });
-      oRoleUserstable.draw();
-      toastr.options = {
-        "closeButton": false,
-        "debug": true,
-        "newestOnTop": false,
-        "progressBar": false,
-        "positionClass": "toast-top-right",
-        "preventDuplicates": false,
-        "onclick": null,
-        "showDuration": "100",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-      };
-      toastr['success']($(this).attr('toastr-message'));
+      }
     });
+  });
   
 });
 
