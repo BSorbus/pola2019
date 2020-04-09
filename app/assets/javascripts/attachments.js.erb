@@ -542,6 +542,10 @@ function handleDrop(e) {
       //$('#' + srcTable).DataTable().row(dragSrcRow).remove().draw();
     };
 
+    // protect from overlaping
+    var index = children.indexOf(parentId);
+    if (index !== -1) children.splice(index, 1);
+
     $.ajax({
       url: '/attachments/move_to_parent',
       type: 'PATCH',

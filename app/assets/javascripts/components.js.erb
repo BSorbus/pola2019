@@ -493,45 +493,16 @@ $(document).ready(function() {
         // console.log("(selectedRows.count() > 0 && $(dragSrcRow).hasClass('selected')) = TRUE");
 
         children = $('#' + dstTable).DataTable().rows( { selected: true } ).ids().toArray();
-   
-        // console.log(children);
-
-        // Add row to destination Datatable
-        // Tutaj dodaj do tabeli lub wrzuć do folderu
-  //      $('#' + dstTable).DataTable().rows.add(selectedRows.data()).draw();
-
-        // Remove row from source Datatable
-        //$('#' + srcTable).DataTable().rows(selectedRows.indexes()).remove().draw();
         
       } else {  // Otherwise move dragged row
-        // console.log("(selectedRows.count() > 0 && $(dragSrcRow).hasClass('selected')) = FALSE");
-
-        // Get source transfer data
-        // var srcData = e.dataTransfer.getData('text/plain');
-
-        // console.log("srcData: ", srcData );
-        // console.log("dragSrcRow: ", dragSrcRow );
-
-        // console.log("SOURCE:");
-        // console.log($('#' + srcTable).DataTable().row(dragSrcRow).data());
-      
-        // console.log("dstTable: ", dstTable );
-        // console.log("handleDrop(e) -> e", e);
-        // console.log("this", this);
-
-        // console.log("DESTINATION:");
-        // console.log($('#' + dstTable).DataTable().row(this).data());
 
         children.push($('#' + srcTable).DataTable().row(dragSrcRow).data().id);
 
-        // console.log(children);
-
-        // Add row to destination Datatable
-        // $('#' + dstTable).DataTable().row.add($(srcData)).draw();
-
-        // Remove row from source Datatable
-        //$('#' + srcTable).DataTable().row(dragSrcRow).remove().draw();
       };
+
+      // protect from overlaping
+      var index = children.indexOf(parentId);
+      if (index !== -1) children.splice(index, 1);
 
       $.ajax({
         url: '/components/move_to_parent',
