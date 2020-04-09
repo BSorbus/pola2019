@@ -74,6 +74,14 @@ class ComponentPolicy < ApplicationPolicy
     archive_show?
   end
 
+  def archive_move_to_parent?
+    puts '--------------------------------------------------'
+    puts 'ComponentPolicy: archive_move_to_parent?'
+    puts '--------------------------------------------------'
+#    user_activities.include?('archivization:show') || (user_activities.include?('archivization:self_show') && owner_access) || user_in_group_activities.include?('archivization:show')
+    archive_update?
+  end
+
 
 
 
@@ -81,7 +89,7 @@ class ComponentPolicy < ApplicationPolicy
     puts '--------------------------------------------------'
     puts 'ComponentPolicy: archive_create?'
     puts '--------------------------------------------------'
-    true
+    user_activities.include?('archivization:create') || (user_activities.include?('archivization:self_create') && owner_access) || user_in_group_activities.include?('archivization:create')
   end
 
   def archive_edit?

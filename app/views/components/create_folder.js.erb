@@ -1,9 +1,11 @@
-$('#component_name_if_folder').val('');
-<% if @component.new_record? %>
-  // alternative alert("Error: <%= j @component.errors.full_messages.join(', ').html_safe %>");
-  toastr['error']("<%= @component.errors.full_messages.join(', ').html_safe %>");
-
+<% if @status == "forbidden" %>
+  toastr['error']('[403] - Dostęp zabroniony', 'Error', {timeOut: 15000});
 <% else %>
-  $('#componentable-components').DataTable().draw();
-  toastr['success']("<%= @component.name_if_folder %>" + '<br>...został utworzony');
+  $('#component_name_if_folder').val('');
+  <% if @component.new_record? %>
+    toastr['error']("<%= @component.errors.full_messages.join(', ').html_safe %>");
+  <% else %>
+    $('#componentable-components').DataTable().draw();
+    toastr['success']("<%= @component.name_if_folder %>" + '<br>...został utworzony');
+  <% end %>
 <% end %>

@@ -2,7 +2,7 @@ require 'zip_file_generator'
 
 class ComponentsController < ApplicationController
   before_action :authenticate_user!
-  after_action :verify_authorized, only: [:show, :create, :create_folder, :destroy]
+  after_action :verify_authorized, only: [:show, :create, :destroy]
   before_action :set_component, only: [:show, :destroy]
   before_action :set_component_uuid, only: [:show_uuid, :edit_uuid, :update_uuid, :destroy_uuid, :download_uuid ]
 
@@ -31,47 +31,52 @@ class ComponentsController < ApplicationController
           x_sendfile: true 
       }
       format.js { 
-        @send_file_url_as_html = "/#{params[:controller]}/#{params[:component_uuid]}/#{params[:action]}.html"
+        @file_url_as_html = "/#{params[:controller]}/#{params[:component_uuid]}/#{params[:action]}.html"
         render 'download_uuid' 
       }
     end
-
-
   end
 
   def zip_and_download
     @component_first_from_list = Component.find(params[:component_ids].first) unless params[:component_ids].empty?
     component_authorize(@component_first_from_list, "zip_and_download", @component_first_from_list.componentable_type.singularize.downcase)
-
-    component_ids = params[:component_ids].present? ? params[:component_ids] : []
- 
-    # create directory and copy file
-    pr = PreparationForZipFileGenerator.new('Component', 'component_file', 'file', component_ids)
-    pr.copy_files_to_tmp
-    # ziped directory
-    zf = ZipFileGenerator.new(pr.root_dir_to_zip, pr.out_zip_file)
-    zf.write()
-
-    # remove tmp folder
-    pr.delete_tmp_directory
-
-    component_ids.each do |id|
-      component = Component.find(id)
-      component.log_work('download_component', current_user.id)
-    end
+    # if component_policy_check(@component_first_from_list, "zip_and_download", params[:controller].classify.deconstantize.singularize.downcase)
 
     respond_to do |format|
       format.zip {  
-                    send_file "#{pr.out_zip_file}", 
-                      filename: "#{pr.output_file_name}", 
-                      dispostion: "inline", 
-                      status: 200, 
-                      stream: true, 
-                      x_sendfile: true
-                  }
+        component_ids = params[:component_ids].present? ? params[:component_ids] : []
+ 
+        # create directory and copy file
+        pr = PreparationForZipFileGenerator.new('Component', 'component_file', 'file', component_ids)
+        pr.copy_files_to_tmp
+        # ziped directory
+        zf = ZipFileGenerator.new(pr.root_dir_to_zip, pr.out_zip_file)
+        zf.write()
+        # remove tmp folder
+        pr.delete_tmp_directory
+
+        component_ids.each do |id|
+          component = Component.find(id)
+          component.log_work('download_component', current_user.id)
+        end
+
+        send_file "#{pr.out_zip_file}", 
+          filename: "#{pr.output_file_name}", 
+          dispostion: "inline", 
+          status: 200, 
+          stream: true, 
+          x_sendfile: true
+      }
+      format.js { 
+        @file_url_as_zip = url_for( controller: params[:controller],
+                                    action: params[:action],
+                                    component_ids:  params[:component_ids],
+                                    format: 'zip',
+                                    only_path: true)
+        render 'zip_and_download' 
+      }
     end
   end
-
 
   # GET /components/1
   # GET /components/1.json
@@ -93,6 +98,7 @@ class ComponentsController < ApplicationController
       #format.js { render file: 'components/_show_uuid.js.erb' }
       #format.js { render 'show_uuid.js.erb' }
       #format.js { render file: 'components/show_uuid.js.erb' }
+      #format.js { render :show_uuid }
       format.js { render 'show_uuid' }
     end
   end
@@ -123,32 +129,21 @@ class ComponentsController < ApplicationController
 
   def create_folder
     @component = params[:component].present? ? @componentable.components.new(component_params_for_create_folder) : @componentable.components.new()
-    component_authorize(@component, "create", params[:controller].classify.deconstantize.singularize.downcase)
 
-    @component = @componentable.components.create(component_params_for_create_folder)
-    @component.log_work('create_directory', current_user.id) if @component.errors.empty?
+    if component_policy_check(@component, "create", params[:controller].classify.deconstantize.singularize.downcase)
+      @component = @componentable.components.create(component_params_for_create_folder)
+      @component.log_work('create_directory', current_user.id) if @component.errors.empty?
 
-    respond_to do |format|
-      format.js  { render status: :created, layout: false, file: 'components/create_folder.js.erb' }
+      respond_to do |format|
+        format.js  { render status: :created, layout: false, file: 'components/create_folder.js.erb' }
+      end
+    else
+      respond_to do |format|
+        @status = "forbidden"
+        format.js  { render status: :forbidden, layout: false, file: 'components/create_folder.js.erb' }
+      end
     end
   end
-
-  # PATCH/PUT /components/1
-  # PATCH/PUT /components/1.json
-#   def update
-# #    @component = Component.find(params[:id])
-#     @component.user = current_user
-#     component_authorize(@component, "update", @component.componentable_type.singularize.downcase) 
-#     respond_to do |format|
-#       if @component.update(component_update_params)
-#         flash[:success] = t('activerecord.successfull.messages.updated', data: @component.fullname)
-#         @component.log_work('update_component', current_user.id)
-#         format.html { redirect_to url_for(only_path: true, controller: @component.componentable_type.pluralize.downcase, action: 'show', id: @component.componentable.id) }
-#       else
-#         format.html { render :edit }
-#       end
-#     end
-#   end
 
   def update_uuid
     @component.user = current_user
@@ -188,7 +183,12 @@ class ComponentsController < ApplicationController
   end
 
   def move_to_parent
-#    component_authorize(@component, "update", @component.componentable_type.singularize.downcase)
+    @component_first_from_list = Component.find(params[:children_ids].first) unless params[:children_ids].empty?
+    component_authorize(@component_first_from_list, "move_to_parent", @component_first_from_list.componentable_type.singularize.downcase)
+    # if component_policy_check(@component_first_from_list, "zip_and_download", params[:controller].classify.deconstantize.singularize.downcase)
+
+
+
     errors = Component::move_to_parent_and_log_work(params[:parent_id], params[:children_ids], current_user.id)
 
     if errors.blank?
@@ -226,12 +226,22 @@ class ComponentsController < ApplicationController
 
   private
     def component_authorize(model_class, action, sub_controller)
-      unless ['index', 'show', 'create', 'destroy', 'zip_and_download', 
+      unless ['index', 'show', 'create', 'destroy', 'zip_and_download', "move_to_parent", 
               'show_uuid', 'edit_uuid', 'update_uuid', 'destroy_uuid', 'download_uuid'].include?(action)
          raise "Ruby injection"
       end
       authorize model_class,"#{sub_controller}_#{action}?"      
     end
+
+    def component_policy_check(model_class, action, sub_controller)
+      unless ['index', 'show', 'create', 'destroy', 'zip_and_download', "move_to_parent", 
+              'show_uuid', 'edit_uuid', 'update_uuid', 'destroy_uuid', 'download_uuid'].include?(action)
+         raise "Ruby injection"
+      end
+      return policy(model_class).send("#{sub_controller}_#{action}?")      
+    end
+
+
 
     # Use callbacks to share common setup or constraints between actions.
     def set_component

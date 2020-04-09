@@ -84,12 +84,29 @@ $(document).ready(function() {
         selectedArray.push(item.id)
       });
 
-      toastr['info']('przygotowywanie pliku .ZIP');
+      var component_ids = selectedArray;
 
-      var data = { component_ids: selectedArray };
-      window.location.replace( "/components/zip_and_download.zip?" + $.param(data) );
+      $.ajax({
+        url: '/components/zip_and_download.js',
+        type: 'GET',
+        async: true,
+        data: {
+          component_ids: component_ids
+        },
+        success: function (response) {
+          toastr['success']('Tworzenie pliku .ZIP <br>...zakończone sukcesem');
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          console.log(xhr);
+          if (xhr.status == 401) {
+            window.location.reload();
+          } else {
+            getErrorMessage(xhr, thrownError);
+          }
+        }
+      });
 
-      dt.rows().deselect();
+
 
     }
   };
