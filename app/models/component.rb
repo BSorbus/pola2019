@@ -14,6 +14,7 @@ class Component < ApplicationRecord
                     file_content_type: { exclude: [ 'application/x-msdos-program',
                                                     'application/cmd',
                                                     'application/x-ms-dos-executable',
+                                                    'application/x-msdownload',
                                                     'application/x-javascript', 
                                                     'application/x-msi',
                                                     'application/x-php',
@@ -92,18 +93,8 @@ class Component < ApplicationRecord
   end
 
   def fullname
-    #{}"#{self.attached_file_identifier}"
+    # "#{self.attached_file_identifier}"
     "#{self.name}"
-  end
-
-  def my_send_file
-    "send_file #{component_file.path}, 
-      filename: #{component_file.file.filename}, 
-      type: #{file_content_type},
-      dispostion: 'inline', 
-      status: 200, 
-      stream: true, 
-      x_sendfile: true"
   end
 
   private

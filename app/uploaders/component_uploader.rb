@@ -1,3 +1,4 @@
+#require 'mime/types'
 class ComponentUploader < CarrierWave::Uploader::Base
   include ActionView::Helpers::NumberHelper
   # Include RMagick or MiniMagick support:
@@ -49,6 +50,7 @@ class ComponentUploader < CarrierWave::Uploader::Base
   process :override_content_type_and_save_info
 
   def override_content_type_and_save_info
+#    file.content_type = MIME::Types.type_for(original_filename).first.to_s
     case File.extname(file.file).delete('.').downcase.to_sym
     when :xlsx
       file.content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -64,6 +66,10 @@ class ComponentUploader < CarrierWave::Uploader::Base
       file.content_type = 'application/x-msdos-program'
     when :cmd
       file.content_type = 'application/cmd'
+    when :exe
+      file.content_type = 'application/x-msdownload'
+    when :msi
+      file.content_type = 'application/x-msi'
     when :php
       file.content_type = 'application/x-php'
     when :py
