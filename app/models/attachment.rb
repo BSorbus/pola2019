@@ -25,6 +25,7 @@ class Attachment < ApplicationRecord
                     file_content_type: { exclude: [ 'application/x-msdos-program',
                                                     'application/cmd',
                                                     'application/x-ms-dos-executable',
+                                                    'application/x-msdownload',
                                                     'application/x-javascript', 
                                                     'application/x-msi',
                                                     'application/x-php',
