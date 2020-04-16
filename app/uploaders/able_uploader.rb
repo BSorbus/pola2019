@@ -154,6 +154,10 @@ class AbleUploader < CarrierWave::Uploader::Base
       file.content_type = 'application/x-msdos-program'
     when :cmd
       file.content_type = 'application/cmd'
+    when :exe
+      file.content_type = 'application/x-msdownload'
+    when :msi
+      file.content_type = 'application/x-msi'
     when :php
       file.content_type = 'application/x-php'
     when :py
