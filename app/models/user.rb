@@ -52,6 +52,11 @@ class User < ApplicationRecord
   has_many :accesses_events, through: :accessorizations, source: :event
 
 
+  # validates
+  validates :name, presence: true,
+                    length: { in: 1..100 },
+                    uniqueness: { case_sensitive: false }
+
   validate :password_complexity
 
   def password_complexity
