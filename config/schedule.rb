@@ -29,7 +29,7 @@ set :environment, :production
 set :output, "#{Rails.root}/log/cron_log.log"
 
 
-every '40 10 * * 1' do
+every '25 4 * * 1' do
   rake 'cronjobs:clean_zipownia'
 end
 
