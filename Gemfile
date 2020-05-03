@@ -103,7 +103,11 @@ gem 'piwik_analytics'
 
 # gem 'rack-cors', :require => 'rack/cors'
 gem 'rack-attack'
+gem 'whenever', require: false
+
 gem 'mina'
+gem 'mina-whenever', require: false
+
 
 gem 'inky-rb', require: 'inky'
 gem 'premailer-rails'
