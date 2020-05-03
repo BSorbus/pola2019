@@ -29,6 +29,11 @@ set :environment, :production
 set :output, "#{Rails.root}/log/cron_log.log"
 
 
-every '55 8 * * *' do
-  command "cd /webapps/pola2019/current && RAILS_ENV=production bin/delayed_job restart"
+every '25 09 * * 1-6' do
+  rake 'cronjobs:restart_delayed_job'
 end
+
+every :reboot do
+ rake 'cronjobs:restart_delayed_job'
+end
+
