@@ -6,4 +6,9 @@ namespace :cronjobs do
     system("#{Rails.root}/bin/delayed_job restart")
   end
 
+  desc "Clean /tmp/zipownia"
+  task clean_zipownia: :environment do
+    system("rm -rf #{Rails.root}/tmp/zipownia")
+  end
+
 end

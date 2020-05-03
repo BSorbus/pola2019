@@ -29,11 +29,18 @@ set :environment, :production
 set :output, "#{Rails.root}/log/cron_log.log"
 
 
-every '25 09 * * 1-6' do
+every '40 10 * * 1' do
+  rake 'cronjobs:clean_zipownia'
+end
+
+# every '30 9 * * 1-6' do
+#   rake 'cronjobs:clean_zipownia'
+# end
+
+every '30 4 * * *' do
   rake 'cronjobs:restart_delayed_job'
 end
 
 every :reboot do
  rake 'cronjobs:restart_delayed_job'
 end
-
