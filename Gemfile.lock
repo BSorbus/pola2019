@@ -227,7 +227,7 @@ GEM
       actionmailer (>= 3)
       premailer (~> 1.7, >= 1.7.9)
     public_suffix (4.0.3)
-    puma (4.3.3)
+    puma (4.3.5)
       nio4r (~> 2.0)
     pundit (2.1.0)
       activesupport (>= 3.0.0)
@@ -393,7 +393,7 @@ DEPENDENCIES
   pg (>= 0.18, < 2.0)
   piwik_analytics
   premailer-rails
-  puma (~> 4.3.3)
+  puma (~> 4.3.5)
   pundit
   rack-attack
   rails (~> 5.2.4.2)
