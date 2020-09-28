@@ -102,7 +102,11 @@ class User < ApplicationRecord
   end
 
   def last_activity_at_expired?
-    self.last_activity_at < Time.zone.now - 90.days
+    if self.last_activity_at.present?
+      self.last_activity_at < Time.zone.now - 90.days
+    else
+      true
+    end
   end
 
   # Scope for select2: "user_select"

@@ -31,7 +31,7 @@ class Attachment < ApplicationRecord
                                                     'application/x-php',
                                                     'application/x-python',
                                                     'application/x-vbs' ] },
-                    file_size: { in: 1.byte..500.megabyte }, unless: -> { name_if_folder.present? }
+                    file_size: { in: 1.byte..750.megabyte }, unless: -> { name_if_folder.present? }
 
   # callbacks
   before_validation do
