@@ -128,7 +128,10 @@ footer {
 
 .colored-title {
   color: $brand-primary;
-  //color: #BECC25;
+}
+
+.colored-sidebar {
+  background-color: lighten(#BECC25, 48.5%);
 }
 
 .index-title {

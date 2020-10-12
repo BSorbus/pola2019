@@ -9,7 +9,7 @@ gem 'rails', '~> 5.2.4.4'
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 #gem 'puma', '~> 3.11'
-gem 'puma', '~> 4.3.3'
+gem 'puma', '~> 4.3.5'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -81,7 +81,7 @@ gem "redis", "~> 4.0"
 #gem 'jquery-datatables', '~> 1.10.20' 
 gem 'jquery-datatables', '= 1.10.19.1' #'=1.10.20 bo' z .19 jest jakis problem z wyswietlaniem kolumn wyboru
 gem 'ajax-datatables-rails' #, '= 0.4.0' jeżeli wywala się na custom_filter
-gem 'kaminari'
+gem 'kaminari', ">= 1.2.1"
 
 gem "devise", ">= 4.7.1"
 gem 'devise-security'
@@ -119,3 +119,7 @@ gem 'trix-rails', require: 'trix'
 gem 'mini_exiftool'
 gem 'closure_tree'
 gem 'rubyzip'
+
+# security alert
+gem "rack", ">= 2.2.3"
+gem "websocket-extensions", ">= 0.1.5"
