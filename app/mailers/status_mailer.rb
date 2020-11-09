@@ -1,6 +1,6 @@
 class StatusMailer < ActionMailer::Base
   default from: Rails.application.secrets.email_provider_username
-  default cc: Rails.application.secrets.email_provider_username
+  default bcc: Rails.application.secrets.email_bcc_username
 
 
   def event_status_email(user, event)

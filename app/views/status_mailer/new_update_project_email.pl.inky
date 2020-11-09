@@ -95,7 +95,7 @@
           <spacer size="8"></spacer>
           <h6 class="text-right h6-small"><%= mail_to "pawel.dabrowski@uke.gov.pl" %></h6>
           <h6 class="text-right h6-small"><%= mail_to "piotr.jankowski@uke.gov.pl" %></h6>
-          <h6 class="text-right h6-small"><%= mail_to "serwis.pola@uke.gov.pl" %></h6>
+          <h6 class="text-right h6-small"><%= mail_to "pola@uke.gov.pl" %></h6>
         </columns>
 
       </row>

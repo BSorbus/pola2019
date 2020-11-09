@@ -13,6 +13,10 @@ class ComponentUploader < CarrierWave::Uploader::Base
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
     # "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    # OK!
+    #{}"/home/bjarzab/www/pola2019_storage/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    # OK!
+    # "/mnt/cloud_test/files/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
     "#{Rails.application.secrets[:carrierwave_store_dir]}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
