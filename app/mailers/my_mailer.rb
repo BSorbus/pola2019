@@ -11,7 +11,7 @@ class MyMailer < Devise::Mailer
     attachments.inline['logo.jpg'] = File.read("app/assets/images/pola.png")
     attachments.inline['logo_uke.jpg'] = File.read("app/assets/images/logo_uke_pl_do_lewej_small.png")
     # !!!!!!!!!!!!!!!!!!!!!!
-    opts[:to] = 'BSorbus@gmail.com'   
+    # opts[:to] = 'BSorbus@gmail.com'   
     # opts[:subject] = "POLA - Instrukcja aktywowania konta"
 
     # Use different e-mail templates for signup e-mail confirmation and for when a user changes e-mail address.
