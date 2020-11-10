@@ -10,7 +10,7 @@ class StatusMailer < ActionMailer::Base
     attachments.inline['logo.jpg'] = File.read("app/assets/images/pola.png")
 
 #    mail(to: 'bogdan.jarzab@uke.gov.pl', subject: "POLA - #{@event.try(:title)} (#{@event.project.try(:number)})" )
-    mail(to: user.email, subject: "POLA - #{@event.try(:title)} (#{@event.project.try(:number)})" )
+    mail(to: user.email, cc: "#{Rails.application.secrets.email_bcc_username}", subject: "POLA - #{@event.try(:title)} (#{@event.project.try(:number)})" )
   end
 
   def project_status_email(user, project)
@@ -20,7 +20,7 @@ class StatusMailer < ActionMailer::Base
     attachments.inline['logo.jpg'] = File.read("app/assets/images/pola.png")
 
 #    mail(to: 'bogdan.jarzab@uke.gov.pl', subject: "POLA - projekt #{@project.try(:number)} (#{@project.customer.try(:name)})" )
-    mail(to: user.email, subject: "POLA - projekt #{@project.try(:number)} (#{@project.customer.try(:name)})" )
+    mail(to: user.email, cc: "#{Rails.application.secrets.email_bcc_username}", subject: "POLA - projekt #{@project.try(:number)} (#{@project.customer.try(:name)})" )
   end
 
   def new_update_event_email(event)
@@ -31,7 +31,7 @@ class StatusMailer < ActionMailer::Base
     attachments.inline['logo.jpg'] = File.read("app/assets/images/pola.png")
     attachments.inline['logo_uke.jpg'] = File.read("app/assets/images/logo_uke_pl_do_lewej_small.png")
 #    mail(to: 'bogdan.jarzab@uke.gov.pl', subject: "POLA - dotyczy zadania: #{@event.try(:title)}" )
-    mail(to: emails.join(','), subject: "POLA - dotyczy zadania: #{@event.try(:title)}" )
+    mail(to: emails.join(','), cc: "#{Rails.application.secrets.email_bcc_username}", subject: "POLA - dotyczy zadania: #{@event.try(:title)}" )
   end
 
   def new_update_project_email(project)
@@ -42,7 +42,7 @@ class StatusMailer < ActionMailer::Base
     attachments.inline['logo.jpg'] = File.read("app/assets/images/pola.png")
     attachments.inline['logo_uke.jpg'] = File.read("app/assets/images/logo_uke_pl_do_lewej_small.png")
 #    mail(to: 'bogdan.jarzab@uke.gov.pl', subject: "POLA - dotyczy projektu: #{@project.try(:number)}" )
-    mail(to: emails.join(','), subject: "POLA - dotyczy projektu: #{@project.try(:number)}" )
+    mail(to: emails.join(','), cc: "#{Rails.application.secrets.email_bcc_username}", subject: "POLA - dotyczy projektu: #{@project.try(:number)}" )
   end
 
 end
