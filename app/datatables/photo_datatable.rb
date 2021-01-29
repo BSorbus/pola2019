@@ -29,7 +29,7 @@ class PhotoDatatable < AjaxDatatablesRails::ActiveRecord
     records.map do |record|
       {
         id:               record.id,
-        miniature:        link_to( image_tag(record.attached_file_url(:miniature)), @view.photo_path(record.id), remote: true, title: "Podgląd", rel: 'tooltip'),
+        miniature:        link_to( image_tag(record.attached_file_url(:miniature), style: 'max-height:104px;width:auto;'), @view.photo_path(record.id), remote: true, title: "Podgląd", rel: 'tooltip'),
         photo_created_at: record.photo_created_at.present? ? record.photo_created_at.strftime("%Y-%m-%d %H:%M:%S") : '' ,
         latitude:         record.latitude,
         longitude:        record.longitude,
