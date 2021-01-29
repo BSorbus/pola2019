@@ -120,12 +120,19 @@ class ProposalFile < ApplicationRecord
               pf_attributes[:xml_projekt_tables_attributes]["#{projekt_index}"].merge!(xml_wybrana_technologia_tables_attributes: {})
               technologie_realizacji_projektu.xpath("./*[local-name()='WybraneTechnologie']").each_with_index do |wybrane_technologie, wybrane_technologie_index|
                 pf_attributes[:xml_projekt_tables_attributes]["#{projekt_index}"][:xml_wybrana_technologia_tables_attributes].merge!("#{wybrane_technologie_index}"=>{}) 
-                wybrane_technologie.xpath("./*[local-name()='Element']").each do |element|
+                wybrane_technologie.xpath("./*[local-name()='Element']").each_with_index do |element, element_index|
+                  # puts '----------------------------------------------------------------------------------------------------------------'
+                  # puts pf_attributes[:xml_projekt_tables_attributes]["#{projekt_index}"][:xml_wybrana_technologia_tables_attributes]["#{wybrane_technologie_index}"]
+                  # puts pf_attributes[:xml_projekt_tables_attributes]["#{projekt_index}"][:xml_wybrana_technologia_tables_attributes]
                   # puts 'projekt->dane_ogolne->technologie_realizacji_projektu->wybrane_technologie->element-id:' +element.xpath("./*[local-name()='Id']").text
                   # puts 'projekt->dane_ogolne->technologie_realizacji_projektu->wybrane_technologie->element-opis:' +element.xpath("./*[local-name()='Opis']").text
-                  pf_attributes[:xml_projekt_tables_attributes]["#{projekt_index}"][:xml_wybrana_technologia_tables_attributes]["#{wybrane_technologie_index}"].merge!(
-                    element_id: element.xpath("./*[local-name()='Id']").text,
-                    element_opis: element.xpath("./*[local-name()='Opis']").text
+                  # puts '----------------------------------------------------------------------------------------------------------------'
+                  # pf_attributes[:xml_projekt_tables_attributes]["#{projekt_index}"][:xml_wybrana_technologia_tables_attributes]["#{wybrane_technologie_index}"].merge!(
+                  pf_attributes[:xml_projekt_tables_attributes]["#{projekt_index}"][:xml_wybrana_technologia_tables_attributes].merge!(
+                    "#{element_index}"=> {
+                      element_id: element.xpath("./*[local-name()='Id']").text,
+                      element_opis: element.xpath("./*[local-name()='Opis']").text
+                    }
                   )  
                 end #/element
               end #/wybrane_technologie

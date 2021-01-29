@@ -195,9 +195,9 @@ pl:
     select:
       prompt: Proszę wybrać
     submit:
-      create: Utwórz %{model}
-      submit: Zapisz %{model}
-      update: Aktualizuj %{model}
+      create: Utwórz obiekt %{model}
+      submit: Zapisz obiekt %{model}
+      update: Aktualizuj obiekt %{model}
   number:
     currency:
       format:
