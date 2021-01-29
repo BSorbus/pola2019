@@ -12,6 +12,9 @@ class ProjectStatus < ApplicationRecord
   PROJECT_STATUS_DURABILITY = 10
   PROJECT_STATUS_CLOSED = 11
 
+  PROJECT_STATUS_CONTRACT_TERMINATED = 12
+  PROJECT_STATUS_UNREALIZED = 13
+
   # relations
   has_many :projects, dependent: :nullify
 
