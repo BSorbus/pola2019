@@ -335,8 +335,10 @@ class ProposalFile < ApplicationRecord
          
                 end #/miejsce_realizacji
               end #/miejsca_realizacji
-              # puts 'partnerzy->partner->miejsca_realizacji_projektu->maksymalna_kwota_dofinansowania:' +miejsca_realizacji_projektu.xpath("./*[local-name()='MaksymalnaKwotaDofinansowania']").text
-              # puts 'partnerzy->partner->miejsca_realizacji_projektu->maksymalna_intensywnosc_wsparcia:' +miejsca_realizacji_projektu.xpath("./*[local-name()='MaksymalnaIntensywnoscWsparcia']").text
+              puts '-------------------------------------------------------------------------------------------------------------'
+              puts 'partnerzy->partner->miejsca_realizacji_projektu->maksymalna_kwota_dofinansowania:' +miejsca_realizacji_projektu.xpath("./*[local-name()='MaksymalnaKwotaDofinansowania']").text
+              puts 'partnerzy->partner->miejsca_realizacji_projektu->maksymalna_intensywnosc_wsparcia:' +miejsca_realizacji_projektu.xpath("./*[local-name()='MaksymalnaIntensywnoscWsparcia']").text
+              puts '-------------------------------------------------------------------------------------------------------------'
               pf_attributes[:xml_partner_tables_attributes]["#{partner_index}"].merge!( 
                 mrp_maksymalna_kwota_dofinansowania: miejsca_realizacji_projektu.xpath("./*[local-name()='MaksymalnaKwotaDofinansowania']").text,
                 mrp_maksymalna_intensywnosc_wsparcia: miejsca_realizacji_projektu.xpath("./*[local-name()='MaksymalnaIntensywnoscWsparcia']").text

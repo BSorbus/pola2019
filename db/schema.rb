@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_03_192428) do
+ActiveRecord::Schema.define(version: 2021_01_29_054533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -538,7 +538,7 @@ ActiveRecord::Schema.define(version: 2020_04_03_192428) do
     t.string "numer_wpisu_uke"
     t.string "mrp_obszar_realizacji_id"
     t.string "mrp_obszar_realizacji_opis"
-    t.integer "mrp_maksymalna_kwota_dofinansowania"
+    t.decimal "mrp_maksymalna_kwota_dofinansowania", precision: 15, scale: 2
     t.decimal "mrp_maksymalna_intensywnosc_wsparcia", precision: 6, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

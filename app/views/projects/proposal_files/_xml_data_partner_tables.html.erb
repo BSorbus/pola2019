@@ -116,7 +116,8 @@
 
         <div class="form-group col-sm-12">
           <strong><%= XmlPartnerTable.human_attribute_name(:mrp_maksymalna_kwota_dofinansowania) %></strong><br>
-          <%= partner.mrp_maksymalna_kwota_dofinansowania %>
+<!--      <%#= partner.mrp_maksymalna_kwota_dofinansowania %> -->
+          <%= number_with_precision(partner.mrp_maksymalna_kwota_dofinansowania, precision: 2, separator: ',', delimiter: ' ') %>
         </div>
 
         <div class="form-group col-sm-12">
