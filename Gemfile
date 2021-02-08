@@ -88,7 +88,7 @@ gem 'devise-security'
 gem 'rails_email_validator'
 gem 'pundit'
 
-gem 'carrierwave', '~> 2.0'
+gem 'carrierwave', '~> 2.1'
 gem 'mini_magick'
 gem 'jquery-fileupload-rails'
 gem 'file_validators'
