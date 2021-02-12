@@ -65,11 +65,16 @@ class PointFile < ApplicationRecord
     ( 
       (line1 == required_line1_ver_1_1_or_1_2_0) && ((line3 == required_line3_1_1) || (line3 == required_line3_1_2_0))
     ) ||
-    ( line1sub == required_line1_ver_1_19_x )
+      ( line1sub == required_line1_ver_1_19_x )
 
   end
 
   def load_data_from_csv_file
+
+    line3_fpzis_ver = File.open("#{self.load_file.file.path}", "r").each_line.take(1).last
+    line3_fpzis_ver = line3_fpzis_ver.strip.gsub(/[\n]/, '') if line3_fpzis_ver.present?
+    line3_fpzis_ver = line3_fpzis_ver[0..34] if line3_fpzis_ver.present?
+
     @ww_points = []
     @zs_points = []
 
@@ -82,15 +87,15 @@ class PointFile < ApplicationRecord
 
       case row[0].first(2)
       when "OI"
-        update_io(row)
+        update_io(row, line3_fpzis_ver)
       when "DP"
-        update_dp(row)
+        update_dp(row, line3_fpzis_ver)
       when "WW"
-        insert_ww_points(row)                        
+        insert_ww_points(row, line3_fpzis_ver)
       when "ZS"
-        insert_zs_points(row)                        
+        insert_zs_points(row, line3_fpzis_ver)
       when "WS"
-        update_ws(row)
+        update_ws(row, line3_fpzis_ver)
       end if row[0].first(1) != "#"
 
     end 
@@ -101,29 +106,59 @@ class PointFile < ApplicationRecord
   end
 
   private
-    def update_io(current_row)
-      self.oi_2  = "#{current_row[1]}"
-      self.oi_3  = "#{current_row[2]}"
-      self.oi_4  = "#{current_row[3]}"
-      self.oi_5  = current_row[4].squish.gsub(/["]/, "").to_i
-      self.oi_6  = current_row[5].squish.gsub(/["]/, "").to_i
-      self.oi_7  = current_row[6].squish.gsub(/["]/, "").to_i
-      self.oi_8  = current_row[7].squish.gsub(/["]/, "").to_i
-      self.oi_9  = current_row[8].squish.gsub(/["]/, "").to_i
-      self.oi_10 = current_row[9].squish.gsub(/["]/, "").to_i
+    def update_io(current_row, file_version)
+      case file_version
+      # FPZiS dla III naboru - wersja 1.19.3b (poprzednia wersja 1.19; 1.19.2; 1.19.3) oraz # FPZiS dla III naboru runda 2 - wersja 1.19.5
+      when '# Wygenerowano przez FPZiS (1.19.5)', '# Wygenerowano przez FPZiS (1.19.3b', '# Wygenerowano przez FPZiS (1.19.3)', '# Wygenerowano przez FPZiS (1.19.2)'
+        self.oi_2  = "#{current_row[1]}"
+        self.oi_3  = "#{current_row[2]}"
+        self.oi_4  = "#{current_row[3]}"
+        self.oi_5  = current_row[4].squish.gsub(/["]/, "").to_i
+        self.oi_6  = current_row[5].squish.gsub(/["]/, "").to_i
+        self.oi_7  = current_row[6].squish.gsub(/["]/, "").to_i
+        self.oi_8  = current_row[7].squish.gsub(/["]/, "").to_i
+        self.oi_9  = current_row[8].squish.gsub(/["]/, "").to_i
+        self.oi_10 = current_row[9].squish.gsub(/["]/, "").to_i
+        self.oi_11 = current_row[10].squish.gsub(/["]/, "").to_i
+      # FPZiS dla IV naboru - wersja 1.19.8 (poprzednie wersja 1.19.6, 1.19.7)
+      when '# Wygenerowano przez FPZiS (1.19.8)', '# Wygenerowano przez FPZiS (1.19.7)', '# Wygenerowano przez FPZiS (1.19.6)'
+        self.oi_2  = "#{current_row[1]}"
+        self.oi_3  = "#{current_row[2]}"
+        self.oi_4  = "#{current_row[3]}"
+        self.oi_5  = current_row[4].squish.gsub(/["]/, "").to_i
+        self.oi_6  = current_row[5].squish.gsub(/["]/, "").to_i
+        self.oi_7  = current_row[6].squish.gsub(/["]/, "").to_i
+        self.oi_8  = current_row[7].squish.gsub(/["]/, "").to_i
+        # self.oi_9  = current_row[8].squish.gsub(/["]/, "").to_i
+        # self.oi_10 = current_row[9].squish.gsub(/["]/, "").to_i        
+        self.oi_1009  = current_row[8].squish.gsub(/["]/, "").to_i
+        self.oi_1010 = current_row[9].squish.gsub(/["]/, "").to_i        
+        self.oi_10 = current_row[10].squish.gsub(/["]/, "").to_i
+      else
+      # konkurs II ?
+        self.oi_2  = "#{current_row[1]}"
+        self.oi_3  = "#{current_row[2]}"
+        self.oi_4  = "#{current_row[3]}"
+        self.oi_5  = current_row[4].squish.gsub(/["]/, "").to_i
+        self.oi_6  = current_row[5].squish.gsub(/["]/, "").to_i
+        self.oi_7  = current_row[6].squish.gsub(/["]/, "").to_i
+        self.oi_8  = current_row[7].squish.gsub(/["]/, "").to_i
+        self.oi_9  = current_row[8].squish.gsub(/["]/, "").to_i
+        self.oi_10 = current_row[9].squish.gsub(/["]/, "").to_i        
+      end
     end
 
-    def update_dp(current_row)
+    def update_dp(current_row, file_version)
       self.dp_2  = "#{current_row[1]}"
       self.dp_3  = "#{current_row[2]}"
       self.dp_4  = "#{current_row[3]}"
       self.dp_5  = "#{current_row[4]}"
       self.dp_6  = "#{current_row[5]}"
       self.dp_7  = "#{current_row[6]}"
-      self.dp_8  = "#{current_row[7]}".gsub(/[^0-9,.-]/, "")
+      self.dp_8  = "#{current_row[7]}".gsub(/[^0-9,.-]/, "")        
     end
 
-    def update_ws(current_row)
+    def update_ws(current_row, file_version)
       self.ws_2 = current_row[1].squish.gsub(/["]/, "").to_i
       self.ws_3 = current_row[2].squish.gsub(/["]/, "").to_i
       self.ws_4 = current_row[3].squish.gsub(/["]/, "").to_i
@@ -132,7 +167,7 @@ class PointFile < ApplicationRecord
       self.ws_7 = current_row[6].squish.gsub(/["]/, "").to_i
     end
 
-    def insert_ww_points(current_row)                        
+    def insert_ww_points(current_row, file_version)
       @ww_points << WwPoint.new(
         point_file_id: self.id, 
         ww_2:  "#{current_row[1]}",
@@ -153,7 +188,7 @@ class PointFile < ApplicationRecord
       )
     end
 
-    def insert_zs_points(current_row)                        
+    def insert_zs_points(current_row, file_version)
       @zs_points << ZsPoint.new(
         point_file_id: self.id, 
         zs_2:  "#{current_row[1]}",

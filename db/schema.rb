@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_29_080906) do
+ActiveRecord::Schema.define(version: 2021_02_12_130943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -337,6 +337,9 @@ ActiveRecord::Schema.define(version: 2021_01_29_080906) do
     t.integer "ws_5"
     t.integer "ws_6"
     t.integer "ws_7"
+    t.integer "oi_11"
+    t.integer "oi_1009"
+    t.integer "oi_1010"
     t.index ["load_date"], name: "index_point_files_on_load_date"
     t.index ["project_id"], name: "index_point_files_on_project_id"
     t.index ["status"], name: "index_point_files_on_status"
