@@ -53,12 +53,12 @@
           </div>
 
           <div class="form-group col-sm-12">
-            <strong><%= PointFile.human_attribute_name(:oi_1009) %></strong><br>
+            <strong><%= PointFile.human_attribute_name(:oi_1009) if @point_file.oi_1009.present? %></strong><br>
             <%= number_with_precision(@point_file.oi_1009, precision: 0, separator: ',', delimiter: ' ') %>
           </div>
 
           <div class="form-group col-sm-12">
-            <strong><%= PointFile.human_attribute_name(:oi_1010) %></strong><br>
+            <strong><%= PointFile.human_attribute_name(:oi_1010) if @point_file.oi_1010.present? %></strong><br>
             <%= number_with_precision(@point_file.oi_1010, precision: 0, separator: ',', delimiter: ' ') %>
           </div>
 
@@ -68,7 +68,7 @@
           </div>
 
           <div class="form-group col-sm-12">
-            <strong><%= PointFile.human_attribute_name(:oi_11) %></strong><br>
+            <strong><%= PointFile.human_attribute_name(:oi_11) if @point_file.oi_11.present? %></strong><br>
             <%= number_with_precision(@point_file.oi_11, precision: 0, separator: ',', delimiter: ' ') %>
           </div>
 
