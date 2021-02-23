@@ -20,6 +20,7 @@ class PointFileWwPointsDatatable < AjaxDatatablesRails::ActiveRecord
       ww_14:  { source: "WwPoint.ww_14", cond: :like, searchable: true, orderable: true },
       ww_15:  { source: "WwPoint.ww_15", cond: :like, searchable: true, orderable: true },
       ww_16:  { source: "WwPoint.ww_16", cond: :like, searchable: true, orderable: true },
+      ww_17:  { source: "WwPoint.ww_17", cond: :like, searchable: true, orderable: true }
     }
   end
 
@@ -42,6 +43,7 @@ class PointFileWwPointsDatatable < AjaxDatatablesRails::ActiveRecord
         ww_14:  number_with_precision(record.ww_14, precision: 4, separator: '.'),
         ww_15:  number_with_precision(record.ww_15, precision: 4, separator: '.'),
         ww_16:  record.ww_16,
+        ww_17:  record.ww_17
       }
     end
   end

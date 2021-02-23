@@ -24,7 +24,7 @@
       </div> <!--/col-sm-12 -->
 
       <div class="col-sm-12">
-        <table id="point_file-zs_points-table" class="hover cell-border compact" cellspacing="0" width="100%" 
+        <table id="point_file-zs_points-table" class="hover cell-border compact nowrap" cellspacing="0" width="100%" 
           data-source="<%= datatables_index_zs_point_project_point_files_path(project_id: @point_file.project.id, point_file_id: @point_file.id, format: :json) %>">
           <thead>
             <tr>
@@ -45,10 +45,12 @@
               <th><%= ZsPoint.human_attribute_name(:zs_15) %></th>
               <th><%= ZsPoint.human_attribute_name(:zs_16) %></th>
               <th><%= ZsPoint.human_attribute_name(:zs_17) %></th>
+              <th><%= ZsPoint.human_attribute_name(:zs_1022) %></th>
               <th><%= ZsPoint.human_attribute_name(:zs_18) %></th>
               <th><%= ZsPoint.human_attribute_name(:zs_19) %></th>
               <th><%= ZsPoint.human_attribute_name(:zs_20) %></th>
               <th><%= ZsPoint.human_attribute_name(:zs_21) %></th>
+              <th><%= ZsPoint.human_attribute_name(:zs_1023) %></th>
             </tr>
           </thead>
           <tbody>

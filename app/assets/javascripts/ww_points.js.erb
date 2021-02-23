@@ -1,6 +1,7 @@
 $(document).ready(function() {
   var oPointFileWwPointstable = $('#point_file-ww_points-table').DataTable({
-    responsive: true,
+    // responsive: true,
+    responsive: false,
     processing: true,
     serverSide: true,
     deferRender: true,
@@ -21,23 +22,23 @@ $(document).ready(function() {
     lengthMenu: [[10, 15, 25, 50, 100, -1], [10, 15, 25, 50, 100, "Wszystkie"]],
     iDisplayLength: 10,
     columns: [
-      { "data": "id",
-        "visible": false }, 
-      { "data": "ww_2", "width": "70" }, 
-      { "data": "ww_3", "width": "50" }, 
-      { "data": "ww_4", "width": "100" }, 
-      { "data": "ww_5", "width": "100" }, 
-      { "data": "ww_6", "width": "100" },
+      { "data": "id", "visible": false }, 
+      { "data": "ww_2" }, 
+      { "data": "ww_3" }, 
+      { "data": "ww_4" }, 
+      { "data": "ww_5" }, 
+      { "data": "ww_6" },
       { "data": "ww_7" },
-      { "data": "ww_8", "width": "100" },
+      { "data": "ww_8" },
       { "data": "ww_9" },
-      { "data": "ww_10", "width": "100" },
-      { "data": "ww_11", "width": "40" },
-      { "data": "ww_12", "width": "40" },
-      { "data": "ww_13", "width": "40" },
-      { "data": "ww_14", "width": "40" },
-      { "data": "ww_15", "width": "40" },
-      { "data": "ww_16", "width": "120" }
+      { "data": "ww_10" },
+      { "data": "ww_11" },
+      { "data": "ww_12" },
+      { "data": "ww_13" },
+      { "data": "ww_14" },
+      { "data": "ww_15" },
+      { "data": "ww_16" },
+      { "data": "ww_17" }
     ],
     preDrawCallback: function( settings ) {
       // jezeli panel nie jest widoczny, to przerwij ładowanie danych

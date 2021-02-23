@@ -21,10 +21,12 @@ class PointFileZsPointsDatatable < AjaxDatatablesRails::ActiveRecord
       zs_15:  { source: "ZsPoint.zs_15", cond: :like, searchable: true, orderable: true },
       zs_16:  { source: "ZsPoint.zs_16", cond: :like, searchable: true, orderable: true },
       zs_17:  { source: "ZsPoint.zs_17", cond: :like, searchable: true, orderable: true },
+      zs_1022:  { source: "ZsPoint.zs_1022", cond: :like, searchable: true, orderable: true },
       zs_18:  { source: "ZsPoint.zs_18", cond: :like, searchable: true, orderable: true },
       zs_19:  { source: "ZsPoint.zs_19", cond: :like, searchable: true, orderable: true },
       zs_20:  { source: "ZsPoint.zs_20", cond: :like, searchable: true, orderable: true },
-      zs_21:  { source: "ZsPoint.zs_21", cond: :like, searchable: true, orderable: true }
+      zs_21:  { source: "ZsPoint.zs_21", cond: :like, searchable: true, orderable: true },
+      zs_1023:  { source: "ZsPoint.zs_1023", cond: :like, searchable: true, orderable: true }
     }
   end
 
@@ -48,10 +50,12 @@ class PointFileZsPointsDatatable < AjaxDatatablesRails::ActiveRecord
         zs_15:  record.zs_15,
         zs_16:  record.zs_16,
         zs_17:  record.zs_17,
+        zs_1022:  record.zs_1022,
         zs_18:  record.zs_18,
         zs_19:  record.zs_19,
         zs_20:  record.zs_20,
-        zs_21:  record.zs_21
+        zs_21:  record.zs_21,
+        zs_1023:  record.zs_1023
       }
     end
   end

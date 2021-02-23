@@ -22,7 +22,7 @@
       </div> <!--/col-sm-12 -->
 
       <div class="col-sm-12">
-        <table id="point_file-ww_points-table" class="hover cell-border compact" cellspacing="0" width="100%" 
+        <table id="point_file-ww_points-table" class="hover cell-border compact nowrap" cellspacing="0" width="100%" 
           data-source="<%= datatables_index_ww_point_project_point_files_path(project_id: @point_file.project.id, point_file_id: @point_file.id, format: :json) %>">
           <thead>
             <tr>
@@ -42,6 +42,7 @@
               <th><%= WwPoint.human_attribute_name(:ww_14) %></th>
               <th><%= WwPoint.human_attribute_name(:ww_15) %></th>
               <th><%= WwPoint.human_attribute_name(:ww_16) %></th>
+              <th><%= WwPoint.human_attribute_name(:ww_17) %></th>
             </tr>
           </thead>
           <tbody>

@@ -184,34 +184,102 @@ class PointFile < ApplicationRecord
         ww_13: "#{current_row[12]}",
         ww_14: current_row[13].squish.gsub(/["]/, "").to_f,
         ww_15: current_row[14].squish.gsub(/["]/, "").to_f,
-        ww_16: "#{current_row[15]}"
+        ww_16: "#{current_row[15]}",
+        ww_17: "#{current_row[16]}" 
       )
     end
 
     def insert_zs_points(current_row, file_version)
-      @zs_points << ZsPoint.new(
-        point_file_id: self.id, 
-        zs_2:  "#{current_row[1]}",
-        zs_3:  "#{current_row[2]}",
-        zs_4:  "#{current_row[3]}",
-        zs_5:  "#{current_row[4]}",
-        zs_6:  "#{current_row[5]}",
-        zs_7:  "#{current_row[6]}",
-        zs_8:  "#{current_row[7]}",
-        zs_9:  "#{current_row[8]}",
-        zs_10: "#{current_row[9]}",
-        zs_11: "#{current_row[10]}",
-        zs_12: "#{current_row[11]}",
-        zs_13: current_row[12].squish.gsub(/["]/, "").to_f,
-        zs_14: current_row[13].squish.gsub(/["]/, "").to_f,
-        zs_15: "#{current_row[14]}",
-        zs_16: current_row[15].squish.gsub(/["]/, "").to_i,
-        zs_17: current_row[16].squish.gsub(/["]/, "").to_i,
-        zs_18: "#{current_row[17]}",
-        zs_19: current_row[18].squish.gsub(/["]/, "").to_i,
-        zs_20: current_row[19].squish.gsub(/["]/, "").to_i,
-        zs_21: current_row[20].squish.gsub(/["]/, "").to_i
-      )
+      case file_version
+      # FPZiS dla III naboru - wersja 1.19.3b (poprzednia wersja 1.19; 1.19.2; 1.19.3) oraz # FPZiS dla III naboru runda 2 - wersja 1.19.5
+      when '# Wygenerowano przez FPZiS (1.19.5)', '# Wygenerowano przez FPZiS (1.19.3b', '# Wygenerowano przez FPZiS (1.19.3)', '# Wygenerowano przez FPZiS (1.19.2)'
+        @zs_points << ZsPoint.new(
+          point_file_id: self.id, 
+          zs_2:  "#{current_row[1]}",
+          zs_3:  "#{current_row[2]}",
+          zs_4:  "#{current_row[3]}",
+          zs_5:  "#{current_row[4]}",
+          zs_6:  "#{current_row[5]}",
+          zs_7:  "#{current_row[6]}",
+          zs_8:  "#{current_row[7]}",
+          zs_9:  "#{current_row[8]}",
+          zs_10: "#{current_row[9]}",
+          zs_11: "#{current_row[10]}",
+          zs_12: "#{current_row[11]}",
+          zs_13: current_row[12].squish.gsub(/["]/, "").to_f,
+          zs_14: current_row[13].squish.gsub(/["]/, "").to_f,
+          zs_15: "#{current_row[14]}",
+          zs_16: current_row[15].squish.gsub(/["]/, "").to_i,
+          zs_17: current_row[16].squish.gsub(/["]/, "").to_i,
+          # zs_18: "#{current_row[17]}",
+          # zs_19: current_row[18].squish.gsub(/["]/, "").to_i,
+          # zs_20: current_row[19].squish.gsub(/["]/, "").to_i,
+          # zs_21: current_row[20].squish.gsub(/["]/, "").to_i
+          zs_1022: "#{current_row[17]}",
+          zs_18: "#{current_row[18]}",
+          zs_19: current_row[19].squish.gsub(/["]/, "").to_i,
+          zs_20: current_row[20].squish.gsub(/["]/, "").to_i,
+          zs_21: current_row[21].squish.gsub(/["]/, "").to_i,
+          zs_1023: "#{current_row[22]}"
+        )
+      # FPZiS dla IV naboru - wersja 1.19.8 (poprzednie wersja 1.19.6, 1.19.7)
+      when '# Wygenerowano przez FPZiS (1.19.8)', '# Wygenerowano przez FPZiS (1.19.7)', '# Wygenerowano przez FPZiS (1.19.6)'
+        @zs_points << ZsPoint.new(
+          point_file_id: self.id, 
+          zs_2:  "#{current_row[1]}",
+          zs_3:  "#{current_row[2]}",
+          zs_4:  "#{current_row[3]}",
+          zs_5:  "#{current_row[4]}",
+          zs_6:  "#{current_row[5]}",
+          zs_7:  "#{current_row[6]}",
+          zs_8:  "#{current_row[7]}",
+          zs_9:  "#{current_row[8]}",
+          zs_10: "#{current_row[9]}",
+          zs_11: "#{current_row[10]}",
+          zs_12: "#{current_row[11]}",
+          zs_13: current_row[12].squish.gsub(/["]/, "").to_f,
+          zs_14: current_row[13].squish.gsub(/["]/, "").to_f,
+          zs_15: "#{current_row[14]}",
+          zs_16: current_row[15].squish.gsub(/["]/, "").to_i,
+          zs_17: current_row[16].squish.gsub(/["]/, "").to_i,
+          # zs_18: "#{current_row[17]}",
+          # zs_19: current_row[18].squish.gsub(/["]/, "").to_i,
+          # zs_20: current_row[19].squish.gsub(/["]/, "").to_i,
+          # zs_21: current_row[20].squish.gsub(/["]/, "").to_i
+          zs_1022: "#{current_row[17]}",
+          zs_18: "#{current_row[18]}",
+          zs_19: current_row[19].squish.gsub(/["]/, "").to_i,
+          zs_20: current_row[20].squish.gsub(/["]/, "").to_i,
+          zs_21: current_row[21].squish.gsub(/["]/, "").to_i,
+          zs_1023: "#{current_row[22]}"
+        )
+      else
+      # konkurs II ?
+        @zs_points << ZsPoint.new(
+          point_file_id: self.id, 
+          zs_2:  "#{current_row[1]}",
+          zs_3:  "#{current_row[2]}",
+          zs_4:  "#{current_row[3]}",
+          zs_5:  "#{current_row[4]}",
+          zs_6:  "#{current_row[5]}",
+          zs_7:  "#{current_row[6]}",
+          zs_8:  "#{current_row[7]}",
+          zs_9:  "#{current_row[8]}",
+          zs_10: "#{current_row[9]}",
+          zs_11: "#{current_row[10]}",
+          zs_12: "#{current_row[11]}",
+          zs_13: current_row[12].squish.gsub(/["]/, "").to_f,
+          zs_14: current_row[13].squish.gsub(/["]/, "").to_f,
+          zs_15: "#{current_row[14]}",
+          zs_16: current_row[15].squish.gsub(/["]/, "").to_i,
+          zs_17: current_row[16].squish.gsub(/["]/, "").to_i,
+          zs_18: "#{current_row[17]}",
+          zs_19: current_row[18].squish.gsub(/["]/, "").to_i,
+          zs_20: current_row[19].squish.gsub(/["]/, "").to_i,
+          zs_21: current_row[20].squish.gsub(/["]/, "").to_i
+        )
+      end
+
     end
 
 end
