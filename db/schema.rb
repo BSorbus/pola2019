@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_23_071507) do
+ActiveRecord::Schema.define(version: 2021_03_00_802353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -478,6 +478,8 @@ ActiveRecord::Schema.define(version: 2021_02_23_071507) do
     t.decimal "ww_15", precision: 7, scale: 4
     t.string "ww_16", limit: 100
     t.string "ww_17", limit: 100
+    t.decimal "ww_18"
+    t.decimal "ww_19", precision: 8, scale: 2
     t.index ["point_file_id"], name: "index_ww_points_on_point_file_id"
     t.index ["ww_10"], name: "index_ww_points_on_ww_10"
     t.index ["ww_11"], name: "index_ww_points_on_ww_11"
