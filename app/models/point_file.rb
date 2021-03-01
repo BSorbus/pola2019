@@ -186,8 +186,8 @@ class PointFile < ApplicationRecord
         ww_15: current_row[14].squish.gsub(/["]/, "").to_f,
         ww_16: "#{current_row[15]}",
         ww_17: "#{current_row[16]}", 
-        ww_18: "#{current_row[17]}",
-        ww_19: "#{current_row[18]}" 
+        ww_18: current_row[17].squish.gsub(/["]/, "").to_i,
+        ww_19: current_row[18].squish.gsub(/["]/, "").to_f 
       )
     end
 

@@ -46,7 +46,7 @@ class PointFileWwPointsDatatable < AjaxDatatablesRails::ActiveRecord
         ww_15:  number_with_precision(record.ww_15, precision: 4, separator: '.'),
         ww_16:  record.ww_16,
         ww_17:  record.ww_17,
-        ww_18:  record.ww_18,
+        ww_18:  number_with_precision(record.ww_18, precision: 0),
         ww_19:  number_with_precision(record.ww_19, precision: 2, separator: '.')
       }
     end
