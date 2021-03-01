@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_00_802353) do
+ActiveRecord::Schema.define(version: 2021_03_01_202355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -474,8 +474,8 @@ ActiveRecord::Schema.define(version: 2021_03_00_802353) do
     t.string "ww_11", limit: 5
     t.string "ww_12", limit: 50
     t.string "ww_13", limit: 6
-    t.decimal "ww_14", precision: 7, scale: 4
-    t.decimal "ww_15", precision: 7, scale: 4
+    t.decimal "ww_14", precision: 11, scale: 8
+    t.decimal "ww_15", precision: 11, scale: 8
     t.string "ww_16", limit: 100
     t.string "ww_17", limit: 100
     t.decimal "ww_18"
@@ -619,8 +619,8 @@ ActiveRecord::Schema.define(version: 2021_03_00_802353) do
     t.string "zs_10", limit: 250
     t.string "zs_11", limit: 5
     t.string "zs_12", limit: 50
-    t.decimal "zs_13", precision: 7, scale: 4
-    t.decimal "zs_14", precision: 7, scale: 4
+    t.decimal "zs_13", precision: 11, scale: 8
+    t.decimal "zs_14", precision: 11, scale: 8
     t.string "zs_15", limit: 100
     t.integer "zs_16"
     t.integer "zs_17"
