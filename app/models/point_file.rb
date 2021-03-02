@@ -168,27 +168,77 @@ class PointFile < ApplicationRecord
     end
 
     def insert_ww_points(current_row, file_version)
-      @ww_points << WwPoint.new(
-        point_file_id: self.id, 
-        ww_2:  "#{current_row[1]}",
-        ww_3:  "#{current_row[2]}",
-        ww_4:  "#{current_row[3]}",
-        ww_5:  "#{current_row[4]}",
-        ww_6:  "#{current_row[5]}",
-        ww_7:  "#{current_row[6]}",
-        ww_8:  "#{current_row[7]}",
-        ww_9:  "#{current_row[8]}",
-        ww_10: "#{current_row[9]}",
-        ww_11: "#{current_row[10]}",
-        ww_12: "#{current_row[11]}",
-        ww_13: "#{current_row[12]}",
-        ww_14: current_row[13].squish.gsub(/["]/, "").to_f,
-        ww_15: current_row[14].squish.gsub(/["]/, "").to_f,
-        ww_16: "#{current_row[15]}",
-        ww_17: "#{current_row[16]}", 
-        ww_18: current_row[17].squish.gsub(/["]/, "").to_i,
-        ww_19: current_row[18].squish.gsub(/["]/, "").to_f 
-      )
+      case file_version
+      # FPZiS dla III naboru - wersja 1.19.3b (poprzednia wersja 1.19; 1.19.2; 1.19.3) oraz # FPZiS dla III naboru runda 2 - wersja 1.19.5
+      when '# Wygenerowano przez FPZiS (1.19.5)', '# Wygenerowano przez FPZiS (1.19.3b', '# Wygenerowano przez FPZiS (1.19.3)', '# Wygenerowano przez FPZiS (1.19.2)'
+        @ww_points << WwPoint.new(
+          point_file_id: self.id, 
+          ww_2:  "#{current_row[1]}",
+          ww_3:  "#{current_row[2]}",
+          ww_4:  "#{current_row[3]}",
+          ww_5:  "#{current_row[4]}",
+          ww_6:  "#{current_row[5]}",
+          ww_7:  "#{current_row[6]}",
+          ww_8:  "#{current_row[7]}",
+          ww_9:  "#{current_row[8]}",
+          ww_10: "#{current_row[9]}",
+          ww_11: "#{current_row[10]}",
+          ww_12: "#{current_row[11]}",
+          ww_13: "#{current_row[12]}",
+          ww_14: current_row[13].squish.gsub(/["]/, "").to_f,
+          ww_15: current_row[14].squish.gsub(/["]/, "").to_f,
+          ww_16: "#{current_row[15]}",
+          ww_17: "#{current_row[16]}", 
+          ww_18: current_row[17].squish.gsub(/["]/, "").to_i,
+          ww_19: current_row[18].squish.gsub(/["]/, "").to_f 
+        )
+
+      # FPZiS dla IV naboru - wersja 1.19.8 (poprzednie wersja 1.19.6, 1.19.7)
+      when '# Wygenerowano przez FPZiS (1.19.8)', '# Wygenerowano przez FPZiS (1.19.7)', '# Wygenerowano przez FPZiS (1.19.6)'
+        @ww_points << WwPoint.new(
+          point_file_id: self.id, 
+          ww_2:  "#{current_row[1]}",
+          ww_3:  "#{current_row[2]}",
+          ww_4:  "#{current_row[3]}",
+          ww_5:  "#{current_row[4]}",
+          ww_6:  "#{current_row[5]}",
+          ww_7:  "#{current_row[6]}",
+          ww_8:  "#{current_row[7]}",
+          ww_9:  "#{current_row[8]}",
+          ww_10: "#{current_row[9]}",
+          ww_11: "#{current_row[10]}",
+          ww_12: "#{current_row[11]}",
+          ww_13: "#{current_row[12]}",
+          ww_14: current_row[13].squish.gsub(/["]/, "").to_f,
+          ww_15: current_row[14].squish.gsub(/["]/, "").to_f,
+          ww_16: "#{current_row[15]}",
+          ww_17: "#{current_row[16]}", 
+          ww_18: current_row[17].squish.gsub(/["]/, "").to_i,
+          ww_19: current_row[18].squish.gsub(/["]/, "").to_f 
+        )
+
+      else
+      # konkurs II ?
+        @ww_points << WwPoint.new(
+          point_file_id: self.id, 
+          ww_2:  "#{current_row[1]}",
+          ww_3:  "#{current_row[2]}",
+          ww_4:  "#{current_row[3]}",
+          ww_5:  "#{current_row[4]}",
+          ww_6:  "#{current_row[5]}",
+          ww_7:  "#{current_row[6]}",
+          ww_8:  "#{current_row[7]}",
+          ww_9:  "#{current_row[8]}",
+          ww_10: "#{current_row[9]}",
+          ww_11: "#{current_row[10]}",
+          ww_12: "#{current_row[11]}",
+          ww_13: "#{current_row[12]}",
+          ww_14: current_row[13].squish.gsub(/["]/, "").to_f,
+          ww_15: current_row[14].squish.gsub(/["]/, "").to_f,
+          ww_16: "#{current_row[15]}",
+          ww_17: "#{current_row[16]}", 
+        )
+      end
     end
 
     def insert_zs_points(current_row, file_version)
