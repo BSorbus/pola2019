@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.5.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.4.4'
+gem 'rails', '~> 5.2.4.5'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
@@ -88,7 +88,7 @@ gem 'devise-security'
 gem 'rails_email_validator'
 gem 'pundit'
 
-gem 'carrierwave', '~> 2.0'
+gem 'carrierwave', '>= 2.1.1'
 gem 'mini_magick'
 gem 'jquery-fileupload-rails'
 gem 'file_validators'
@@ -123,3 +123,5 @@ gem 'rubyzip'
 # security alert
 gem "rack", ">= 2.2.3"
 gem "websocket-extensions", ">= 0.1.5"
+gem "nokogiri", ">= 1.11.0"
+
