@@ -344,7 +344,7 @@ pl:
         zs_18: 'Med. trans.'
         zs_19: 'Maks. przew. [Mb/s]'
         zs_20: 'Maks. bezprzew [Mb/s]'
-        zs_21: 'Maks. dla JO [Mb/s]'
+        zs_21: 'Maks. dla JO/JP [Mb/s]'
         zs_1023: 'St. realiz.'
       xml_partner_table:
         dp_nazwa: 'Nazwa'
