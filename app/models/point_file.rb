@@ -118,7 +118,8 @@ class PointFile < ApplicationRecord
         self.oi_7  = current_row[6].squish.gsub(/["]/, "").to_i
         self.oi_8  = current_row[7].squish.gsub(/["]/, "").to_i
         self.oi_9  = current_row[8].squish.gsub(/["]/, "").to_i
-        self.oi_10 = current_row[9].squish.gsub(/["]/, "").to_i
+        # self.oi_10 = current_row[9].squish.gsub(/["]/, "").to_i
+        self.oi_10 = current_row[9].squish.gsub(/["]/, "").to_f
         self.oi_11 = current_row[10].squish.gsub(/["]/, "").to_i
       # FPZiS dla IV naboru - wersja 1.19.8 (poprzednie wersja 1.19.6, 1.19.7)
       when '# Wygenerowano przez FPZiS (1.19.8)', '# Wygenerowano przez FPZiS (1.19.7)', '# Wygenerowano przez FPZiS (1.19.6)'
@@ -133,7 +134,8 @@ class PointFile < ApplicationRecord
         # self.oi_10 = current_row[9].squish.gsub(/["]/, "").to_i        
         self.oi_1009  = current_row[8].squish.gsub(/["]/, "").to_i
         self.oi_1010 = current_row[9].squish.gsub(/["]/, "").to_i        
-        self.oi_10 = current_row[10].squish.gsub(/["]/, "").to_i
+        # self.oi_10 = current_row[10].squish.gsub(/["]/, "").to_i
+        self.oi_10 = current_row[10].squish.gsub(/["]/, "").to_f
       else
       # konkurs II ?
         self.oi_2  = "#{current_row[1]}"
@@ -144,7 +146,8 @@ class PointFile < ApplicationRecord
         self.oi_7  = current_row[6].squish.gsub(/["]/, "").to_i
         self.oi_8  = current_row[7].squish.gsub(/["]/, "").to_i
         self.oi_9  = current_row[8].squish.gsub(/["]/, "").to_i
-        self.oi_10 = current_row[9].squish.gsub(/["]/, "").to_i        
+        # self.oi_10 = current_row[9].squish.gsub(/["]/, "").to_i        
+        self.oi_10 = current_row[9].squish.gsub(/["]/, "").to_f        
       end
     end
 

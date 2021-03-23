@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_01_202355) do
+ActiveRecord::Schema.define(version: 2021_03_22_082031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -323,7 +323,7 @@ ActiveRecord::Schema.define(version: 2021_03_01_202355) do
     t.integer "oi_7"
     t.integer "oi_8"
     t.integer "oi_9"
-    t.integer "oi_10"
+    t.decimal "oi_10", precision: 15, scale: 2
     t.string "dp_2", limit: 250
     t.string "dp_3", limit: 13
     t.string "dp_4", limit: 10
