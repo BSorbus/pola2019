@@ -7,7 +7,7 @@ class Attachment < ApplicationRecord
 
   # validates
   validates :name, presence: true,
-                   length: { in: 1..100 },
+                   length: { in: 1..150 },
                    uniqueness: { case_sensitive: false, scope: [:attachmenable_id, :attachmenable_type, :parent_id], message: " - istnieje objekt o takiej nazwie (%{value})" }, allow_blank: true
 
   # validate unique name file 

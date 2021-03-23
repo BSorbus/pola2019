@@ -7,7 +7,7 @@ class Component < ApplicationRecord
 
   # validates
   validates :name, presence: true,
-                   length: { in: 1..100 },
+                   length: { in: 1..150 },
                    uniqueness: { case_sensitive: false, scope: [:componentable_id, :componentable_type, :parent_id], message: " - istnieje objekt o takiej nazwie (%{value})" }, allow_blank: true
 
   validates :component_file, presence: true, 
