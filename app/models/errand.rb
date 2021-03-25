@@ -42,8 +42,8 @@ class Errand < ApplicationRecord
 
   def has_opened_events
     analize_value = true
-    if self.errand_status_id === ErrandStatus::ERRAND_STATUS_CLOSED && self.events.where.not(event_status_id: EventStatus::EVENT_STATUS_CLOSED).any? 
-      errors.add(:base, 'Nie można "zamknąć" zlecenia "' + self.try(:fullname) + '" do którego są przypisane Zadania o statusie innym niż "zamknięte".')
+    if self.errand_status_id === ErrandStatus::ERRAND_STATUS_CLOSED && self.events.where.not(event_status_id: [EventStatus::EVENT_STATUS_CLOSED, EventStatus::EVENT_STATUS_CANCELED]).any? 
+      errors.add(:base, 'Nie można "zamknąć" zlecenia "' + self.try(:fullname) + '" do którego są przypisane Zadania o statusie innym niż "zamknięte/anulowane".')
       analize_value = false
     end
     throw :abort unless analize_value 
