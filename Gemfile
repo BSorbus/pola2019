@@ -81,8 +81,9 @@ gem "hiredis"
 gem "redis", "~> 4.0"
 
 #gem 'jquery-datatables', '~> 1.10.20' 
+#gem 'jquery-datatables', '= 1.10.16' #'=1.10.20 bo' z .19 jest jakis problem z wyswietlaniem kolumn wyboru
 gem 'jquery-datatables', '= 1.10.19.1' #'=1.10.20 bo' z .19 jest jakis problem z wyswietlaniem kolumn wyboru
-gem 'ajax-datatables-rails' #, '= 0.4.0' jeżeli wywala się na custom_filter
+gem 'ajax-datatables-rails', '= 1.2.0' #, '= 1.3.1' wywala blad w module zalacznikow
 gem 'kaminari', ">= 1.2.1"
 
 gem "devise", ">= 4.7.1"
