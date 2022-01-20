@@ -48,7 +48,11 @@ class EventType < ApplicationRecord
   end
 
   def access_to_opinions?
-    [ EVENT_TYPE_OPINIA_ZMIAN, EVENT_TYPE_OPINIA ].include?(self.id)
+    [ EVENT_TYPE_OPINIA_ZMIAN ].include?(self.id)
+  end
+
+  def access_to_opinions_wop?
+    [ EVENT_TYPE_OPINIA ].include?(self.id)
   end
 
   def access_to_protocols?
