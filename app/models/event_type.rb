@@ -11,6 +11,7 @@ class EventType < ApplicationRecord
   EVENT_TYPE_HURT_CENNIKI = 9
   EVENT_TYPE_INNE = 10
   EVENT_TYPE_OPINIA = 11
+  EVENT_TYPE_OPINIA_WSKAZNIKI = 12
  
   # relations
   has_many :events, dependent: :nullify
@@ -23,13 +24,13 @@ class EventType < ApplicationRecord
 
   def access_to_attachments?
     [ EVENT_TYPE_OCENA_WNIOSKU, EVENT_TYPE_OCENA_PROTEST, 
-      EVENT_TYPE_OPINIA_ZMIAN, EVENT_TYPE_OPINIA, 
+      EVENT_TYPE_OPINIA_ZMIAN, EVENT_TYPE_OPINIA, EVENT_TYPE_OPINIA_WSKAZNIKI, 
       EVENT_TYPE_KONTROLA_REALIZACJA, EVENT_TYPE_KONTROLA_ZAKONCZENIE, EVENT_TYPE_KONTROLA_TRWALOSC ].include?(self.id)
   end
 
   def access_to_statements?
     [ EVENT_TYPE_OCENA_WNIOSKU, EVENT_TYPE_OCENA_PROTEST, 
-      EVENT_TYPE_OPINIA_ZMIAN, EVENT_TYPE_OPINIA,
+      EVENT_TYPE_OPINIA_ZMIAN, EVENT_TYPE_OPINIA, EVENT_TYPE_OPINIA_WSKAZNIKI,
       EVENT_TYPE_KONTROLA_REALIZACJA, EVENT_TYPE_KONTROLA_ZAKONCZENIE, EVENT_TYPE_KONTROLA_TRWALOSC ].include?(self.id)
   end
 
@@ -39,7 +40,7 @@ class EventType < ApplicationRecord
 
   def access_to_correspondences?
     [ EVENT_TYPE_OCENA_WNIOSKU, EVENT_TYPE_OCENA_PROTEST, 
-      EVENT_TYPE_OPINIA_ZMIAN, EVENT_TYPE_OPINIA,
+      EVENT_TYPE_OPINIA_ZMIAN, EVENT_TYPE_OPINIA, EVENT_TYPE_OPINIA_WSKAZNIKI,
       EVENT_TYPE_KONTROLA_REALIZACJA, EVENT_TYPE_KONTROLA_ZAKONCZENIE, EVENT_TYPE_KONTROLA_TRWALOSC ].include?(self.id)
   end
 
@@ -53,6 +54,10 @@ class EventType < ApplicationRecord
 
   def access_to_opinions_wop?
     [ EVENT_TYPE_OPINIA ].include?(self.id)
+  end
+
+  def access_to_opinions_wskazniki?
+    [ EVENT_TYPE_OPINIA_WSKAZNIKI ].include?(self.id)
   end
 
   def access_to_protocols?
