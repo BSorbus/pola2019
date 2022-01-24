@@ -180,8 +180,7 @@ class Event < ApplicationRecord
     build_folder("Oświadczenia", create_timestamp)  if access_statements?
     build_folder("Korespondencja", create_timestamp) if access_correspondences?
     build_folder("Ocena", create_timestamp) if access_ratings? 
-    build_folder("Opinia WOP", create_timestamp) if access_opinions_wop? 
-    build_folder("Opinia wskaźniki", create_timestamp) if access_opinions_wskazniki? 
+    build_folder("Opinia", create_timestamp) if (access_opinions_wop? || access_opinions_wskazniki?) 
     build_folder("Opinia zmian", create_timestamp) if access_opinions? 
     build_folder("Upoważnienia", create_timestamp) if access_authorizations? 
     build_folder("Protokoły oględzin", create_timestamp) if access_inspection_protocols? 
