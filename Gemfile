@@ -4,13 +4,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.5.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.6'
+gem 'rails', '~> 5.2.6.2'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
-#gem 'puma', '~> 3.11'
-#gem 'puma', '~> 4.3.5'
-gem 'puma', '~> 5.5.1'
+gem 'puma', '~> 5.6.2'
 gem 'nokogiri', '~> 1.12.5'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -59,7 +57,7 @@ group :test do
   gem 'chromedriver-helper'
 end
 
-gem 'listen', '>= 3.0.5', '< 3.2'
+gem 'listen', '>= 3.0.5'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
