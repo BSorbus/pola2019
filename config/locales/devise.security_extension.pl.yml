@@ -4,6 +4,20 @@ pl:
       taken_in_past: "było użyte w przeszłości!"
       equal_to_current_password: "musi być różne od aktualnego hasła!"
       password_format: "musi zawierać wielką i małą literę oraz cyfrę i znak specjalny"
+      equal_to_email: 'musi być różne od adresu email.'
+      password_complexity:
+        digit:
+          one: "musi zawierać przynajmniej jedną cyfrę"
+          other: must contain at least %{count} digits
+        lower:
+          one: "musi zawierać przynajmniej jedną małą literę"
+          other: must contain at least %{count} lower-case letters
+        symbol:
+          one: "musi zawierać przynajmniej jeden znak specjalny"
+          other: must contain at least %{count} punctuation marks or symbols
+        upper:
+          one: "musi zawierać przynajmniej jedną wielką literę"
+          other: must contain at least %{count} upper-case letters
   devise:
     invalid_captcha: "The captcha input is not valid!"
     invalid_security_question: "The security question answer was invalid."
