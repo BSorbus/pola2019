@@ -8,15 +8,15 @@ gem 'rails', '~> 5.2.8.1'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
-gem 'puma', '~> 5.6.2'
-gem 'nokogiri', '~> 1.12.5'
+gem 'puma', '~> 5.6.5'
+gem 'nokogiri', '~> 1.13.9'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'mini_racer', platforms: :ruby
-#gem 'therubyracer', platforms: :ruby
+#gem 'mini_racer', platforms: :ruby
+gem 'therubyracer', platforms: :ruby
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
@@ -124,4 +124,4 @@ gem 'rubyzip'
 # security alert
 gem "rack", ">= 2.2.3"
 gem "websocket-extensions", ">= 0.1.5"
-gem "addressable", ">= 2.8.0"
+gem "addressable", ">= 2.8.1"
