@@ -11,7 +11,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
-    user_activities.include? 'user:show'
+    (user_activities.include? 'user:show') || (user.id == model.id)
   end
 
   def new?
@@ -27,7 +27,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    user_activities.include? 'user:update'
+    (user_activities.include? 'user:update') || (user.id == model.id)
   end
 
   def destroy?

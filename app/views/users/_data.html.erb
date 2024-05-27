@@ -111,9 +111,11 @@
           <div class="row">
             <div class="col-sm-12">
 
-              <%= link_to users_path, class: "btn btn-default" do %>
-                <span class="fa fa-list"></span>
-                <%= t("helpers.links.index") %>
+              <% if policy(:user).index? %>
+                <%= link_to users_path, class: "btn btn-default" do %>
+                  <span class="fa fa-list"></span>
+                  <%= t("helpers.links.index") %>
+                <% end %>
               <% end %>
 
               <% if policy(@user).destroy? %>
@@ -131,7 +133,9 @@
                   <span class="fa fa-edit"></span>
                   <%= t("helpers.links.edit") %>
                 <% end %>
+              <% end %>
 
+              <% if policy(@user).destroy? %>
                 <% if @user.deleted_at.present? %>
                   <%= link_to account_on_user_path(@user),
                                       method: :patch,

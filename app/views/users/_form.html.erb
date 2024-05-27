@@ -61,15 +61,18 @@
         <!-- form "New"/"Edit" -->
         <div class="row">
           <div class="col-sm-12">
-            <%= link_to users_path, class: "btn btn-default" do %>
-              <span class="fa fa-list"></span>
-              <%= t("helpers.links.index") %>
-            <% end %>
+            <% if policy(:user).index? %>
+              <%= link_to users_path, class: "btn btn-default" do %>
+                <span class="fa fa-list"></span>
+                <%= t("helpers.links.index") %>
+              <% end %>
 
-            <%= link_to :back, class: "btn btn-default" do %>
-              <span class="glyphicon glyphicon-arrow-left"></span>
-              <%= t("helpers.links.back") %>
+              <%= link_to :back, class: "btn btn-default" do %>
+                <span class="glyphicon glyphicon-arrow-left"></span>
+                <%= t("helpers.links.back") %>
+              <% end %>
             <% end %>
+            
             <%= f.submit nil, class: 'btn btn-success' %>
 
           </div> <!--/col-sm-12 -->

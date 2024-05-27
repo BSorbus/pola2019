@@ -1,17 +1,39 @@
 class User < ApplicationRecord
-
-  USER_DEFAULT_FIRST_NAME = "nowy"
-  USER_DEFAULT_LAST_NAME  = "użytkownik"
-  USER_DEFAULT_USER_NAME  = "nowy użytkownik"
-
   include ActionView::Helpers::TextHelper
 
   delegate :url_helpers, to: 'Rails.application.routes'
 
-  devise :saml_authenticatable, :trackable
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, 
+         :confirmable, 
+         :recoverable,
+         :registerable,
+         :timeoutable, 
+         :trackable, 
+         :validatable,
+         :lockable,
+         :password_expirable,
+         :secure_validatable, 
+         :password_archivable, 
+         :expirable
+
+  # devise  :database_authenticatable, 
+  #         :recoverable, 
+  #         :registerable, 
+  #         :timeoutable, 
+  #         :trackable, 
+  #         :validatable,
+  #         :lockable,
+  #           :password_expirable,
+  #           :secure_validatable, 
+  #           :password_archivable, 
+  #           :expirable,
+  #         :authentication_keys => [:email]
 
   # relations
   has_and_belongs_to_many :roles
+#  has_and_belongs_to_many :groups
 
   has_many :members #, dependent: :destroy
   has_many :groups, through: :members
@@ -31,22 +53,33 @@ class User < ApplicationRecord
 
 
   # validates
-  validates :user_name, presence: true,
-                    length: { in: 1..100 }
-
-  validates :email, presence: true,
+  validates :name, presence: true,
                     length: { in: 1..100 },
-                    uniqueness: { case_sensitive: false },
-                    format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }
+                    uniqueness: { case_sensitive: false }
 
+  validate :password_complexity
+
+  # def password_complexity
+  #   #if password.present? and not password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\W])/)
+  #   if password.present? and not password.match(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*(_|[\W]))/)
+  #     errors.add :password, "Hasło musi zawierać małą literę, wielką literę and one symbol"
+  #   end
+  # end
 
   # callbacks
-  before_validation :set_initial_data_corrected #, on: :create
   before_destroy :has_important_links, prepend: true
-  after_commit :set_default_data, on: :create
 
   # scope
   scope :has_notification_by_email, -> { where(notification_by_email: true, deleted_at: nil) }
+
+  def has_important_links
+    analize_value = true
+    if self.accessorizations.any? 
+     errors.add(:base, 'Nie można usunąć konta "' + self.try(:fullname) + '" które jest powiązane z Zadaniami.')
+     analize_value = false
+    end
+    throw :abort unless analize_value 
+  end
 
   def flat_assigned_events 
     Accessorization.includes(:event, :role).where(user_id: self.id).order("events.end_date desc").map {|row| "#{row.event.try(:title_as_link)} - #{row.role.try(:name_as_link)}" }.join('<br>').html_safe
@@ -55,37 +88,6 @@ class User < ApplicationRecord
   def flat_assigned_events_with_status 
     Accessorization.joins(event: [:event_status], role: []).where(user_id: self.id).order("events.end_date desc").map {|row| "#{row.event.try(:title_as_link)} - [#{row.event.event_status.name}] - #{row.role.try(:name_as_link)}" }.join('<br>').html_safe
   end
-
-
-  def name
-    "#{first_name} #{last_name}"
-  end
-
-  def fullname_and_id
-    "#{first_name} #{last_name} (#{id})"
-  end
-
-
-  def name_was
-    "#{first_name_was} #{last_name_was}"
-  end
-
-  def fullname
-    name.blank? ? "#{email}" : "#{email} (#{name})"
-  end
-
-  def fullname_was
-    name_was.blank? ? "#{email_was}" : "#{email_was} (#{name_was})"
-  end
-
-  def last_name_to_display
-    (last_name == USER_DEFAULT_LAST_NAME || last_name.blank?) ? "" : last_name    
-  end
-
-  def first_name_to_display
-    (first_name == USER_DEFAULT_FIRST_NAME || first_name.blank?) ? "" : first_name    
-  end
-
 
   def fullname
     "#{name} (#{email})"
@@ -220,30 +222,5 @@ class User < ApplicationRecord
     end
   end
 
-  private
-    def set_initial_data_corrected
-      self.email.downcase if self.email.present?
-      
-      self.first_name = USER_DEFAULT_FIRST_NAME if self.first_name.blank?
-      self.last_name  = USER_DEFAULT_LAST_NAME  if self.last_name.blank?
-      self.user_name  = USER_DEFAULT_USER_NAME  if self.user_name.blank?
-
-      user_name  = "#{first_name} #{last_name}"
-    end 
-
-    def has_important_links
-      analize_value = true
-      if self.accessorizations.any? 
-       errors.add(:base, 'Nie można usunąć konta "' + self.try(:fullname) + '" które jest powiązane z Zadaniami.')
-       analize_value = false
-      end
-      throw :abort unless analize_value 
-    end
-
-    def set_default_data
-      # if author_id.blank?
-      #   self.update_columns(author_id: id) 
-      # end
-    end
 
 end

@@ -84,8 +84,9 @@ gem 'jquery-datatables', '= 1.10.19.1' #'=1.10.20 bo' z .19 jest jakis problem z
 gem 'ajax-datatables-rails', '= 1.2.0' #, '= 1.3.1' wywala blad w module zalacznikow
 gem 'kaminari', ">= 1.2.1"
 
-gem "devise", ">= 4.7.1"
-gem 'devise-security'
+gem "devise", "= 4.8.1"
+gem 'devise_saml_authenticatable'
+#gem 'devise-security'
 gem 'rails_email_validator'
 gem 'pundit'
 

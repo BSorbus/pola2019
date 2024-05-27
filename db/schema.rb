@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_23_004554) do
+ActiveRecord::Schema.define(version: 2024_05_25_122845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -441,6 +441,14 @@ ActiveRecord::Schema.define(version: 2022_01_23_004554) do
     t.integer "attachments_count", default: 0, null: false
     t.boolean "notification_by_email", default: true
     t.integer "attachments_file_size_sum", default: 0, null: false
+    t.uuid "wso2is_userid"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "user_name"
+    t.boolean "csu_confirmed"
+    t.datetime "csu_confirmed_at"
+    t.string "csu_confirmed_by"
+    t.string "session_index"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
