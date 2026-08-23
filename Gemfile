@@ -85,7 +85,8 @@ gem 'ajax-datatables-rails', '= 1.2.0' #, '= 1.3.1' wywala blad w module zalaczn
 gem 'kaminari', ">= 1.2.1"
 
 gem "devise", "= 4.8.1"
-gem 'devise_saml_authenticatable'
+# gem "devise", ">= 4.7.1"
+# gem 'devise_saml_authenticatable'
 gem 'devise-security'
 gem 'rails_email_validator'
 gem 'pundit'
