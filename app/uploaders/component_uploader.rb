@@ -1,97 +1,101 @@
-#require 'mime/types'
 class ComponentUploader < CarrierWave::Uploader::Base
   include ActionView::Helpers::NumberHelper
-  # Include RMagick or MiniMagick support:
-  # include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
 
-  # Choose what kind of storage to use for this uploader:
   storage :file
-  # storage :fog
 
-  # Override the directory where uploaded files will be stored.
-  # This is a sensible default for uploaders that are meant to be mounted:
+  ###########################################################################
+  # LOGGING HELPERS
+  ###########################################################################
+
+  def log(msg)
+    Rails.logger.info "[ComponentUploader] #{msg}"
+  end
+
+  def log_file_state(label, path)
+    log "#{label}: #{path}"
+    log "  exists? #{File.exist?(path)}"
+    log "  dirname: #{File.dirname(path)} (exists? #{Dir.exist?(File.dirname(path))})"
+  end
+
+  ###########################################################################
+  # STORE DIR / CACHE DIR
+  ###########################################################################
+
   def store_dir
-    # "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-    # OK!
-    #{}"/home/bjarzab/www/pola2019_storage/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-    # OK!
-    # "/mnt/cloud_test/files/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-    "#{Rails.application.secrets[:carrierwave_store_dir]}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    dir = "#{Rails.application.secrets[:carrierwave_store_dir]}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    log "store_dir=#{dir}"
+    dir
   end
 
-  # zdefinowac w pliku secrets
   def cache_dir
-    "#{Rails.application.secrets[:carrierwave_cache_dir]}"
+    dir = Rails.application.secrets[:carrierwave_cache_dir]
+    log "cache_dir=#{dir}"
+    dir
   end
 
-  # Provide a default URL as a default if there hasn't been a file uploaded:
-  # def default_url(*args)
-  #   # For Rails 3.1+ asset pipeline compatibility:
-  #   # ActionController::Base.helpers.asset_path("fallback/" + [version_name, "default.png"].compact.join('_'))
-  #
-  #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
-  # end
-
-  # Process files as they are uploaded:
-  # process scale: [200, 300]
-  #
-  # def scale(width, height)
-  #   # do something
-  # end
-
-  # Create different versions of your uploaded files:
-  # version :thumb do
-  #   process resize_to_fit: [50, 50]
-  # end
-
-  # Add a white list of extensions which are allowed to be uploaded.
-  # For images you might use something like this:
-  # def extension_whitelist
-  #   %w(jpg jpeg gif png)
-  # end
-
-  # Override the filename of the uploaded files:
-  # Avoid using model.id or version_name here, see uploader/store.rb for details.
-  # def filename
-  #   "something.jpg" if original_filename
-  # end
+  ###########################################################################
+  # MAIN PROCESS
+  ###########################################################################
 
   process :override_content_type_and_save_info
 
   def override_content_type_and_save_info
-#    file.content_type = MIME::Types.type_for(original_filename).first.to_s
-    case File.extname(file.file).delete('.').downcase.to_sym
-    when :xlsx
-      file.content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    when :docx
-      file.content_type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-    when :pptx
-      file.content_type = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-    when :rar
-      file.content_type = 'application/vnd.rar'
-    when :zip
-      file.content_type = 'application/zip'
-    when :bat
-      file.content_type = 'application/x-msdos-program'
-    when :cmd
-      file.content_type = 'application/cmd'
-    when :exe
-      file.content_type = 'application/x-msdownload'
-    when :msi
-      file.content_type = 'application/x-msi'
-    when :php
-      file.content_type = 'application/x-php'
-    when :py
-      file.content_type = 'application/x-python'
-    when :vbs
-      file.content_type = 'application/x-vbs'
+    log "override_content_type_and_save_info START"
+    log "model=#{model.class} id=#{model.id}"
+    log "mounted_as=#{mounted_as}"
+    log "file.path=#{file.path}"
+    log "file.original_filename=#{file.original_filename}"
+    log "file.size=#{file.size}"
+    log "Process UID=#{Process.uid}"
+    log "ulimit -n=#{`ulimit -n`.strip rescue 'N/A'}"
+
+    ext = File.extname(file.file).delete('.').downcase.to_sym
+    log "extension=#{ext}"
+
+    begin
+      case ext
+      when :xlsx
+        file.content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      when :docx
+        file.content_type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      when :pptx
+        file.content_type = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+      when :rar
+        file.content_type = 'application/vnd.rar'
+      when :zip
+        file.content_type = 'application/zip'
+      when :bat
+        file.content_type = 'application/x-msdos-program'
+      when :cmd
+        file.content_type = 'application/cmd'
+      when :exe
+        file.content_type = 'application/x-msdownload'
+      when :msi
+        file.content_type = 'application/x-msi'
+      when :php
+        file.content_type = 'application/x-php'
+      when :py
+        file.content_type = 'application/x-python'
+      when :vbs
+        file.content_type = 'application/x-vbs'
+      else
+        log "UNKNOWN EXTENSION — no override"
+      end
+    rescue => e
+      log "ERROR setting content_type: #{e.class}: #{e.message}"
     end
 
-    model.file_content_type = file.content_type if file.content_type
-    model.file_size = number_to_human_size(file.size) if file.size
-    # Add in model on init  
-    # model.component_uuid = SecureRandom.uuid unless model.component_uuid.present?
-  end
+    log "FINAL content_type=#{file.content_type}"
 
+    begin
+      model.file_content_type = file.content_type if file.content_type
+      model.file_size = number_to_human_size(file.size) if file.size
+      log "model.file_content_type=#{model.file_content_type}"
+      log "model.file_size=#{model.file_size}"
+    rescue => e
+      log "ERROR saving model info: #{e.class}: #{e.message}"
+    end
+
+    log "override_content_type_and_save_info END"
+  end
 end
