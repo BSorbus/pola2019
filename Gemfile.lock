@@ -126,6 +126,8 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise-security (0.18.0)
+      devise (>= 4.3.0)
     devise_saml_authenticatable (1.9.1)
       devise (> 2.0.0)
       ruby-saml (~> 1.7)
@@ -388,6 +390,7 @@ DEPENDENCIES
   daemons
   delayed_job_active_record
   devise (= 4.8.1)
+  devise-security
   devise_saml_authenticatable
   file_validators
   font_awesome5_rails

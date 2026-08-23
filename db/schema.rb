@@ -15,6 +15,8 @@ ActiveRecord::Schema.define(version: 2024_05_25_122845) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "plpgsql"
+  enable_extension "postgis"
+  enable_extension "postgis_topology"
 
   create_table "accessorizations", force: :cascade do |t|
     t.integer "event_id"
@@ -139,7 +141,7 @@ ActiveRecord::Schema.define(version: 2024_05_25_122845) do
     t.string "rpt"
     t.bigint "user_id"
     t.integer "attachments_count", default: 0, null: false
-    t.integer "attachments_file_size_sum", default: 0, null: false
+    t.bigint "attachments_file_size_sum", default: 0, null: false
     t.index ["name"], name: "index_customers_on_name"
     t.index ["user_id"], name: "index_customers_on_user_id"
   end
@@ -168,7 +170,7 @@ ActiveRecord::Schema.define(version: 2024_05_25_122845) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "attachments_count", default: 0, null: false
-    t.integer "attachments_file_size_sum", default: 0, null: false
+    t.bigint "attachments_file_size_sum", default: 0, null: false
     t.index ["user_id"], name: "index_enrollments_on_user_id"
   end
 
@@ -191,7 +193,7 @@ ActiveRecord::Schema.define(version: 2024_05_25_122845) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.integer "attachments_count", default: 0, null: false
-    t.integer "attachments_file_size_sum", default: 0, null: false
+    t.bigint "attachments_file_size_sum", default: 0, null: false
     t.date "exercise_date"
     t.string "exercise_date_info_number"
     t.date "exercise_date_info_date"
@@ -244,7 +246,7 @@ ActiveRecord::Schema.define(version: 2024_05_25_122845) do
     t.bigint "user_id"
     t.bigint "event_effect_id"
     t.integer "attachments_count", default: 0, null: false
-    t.integer "attachments_file_size_sum", default: 0, null: false
+    t.bigint "attachments_file_size_sum", default: 0, null: false
     t.date "opinion_date"
     t.date "rating_date"
     t.date "last_activity_date"
@@ -261,11 +263,26 @@ ActiveRecord::Schema.define(version: 2024_05_25_122845) do
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
+# Could not dump table "gmi_tables" because of following StandardError
+#   Unknown type 'geometry(MultiPolygon,2180)' for column 'geom'
+
   create_table "groups", force: :cascade do |t|
     t.string "name"
     t.text "note", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "layer", primary_key: ["topology_id", "layer_id"], force: :cascade do |t|
+    t.integer "topology_id", null: false
+    t.integer "layer_id", null: false
+    t.string "schema_name", null: false
+    t.string "table_name", null: false
+    t.string "feature_column", null: false
+    t.integer "feature_type", null: false
+    t.integer "level", default: 0, null: false
+    t.integer "child_id"
+    t.index ["schema_name", "table_name", "feature_column"], name: "layer_schema_name_table_name_feature_column_key", unique: true
   end
 
   create_table "members", force: :cascade do |t|
@@ -345,6 +362,9 @@ ActiveRecord::Schema.define(version: 2024_05_25_122845) do
     t.index ["status"], name: "index_point_files_on_status"
   end
 
+# Could not dump table "pow_tables" because of following StandardError
+#   Unknown type 'geometry(MultiPolygon,2180)' for column 'geom'
+
   create_table "project_statuses", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -365,7 +385,7 @@ ActiveRecord::Schema.define(version: 2024_05_25_122845) do
     t.integer "attachments_count", default: 0, null: false
     t.string "area_id"
     t.string "area_name"
-    t.integer "attachments_file_size_sum", default: 0, null: false
+    t.bigint "attachments_file_size_sum", default: 0, null: false
     t.index ["customer_id"], name: "index_projects_on_customer_id"
     t.index ["enrollment_id"], name: "index_projects_on_enrollment_id"
     t.index ["number"], name: "index_projects_on_number"
@@ -411,6 +431,21 @@ ActiveRecord::Schema.define(version: 2024_05_25_122845) do
     t.index ["user_id"], name: "index_roles_users_on_user_id"
   end
 
+  create_table "spatial_ref_sys", primary_key: "srid", id: :integer, default: nil, force: :cascade do |t|
+    t.string "auth_name", limit: 256
+    t.integer "auth_srid"
+    t.string "srtext", limit: 2048
+    t.string "proj4text", limit: 2048
+  end
+
+  create_table "topology", id: :serial, force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "srid", null: false
+    t.float "precision", null: false
+    t.boolean "hasz", default: false, null: false
+    t.index ["name"], name: "topology_name_key", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "name", default: "", null: false
@@ -440,7 +475,7 @@ ActiveRecord::Schema.define(version: 2024_05_25_122845) do
     t.datetime "password_changed_at"
     t.integer "attachments_count", default: 0, null: false
     t.boolean "notification_by_email", default: true
-    t.integer "attachments_file_size_sum", default: 0, null: false
+    t.bigint "attachments_file_size_sum", default: 0, null: false
     t.uuid "wso2is_userid"
     t.string "first_name"
     t.string "last_name"
@@ -454,6 +489,9 @@ ActiveRecord::Schema.define(version: 2024_05_25_122845) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
+
+# Could not dump table "woj_tables" because of following StandardError
+#   Unknown type 'geometry(MultiPolygon,2180)' for column 'geom'
 
   create_table "works", force: :cascade do |t|
     t.string "trackable_type"
@@ -674,6 +712,7 @@ ActiveRecord::Schema.define(version: 2024_05_25_122845) do
   add_foreign_key "events", "event_statuses"
   add_foreign_key "events", "event_types"
   add_foreign_key "events", "users"
+  add_foreign_key "layer", "topology", name: "layer_topology_id_fkey"
   add_foreign_key "members", "groups"
   add_foreign_key "members", "users"
   add_foreign_key "photos", "users"

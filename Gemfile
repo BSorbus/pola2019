@@ -86,7 +86,7 @@ gem 'kaminari', ">= 1.2.1"
 
 gem "devise", "= 4.8.1"
 gem 'devise_saml_authenticatable'
-#gem 'devise-security'
+gem 'devise-security'
 gem 'rails_email_validator'
 gem 'pundit'
 
