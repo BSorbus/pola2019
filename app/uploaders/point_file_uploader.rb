@@ -1,59 +1,72 @@
 class PointFileUploader < CarrierWave::Uploader::Base
 
-  # Include RMagick or MiniMagick support:
-  # include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
-
-  # Choose what kind of storage to use for this uploader:
   storage :file
-  # storage :fog
 
-  # Override the directory where uploaded files will be stored.
-  # This is a sensible default for uploaders that are meant to be mounted:
+  ###########################################################################
+  # LOGGING HELPERS
+  ###########################################################################
+
+  def log(msg)
+    Rails.logger.info "[PointFileUploader] #{msg}"
+  end
+
+  def log_file_state(label, path)
+    log "#{label}: #{path}"
+    log "  exists? #{File.exist?(path)}"
+    log "  dirname: #{File.dirname(path)} (exists? #{Dir.exist?(File.dirname(path))})"
+  end
+
+  ###########################################################################
+  # STORE DIR / CACHE DIR
+  ###########################################################################
+
   def store_dir
-    # "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-    "#{Rails.application.secrets[:carrierwave_store_dir]}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    dir = "#{Rails.application.secrets[:carrierwave_store_dir]}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    log "store_dir=#{dir}"
+    dir
   end
 
-  # zdefinowac w pliku secrets
   def cache_dir
-    "#{Rails.application.secrets[:carrierwave_cache_dir]}"
+    dir = Rails.application.secrets[:carrierwave_cache_dir]
+    log "cache_dir=#{dir}"
+    dir
   end
 
-  # Provide a default URL as a default if there hasn't been a file uploaded:
-  # def default_url(*args)
-  #   # For Rails 3.1+ asset pipeline compatibility:
-  #   # ActionController::Base.helpers.asset_path("fallback/" + [version_name, "default.png"].compact.join('_'))
-  #
-  #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
-  # end
+  ###########################################################################
+  # EXTENSION WHITELIST
+  ###########################################################################
 
-  # Process files as they are uploaded:
-  # process scale: [200, 300]
-  #
-  # def scale(width, height)
-  #   # do something
-  # end
-
-  # Create different versions of your uploaded files:
-  # version :thumb do
-  #   process resize_to_fit: [50, 50]
-  # end
-
-  # Add a white list of extensions which are allowed to be uploaded.
-  # For images you might use something like this:
   def extension_whitelist
+    log "extension_whitelist called — allowed: csv"
     %w(csv)
   end
 
-  # Override the filename of the uploaded files:
-  # Avoid using model.id or version_name here, see uploader/store.rb for details.
-  # def filename
-  #   "something.jpg" if original_filename
-  # end
+  ###########################################################################
+  # MAIN PROCESS — FULL LOGGING
+  ###########################################################################
 
-  # def size_range
-  #   0..1.megabytes
-  # end
+  process :log_file_info
+
+  def log_file_info
+    log "log_file_info START"
+    log "model=#{model.class} id=#{model.id}"
+    log "mounted_as=#{mounted_as}"
+    log "file.path=#{file.path}"
+    log "file.original_filename=#{file.original_filename}"
+    log "file.size=#{file.size}"
+    log "Process UID=#{Process.uid}"
+    log "ulimit -n=#{`ulimit -n`.strip rescue 'N/A'}"
+
+    ext = File.extname(file.file).delete('.').downcase.to_sym
+    log "extension=#{ext}"
+
+    log_file_state("CSV file state", file.path)
+
+    unless ext == :csv
+      log "WARNING: Uploaded file is NOT CSV — extension=#{ext}"
+    end
+
+    log "log_file_info END"
+  end
 
 end
