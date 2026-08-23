@@ -1,172 +1,151 @@
 class AbleUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
+
   include ActionView::Helpers::NumberHelper
 
+  # Choose what kind of storage to use for this uploader:
   storage :file
+  # storage :fog
 
+  # Override the directory where uploaded files will be stored.
+  # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
+    # "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
     "#{Rails.application.secrets[:carrierwave_store_dir]}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
+  # zdefinowac w pliku secrets
   def cache_dir
-    Rails.application.secrets[:carrierwave_cache_dir]
+    "#{Rails.application.secrets[:carrierwave_cache_dir]}"
   end
+
+  # Provide a default URL as a default if there hasn't been a file uploaded:
+  # def default_url(*args)
+  #   # For Rails 3.1+ asset pipeline compatibility:
+  #   # ActionController::Base.helpers.asset_path("fallback/" + [version_name, "default.png"].compact.join('_'))
+  #
+  #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
+  # end
+
+  # Process files as they are uploaded:
+  # process scale: [200, 300]
+  #
+  # def scale(width, height)
+  #   # do something
+  # end
 
   process :override_content_type_and_save_info
 
-  ###########################################################################
-  # LOGGING HELPERS
-  ###########################################################################
 
-  def log(msg)
-    Rails.logger.info "[AbleUploader] #{msg}"
+  def convert_convertable(format)
+    manipulate! do |img| # this is ::MiniMagick::Image instance
+      img.format(format.to_s.downcase, 0)
+      img
+    end
   end
 
-  def log_file_state(label, path)
-    log "#{label}: #{path}"
-    log "  exists? #{File.exist?(path)}"
-    log "  dirname: #{File.dirname(path)} (exists? #{Dir.exist?(File.dirname(path))})"
-  end
+  def format(format, page = 0)
+    @info.clear
 
-  ###########################################################################
-  # MAIN FIX: SAFE RAR/ZIP PROCESSING WITH FULL LOGGING
-  ###########################################################################
+    if @tempfile
+      new_tempfile = MiniMagick::Utilities.tempfile(".#{format}")
+      new_path = new_tempfile.path
+    else
+      new_path = path.sub(/\.\w+$/, ".#{format}")
+    end
+
+    MiniMagick::Tool::Convert.new do |convert|
+      convert << (page ? "#{path}[#{page}]" : path)
+      yield convert if block_given?
+      convert << new_path
+    end
+
+  end
 
   def list_compressable(format)
-    ext = File.extname(file.file).delete('.').to_sym
-    log "list_compressable: ext=#{ext}, current_path=#{current_path}"
-
-    case ext
+    # File.delete(current_path)
+    # FileUtils.cp("tmp/" + file.name.gsub("/", "-"), current_path)
+    # file.file == current_path
+    # puts File.extname(current_path).delete('.').to_sym
+    # puts file.file
+    # puts File.extname(file.file).delete('.').to_sym
+    case File.extname(file.file).delete('.').to_sym
     when :rar
       list_file_from_rar(file)
     when :zip
       list_file_from_zip(file)
-    else
-      log "list_compressable: extension #{ext} not compressable"
     end
   end
 
   def list_file_from_rar(file)
-    log "RAR processing START"
     tmp_dir = only_file_path(current_path)
     new_file_name = file.file.gsub('.rar', '.png')
+#    system("unrar lb #{file.file} | convert -background black -fill lightgray -page 11x17 -pointsize 14 -font Courier text:- #{new_file_name}")
+    system("unrar lb #{file.file} | convert -background black -fill white -page 11x17 -pointsize 14 -font Courier text:- #{new_file_name}")
 
-    log "RAR tmp_dir=#{tmp_dir}"
-    log "RAR new_file_name=#{new_file_name}"
-    log_file_state("RAR current_path", current_path)
-
-    # ensure tmp_dir exists
-    unless Dir.exist?(tmp_dir)
-      log "RAR mkdir tmp_dir=#{tmp_dir}"
-      FileUtils.mkdir_p(tmp_dir)
-    end
-
-    # run unrar
-    log "RAR running: unrar lb #{file.file}"
-    unrar_output = `unrar lb #{file.file} 2>&1`
-    log "RAR unrar output:\n#{unrar_output}"
-
-    # run convert
-    convert_cmd = "unrar lb #{file.file} | convert -background black -fill white -page 11x17 -pointsize 14 -font Courier text:- #{new_file_name}"
-    log "RAR convert cmd: #{convert_cmd}"
-    convert_output = `#{convert_cmd} 2>&1`
-    log "RAR convert output:\n#{convert_output}"
-
-    # append multiple PNGs
+    # add all files (-01.png, -02.png) to new_file_name
     all_tmp_files = Dir["#{tmp_dir}*.png"]
-    log "RAR all_tmp_files=#{all_tmp_files.inspect}"
+    for current_file in all_tmp_files
+      system("convert #{new_file_name} #{current_file} -append #{new_file_name}")
+    end if all_tmp_files.size > 1
 
-    if all_tmp_files.size > 1
-      all_tmp_files.each do |current_file|
-        append_cmd = "convert #{new_file_name} #{current_file} -append #{new_file_name}"
-        log "RAR append cmd: #{append_cmd}"
-        append_output = `#{append_cmd} 2>&1`
-        log "RAR append output:\n#{append_output}"
-      end
-    end
-
-    # rename
-    log_file_state("RAR rename source", new_file_name)
-    log_file_state("RAR rename target", current_path)
-
-    begin
-      File.rename(new_file_name, current_path)
-      log "RAR rename SUCCESS"
-    rescue => e
-      log "RAR rename ERROR: #{e.class}: #{e.message}"
-    end
-
-    log "RAR processing END"
+    File.rename new_file_name, current_path
   end
 
   def list_file_from_zip(file)
-    log "ZIP processing START"
     tmp_dir = only_file_path(current_path)
     new_file_name = file.file.gsub('.zip', '.png')
+#    system("unzip -Z1 #{file.file} | convert -background black -fill lightgray -page 11x17 -pointsize 14 -font Courier text:- #{new_file_name}")
+    system("unzip -Z1 #{file.file} | convert -background black -fill white -page 11x17 -pointsize 14 -font Courier text:- #{new_file_name}")
 
-    log "ZIP tmp_dir=#{tmp_dir}"
-    log "ZIP new_file_name=#{new_file_name}"
-    log_file_state("ZIP current_path", current_path)
-
-    unless Dir.exist?(tmp_dir)
-      log "ZIP mkdir tmp_dir=#{tmp_dir}"
-      FileUtils.mkdir_p(tmp_dir)
-    end
-
-    unzip_cmd = "unzip -Z1 #{file.file} | convert -background black -fill white -page 11x17 -pointsize 14 -font Courier text:- #{new_file_name}"
-    log "ZIP convert cmd: #{unzip_cmd}"
-    unzip_output = `#{unzip_cmd} 2>&1`
-    log "ZIP convert output:\n#{unzip_output}"
-
+    # add all files (-01.png, -02.png) to new_file_name
     all_tmp_files = Dir["#{tmp_dir}*.png"]
-    log "ZIP all_tmp_files=#{all_tmp_files.inspect}"
+    for current_file in all_tmp_files
+      system("convert #{new_file_name} #{current_file} -append #{new_file_name}")
+    end if all_tmp_files.size > 1
 
-    if all_tmp_files.size > 1
-      all_tmp_files.each do |current_file|
-        append_cmd = "convert #{new_file_name} #{current_file} -append #{new_file_name}"
-        log "ZIP append cmd: #{append_cmd}"
-        append_output = `#{append_cmd} 2>&1`
-        log "ZIP append output:\n#{append_output}"
-      end
-    end
-
-    log_file_state("ZIP rename source", new_file_name)
-    log_file_state("ZIP rename target", current_path)
-
-    begin
-      File.rename(new_file_name, current_path)
-      log "ZIP rename SUCCESS"
-    rescue => e
-      log "ZIP rename ERROR: #{e.class}: #{e.message}"
-    end
-
-    log "ZIP processing END"
+    File.rename new_file_name, current_path
   end
 
-  ###########################################################################
-  # THUMB VERSION
-  ###########################################################################
-
   version :thumb do
+
     process convert_convertable: :png, if: :convertable?
     process list_compressable: :png, if: :compressable?
     process resize_to_fit: [800, 800], if: :image?
     process convert: :png, if: :image?
 
-    def full_filename(for_file = model.source.file)
+    def full_filename (for_file = model.source.file)
       super.chomp(File.extname(super)) + '.png'
     end
+
   end
 
-  ###########################################################################
-  # CONTENT TYPE
-  ###########################################################################
+
+  # Add a white list of extensions which are allowed to be uploaded.
+  # For images you might use something like this:
+  # def extension_whitelist
+  #   %w(jpg jpeg gif png)
+  # end
+
+  # def extension_blacklist
+  #   %w(exe dll msi js)
+  # end
+
+  # Override the filename of the uploaded files:
+  # Avoid using model.id or version_name here, see uploader/store.rb for details.
+  # def filename
+  #   "something.jpg" if original_filename
+  # end
+
+
+
+  # def size_range
+  #   0..2.megabytes
+  # end
+
 
   def override_content_type_and_save_info
-    ext = File.extname(file.file).delete('.').downcase.to_sym
-    log "override_content_type: ext=#{ext}, file=#{file.file}"
-
-    case ext
+    case File.extname(file.file).delete('.').downcase.to_sym
     when :xlsx
       file.content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     when :docx
@@ -193,57 +172,53 @@ class AbleUploader < CarrierWave::Uploader::Base
       file.content_type = 'application/x-vbs'
     end
 
-    log "override_content_type: final=#{file.content_type}"
-
     model.file_content_type = file.content_type if file.content_type
     model.file_size = number_to_human_size(file.size) if file.size
   end
 
-  ###########################################################################
-  # HELPERS
-  ###########################################################################
-
   private
 
-  def convertable?(file)
-    pdf?(file) || docx?(file) || xlsx?(file) || pptx?(file)
-  end
+    def convertable?(file)
+      ( pdf?(file) || docx?(file) || xlsx?(file) || pptx?(file) )
+    end
 
-  def compressable?(file)
-    rar?(file) || zip?(file)
-  end
+    def compressable?(file)
+      ( rar?(file) || zip?(file) )
+    end
 
-  def image?(file)
-    model.file_content_type.include?('image')
-  end
 
-  def pdf?(file)
-    model.file_content_type == 'application/pdf'
-  end
+    def image?(file)
+      model.file_content_type.include? 'image'
+    end
 
-  def docx?(file)
-    model.file_content_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-  end
+    def pdf?(file)
+      model.file_content_type == 'application/pdf'
+    end
 
-  def xlsx?(file)
-    model.file_content_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-  end
+    def docx?(file)
+      model.file_content_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    end
 
-  def pptx?(file)
-    model.file_content_type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-  end
+    def xlsx?(file)
+      model.file_content_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    end
 
-  def rar?(file)
-    model.file_content_type == 'application/vnd.rar'
-  end
+    def pptx?(file)
+      model.file_content_type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+    end
 
-  def zip?(file)
-    model.file_content_type == 'application/zip'
-  end
+    def rar?(file)
+      model.file_content_type == 'application/vnd.rar'
+    end
 
-  def only_file_path(path_with_file_name)
-    length_path = path_with_file_name.length
-    length_filename = path_with_file_name.reverse.index('/')
-    path_with_file_name[0, (length_path - length_filename)]
-  end
+    def zip?(file)
+      model.file_content_type == 'application/zip'
+    end
+
+    def only_file_path(path_with_file_name)
+      length_path = path_with_file_name.length
+      length_filename = path_with_file_name.reverse.index('/')
+      path_with_file_name[0, (length_path-length_filename)]
+    end
+
 end
