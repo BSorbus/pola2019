@@ -1,4 +1,5 @@
 CarrierWave.configure do |config|
+  # config.root = Rails.application.secrets[:carrierwave_store_dir]
   config.enable_processing = true
   
   config.ignore_integrity_errors = false

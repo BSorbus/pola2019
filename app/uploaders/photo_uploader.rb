@@ -23,15 +23,11 @@ class PhotoUploader < CarrierWave::Uploader::Base
   ###########################################################################
 
   def store_dir
-    dir = "#{Rails.application.secrets[:carrierwave_store_dir]}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-    log "store_dir=#{dir}"
-    dir
+    "#{Rails.application.secrets[:carrierwave_store_dir]}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
   def cache_dir
-    dir = Rails.application.secrets[:carrierwave_cache_dir]
-    log "cache_dir=#{dir}"
-    dir
+    Rails.application.secrets[:carrierwave_cache_dir]
   end
 
   ###########################################################################
@@ -42,46 +38,25 @@ class PhotoUploader < CarrierWave::Uploader::Base
 
   def override_content_type_and_save_info
     log "override_content_type_and_save_info START"
-    log "model=#{model.class} id=#{model.id}"
-    log "mounted_as=#{mounted_as}"
-    log "file.path=#{file.path}"
-    log "file.original_filename=#{file.original_filename}"
-    log "file.size=#{file.size}"
-    log "Process UID=#{Process.uid}"
-    log "ulimit -n=#{`ulimit -n`.strip rescue 'N/A'}"
 
     ext = File.extname(file.file).delete('.').downcase.to_sym
     log "extension=#{ext}"
 
-    begin
-      case ext
-      when :xlsx
-        file.content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      when :docx
-        file.content_type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      when :pptx
-        file.content_type = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-      else
-        log "UNKNOWN EXTENSION — no override"
-      end
-    rescue => e
-      log "ERROR setting content_type: #{e.class}: #{e.message}"
+    case ext
+    when :xlsx
+      file.content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    when :docx
+      file.content_type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    when :pptx
+      file.content_type = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
     end
 
     log "FINAL content_type=#{file.content_type}"
 
-    begin
-      model.file_content_type = file.content_type if file.content_type
-      model.file_size = number_to_human_size(file.size) if file.size
-      log "model.file_content_type=#{model.file_content_type}"
-      log "model.file_size=#{model.file_size}"
-    rescue => e
-      log "ERROR saving model info: #{e.class}: #{e.message}"
-    end
-
-    ###########################################################################
-    # EXIF / GPS LOGGING
-    ###########################################################################
+    model.file_content_type = file.content_type if file.content_type
+    model.file_size = number_to_human_size(file.size) if file.size
+    log "model.file_content_type=#{model.file_content_type}"
+    log "model.file_size=#{model.file_size}"
 
     tmp_file = file.path
     log_file_state("EXIF source file", tmp_file)
@@ -121,7 +96,39 @@ class PhotoUploader < CarrierWave::Uploader::Base
   end
 
   ###########################################################################
-  # THUMBNAILS
+  # KONWERSJA (PDF/DOCX/XLSX/PPTX → PNG) — PRZYWRÓCONE METODY
+  ###########################################################################
+
+  def convert_convertable(format)
+    log "convert_convertable: format=#{format}, file=#{file.file}"
+
+    manipulate! do |img| # ::MiniMagick::Image
+      img.format(format.to_s.downcase, 0)
+      img
+    end
+  end
+
+  def format(format, page = 0)
+    log "format: format=#{format}, page=#{page}, path=#{path}"
+
+    @info.clear
+
+    if @tempfile
+      new_tempfile = MiniMagick::Utilities.tempfile(".#{format}")
+      new_path = new_tempfile.path
+    else
+      new_path = path.sub(/\.\w+$/, ".#{format}")
+    end
+
+    MiniMagick::Tool::Convert.new do |convert|
+      convert << (page ? "#{path}[#{page}]" : path)
+      yield convert if block_given?
+      convert << new_path
+    end
+  end
+
+  ###########################################################################
+  # WERSJE
   ###########################################################################
 
   version :thumb do

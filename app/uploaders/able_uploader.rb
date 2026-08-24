@@ -4,6 +4,10 @@ class AbleUploader < CarrierWave::Uploader::Base
 
   storage :file
 
+  ###########################################################################
+  # STORE / CACHE DIR
+  ###########################################################################
+
   def store_dir
     "#{Rails.application.secrets[:carrierwave_store_dir]}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
@@ -11,8 +15,6 @@ class AbleUploader < CarrierWave::Uploader::Base
   def cache_dir
     Rails.application.secrets[:carrierwave_cache_dir]
   end
-
-  process :override_content_type_and_save_info
 
   ###########################################################################
   # LOGGING HELPERS
@@ -29,7 +31,49 @@ class AbleUploader < CarrierWave::Uploader::Base
   end
 
   ###########################################################################
-  # MAIN FIX: SAFE RAR/ZIP PROCESSING WITH FULL LOGGING
+  # MAIN PROCESS
+  ###########################################################################
+
+  process :override_content_type_and_save_info
+
+  ###########################################################################
+  # CONVERT (PDF/DOCX/XLSX/PPTX → PNG)
+  ###########################################################################
+
+  def convert_convertable(format)
+    log "convert_convertable: format=#{format}, file=#{file.file}"
+
+    manipulate! do |img|
+      img.format(format.to_s.downcase, 0)
+      img
+    end
+  end
+
+  ###########################################################################
+  # FORMAT (Twoja oryginalna metoda — PRZYWRÓCONA)
+  ###########################################################################
+
+  def format(format, page = 0)
+    log "format: format=#{format}, page=#{page}, path=#{path}"
+
+    @info.clear
+
+    if @tempfile
+      new_tempfile = MiniMagick::Utilities.tempfile(".#{format}")
+      new_path = new_tempfile.path
+    else
+      new_path = path.sub(/\.\w+$/, ".#{format}")
+    end
+
+    MiniMagick::Tool::Convert.new do |convert|
+      convert << (page ? "#{path}[#{page}]" : path)
+      yield convert if block_given?
+      convert << new_path
+    end
+  end
+
+  ###########################################################################
+  # RAR/ZIP → PNG (Twoje oryginalne metody — PRZYWRÓCONE + LOGI)
   ###########################################################################
 
   def list_compressable(format)
@@ -48,6 +92,7 @@ class AbleUploader < CarrierWave::Uploader::Base
 
   def list_file_from_rar(file)
     log "RAR processing START"
+
     tmp_dir = only_file_path(current_path)
     new_file_name = file.file.gsub('.rar', '.png')
 
@@ -55,24 +100,16 @@ class AbleUploader < CarrierWave::Uploader::Base
     log "RAR new_file_name=#{new_file_name}"
     log_file_state("RAR current_path", current_path)
 
-    # ensure tmp_dir exists
-    unless Dir.exist?(tmp_dir)
-      log "RAR mkdir tmp_dir=#{tmp_dir}"
-      FileUtils.mkdir_p(tmp_dir)
-    end
+    FileUtils.mkdir_p(tmp_dir) unless Dir.exist?(tmp_dir)
 
-    # run unrar
-    log "RAR running: unrar lb #{file.file}"
     unrar_output = `unrar lb #{file.file} 2>&1`
     log "RAR unrar output:\n#{unrar_output}"
 
-    # run convert
     convert_cmd = "unrar lb #{file.file} | convert -background black -fill white -page 11x17 -pointsize 14 -font Courier text:- #{new_file_name}"
     log "RAR convert cmd: #{convert_cmd}"
     convert_output = `#{convert_cmd} 2>&1`
     log "RAR convert output:\n#{convert_output}"
 
-    # append multiple PNGs
     all_tmp_files = Dir["#{tmp_dir}*.png"]
     log "RAR all_tmp_files=#{all_tmp_files.inspect}"
 
@@ -84,10 +121,6 @@ class AbleUploader < CarrierWave::Uploader::Base
         log "RAR append output:\n#{append_output}"
       end
     end
-
-    # rename
-    log_file_state("RAR rename source", new_file_name)
-    log_file_state("RAR rename target", current_path)
 
     begin
       File.rename(new_file_name, current_path)
@@ -101,6 +134,7 @@ class AbleUploader < CarrierWave::Uploader::Base
 
   def list_file_from_zip(file)
     log "ZIP processing START"
+
     tmp_dir = only_file_path(current_path)
     new_file_name = file.file.gsub('.zip', '.png')
 
@@ -108,10 +142,7 @@ class AbleUploader < CarrierWave::Uploader::Base
     log "ZIP new_file_name=#{new_file_name}"
     log_file_state("ZIP current_path", current_path)
 
-    unless Dir.exist?(tmp_dir)
-      log "ZIP mkdir tmp_dir=#{tmp_dir}"
-      FileUtils.mkdir_p(tmp_dir)
-    end
+    FileUtils.mkdir_p(tmp_dir) unless Dir.exist?(tmp_dir)
 
     unzip_cmd = "unzip -Z1 #{file.file} | convert -background black -fill white -page 11x17 -pointsize 14 -font Courier text:- #{new_file_name}"
     log "ZIP convert cmd: #{unzip_cmd}"
@@ -130,9 +161,6 @@ class AbleUploader < CarrierWave::Uploader::Base
       end
     end
 
-    log_file_state("ZIP rename source", new_file_name)
-    log_file_state("ZIP rename target", current_path)
-
     begin
       File.rename(new_file_name, current_path)
       log "ZIP rename SUCCESS"
@@ -144,7 +172,7 @@ class AbleUploader < CarrierWave::Uploader::Base
   end
 
   ###########################################################################
-  # THUMB VERSION
+  # THUMB VERSION (Twoja oryginalna logika)
   ###########################################################################
 
   version :thumb do
@@ -159,7 +187,7 @@ class AbleUploader < CarrierWave::Uploader::Base
   end
 
   ###########################################################################
-  # CONTENT TYPE
+  # CONTENT TYPE (Twoja oryginalna logika)
   ###########################################################################
 
   def override_content_type_and_save_info
@@ -200,7 +228,7 @@ class AbleUploader < CarrierWave::Uploader::Base
   end
 
   ###########################################################################
-  # HELPERS
+  # HELPERS (Twoje oryginalne metody)
   ###########################################################################
 
   private
